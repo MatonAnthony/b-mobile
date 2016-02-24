@@ -4,13 +4,25 @@ import java.time.LocalDate;
 
 class UserImpl implements UserBizz {
 
-  private String pseudo, mdp, nom, prenom, email, adresse, tel, sexe, droits, banqueIban, banqueBic,
-      banqueTitulaireNom, banqueNom;
+  private String pseudo;
+  private String mdp;
+  private String nom;
+  private String prenom;
+  private String email;
+  private String adresse;
+  private String tel;
+  private String sexe;
+  private String droits;
+  private String banqueIban;
+  private String banqueBic;
+  private String banqueTitulaireNom;
+  private String banqueNom;
   private int nbAnneeReussiesEnsSup;
-  private LocalDate dateInscription, dateNaissance;
+  private LocalDate dateInscription;
+  private LocalDate dateNaissance;
 
   /**
-   * @return the pseudo
+   * @return the pseudo.
    */
   @Override
   public String getPseudo() {
@@ -18,7 +30,7 @@ class UserImpl implements UserBizz {
   }
 
   /**
-   * @param pseudo the pseudo to set
+   * @param pseudo the pseudo to set.
    */
   @Override
   public void setPseudo(String pseudo) {
@@ -26,7 +38,7 @@ class UserImpl implements UserBizz {
   }
 
   /**
-   * @return the mdp
+   * @return the mdp.
    */
   @Override
   public String getMdp() {
@@ -34,7 +46,7 @@ class UserImpl implements UserBizz {
   }
 
   /**
-   * @param mdp the mdp to set
+   * @param mdp the mdp to set.
    */
   @Override
   public void setMdp(String mdp) {
@@ -42,7 +54,7 @@ class UserImpl implements UserBizz {
   }
 
   /**
-   * @return the nom
+   * @return the nom.
    */
   @Override
   public String getNom() {
@@ -50,7 +62,7 @@ class UserImpl implements UserBizz {
   }
 
   /**
-   * @param nom the nom to set
+   * @param nom the nom to set.
    */
   @Override
   public void setNom(String nom) {
@@ -58,7 +70,7 @@ class UserImpl implements UserBizz {
   }
 
   /**
-   * @return the prenom
+   * @return the prenom.
    */
   @Override
   public String getPrenom() {
@@ -66,7 +78,7 @@ class UserImpl implements UserBizz {
   }
 
   /**
-   * @param prenom the prenom to set
+   * @param prenom the prenom to set.
    */
   @Override
   public void setPrenom(String prenom) {
@@ -74,7 +86,7 @@ class UserImpl implements UserBizz {
   }
 
   /**
-   * @return the email
+   * @return the email.
    */
   @Override
   public String getEmail() {
@@ -82,7 +94,7 @@ class UserImpl implements UserBizz {
   }
 
   /**
-   * @param email the email to set
+   * @param email the email to set.
    */
   @Override
   public void setEmail(String email) {
@@ -90,7 +102,7 @@ class UserImpl implements UserBizz {
   }
 
   /**
-   * @return the adresse
+   * @return the adresse.
    */
   @Override
   public String getAdresse() {
@@ -98,7 +110,7 @@ class UserImpl implements UserBizz {
   }
 
   /**
-   * @param adresse the adresse to set
+   * @param adresse the adresse to set.
    */
   @Override
   public void setAdresse(String adresse) {
@@ -106,7 +118,7 @@ class UserImpl implements UserBizz {
   }
 
   /**
-   * @return the tel
+   * @return the tel.
    */
   @Override
   public String getTel() {
@@ -114,7 +126,7 @@ class UserImpl implements UserBizz {
   }
 
   /**
-   * @param tel the tel to set
+   * @param tel the tel to set.
    */
   @Override
   public void setTel(String tel) {
@@ -122,7 +134,7 @@ class UserImpl implements UserBizz {
   }
 
   /**
-   * @return the sexe
+   * @return the sexe.
    */
   @Override
   public String getSexe() {
@@ -130,7 +142,7 @@ class UserImpl implements UserBizz {
   }
 
   /**
-   * @param sexe the sexe to set
+   * @param sexe the sexe to set.
    */
   @Override
   public void setSexe(String sexe) {
@@ -138,7 +150,7 @@ class UserImpl implements UserBizz {
   }
 
   /**
-   * @return the droits
+   * @return the droits.
    */
   @Override
   public String getDroits() {
@@ -146,7 +158,7 @@ class UserImpl implements UserBizz {
   }
 
   /**
-   * @param droits the droits to set
+   * @param droits the droits to set.
    */
   @Override
   public void setDroits(String droits) {
@@ -154,7 +166,7 @@ class UserImpl implements UserBizz {
   }
 
   /**
-   * @return the banqueIban
+   * @return the banqueIban.
    */
   @Override
   public String getBanqueIban() {
@@ -162,7 +174,7 @@ class UserImpl implements UserBizz {
   }
 
   /**
-   * @param banqueIban the banqueIban to set
+   * @param banqueIban the banqueIban to set.
    */
   @Override
   public void setBanqueIban(String banqueIban) {
@@ -170,7 +182,7 @@ class UserImpl implements UserBizz {
   }
 
   /**
-   * @return the banqueBic
+   * @return the banqueBic.
    */
   @Override
   public String getBanqueBic() {
@@ -178,7 +190,7 @@ class UserImpl implements UserBizz {
   }
 
   /**
-   * @param banqueBic the banqueBic to set
+   * @param banqueBic the banqueBic to set.
    */
   @Override
   public void setBanqueBic(String banqueBic) {
@@ -186,7 +198,7 @@ class UserImpl implements UserBizz {
   }
 
   /**
-   * @return the banqueTitulaireNom
+   * @return the banqueTitulaireNom.
    */
   @Override
   public String getBanqueTitulaireNom() {
@@ -194,7 +206,7 @@ class UserImpl implements UserBizz {
   }
 
   /**
-   * @param banqueTitulaireNom the banqueTitulaireNom to set
+   * @param banqueTitulaireNom the banqueTitulaireNom to set.
    */
   @Override
   public void setBanqueTitulaireNom(String banqueTitulaireNom) {
@@ -202,7 +214,7 @@ class UserImpl implements UserBizz {
   }
 
   /**
-   * @return the banqueNom
+   * @return the banqueNom.
    */
   @Override
   public String getBanqueNom() {
@@ -210,7 +222,7 @@ class UserImpl implements UserBizz {
   }
 
   /**
-   * @param banqueNom the banqueNom to set
+   * @param banqueNom the banqueNom to set.
    */
   @Override
   public void setBanqueNom(String banqueNom) {
@@ -218,7 +230,7 @@ class UserImpl implements UserBizz {
   }
 
   /**
-   * @return the nbAnneeReussiesEnsSup
+   * @return the nbAnneeReussiesEnsSup.
    */
   @Override
   public int getNbAnneeReussiesEnsSup() {
@@ -226,7 +238,7 @@ class UserImpl implements UserBizz {
   }
 
   /**
-   * @param nbAnneeReussiesEnsSup the nbAnneeReussiesEnsSup to set
+   * @param nbAnneeReussiesEnsSup the nbAnneeReussiesEnsSup to set.
    */
   @Override
   public void setNbAnneeReussiesEnsSup(int nbAnneeReussiesEnsSup) {
@@ -234,7 +246,7 @@ class UserImpl implements UserBizz {
   }
 
   /**
-   * @return the dateInscription
+   * @return the dateInscription.
    */
   @Override
   public LocalDate getDateInscription() {
@@ -242,7 +254,7 @@ class UserImpl implements UserBizz {
   }
 
   /**
-   * @param dateInscription the dateInscription to set
+   * @param dateInscription the dateInscription to set.
    */
   @Override
   public void setDateInscription(LocalDate dateInscription) {
@@ -250,7 +262,7 @@ class UserImpl implements UserBizz {
   }
 
   /**
-   * @return the dateNaissance
+   * @return the dateNaissance.
    */
   @Override
   public LocalDate getDateNaissance() {
@@ -258,7 +270,7 @@ class UserImpl implements UserBizz {
   }
 
   /**
-   * @param dateNaissance the dateNaissance to set
+   * @param dateNaissance the dateNaissance to set.
    */
   @Override
   public void setDateNaissance(LocalDate dateNaissance) {
