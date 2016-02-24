@@ -1,5 +1,5 @@
 package bizz;
 
-interface UserBizz extends UserDTO {
+interface UserBizz extends UserDto {
 
 }
