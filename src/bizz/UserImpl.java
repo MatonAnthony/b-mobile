@@ -22,7 +22,9 @@ class UserImpl implements UserBizz {
   private LocalDate dateNaissance;
 
   /**
-   * @return the pseudo.
+   * Renvoie le pseudo de l'utilisateur.
+   * 
+   * @return Le pseudo de l'utilisateur.
    */
   @Override
   public String getPseudo() {
@@ -30,7 +32,9 @@ class UserImpl implements UserBizz {
   }
 
   /**
-   * @param pseudo the pseudo to set.
+   * Modifie le pseudo de l'utilisateur.
+   * 
+   * @param pseudo Le nouveau pseudo de l'utilisateur.
    */
   @Override
   public void setPseudo(String pseudo) {
@@ -38,7 +42,9 @@ class UserImpl implements UserBizz {
   }
 
   /**
-   * @return the mdp.
+   * Renvoie le mot de passe de l'utilisateur.
+   * 
+   * @return Le mot de passe de l'utilisateur.
    */
   @Override
   public String getMdp() {
@@ -46,7 +52,9 @@ class UserImpl implements UserBizz {
   }
 
   /**
-   * @param mdp the mdp to set.
+   * Modifie le mot de passe de l'utilisateur.
+   * 
+   * @param mdp Le nouveau mot de passe.
    */
   @Override
   public void setMdp(String mdp) {
@@ -54,7 +62,9 @@ class UserImpl implements UserBizz {
   }
 
   /**
-   * @return the nom.
+   * Renvoie le nom de l'utilisateur.
+   * 
+   * @return Le nom de l'utilisateur.
    */
   @Override
   public String getNom() {
@@ -62,7 +72,9 @@ class UserImpl implements UserBizz {
   }
 
   /**
-   * @param nom the nom to set.
+   * Modifie le nom de l'utilisateur.
+   * 
+   * @param nom Le nouveau nom de l'utilisateur.
    */
   @Override
   public void setNom(String nom) {
@@ -70,7 +82,9 @@ class UserImpl implements UserBizz {
   }
 
   /**
-   * @return the prenom.
+   * Renvoie le prenom de l'utilisateur.
+   * 
+   * @return Le prenom de l'utilisateur.
    */
   @Override
   public String getPrenom() {
@@ -78,7 +92,9 @@ class UserImpl implements UserBizz {
   }
 
   /**
-   * @param prenom the prenom to set.
+   * Modifie le prenom de l'utilisateur.
+   * 
+   * @param prenom Le nouveau prenom de l'utilisateur.
    */
   @Override
   public void setPrenom(String prenom) {
@@ -86,7 +102,9 @@ class UserImpl implements UserBizz {
   }
 
   /**
-   * @return the email.
+   * Renvoie l'email de l'utilisateur.
+   * 
+   * @return L'email de l'utilisateur.
    */
   @Override
   public String getEmail() {
@@ -94,7 +112,9 @@ class UserImpl implements UserBizz {
   }
 
   /**
-   * @param email the email to set.
+   * Modifie l'email de l'utilisateur.
+   * 
+   * @param email Le nouvel email de l'utilisateur.
    */
   @Override
   public void setEmail(String email) {
@@ -102,7 +122,9 @@ class UserImpl implements UserBizz {
   }
 
   /**
-   * @return the adresse.
+   * Renvoie l'adresse de l'utilisateur.
+   * 
+   * @return L'adresse de l'utilisateur.
    */
   @Override
   public String getAdresse() {
@@ -110,7 +132,9 @@ class UserImpl implements UserBizz {
   }
 
   /**
-   * @param adresse the adresse to set.
+   * Modifie l'adresse de l'utilisateur.
+   * 
+   * @param adresse La nouvelle adresse de l'utilisateur.
    */
   @Override
   public void setAdresse(String adresse) {
@@ -118,7 +142,9 @@ class UserImpl implements UserBizz {
   }
 
   /**
-   * @return the tel.
+   * Renvoie le numero de telephone de l'utilisateur.
+   * 
+   * @return Le numero de telephone de l'utilisateur.
    */
   @Override
   public String getTel() {
@@ -126,7 +152,9 @@ class UserImpl implements UserBizz {
   }
 
   /**
-   * @param tel the tel to set.
+   * Modifie le numero de telephone de l'utilisateur.
+   * 
+   * @param tel Le nouveau numero de telephone de l'utilisateur.
    */
   @Override
   public void setTel(String tel) {
@@ -134,7 +162,9 @@ class UserImpl implements UserBizz {
   }
 
   /**
-   * @return the sexe.
+   * Renvoie le sexe de l'utilisateur.
+   * 
+   * @return Le sexe de l'utilisateur.
    */
   @Override
   public String getSexe() {
@@ -142,7 +172,9 @@ class UserImpl implements UserBizz {
   }
 
   /**
-   * @param sexe the sexe to set.
+   * Modifie le sexe de l'utilisateur.
+   * 
+   * @param sexe Le nouveau sexe de l'utilisateur.
    */
   @Override
   public void setSexe(String sexe) {
@@ -150,7 +182,9 @@ class UserImpl implements UserBizz {
   }
 
   /**
-   * @return the droits.
+   * Renvoie les doits de l'utilisateur.
+   * 
+   * @return Les droits de l'utilisateur.
    */
   @Override
   public String getDroits() {
@@ -158,7 +192,9 @@ class UserImpl implements UserBizz {
   }
 
   /**
-   * @param droits the droits to set.
+   * Modifie les droits de l'utilisateur.
+   * 
+   * @param droits Les nouveaux droits de l'utilisateur.
    */
   @Override
   public void setDroits(String droits) {
@@ -166,7 +202,9 @@ class UserImpl implements UserBizz {
   }
 
   /**
-   * @return the banqueIban.
+   * Renvoie le numero de banque iban de l'utilisateur.
+   * 
+   * @return Le numero de banque iban de l'utilisateur.
    */
   @Override
   public String getBanqueIban() {
@@ -174,7 +212,9 @@ class UserImpl implements UserBizz {
   }
 
   /**
-   * @param banqueIban the banqueIban to set.
+   * Modifie Modifie le numero de banque Iban de l'utilisateur.
+   * 
+   * @param banqueIban Le nouveau numero de banque Iban de l'utilisateur.
    */
   @Override
   public void setBanqueIban(String banqueIban) {
@@ -182,7 +222,9 @@ class UserImpl implements UserBizz {
   }
 
   /**
-   * @return the banqueBic.
+   * Renvoie le numero de banque Bic de l'utilisateur.
+   * 
+   * @return Le numero de banque Bic de l'utilisateur.
    */
   @Override
   public String getBanqueBic() {
@@ -190,7 +232,9 @@ class UserImpl implements UserBizz {
   }
 
   /**
-   * @param banqueBic the banqueBic to set.
+   * Modifie le numero de banque Bic de l'utilisateur.
+   * 
+   * @param banqueBic Le nouveau numero de banque Bic.
    */
   @Override
   public void setBanqueBic(String banqueBic) {
@@ -198,7 +242,9 @@ class UserImpl implements UserBizz {
   }
 
   /**
-   * @return the banqueTitulaireNom.
+   * Renvoie le nom du titulaire du compte en banque de l'utilisateur.
+   * 
+   * @return Le nom du titulaire du compte en banque de l'utilisateur.
    */
   @Override
   public String getBanqueTitulaireNom() {
@@ -206,7 +252,9 @@ class UserImpl implements UserBizz {
   }
 
   /**
-   * @param banqueTitulaireNom the banqueTitulaireNom to set.
+   * Modifie le nom du titulaire du compte en banque.
+   * 
+   * @param banqueTitulaireNom Le nouveau nom du titulaire.
    */
   @Override
   public void setBanqueTitulaireNom(String banqueTitulaireNom) {
@@ -214,7 +262,9 @@ class UserImpl implements UserBizz {
   }
 
   /**
-   * @return the banqueNom.
+   * Renvoie le nom de la banque de l'utilisateur.
+   * 
+   * @return Le nom de la banque de l'utilisateur.
    */
   @Override
   public String getBanqueNom() {
@@ -222,7 +272,9 @@ class UserImpl implements UserBizz {
   }
 
   /**
-   * @param banqueNom the banqueNom to set.
+   * Modifie le nom de la banque de l'utilisateur.
+   * 
+   * @param banqueNom Le nouveau nom de la banque.
    */
   @Override
   public void setBanqueNom(String banqueNom) {
@@ -230,7 +282,9 @@ class UserImpl implements UserBizz {
   }
 
   /**
-   * @return the nbAnneeReussiesEnsSup.
+   * Renvoie le nombre d'annee reussies par l'utilisateur.
+   * 
+   * @return Le nombre d'annee reussies par l'utilisateur.
    */
   @Override
   public int getNbAnneeReussiesEnsSup() {
@@ -238,7 +292,9 @@ class UserImpl implements UserBizz {
   }
 
   /**
-   * @param nbAnneeReussiesEnsSup the nbAnneeReussiesEnsSup to set.
+   * Modifie le nombre d'annees reussies.
+   * 
+   * @param nbAnneeReussiesEnsSup Le nouveau nombre d'annees reussies.
    */
   @Override
   public void setNbAnneeReussiesEnsSup(int nbAnneeReussiesEnsSup) {
@@ -246,7 +302,9 @@ class UserImpl implements UserBizz {
   }
 
   /**
-   * @return the dateInscription.
+   * Renvoie la date d'inscription de l'utilisateur.
+   * 
+   * @return La date d'inscription de l'utilisateur.
    */
   @Override
   public LocalDate getDateInscription() {
@@ -254,7 +312,9 @@ class UserImpl implements UserBizz {
   }
 
   /**
-   * @param dateInscription the dateInscription to set.
+   * Modifie la date d'inscription.
+   * 
+   * @param dateInscription La nouvelle date d'inscription.
    */
   @Override
   public void setDateInscription(LocalDate dateInscription) {
@@ -262,7 +322,9 @@ class UserImpl implements UserBizz {
   }
 
   /**
-   * @return the dateNaissance.
+   * Renvoie la date de naissance de l'utilisateur.
+   * 
+   * @return La date de naissance de l'utilisateur.
    */
   @Override
   public LocalDate getDateNaissance() {
@@ -270,7 +332,9 @@ class UserImpl implements UserBizz {
   }
 
   /**
-   * @param dateNaissance the dateNaissance to set.
+   * Modifie la date de naissance de l'utilisateur.
+   * 
+   * @param dateNaissance La nouvelle date de naissance.
    */
   @Override
   public void setDateNaissance(LocalDate dateNaissance) {
