@@ -2,6 +2,8 @@ package bizz;
 
 import java.time.LocalDate;
 
+import org.mindrot.jbcrypt.BCrypt;
+
 class UserImpl implements UserBizz {
 
   private String pseudo;
@@ -342,14 +344,21 @@ class UserImpl implements UserBizz {
   }
 
   /**
-   * Crypte l'attribut mdp de l'utilisateur qui est sensé être en clair.
+   * Crypte l'attribut mdp de l'utilisateur qui doit être en clair.
    */
   @Override
   public void cryptPassword() {
-    String salt = Bcrypt.gensalt();
-    this.mdp = Bcrypt.hashpw(mdp, salt);
+    this.mdp = BCrypt.hashpw(mdp, BCrypt.gensalt());
   }
 
-
-
+  /**
+   * Compare le mot de passe passé en paramètre avec le mot de passe crypté en attribut.
+   * 
+   * @param passwordToCheck Mot de passe à vérifier.
+   * @return true si le mot de passe correspond, faux sinon.
+   */
+  @Override
+  public boolean checkPassword(String passwordToCheck) {
+    return BCrypt.checkpw(passwordToCheck, this.mdp);
+  }
 }
