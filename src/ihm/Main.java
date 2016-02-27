@@ -25,7 +25,7 @@ public class Main {
 
     // Injection de dépendance pour les différents UC Controller.
     UserUcController userUcc = null;
-    Constructor c = Class.forName("ucc.UserUcControllerImpl").getDeclaredConstructor();
+    Constructor c = Class.forName("bizz.UserUcControllerImpl").getDeclaredConstructor();
     c.setAccessible(true);
     userUcc = (UserUcController) c.newInstance();
 
@@ -43,7 +43,7 @@ public class Main {
 
     // Injection de dépendance pour les différentes factories.
     BizzFactory bizzFactory = null;
-    c = Class.forName("bizz.BizzFactory").getDeclaredConstructor();
+    c = Class.forName("bizz.BizzFactoryImpl").getDeclaredConstructor();
     c.setAccessible(true);
     bizzFactory = (BizzFactory) c.newInstance();
 
