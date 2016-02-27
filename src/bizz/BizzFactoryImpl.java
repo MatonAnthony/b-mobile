@@ -3,9 +3,14 @@ package bizz;
 class BizzFactoryImpl implements BizzFactory {
 
   @Override
+
+  /**
+   * Renvoie un UserDto vide.
+   * 
+   * @return Un nouveau UserDto.
+   */
   public UserDto getUserDto() {
-    // TODO Auto-generated method stub
-    return null;
+    return new UserImpl();
   }
 
 }

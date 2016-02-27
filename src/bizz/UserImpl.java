@@ -341,6 +341,15 @@ class UserImpl implements UserBizz {
     this.dateNaissance = dateNaissance;
   }
 
+  /**
+   * Crypte l'attribut mdp de l'utilisateur qui est sensé être en clair.
+   */
+  @Override
+  public void cryptPassword() {
+    String salt = Bcrypt.gensalt();
+    this.mdp = Bcrypt.hashpw(mdp, salt);
+  }
+
 
 
 }
