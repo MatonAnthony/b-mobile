@@ -27,6 +27,7 @@ CREATE TABLE bMobile.utilisateurs
   id_utilisateur INTEGER PRIMARY KEY,
   pseudo VARCHAR(100) NOT NULL,
   mdp VARCHAR(250) NOT NULL,
+  sel VARCHAR(100) NOT NULL,
   nom VARCHAR(100) NOT NULL,
   prenom VARCHAR(100) NOT NULL,
   email VARCHAR(150) NOT NULL,
