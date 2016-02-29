@@ -51,10 +51,10 @@ public class Servlet extends HttpServlet {
           resp.setStatus(HttpStatus.BAD_REQUEST_400);
       }
 
-    } catch (Exception e) {
-      e.printStackTrace();
+    } catch (Exception exc) {
+      exc.printStackTrace();
       resp.setStatus(HttpStatus.INTERNAL_SERVER_ERROR_500);
-      resp.getWriter().println(e.getMessage());
+      resp.getWriter().println(exc.getMessage());
       resp.flushBuffer();
     }
 

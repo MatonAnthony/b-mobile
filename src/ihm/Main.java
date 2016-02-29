@@ -16,8 +16,6 @@ public class Main {
 
   public static void main(String[] args) throws Exception {
 
-    // lie le server à un port
-    Server server = new Server(8080);
     // instancie un WebAppContext pour configurer le server
     WebAppContext context = new WebAppContext();
     // ce context se charge des URLs commençant par /
@@ -76,6 +74,8 @@ public class Main {
     context.setMaxFormContentSize(50000000);
     // Spécifie la taille limite des données qu’un frontend peut soumettre à ce back-end.
 
+    // lie le server à un port
+    Server server = new Server(8080);
     // ce server utilise ce context
     server.setHandler(context);
     // allons-y
