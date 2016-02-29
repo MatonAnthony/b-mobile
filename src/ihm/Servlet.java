@@ -19,6 +19,11 @@ public class Servlet extends HttpServlet {
   private UserDto userDtoRecept = null;
   private BizzFactory bizzFactory = null;
 
+  public Servlet(UserUcController userUcc, BizzFactory bizzFactory) {
+    this.userUcc = userUcc;
+    this.bizzFactory = bizzFactory;
+  }
+
   @Override
   protected void doPost(HttpServletRequest req, HttpServletResponse resp)
       throws ServletException, IOException {
@@ -55,13 +60,6 @@ public class Servlet extends HttpServlet {
 
   }
 
-  void setUserUcController(UserUcController userUcc) {
-    this.userUcc = userUcc;
-  }
-
-  void setBizzFactory(BizzFactory bizzFactory) {
-    this.bizzFactory = bizzFactory;
-  }
 
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse resp)

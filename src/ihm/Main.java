@@ -24,34 +24,33 @@ public class Main {
     context.setContextPath("/");
 
     // Injection de dépendance pour les différents UC Controller.
-    UserUcController userUcc = null;
-    Constructor c = Class.forName("bizz.UserUcControllerImpl").getDeclaredConstructor();
-    c.setAccessible(true);
-    userUcc = (UserUcController) c.newInstance();
 
     DalServices dalServices = null;
-    c = Class.forName("persistance.DalServicesImpl").getDeclaredConstructor();
-    c.setAccessible(true);
-    dalServices = (DalServices) c.newInstance();
-    userUcc.setDalServices(dalServices);
+    Constructor constr = Class.forName("persistance.DalServicesImpl").getDeclaredConstructor();
+    constr.setAccessible(true);
+    dalServices = (DalServices) constr.newInstance();
 
     UserDao userDao = null;
-    c = Class.forName("persistance.UserDaoImpl").getDeclaredConstructor();
-    c.setAccessible(true);
-    userDao = (UserDao) c.newInstance();
-    userUcc.setUserDao(userDao);;
+    constr = Class.forName("persistance.UserDaoImpl").getDeclaredConstructor();
+    constr.setAccessible(true);
+    userDao = (UserDao) constr.newInstance();
+
+    UserUcController userUcc = null;
+    constr = Class.forName("bizz.UserUcControllerImpl").getDeclaredConstructor(DalServices.class,
+        UserDao.class);
+    constr.setAccessible(true);
+    userUcc = (UserUcController) constr.newInstance(dalServices, userDao);
+
 
     // Injection de dépendance pour les différentes factories.
     BizzFactory bizzFactory = null;
-    c = Class.forName("bizz.BizzFactoryImpl").getDeclaredConstructor();
-    c.setAccessible(true);
-    bizzFactory = (BizzFactory) c.newInstance();
+    constr = Class.forName("bizz.BizzFactoryImpl").getDeclaredConstructor();
+    constr.setAccessible(true);
+    bizzFactory = (BizzFactory) constr.newInstance();
 
-    Servlet servlet = new Servlet();
-    servlet.setUserUcController(userUcc);
-    servlet.setBizzFactory(bizzFactory);
+    Servlet servlet = new Servlet(userUcc, bizzFactory);
     // Servlet répondra aux requêtes commençant par /home/
-    context.addServlet(new ServletHolder(new Servlet()), "/home");
+    context.addServlet(new ServletHolder(servlet), "/home");
 
     // Le DefaultServlet sert des fichiers (html, js, css, images, ...). Il est en général ajouté
     // en dernier pour que les autres servlets soient prioritaires sur l'interprétation des URLs.

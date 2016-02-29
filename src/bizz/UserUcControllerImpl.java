@@ -8,6 +8,13 @@ class UserUcControllerImpl implements UserUcController {
   private UserDao userDao = null;
   private DalServices dalServices = null;
 
+  public UserUcControllerImpl(DalServices dalServices, UserDao userDao) {
+
+    this.userDao = userDao;
+    this.dalServices = dalServices;
+
+  }
+
   @Override
   public UserDto login(UserDto userDto) {
 
