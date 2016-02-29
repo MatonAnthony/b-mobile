@@ -1,7 +1,8 @@
-package bizz;
+package ucc;
 
-import persistance.DalServices;
-import persistance.UserDao;
+import dal.DalServices;
+import dao.UserDao;
+import dto.UserDto;
 
 public interface UserUcController {
 

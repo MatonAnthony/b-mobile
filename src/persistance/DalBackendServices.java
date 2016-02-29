@@ -1,5 +1,0 @@
-package persistance;
-
-interface DalBackendServices {
-
-}

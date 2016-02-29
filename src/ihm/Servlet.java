@@ -10,8 +10,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.eclipse.jetty.http.HttpStatus;
 
 import bizz.BizzFactory;
-import bizz.UserDto;
-import bizz.UserUcController;
+import dto.UserDto;
+import ucc.UserUcController;
 
 public class Servlet extends HttpServlet {
 

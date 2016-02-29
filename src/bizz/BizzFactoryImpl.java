@@ -1,5 +1,7 @@
 package bizz;
 
+import dto.UserDto;
+
 class BizzFactoryImpl implements BizzFactory {
 
   @Override

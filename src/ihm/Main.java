@@ -8,9 +8,9 @@ import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jetty.webapp.WebAppContext;
 
 import bizz.BizzFactory;
-import bizz.UserUcController;
-import persistance.DalServices;
-import persistance.UserDao;
+import dal.DalServices;
+import dao.UserDao;
+import ucc.UserUcController;
 
 public class Main {
 
@@ -24,17 +24,17 @@ public class Main {
     // Injection de dépendance pour les différents UC Controller.
 
     DalServices dalServices = null;
-    Constructor constr = Class.forName("persistance.DalServicesImpl").getDeclaredConstructor();
+    Constructor constr = Class.forName("dal.DalServicesImpl").getDeclaredConstructor();
     constr.setAccessible(true);
     dalServices = (DalServices) constr.newInstance();
 
     UserDao userDao = null;
-    constr = Class.forName("persistance.UserDaoImpl").getDeclaredConstructor();
+    constr = Class.forName("dao.UserDaoImpl").getDeclaredConstructor();
     constr.setAccessible(true);
     userDao = (UserDao) constr.newInstance();
 
     UserUcController userUcc = null;
-    constr = Class.forName("bizz.UserUcControllerImpl").getDeclaredConstructor(DalServices.class,
+    constr = Class.forName("ucc.UserUcControllerImpl").getDeclaredConstructor(DalServices.class,
         UserDao.class);
     constr.setAccessible(true);
     userUcc = (UserUcController) constr.newInstance(dalServices, userDao);

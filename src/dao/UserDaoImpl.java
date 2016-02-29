@@ -1,4 +1,4 @@
-package persistance;
+package dao;
 
 class UserDaoImpl implements UserDao {
 

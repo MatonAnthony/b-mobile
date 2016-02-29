@@ -1,4 +1,4 @@
-package persistance;
+package dao;
 
 public interface UserDao {
 

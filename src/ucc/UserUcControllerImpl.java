@@ -1,7 +1,9 @@
-package bizz;
+package ucc;
 
-import persistance.DalServices;
-import persistance.UserDao;
+import bizz.UserBizz;
+import dal.DalServices;
+import dao.UserDao;
+import dto.UserDto;
 
 class UserUcControllerImpl implements UserUcController {
 

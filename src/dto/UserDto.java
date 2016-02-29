@@ -1,4 +1,4 @@
-package bizz;
+package dto;
 
 import java.time.LocalDate;
 
