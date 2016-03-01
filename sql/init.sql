@@ -4,35 +4,34 @@ CREATE SCHEMA bMobile;
 
 CREATE TABLE bMobile.programmes
 (
-  id_programme INTEGER PRIMARY KEY,
-  nom_programme VARCHAR(100) NOT NULL,
+  id_programme SERIAL PRIMARY KEY,
+  nom_programme VARCHAR(100),
   description TEXT
 );
 
 CREATE TABLE bMobile.departements
 (
-  id_departement INTEGER PRIMARY KEY,
+  id_departement SERIAL PRIMARY KEY,
   libelle VARCHAR(50)
 );
 
 CREATE TABLE bMobile.annulations
 (
-  id_annulation INTEGER PRIMARY KEY,
-  motif TEXT NOT NULL,
+  id_annulation SERIAL PRIMARY KEY,
+  motif TEXT,
   responsable VARCHAR(20)
 );
 
 CREATE TABLE bMobile.utilisateurs
 (
-  id_utilisateur INTEGER PRIMARY KEY,
-  pseudo VARCHAR(100) NOT NULL,
-  mdp VARCHAR(250) NOT NULL,
-  sel VARCHAR(100) NOT NULL,
-  nom VARCHAR(100) NOT NULL,
-  prenom VARCHAR(100) NOT NULL,
-  email VARCHAR(150) NOT NULL,
-  date_inscription TIMESTAMP NOT NULL,
-  droits VARCHAR(20) NOT NULL,
+  id_utilisateur SERIAL PRIMARY KEY,
+  pseudo VARCHAR(100),
+  mdp VARCHAR(250) ,
+  nom VARCHAR(100) ,
+  prenom VARCHAR(100) ,
+  email VARCHAR(150) ,
+  date_inscription TIMESTAMP ,
+  droits VARCHAR(20) ,
   date_naissance TIMESTAMP,
   rue VARCHAR(100),
   numero VARCHAR(20),
@@ -51,8 +50,8 @@ CREATE TABLE bMobile.utilisateurs
 
 CREATE TABLE bMobile.partenaires
 (
-  id_partenaire INTEGER PRIMARY KEY,
-  id_utilisateur INTEGER NOT NULL,
+  id_partenaire SERIAL PRIMARY KEY,
+  id_utilisateur INTEGER ,
   nom_affaires VARCHAR(100),
   nom_complet VARCHAR(100),
   departement VARCHAR(100),
@@ -73,9 +72,9 @@ CREATE TABLE bMobile.partenaires
 
 CREATE TABLE bMobile.mobilites
 (
-  id_mobilite INTEGER PRIMARY KEY,
-  id_programme INTEGER NOT NULL,
-  type VARCHAR(10) NOT NULL,
+  id_mobilite SERIAL PRIMARY KEY,
+  id_programme INTEGER ,
+  type VARCHAR(10) ,
   destination VARCHAR(100),
   partenaire INTEGER,
 
@@ -85,29 +84,29 @@ CREATE TABLE bMobile.mobilites
 
 CREATE TABLE bMobile.demandes
 (
-  id_demande INTEGER PRIMARY KEY,
-  id_etudiant INTEGER NOT NULL,
-  id_mobilite INTEGER NOT NULL,
-  num_ordre_pref INTEGER NOT NULL,
-  id_departement INTEGER NOT NULL,
+  id_demande SERIAL PRIMARY KEY,
+  id_etudiant INTEGER ,
+  id_mobilite INTEGER ,
+  num_ordre_pref INTEGER ,
+  id_departement INTEGER ,
   quadrimestre INTEGER,
-  etat VARCHAR(50) NOT NULL,
-  annulee BOOLEAN NOT NULL,
-  depart_contrat_bourse BOOLEAN NOT NULL,
-  depart_convention_stage_etudes BOOLEAN NOT NULL,
+  etat VARCHAR(50) ,
+  annulee BOOLEAN ,
+  depart_contrat_bourse BOOLEAN ,
+  depart_convention_stage_etudes BOOLEAN ,
   depart_charte_etudiant BOOLEAN,
   depart_test_langue_erasmus BOOLEAN,
-  depart_doc_engagement BOOLEAN NOT NULL,
-  depart_doc_envoye_he BOOLEAN NOT NULL,
-  logiciel_proeco BOOLEAN NOT NULL,
+  depart_doc_engagement BOOLEAN ,
+  depart_doc_envoye_he BOOLEAN ,
+  logiciel_proeco BOOLEAN ,
   logiciel_mobility_tools BOOLEAN,
   logiciel_mobi BOOLEAN,
-  retour_att_sejour BOOLEAN NOT NULL,
+  retour_att_sejour BOOLEAN ,
   retour_releve_note BOOLEAN,
   retour_cert_stage BOOLEAN,
-  retour_rapport_final BOOLEAN NOT NULL,
+  retour_rapport_final BOOLEAN ,
   retour_test_langue_erasmus BOOLEAN,
-  retour_doc_envoye_he BOOLEAN NOT NULL,
+  retour_doc_envoye_he BOOLEAN ,
   motif_annulation INTEGER,
 
   CONSTRAINT foreign_key_etudiant FOREIGN KEY (id_etudiant) REFERENCES bMobile.utilisateurs (id_utilisateur),
@@ -115,3 +114,4 @@ CREATE TABLE bMobile.demandes
   CONSTRAINT foreign_key_departement FOREIGN KEY (id_departement) REFERENCES bMobile.departements (id_departement),
   CONSTRAINT foreign_key_annulation FOREIGN KEY  (motif_annulation) REFERENCES bMobile.annulations (id_annulation)
 );
+

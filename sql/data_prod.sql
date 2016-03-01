@@ -14,5 +14,5 @@ VALUES (1, 'kamil', 'kamil123', 'Arszagi vel Harszagi', 'Kamil', 'kamil.arszagi@
 INSERT INTO bmobile.utilisateurs (id_utilisateur, pseudo, mdp, nom, prenom, email, droits)
 VALUES (2, 'martin', 'martin123', 'Techy', 'Martin', 'martin.techy@student.vinci.be','ETUDIANT');
 
-INSERT INTO bmobile.utilisateurs (id_utilisateur, pseudo, mdp, nom, prenom, email, droits)
-VALUES (3, 'prof', 'prof123', 'ProfNom', 'ProfPrenom', 'prof@vinci.be','PROF');
+INSERT INTO bmobile.utilisateurs (pseudo, mdp, nom, prenom, email, droits)
+VALUES ('prof', 'prof123', 'ProfNom', 'ProfPrenom', 'prof@vinci.be','PROF');
