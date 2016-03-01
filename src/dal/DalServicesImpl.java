@@ -7,7 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Properties;
 
-class DalServicesImpl implements DalServices, DalBackendServices {
+public class DalServicesImpl implements DalServices, DalBackendServices {
 
   private Connection connection;
   private Properties properties;

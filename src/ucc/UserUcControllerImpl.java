@@ -5,7 +5,7 @@ import dal.DalServices;
 import dao.UserDao;
 import dto.UserDto;
 
-class UserUcControllerImpl implements UserUcController {
+public class UserUcControllerImpl implements UserUcController {
 
   private UserDao userDao = null;
   private DalServices dalServices = null;

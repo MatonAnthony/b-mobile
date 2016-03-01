@@ -1,16 +1,19 @@
 package ihm;
 
-import java.lang.reflect.Constructor;
-
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.DefaultServlet;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jetty.webapp.WebAppContext;
 
 import bizz.BizzFactory;
+import bizz.BizzFactoryImpl;
+import dal.DalBackendServices;
 import dal.DalServices;
+import dal.DalServicesImpl;
 import dao.UserDao;
+import dao.UserDaoImpl;
 import ucc.UserUcController;
+import ucc.UserUcControllerImpl;
 
 public class Main {
 
@@ -28,29 +31,12 @@ public class Main {
     context.setContextPath("/");
 
     // Injection de dépendance pour les différents UC Controller.
-    // TODO Instanciation via les new
-    DalServices dalServices = null;
-    Constructor constr = Class.forName("dal.DalServicesImpl").getDeclaredConstructor();
-    constr.setAccessible(true);
-    dalServices = (DalServices) constr.newInstance();
-
-    UserDao userDao = null;
-    constr = Class.forName("dao.UserDaoImpl").getDeclaredConstructor();
-    constr.setAccessible(true);
-    userDao = (UserDao) constr.newInstance();
-
-    UserUcController userUcc = null;
-    constr = Class.forName("ucc.UserUcControllerImpl").getDeclaredConstructor(DalServices.class,
-        UserDao.class);
-    constr.setAccessible(true);
-    userUcc = (UserUcController) constr.newInstance(dalServices, userDao);
-
-
+    DalServices dalServices = new DalServicesImpl();
+    DalBackendServices dalBackendServices = new DalServicesImpl();
+    UserDao userDao = new UserDaoImpl(dalBackendServices);
+    UserUcController userUcc = new UserUcControllerImpl(dalServices, userDao);
     // Injection de dépendance pour les différentes factories.
-    BizzFactory bizzFactory = null;
-    constr = Class.forName("bizz.BizzFactoryImpl").getDeclaredConstructor();
-    constr.setAccessible(true);
-    bizzFactory = (BizzFactory) constr.newInstance();
+    BizzFactory bizzFactory = new BizzFactoryImpl();
 
     Servlet servlet = new Servlet(userUcc, bizzFactory);
     // Servlet répondra aux requêtes commençant par /home/
