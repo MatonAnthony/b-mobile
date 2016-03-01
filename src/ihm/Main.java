@@ -63,7 +63,7 @@ public class Main {
     context.setWelcomeFiles(new String[] {"index.html"});
     // Quel est le fichier à servir si l’utilisateur va à l’URL racine sans
     // plus de précision.
-    context.setResourceBase("src/ihm/www");
+    context.setResourceBase("www/assets");
     // Où se trouvent les fichiers
     context.setInitParameter("cacheControl", "no-store,nocache,must-revalidate");
     // Dans le protocole HTTP, le serveur dicte le comportement du cache du
