@@ -39,30 +39,34 @@ class DalServicesImpl implements DalServices, DalBackendServices {
       System.out.println("Impossible de joindre le seveur");
     }
 
-    try {
-      connection.setAutoCommit(false);
-    } catch (SQLException exc) {
-      System.out.println("Erreur lors du set de l'autoCommit");
-    }
 
   }
 
+  /**
+   * Demarre une nouvelle transaction sur la connexion.
+   */
   @Override
-  public void startTransaction() {
-    // TODO Auto-generated method stub
+  public void startTransaction() throws SQLException {
+    connection.setAutoCommit(false);
+  }
+
+  /**
+   * Execute tous les changements effectues depuis le debut de la transaction.
+   */
+  @Override
+  public void commitTransaction() throws SQLException {
+    connection.commit();
+    connection.setAutoCommit(true);
 
   }
 
+  /**
+   * Annule toutes les instructions executees depuis le debut de la transaction.
+   */
   @Override
-  public void commitTransaction() {
-    // TODO Auto-generated method stub
-
-  }
-
-  @Override
-  public void rollbackTransaction() {
-    // TODO Auto-generated method stub
-
+  public void rollbackTransaction() throws SQLException {
+    connection.rollback();
+    connection.setAutoCommit(true);
   }
 
   /**

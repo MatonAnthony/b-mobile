@@ -1,6 +1,8 @@
 package dao;
 
 class UserDaoImpl implements UserDao {
+  // TODO ajouter l'implémentation du dalBackendServices par le constructeur
+
 
   @Override
   public boolean createUser() {

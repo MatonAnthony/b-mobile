@@ -1,12 +1,14 @@
 package dal;
 
+import java.sql.SQLException;
+
 public interface DalServices {
 
-  void startTransaction();
+  void startTransaction() throws SQLException;
 
-  void commitTransaction();
+  void commitTransaction() throws SQLException;
 
-  void rollbackTransaction();
+  void rollbackTransaction() throws SQLException;
 
 
 }
