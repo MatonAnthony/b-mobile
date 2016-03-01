@@ -16,8 +16,9 @@ import ucc.UserUcController;
 public class Servlet extends HttpServlet {
 
   private UserUcController userUcc = null;
-  private UserDto userDtoRecept = null;
   private BizzFactory bizzFactory = null;
+
+  private UserDto userDtoRecept = null;
 
   public Servlet(UserUcController userUcc, BizzFactory bizzFactory) {
     this.userUcc = userUcc;

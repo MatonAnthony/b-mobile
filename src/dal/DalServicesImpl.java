@@ -20,8 +20,8 @@ class DalServicesImpl implements DalServices, DalBackendServices {
       FileInputStream file = new FileInputStream("src/prod.properties");
       properties.load(file);
       file.close();
-    } catch (Throwable e) {
-      throw new RuntimeException(e);
+    } catch (Throwable exc) {
+      throw new RuntimeException(exc);
     }
 
     String url = properties.getProperty("urlDB") + "?user=" + properties.getProperty("userDB")
@@ -29,23 +29,20 @@ class DalServicesImpl implements DalServices, DalBackendServices {
 
     try {
       Class.forName("org.postgresql.Driver");
-    } catch (ClassNotFoundException e) {
+    } catch (ClassNotFoundException exc) {
       System.out.println("Driver PostgreSQL manquant !");
-      System.exit(1);
     }
 
     try {
       connection = DriverManager.getConnection(url);
-    } catch (SQLException e) {
+    } catch (SQLException exc) {
       System.out.println("Impossible de joindre le seveur");
-      System.exit(1);
     }
 
     try {
       connection.setAutoCommit(false);
-    } catch (SQLException e) {
+    } catch (SQLException exc) {
       System.out.println("Erreur lors du set de l'autoCommit");
-      System.exit(1);
     }
 
   }

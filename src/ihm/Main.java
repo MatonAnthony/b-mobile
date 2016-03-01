@@ -14,6 +14,12 @@ import ucc.UserUcController;
 
 public class Main {
 
+  /**
+   * Le point d'entree de mon application.
+   * 
+   * @param args Les parametres de notre application.
+   * @throws Exception Les exceptions renvoyees par l'application
+   */
   public static void main(String[] args) throws Exception {
 
     // instancie un WebAppContext pour configurer le server
@@ -22,7 +28,7 @@ public class Main {
     context.setContextPath("/");
 
     // Injection de dépendance pour les différents UC Controller.
-
+    // TODO Instanciation via les new
     DalServices dalServices = null;
     Constructor constr = Class.forName("dal.DalServicesImpl").getDeclaredConstructor();
     constr.setAccessible(true);
