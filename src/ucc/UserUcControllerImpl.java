@@ -12,6 +12,12 @@ public class UserUcControllerImpl implements UserUcController {
   private UserDao userDao = null;
   private DalServices dalServices = null;
 
+  /**
+   * Constructeur d'un userUcController.
+   * 
+   * @param dalServices Le dalServices necessaire.
+   * @param userDao Le userDao necessaire
+   */
   public UserUcControllerImpl(DalServices dalServices, UserDao userDao) {
 
     this.userDao = userDao;
@@ -31,11 +37,11 @@ public class UserUcControllerImpl implements UserUcController {
       user = (UserBizz) userDao.findByUserName(username);
 
       dalServices.commitTransaction();
-    } catch (SQLException e) {
+    } catch (SQLException exc) {
       try {
         dalServices.rollbackTransaction();
-      } catch (SQLException e1) {
-        e1.printStackTrace();
+      } catch (SQLException exc2) {
+        exc2.printStackTrace();
       }
     }
 

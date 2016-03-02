@@ -59,8 +59,8 @@ public class UserDaoImpl implements UserDao {
       while (resultSet.next()) {
         resultSet.getString(1);
       }
-    } catch (SQLException e) {
-      e.printStackTrace();
+    } catch (SQLException exc) {
+      exc.printStackTrace();
       return null;
     }
 

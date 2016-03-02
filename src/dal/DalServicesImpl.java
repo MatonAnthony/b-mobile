@@ -12,6 +12,9 @@ public class DalServicesImpl implements DalServices, DalBackendServices {
   private Connection connection;
   private Properties properties;
 
+  /**
+   * Constructeur du DalServices.
+   */
   public DalServicesImpl() {
 
     properties = new Properties();
