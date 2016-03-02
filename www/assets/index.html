@@ -8,7 +8,7 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
               integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
         <!-- SB-Admin CSS -->
-        <link href="assets/sbadmin2/dist/css/sb-admin-2.css" rel="stylesheet"/>
+        <link href="sbadmin2/dist/css/sb-admin-2.css" rel="stylesheet"/>
     </head>
 
     <body>
@@ -20,7 +20,7 @@
                         <h3 class="panel-title">Authentifiez-vous</h3>
                     </div>
                     <div class="panel-body">
-                        <form role="form">
+                        <form method="post">
                             <fieldset>
                                 <div class="form-group">
                                     <label>Nom d'utilisateur :</label>
@@ -30,13 +30,8 @@
                                     <label>Mot de passe :</label>
                                     <input class="form-control" placeholder="Mot de passe" name="password" type="password" value="">
                                 </div>
-                                <div class="checkbox">
-                                    <label>
-                                        <input name="remember" type="checkbox" value="Se souvenir de moi">Se souvenir de moi
-                                    </label>
-                                </div>
                                 <!-- Change this to a button or input when using this as a form -->
-                                <button onclick="login()" class="btn btn-lg btn-info btn-block">Me connecter</button>
+                                <button id="connectButton" class="btn btn-lg btn-info btn-block">Me connecter</button>
                             </fieldset>
                         </form>
                     </div>
@@ -54,5 +49,5 @@
             crossorigin="anonymous">
     </script>
     <!-- Our own JS -->
-    <script src="assets/js/master.js"></script>
+    <script src="js/master.js"></script>
 </html>
