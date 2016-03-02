@@ -5,7 +5,6 @@ import dto.UserDto;
 public class BizzFactoryImpl implements BizzFactory {
 
   @Override
-
   /**
    * Renvoie un UserDto vide.
    * 

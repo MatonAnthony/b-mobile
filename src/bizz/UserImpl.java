@@ -354,7 +354,7 @@ class UserImpl implements UserBizz {
   /**
    * Compare le mot de passe passé en paramètre avec le mot de passe crypté en attribut.
    * 
-   * @param passwordToCheck Mot de passe à vérifier.
+   * @param passwordToCheck Le mot de passe a comparer avec le mot de passe de l'utilisateur.
    * @return true si le mot de passe correspond, false sinon.
    */
   @Override

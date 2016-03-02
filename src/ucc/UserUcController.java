@@ -6,7 +6,7 @@ import dto.UserDto;
 
 public interface UserUcController {
 
-  UserDto login(UserDto userDto);
+  UserDto login(String login, String password);
 
   void setUserDao(UserDao userDao);
 

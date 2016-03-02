@@ -39,7 +39,6 @@ public class DalServicesImpl implements DalServices, DalBackendServices {
       System.out.println("Impossible de joindre le seveur");
     }
 
-
   }
 
   /**

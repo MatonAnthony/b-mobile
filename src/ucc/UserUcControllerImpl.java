@@ -1,5 +1,7 @@
 package ucc;
 
+import java.sql.SQLException;
+
 import bizz.UserBizz;
 import dal.DalServices;
 import dao.UserDao;
@@ -18,18 +20,30 @@ public class UserUcControllerImpl implements UserUcController {
   }
 
   @Override
-  public UserDto login(UserDto userDto) {
+  public UserDto login(String username, String password) {
 
-    UserBizz user = (UserBizz) userDto;
-    user.cryptPassword();
+    UserBizz user = null;
+
     // Récupérer les données du DAL
+    try {
+      dalServices.startTransaction();
 
+      user = (UserBizz) userDao.findByUserName(username);
 
-    // if valide
-    // return userDto
+      dalServices.commitTransaction();
+    } catch (SQLException e) {
+      try {
+        dalServices.rollbackTransaction();
+      } catch (SQLException e1) {
+        e1.printStackTrace();
+      }
+    }
 
-    // else
-    return null;
+    if (user.checkPassword(password)) {
+      return user;
+    } else {
+      return null;
+    }
   }
 
   /**
