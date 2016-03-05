@@ -1,6 +1,9 @@
 package ihm;
 
 import java.io.IOException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.security.SignatureException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,12 +17,17 @@ import javax.servlet.http.HttpSession;
 import org.eclipse.jetty.http.HttpStatus;
 
 import com.auth0.jwt.JWTSigner;
+import com.auth0.jwt.JWTVerifier;
+import com.auth0.jwt.JWTVerifyException;
 
 import bizz.BizzFactory;
 import dto.UserDto;
 import ucc.UserUcController;
 
 public class Servlet extends HttpServlet {
+
+  private final static String SECRET =
+      "kjcajn edea zfalzenf  faezfbalzbflf5f5eaz45 546 a4f5 af46 aez";
 
   private UserUcController userUcc = null;
   private BizzFactory bizzFactory = null;
@@ -50,14 +58,26 @@ public class Servlet extends HttpServlet {
           userDtoRecept = userUcc.login(username, password);
 
           if (userDtoRecept == null) {
-            session.setAttribute("username", username);
-            createJwtCookie(resp, username);
             resp.setStatus(HttpStatus.FORBIDDEN_403);
           } else {
+            session.setAttribute("pseudo", userDtoRecept.getPseudo());
+            createJwtCookie(resp, userDtoRecept.getPseudo());
             resp.setStatus(HttpStatus.ACCEPTED_202);
           }
           break;
+        case "authenticate":
 
+          if (null != session.getAttribute("pseudo")) {
+            resp.setStatus(HttpStatus.ACCEPTED_202);
+          } else {
+            if (readJwtCookie(req)) {
+              resp.setStatus(HttpStatus.ACCEPTED_202);
+            } else {
+              resp.setStatus(HttpStatus.FORBIDDEN_403);
+            }
+          }
+
+          break;
         default:
           resp.setStatus(HttpStatus.BAD_REQUEST_400);
       }
@@ -79,14 +99,45 @@ public class Servlet extends HttpServlet {
     super.doGet(req, resp);
   }
 
+  /**
+   * Lit le cookie JWT afin de verifier si l'utilisateur est authentifie.
+   * 
+   * @param req La requete envoyee par la page
+   * @return true si l'utilisateur etait authentifie via JWT. false si il n'était pas authentifie.
+   */
+  private boolean readJwtCookie(HttpServletRequest req) {
+    Map<String, Object> decodedPayload;
+    try {
+      Cookie[] cookies = req.getCookies();
+      String token = null;
+      for (Cookie c : cookies) {
+        if ("user".equals(c.getName())) {
+          token = c.getValue();
+        }
+      }
+      decodedPayload = new JWTVerifier(SECRET).verify(token);
+    } catch (InvalidKeyException | NoSuchAlgorithmException | IllegalStateException
+        | SignatureException | IOException | JWTVerifyException | NullPointerException exc) {
+      return false;
+    }
+
+    req.getSession().setAttribute("pseudo", decodedPayload.get("username"));
+    return true;
+  }
+
+  /**
+   * Cree un cookie avec un token JWT afin de ne pas perdre l'authentification d'un utilisateur.
+   * 
+   * @param resp La reponse qui serra renvoyee par le serveur.
+   * @param login Le pseudo de l'utilisateur.
+   */
   private void createJwtCookie(HttpServletResponse resp, String login) {
 
     Map<String, Object> claims = new HashMap<String, Object>();
     claims.put("username", login);
     claims.put("id", "1");
 
-    String token =
-        new JWTSigner("kjcajn edea zfalzenf  faezfbalzbflf5f5eaz45 546 a4f5 af46 aez").sign(claims);
+    String token = new JWTSigner(SECRET).sign(claims);
 
     Cookie cookie = new Cookie("user", token);
     cookie.setPath("/");

@@ -1,5 +1,19 @@
 $(function(){
 
+	$.ajax({
+        method: "POST",
+        url: "/home",
+        data: {
+            action: "authenticate"
+        },
+        success: function(resp){
+            console.log("Authentification réussie");
+        },
+        error: function(error){
+            console.log("Authentification echouée");
+        }
+    });
+
 
 	$("#connectButton").click(function(){
 		 $.ajax({
@@ -7,7 +21,7 @@ $(function(){
 	        url: "/home",
 	        data: {
 	            action: "login",
-	            username : $("input[name='username']").val(),
+	            username : $("input[name='login']").val(),
 	            password : $("input[name='password']").val()
 	        },
 	        success: function(resp){

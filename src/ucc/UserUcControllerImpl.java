@@ -25,6 +25,14 @@ public class UserUcControllerImpl implements UserUcController {
 
   }
 
+  /**
+   * Gere tout le processus de connexion d'un utilisateur;
+   * 
+   * @param username Le nom d'utilisateur avec lequel la connexion doit être effectuee
+   * @param password Le mot de passe avec lequel la connexion doit être effectuee.
+   * @return null si l'utilisateur n'a pas été trouvé dans la base de donnée ou si le mot de passe
+   *         entre n'est pas identique au mot de passe de la base de donnee.
+   */
   @Override
   public UserDto login(String username, String password) {
 
@@ -33,7 +41,6 @@ public class UserUcControllerImpl implements UserUcController {
     // Récupérer les données du DAL
     try {
       dalServices.startTransaction();
-
       user = (UserBizz) userDao.findByUserName(username);
 
       dalServices.commitTransaction();
@@ -44,6 +51,9 @@ public class UserUcControllerImpl implements UserUcController {
         exc2.printStackTrace();
       }
     }
+    // L'user est null si aucun utilisateur avec le pseudo entré n'existe
+    if (null == user)
+      return null;
 
     if (user.checkPassword(password)) {
       return user;
@@ -52,24 +62,6 @@ public class UserUcControllerImpl implements UserUcController {
     }
   }
 
-  /**
-   * Modifie le userDao.
-   * 
-   * @param userDao Le Dao à injecter.
-   */
-  @Override
-  public void setUserDao(UserDao userDao) {
-    this.userDao = userDao;
-  }
 
-  /**
-   * Modifie le dalServices.
-   * 
-   * @param dalServices Le DalServices à injecter.
-   */
-  @Override
-  public void setDalServices(DalServices dalServices) {
-    this.dalServices = dalServices;
-  }
 
 }

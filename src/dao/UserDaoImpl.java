@@ -4,15 +4,20 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import bizz.BizzFactory;
+import bizz.BizzFactoryImpl;
 import dal.DalBackendServices;
 import dto.UserDto;
 
 public class UserDaoImpl implements UserDao {
 
   private DalBackendServices dalBackendServices;
+  // TODO Modifier l'implementation de la Factory
+  private BizzFactory factory;
 
   public UserDaoImpl(DalBackendServices dalBackendServices) {
     this.dalBackendServices = dalBackendServices;
+    factory = new BizzFactoryImpl();
   }
 
   @Override
@@ -43,7 +48,7 @@ public class UserDaoImpl implements UserDao {
    * Cherche et renvoie l'utilisateur sur base du pseudo.
    * 
    * @param username Le pseudo de l'utilisateur a rechercher.
-   * @return null si l'utilisateur n'est pas enregistre dans le BDD. Un dto avec les informations de
+   * @return null si l'utilisateur n'est pas enregistre dans la BDD. Un dto avec les informations de
    *         l'utilisateur si l'utilisateur est enregistre dans la BDD.
    */
   @Override
@@ -51,21 +56,24 @@ public class UserDaoImpl implements UserDao {
     String query = "SELECT pseudo, mdp, droits FROM bmobile.utilisateurs WHERE pseudo=?";
     PreparedStatement preparedStatement = null;
     ResultSet resultSet = null;
+    UserDto user = factory.getUserDto();
     try {
       preparedStatement = dalBackendServices.prepare(query);
       preparedStatement.setString(1, username);
       resultSet = preparedStatement.executeQuery();
-
-      while (resultSet.next()) {
-        resultSet.getString(1);
+      if (resultSet.next()) {
+        user.setPseudo(resultSet.getString(1));
+        user.setMdp(resultSet.getString(2));
+        user.setDroits(resultSet.getString(3));
+      } else {
+        return null;
       }
     } catch (SQLException exc) {
       exc.printStackTrace();
       return null;
     }
 
-
-    return null;
+    return user;
   }
 
 }
