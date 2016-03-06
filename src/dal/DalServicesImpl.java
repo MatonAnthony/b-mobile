@@ -82,5 +82,4 @@ public class DalServicesImpl implements DalServices, DalBackendServices {
     return connection.prepareStatement(query);
 
   }
-
 }

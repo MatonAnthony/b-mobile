@@ -30,7 +30,7 @@ import javax.servlet.http.HttpSession;
 public class Servlet extends HttpServlet {
 
   private final static String SECRET =
-      "kjcajn edea zfalzenf  faezfbalzbflf5f5eaz45 546 a4f5 af46 aez";
+      "LICORNEkjcajn edea zfalzenf  faezfbalzbflf5f5eaz45 546 a4f5 af46 aezPONEY";
 
   private UserUcController userUcc = null;
   private BizzFactory bizzFactory = null;
@@ -65,7 +65,7 @@ public class Servlet extends HttpServlet {
           if (userDtoRecept == null) {
             resp.setStatus(HttpStatus.FORBIDDEN_403);
           } else {
-            session.setAttribute("pseudo", userDtoRecept.getPseudo());
+            session.setAttribute("username", userDtoRecept.getPseudo());
             createJwtCookie(resp, userDtoRecept.getPseudo());
             resp.setStatus(HttpStatus.ACCEPTED_202);
             resp.getWriter().println(dtoToJson(userDtoRecept));
@@ -74,7 +74,7 @@ public class Servlet extends HttpServlet {
 
         case "authenticate":
 
-          if (null != session.getAttribute("pseudo")) {
+          if (null != session.getAttribute("username")) {
             resp.setStatus(HttpStatus.ACCEPTED_202);
             resp.getWriter().println(dtoToJson(userDtoRecept));
           } else {
@@ -101,14 +101,6 @@ public class Servlet extends HttpServlet {
 
   }
 
-
-  @Override
-  protected void doGet(HttpServletRequest req, HttpServletResponse resp)
-      throws ServletException, IOException {
-    // TODO Auto-generated method stub
-    super.doGet(req, resp);
-  }
-
   /**
    * Lit le cookie JWT afin de verifier si l'utilisateur est authentifie.
    * 
@@ -131,7 +123,7 @@ public class Servlet extends HttpServlet {
       return false;
     }
 
-    req.getSession().setAttribute("pseudo", decodedPayload.get("username"));
+    req.getSession().setAttribute("username", decodedPayload.get("username"));
     return true;
   }
 
@@ -156,8 +148,7 @@ public class Servlet extends HttpServlet {
   }
 
   private String dtoToJson(UserDto dto) {
-    String json = genson.serialize(dto);
-    return json;
+    return genson.serialize(dto);
   }
 
 }
