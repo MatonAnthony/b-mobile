@@ -1,5 +1,18 @@
 package ihm;
 
+import bizz.BizzFactory;
+import dto.UserDto;
+import ucc.UserUcController;
+
+import com.auth0.jwt.JWTSigner;
+import com.auth0.jwt.JWTVerifier;
+import com.auth0.jwt.JWTVerifyException;
+import com.owlike.genson.Genson;
+import com.owlike.genson.GensonBuilder;
+import com.owlike.genson.reflect.VisibilityFilter;
+
+import org.eclipse.jetty.http.HttpStatus;
+
 import java.io.IOException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
@@ -14,16 +27,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.eclipse.jetty.http.HttpStatus;
-
-import com.auth0.jwt.JWTSigner;
-import com.auth0.jwt.JWTVerifier;
-import com.auth0.jwt.JWTVerifyException;
-
-import bizz.BizzFactory;
-import dto.UserDto;
-import ucc.UserUcController;
-
 public class Servlet extends HttpServlet {
 
   private final static String SECRET =
@@ -33,6 +36,8 @@ public class Servlet extends HttpServlet {
   private BizzFactory bizzFactory = null;
 
   private UserDto userDtoRecept = null;
+  private Genson genson = new GensonBuilder().useFields(true, VisibilityFilter.PRIVATE)
+      .useMethods(false).exclude("mdp").create();
 
   public Servlet(UserUcController userUcc, BizzFactory bizzFactory) {
     this.userUcc = userUcc;
@@ -63,21 +68,26 @@ public class Servlet extends HttpServlet {
             session.setAttribute("pseudo", userDtoRecept.getPseudo());
             createJwtCookie(resp, userDtoRecept.getPseudo());
             resp.setStatus(HttpStatus.ACCEPTED_202);
+            resp.getWriter().println(dtoToJson(userDtoRecept));
           }
           break;
+
         case "authenticate":
 
           if (null != session.getAttribute("pseudo")) {
             resp.setStatus(HttpStatus.ACCEPTED_202);
+            resp.getWriter().println(dtoToJson(userDtoRecept));
           } else {
             if (readJwtCookie(req)) {
               resp.setStatus(HttpStatus.ACCEPTED_202);
+              resp.getWriter().println(dtoToJson(userDtoRecept));
             } else {
               resp.setStatus(HttpStatus.FORBIDDEN_403);
             }
           }
 
           break;
+
         default:
           resp.setStatus(HttpStatus.BAD_REQUEST_400);
       }
@@ -143,6 +153,11 @@ public class Servlet extends HttpServlet {
     cookie.setPath("/");
     cookie.setMaxAge(60 * 60 * 24 * 365);
     resp.addCookie(cookie);
+  }
+
+  private String dtoToJson(UserDto dto) {
+    String json = genson.serialize(dto);
+    return json;
   }
 
 }

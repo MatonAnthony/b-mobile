@@ -7,6 +7,12 @@ $(function(){
             action: "authenticate"
         },
         success: function(resp){
+			resp = JSON.parse(resp);
+			if(resp.droits === "ETUDIANT"){
+				window.location.pathname = "/studentHome.html";
+			}else{
+				window.location.pathname = "/teacherHome.html";
+			}
             console.log("Authentification réussie");
         },
         error: function(error){
@@ -25,6 +31,13 @@ $(function(){
 	            password : $("input[name='password']").val()
 	        },
 	        success: function(resp){
+			resp = JSON.parse(resp);
+			console.log(resp);
+				if(resp.droits === "ETUDIANT"){
+					window.location.pathname = "/studentHome.html";
+				}else{
+					window.location.pathname = "/teacherHome.html";
+				}
 	            console.log("Connexion réussie");
 	        },
 	        error: function(error){
