@@ -1,18 +1,5 @@
 package ihm;
 
-import bizz.BizzFactory;
-import dto.UserDto;
-import ucc.UserUcController;
-
-import com.auth0.jwt.JWTSigner;
-import com.auth0.jwt.JWTVerifier;
-import com.auth0.jwt.JWTVerifyException;
-import com.owlike.genson.Genson;
-import com.owlike.genson.GensonBuilder;
-import com.owlike.genson.reflect.VisibilityFilter;
-
-import org.eclipse.jetty.http.HttpStatus;
-
 import java.io.IOException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
@@ -27,6 +14,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.eclipse.jetty.http.HttpStatus;
+
+import com.auth0.jwt.JWTSigner;
+import com.auth0.jwt.JWTVerifier;
+import com.auth0.jwt.JWTVerifyException;
+import com.owlike.genson.Genson;
+import com.owlike.genson.GensonBuilder;
+import com.owlike.genson.reflect.VisibilityFilter;
+
+import bizz.BizzFactory;
+import dto.UserDto;
+import ucc.UserUcController;
+
 public class Servlet extends HttpServlet {
 
   private final static String SECRET =
@@ -35,7 +35,6 @@ public class Servlet extends HttpServlet {
   private UserUcController userUcc = null;
   private BizzFactory bizzFactory = null;
 
-  private UserDto userDtoRecept = null;
   private Genson genson = new GensonBuilder().useFields(true, VisibilityFilter.PRIVATE)
       .useMethods(false).exclude("mdp").create();
 
@@ -56,31 +55,33 @@ public class Servlet extends HttpServlet {
         case "login":
           String username = req.getParameter("username");
           String password = req.getParameter("password");
-          /*
-           * UserDto userDtoSend = bizzFactory.getUserDto(); userDtoSend.setMdp(mdp);
-           * userDtoSend.setPseudo(pseudo);
-           */
-          userDtoRecept = userUcc.login(username, password);
+
+          UserDto userDtoRecept = userUcc.login(username, password);
 
           if (userDtoRecept == null) {
             resp.setStatus(HttpStatus.FORBIDDEN_403);
           } else {
             session.setAttribute("username", userDtoRecept.getPseudo());
-            createJwtCookie(resp, userDtoRecept.getPseudo());
+            createJwtCookie(resp, userDtoRecept);
             resp.setStatus(HttpStatus.ACCEPTED_202);
             resp.getWriter().println(dtoToJson(userDtoRecept));
           }
           break;
 
         case "authenticate":
-
+          resp.setStatus(HttpStatus.ACCEPTED_202);
+          UserDto userDto = bizzFactory.getUserDto();
           if (null != session.getAttribute("username")) {
-            resp.setStatus(HttpStatus.ACCEPTED_202);
-            resp.getWriter().println(dtoToJson(userDtoRecept));
+            userDto.setDroits("" + session.getAttribute("rights"));
+            userDto.setPseudo("" + session.getAttribute("username"));
+            createJwtCookie(resp, userDto);
+            resp.getWriter().println(dtoToJson(userDto));
+
           } else {
             if (readJwtCookie(req)) {
-              resp.setStatus(HttpStatus.ACCEPTED_202);
-              resp.getWriter().println(dtoToJson(userDtoRecept));
+              userDto.setDroits("" + session.getAttribute("rights"));
+              userDto.setPseudo("" + session.getAttribute("username"));
+              resp.getWriter().println(dtoToJson(userDto));
             } else {
               resp.setStatus(HttpStatus.FORBIDDEN_403);
             }
@@ -124,6 +125,7 @@ public class Servlet extends HttpServlet {
     }
 
     req.getSession().setAttribute("username", decodedPayload.get("username"));
+    req.getSession().setAttribute("rights", decodedPayload.get("rights"));
     return true;
   }
 
@@ -133,10 +135,12 @@ public class Servlet extends HttpServlet {
    * @param resp La reponse qui serra renvoyee par le serveur.
    * @param login Le pseudo de l'utilisateur.
    */
-  private void createJwtCookie(HttpServletResponse resp, String login) {
+  private void createJwtCookie(HttpServletResponse resp, UserDto userDto) {
 
+    // TODO Ajouter les droits etc.. Dans le cookie
     Map<String, Object> claims = new HashMap<String, Object>();
-    claims.put("username", login);
+    claims.put("username", userDto.getPseudo());
+    claims.put("rights", userDto.getDroits());
     claims.put("id", "1");
 
     String token = new JWTSigner(SECRET).sign(claims);

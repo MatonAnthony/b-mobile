@@ -1,5 +1,10 @@
 package ihm;
 
+import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.servlet.DefaultServlet;
+import org.eclipse.jetty.servlet.ServletHolder;
+import org.eclipse.jetty.webapp.WebAppContext;
+
 import bizz.BizzFactory;
 import bizz.BizzFactoryImpl;
 import dal.DalBackendServices;
@@ -9,11 +14,6 @@ import dao.UserDao;
 import dao.UserDaoImpl;
 import ucc.UserUcController;
 import ucc.UserUcControllerImpl;
-
-import org.eclipse.jetty.server.Server;
-import org.eclipse.jetty.servlet.DefaultServlet;
-import org.eclipse.jetty.servlet.ServletHolder;
-import org.eclipse.jetty.webapp.WebAppContext;
 
 public class Main {
 
@@ -30,9 +30,9 @@ public class Main {
 
     // Injection des dépendances.
     DalServices dalServices = new DalServicesImpl();
-    UserDao userDao = new UserDaoImpl((DalBackendServices) dalServices);
-    UserUcController userUcc = new UserUcControllerImpl(dalServices, userDao);
     BizzFactory bizzFactory = new BizzFactoryImpl();
+    UserDao userDao = new UserDaoImpl((DalBackendServices) dalServices, bizzFactory);
+    UserUcController userUcc = new UserUcControllerImpl(dalServices, userDao);
     Servlet servlet = new Servlet(userUcc, bizzFactory);
 
     // Gestion des servlets

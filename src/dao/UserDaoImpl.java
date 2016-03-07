@@ -5,19 +5,17 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import bizz.BizzFactory;
-import bizz.BizzFactoryImpl;
 import dal.DalBackendServices;
 import dto.UserDto;
 
 public class UserDaoImpl implements UserDao {
 
   private DalBackendServices dalBackendServices;
-  // TODO Modifier l'implementation de la Factory
   private BizzFactory factory;
 
-  public UserDaoImpl(DalBackendServices dalBackendServices) {
+  public UserDaoImpl(DalBackendServices dalBackendServices, BizzFactory bizzFactory) {
     this.dalBackendServices = dalBackendServices;
-    factory = new BizzFactoryImpl();
+    this.factory = bizzFactory;
   }
 
   @Override
