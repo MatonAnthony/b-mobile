@@ -1,0 +1,11 @@
+@import url("https://fonts.googleapis.com/css?family=Fira+Sans&subset=latin,latin-ext");
+
+.logo{
+    font-family: 'Fira Sans', sans-serif;
+    text-align: center;
+    font-size: 60px;
+}
+.logo-first-letter {
+    font-weight: bold;
+    color: #5BC0DE;
+}
