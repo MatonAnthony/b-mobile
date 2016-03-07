@@ -18,7 +18,6 @@ import org.eclipse.jetty.webapp.WebAppContext;
 public class Main {
 
   /**
-   * 
    * Le point d'entree de mon application.
    * 
    * @param args Les parametres de notre application.

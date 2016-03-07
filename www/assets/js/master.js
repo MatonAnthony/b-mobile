@@ -32,7 +32,6 @@ $(function(){
 	        },
 	        success: function(resp){
 			resp = JSON.parse(resp);
-			console.log(resp);
 				if(resp.droits === "ETUDIANT"){
 					window.location.pathname = "/studentHome.html";
 				}else{
