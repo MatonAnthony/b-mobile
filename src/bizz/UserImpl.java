@@ -1,8 +1,8 @@
 package bizz;
 
-import java.time.LocalDate;
-
 import org.mindrot.jbcrypt.BCrypt;
+
+import java.time.LocalDate;
 
 class UserImpl implements UserBizz {
 

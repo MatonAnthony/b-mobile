@@ -1,34 +1,26 @@
 package dal;
 
-import java.io.FileInputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.Properties;
+
+import utils.ContextManager;
 
 public class DalServicesImpl implements DalServices, DalBackendServices {
 
   private Connection connection;
-  private Properties properties;
 
   /**
    * Constructeur du DalServices.
    */
   public DalServicesImpl() {
 
-    properties = new Properties();
 
-    try {
-      FileInputStream file = new FileInputStream("src/prod.properties");
-      properties.load(file);
-      file.close();
-    } catch (Throwable exc) {
-      throw new RuntimeException(exc);
-    }
 
-    String url = properties.getProperty("urlDB") + "?user=" + properties.getProperty("userDB")
-        + "&password=" + properties.getProperty("passwordDB");
+    String url =
+        ContextManager.getProperty("urlDB") + "?user=" + ContextManager.getProperty("userDB")
+            + "&password=" + ContextManager.getProperty("passwordDB");
 
     try {
       Class.forName("org.postgresql.Driver");

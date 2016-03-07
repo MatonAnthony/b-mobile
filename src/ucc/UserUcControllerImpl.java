@@ -1,11 +1,11 @@
 package ucc;
 
-import java.sql.SQLException;
-
 import bizz.UserBizz;
 import dal.DalServices;
 import dao.UserDao;
 import dto.UserDto;
+
+import java.sql.SQLException;
 
 public class UserUcControllerImpl implements UserUcController {
 
@@ -52,9 +52,9 @@ public class UserUcControllerImpl implements UserUcController {
       }
     }
     // L'user est null si aucun utilisateur avec le pseudo entré n'existe
-    if (null == user)
+    if (null == user) {
       return null;
-
+    }
     if (user.checkPassword(password)) {
       return user;
     } else {

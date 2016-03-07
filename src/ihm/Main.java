@@ -1,10 +1,5 @@
 package ihm;
 
-import org.eclipse.jetty.server.Server;
-import org.eclipse.jetty.servlet.DefaultServlet;
-import org.eclipse.jetty.servlet.ServletHolder;
-import org.eclipse.jetty.webapp.WebAppContext;
-
 import bizz.BizzFactory;
 import bizz.BizzFactoryImpl;
 import dal.DalBackendServices;
@@ -15,9 +10,15 @@ import dao.UserDaoImpl;
 import ucc.UserUcController;
 import ucc.UserUcControllerImpl;
 
+import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.servlet.DefaultServlet;
+import org.eclipse.jetty.servlet.ServletHolder;
+import org.eclipse.jetty.webapp.WebAppContext;
+
 public class Main {
 
   /**
+   * 
    * Le point d'entree de mon application.
    * 
    * @param args Les parametres de notre application.
