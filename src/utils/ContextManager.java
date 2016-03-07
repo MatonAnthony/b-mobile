@@ -5,7 +5,7 @@ import java.util.Properties;
 
 
 /**
- * ContextManager pour la gestion des properties
+ * ContextManager pour la gestion des properties.
  * 
  * @author Martin
  * @since 7 mars 2016
