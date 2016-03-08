@@ -53,17 +53,21 @@ public class UserDaoImpl implements UserDao {
   public UserDto findByUserName(String username) {
     String query = "SELECT pseudo, mdp, droits FROM bmobile.utilisateurs WHERE pseudo=?";
     PreparedStatement preparedStatement = null;
-    ResultSet resultSet = null;
     UserDto user = factory.getUserDto();
     try {
       preparedStatement = dalBackendServices.prepare(query);
       preparedStatement.setString(1, username);
-      resultSet = preparedStatement.executeQuery();
-      if (resultSet.next()) {
-        user.setPseudo(resultSet.getString(1));
-        user.setMdp(resultSet.getString(2));
-        user.setDroits(resultSet.getString(3));
-      } else {
+      try (ResultSet resultSet = preparedStatement.executeQuery()) {
+        if (resultSet.next()) {
+          user.setPseudo(resultSet.getString(1));
+          user.setMdp(resultSet.getString(2));
+          user.setDroits(resultSet.getString(3));
+        } else {
+          return null;
+        }
+        return user;
+      } catch (SQLException exc2) {
+        exc2.printStackTrace();
         return null;
       }
     } catch (SQLException exc) {
@@ -71,7 +75,6 @@ public class UserDaoImpl implements UserDao {
       return null;
     }
 
-    return user;
   }
 
 }
