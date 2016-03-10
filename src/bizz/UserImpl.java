@@ -24,9 +24,9 @@ class UserImpl implements UserBizz {
   private LocalDate birthDate;
 
   /**
-   * Renvoie le pseudo de l'utilisateur.
+   * Return user pseudo
    * 
-   * @return Le pseudo de l'utilisateur.
+   * @return Pseudo of the user.
    */
   @Override
   public String getPseudo() {
@@ -34,9 +34,9 @@ class UserImpl implements UserBizz {
   }
 
   /**
-   * Modifie le pseudo de l'utilisateur.
+   * Edit user pseudo.
    * 
-   * @param pseudo Le nouveau pseudo de l'utilisateur.
+   * @param pseudo New pseudo for that user.
    */
   @Override
   public void setPseudo(String pseudo) {
@@ -44,9 +44,9 @@ class UserImpl implements UserBizz {
   }
 
   /**
-   * Renvoie le mot de passe de l'utilisateur.
+   * Return password for that user.
    * 
-   * @return Le mot de passe de l'utilisateur.
+   * @return Password of the user.
    */
   @Override
   public String getPassword() {
@@ -54,9 +54,9 @@ class UserImpl implements UserBizz {
   }
 
   /**
-   * Modifie le mot de passe de l'utilisateur.
+   * Change the user password.
    * 
-   * @param password Le nouveau mot de passe.
+   * @param password New password for that user.
    */
   @Override
   public void setPassword(String password) {
@@ -64,9 +64,9 @@ class UserImpl implements UserBizz {
   }
 
   /**
-   * Renvoie le name de l'utilisateur.
+   * Returns name for that user.
    * 
-   * @return Le name de l'utilisateur.
+   * @return Name of the user.
    */
   @Override
   public String getName() {
@@ -74,9 +74,9 @@ class UserImpl implements UserBizz {
   }
 
   /**
-   * Modifie le name de l'utilisateur.
+   * Edit user name.
    * 
-   * @param name Le nouveau name de l'utilisateur.
+   * @param name New user name.
    */
   @Override
   public void setName(String name) {
@@ -84,9 +84,9 @@ class UserImpl implements UserBizz {
   }
 
   /**
-   * Renvoie le firstname de l'utilisateur.
+   * Return firstname of the user.
    * 
-   * @return Le firstname de l'utilisateur.
+   * @return firstname of the user.
    */
   @Override
   public String getFirstname() {
@@ -94,9 +94,9 @@ class UserImpl implements UserBizz {
   }
 
   /**
-   * Modifie le firstname de l'utilisateur.
+   * Edit user firstname.
    * 
-   * @param firstname Le nouveau firstname de l'utilisateur.
+   * @param firstname New user firstname.
    */
   @Override
   public void setFirstname(String firstname) {
@@ -104,9 +104,9 @@ class UserImpl implements UserBizz {
   }
 
   /**
-   * Renvoie l'email de l'utilisateur.
+   * Return user email.
    * 
-   * @return L'email de l'utilisateur.
+   * @return Email of our user.
    */
   @Override
   public String getEmail() {
@@ -114,9 +114,9 @@ class UserImpl implements UserBizz {
   }
 
   /**
-   * Modifie l'email de l'utilisateur.
+   * Edit user email
    * 
-   * @param email Le nouvel email de l'utilisateur.
+   * @param email New user email.
    */
   @Override
   public void setEmail(String email) {
@@ -124,9 +124,9 @@ class UserImpl implements UserBizz {
   }
 
   /**
-   * Renvoie l'address de l'utilisateur.
+   * Return address of an user.
    * 
-   * @return L'address de l'utilisateur.
+   * @return user address.
    */
   @Override
   public String getAddress() {
@@ -134,9 +134,9 @@ class UserImpl implements UserBizz {
   }
 
   /**
-   * Modifie l'address de l'utilisateur.
+   * Edit user address.
    * 
-   * @param address La nouvelle address de l'utilisateur.
+   * @param address New user address.
    */
   @Override
   public void setAddress(String address) {
@@ -144,9 +144,9 @@ class UserImpl implements UserBizz {
   }
 
   /**
-   * Renvoie le numero de telephone de l'utilisateur.
+   * Return user phone number of an user.
    * 
-   * @return Le numero de telephone de l'utilisateur.
+   * @return user phone number.
    */
   @Override
   public String getTel() {
