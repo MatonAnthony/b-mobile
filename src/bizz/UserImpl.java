@@ -7,21 +7,21 @@ import java.time.LocalDate;
 class UserImpl implements UserBizz {
 
   private String pseudo;
-  private String mdp;
-  private String nom;
-  private String prenom;
+  private String password;
+  private String name;
+  private String firstname;
   private String email;
-  private String adresse;
+  private String address;
   private String tel;
-  private String sexe;
-  private String droits;
-  private String banqueIban;
-  private String banqueBic;
-  private String banqueTitulaireNom;
-  private String banqueNom;
-  private int nbAnneeReussiesEnsSup;
-  private LocalDate dateInscription;
-  private LocalDate dateNaissance;
+  private String gender;
+  private String permissions;
+  private String iban;
+  private String bic;
+  private String accountHolder;
+  private String bankName;
+  private int successfullYearInCollege;
+  private LocalDate registrationDate;
+  private LocalDate birthDate;
 
   /**
    * Renvoie le pseudo de l'utilisateur.
@@ -49,58 +49,58 @@ class UserImpl implements UserBizz {
    * @return Le mot de passe de l'utilisateur.
    */
   @Override
-  public String getMdp() {
-    return mdp;
+  public String getPassword() {
+    return password;
   }
 
   /**
    * Modifie le mot de passe de l'utilisateur.
    * 
-   * @param mdp Le nouveau mot de passe.
+   * @param password Le nouveau mot de passe.
    */
   @Override
-  public void setMdp(String mdp) {
-    this.mdp = mdp;
+  public void setPassword(String password) {
+    this.password = password;
   }
 
   /**
-   * Renvoie le nom de l'utilisateur.
+   * Renvoie le name de l'utilisateur.
    * 
-   * @return Le nom de l'utilisateur.
+   * @return Le name de l'utilisateur.
    */
   @Override
-  public String getNom() {
-    return nom;
+  public String getName() {
+    return name;
   }
 
   /**
-   * Modifie le nom de l'utilisateur.
+   * Modifie le name de l'utilisateur.
    * 
-   * @param nom Le nouveau nom de l'utilisateur.
+   * @param name Le nouveau name de l'utilisateur.
    */
   @Override
-  public void setNom(String nom) {
-    this.nom = nom;
+  public void setName(String name) {
+    this.name = name;
   }
 
   /**
-   * Renvoie le prenom de l'utilisateur.
+   * Renvoie le firstname de l'utilisateur.
    * 
-   * @return Le prenom de l'utilisateur.
+   * @return Le firstname de l'utilisateur.
    */
   @Override
-  public String getPrenom() {
-    return prenom;
+  public String getFirstname() {
+    return firstname;
   }
 
   /**
-   * Modifie le prenom de l'utilisateur.
+   * Modifie le firstname de l'utilisateur.
    * 
-   * @param prenom Le nouveau prenom de l'utilisateur.
+   * @param firstname Le nouveau firstname de l'utilisateur.
    */
   @Override
-  public void setPrenom(String prenom) {
-    this.prenom = prenom;
+  public void setFirstname(String firstname) {
+    this.firstname = firstname;
   }
 
   /**
@@ -124,23 +124,23 @@ class UserImpl implements UserBizz {
   }
 
   /**
-   * Renvoie l'adresse de l'utilisateur.
+   * Renvoie l'address de l'utilisateur.
    * 
-   * @return L'adresse de l'utilisateur.
+   * @return L'address de l'utilisateur.
    */
   @Override
-  public String getAdresse() {
-    return adresse;
+  public String getAddress() {
+    return address;
   }
 
   /**
-   * Modifie l'adresse de l'utilisateur.
+   * Modifie l'address de l'utilisateur.
    * 
-   * @param adresse La nouvelle adresse de l'utilisateur.
+   * @param address La nouvelle address de l'utilisateur.
    */
   @Override
-  public void setAdresse(String adresse) {
-    this.adresse = adresse;
+  public void setAddress(String address) {
+    this.address = address;
   }
 
   /**
@@ -164,43 +164,43 @@ class UserImpl implements UserBizz {
   }
 
   /**
-   * Renvoie le sexe de l'utilisateur.
+   * Renvoie le gender de l'utilisateur.
    * 
-   * @return Le sexe de l'utilisateur.
+   * @return Le gender de l'utilisateur.
    */
   @Override
-  public String getSexe() {
-    return sexe;
+  public String getGender() {
+    return gender;
   }
 
   /**
-   * Modifie le sexe de l'utilisateur.
+   * Modifie le gender de l'utilisateur.
    * 
-   * @param sexe Le nouveau sexe de l'utilisateur.
+   * @param gender Le nouveau gender de l'utilisateur.
    */
   @Override
-  public void setSexe(String sexe) {
-    this.sexe = sexe;
+  public void setGender(String gender) {
+    this.gender = gender;
   }
 
   /**
    * Renvoie les doits de l'utilisateur.
    * 
-   * @return Les droits de l'utilisateur.
+   * @return Les permissions de l'utilisateur.
    */
   @Override
-  public String getDroits() {
-    return droits;
+  public String getPermissions() {
+    return permissions;
   }
 
   /**
-   * Modifie les droits de l'utilisateur.
+   * Modifie les permissions de l'utilisateur.
    * 
-   * @param droits Les nouveaux droits de l'utilisateur.
+   * @param permissions Les nouveaux permissions de l'utilisateur.
    */
   @Override
-  public void setDroits(String droits) {
-    this.droits = droits;
+  public void setPermissions(String permissions) {
+    this.permissions = permissions;
   }
 
   /**
@@ -209,18 +209,18 @@ class UserImpl implements UserBizz {
    * @return Le numero de banque iban de l'utilisateur.
    */
   @Override
-  public String getBanqueIban() {
-    return banqueIban;
+  public String getIban() {
+    return iban;
   }
 
   /**
    * Modifie Modifie le numero de banque Iban de l'utilisateur.
    * 
-   * @param banqueIban Le nouveau numero de banque Iban de l'utilisateur.
+   * @param iban Le nouveau numero de banque Iban de l'utilisateur.
    */
   @Override
-  public void setBanqueIban(String banqueIban) {
-    this.banqueIban = banqueIban;
+  public void setIban(String iban) {
+    this.iban = iban;
   }
 
   /**
@@ -229,18 +229,18 @@ class UserImpl implements UserBizz {
    * @return Le numero de banque Bic de l'utilisateur.
    */
   @Override
-  public String getBanqueBic() {
-    return banqueBic;
+  public String getBic() {
+    return bic;
   }
 
   /**
    * Modifie le numero de banque Bic de l'utilisateur.
    * 
-   * @param banqueBic Le nouveau numero de banque Bic.
+   * @param bic Le nouveau numero de banque Bic.
    */
   @Override
-  public void setBanqueBic(String banqueBic) {
-    this.banqueBic = banqueBic;
+  public void setBic(String bic) {
+    this.bic = bic;
   }
 
   /**
@@ -249,18 +249,18 @@ class UserImpl implements UserBizz {
    * @return Le nom du titulaire du compte en banque de l'utilisateur.
    */
   @Override
-  public String getBanqueTitulaireNom() {
-    return banqueTitulaireNom;
+  public String getAccountHolder() {
+    return accountHolder;
   }
 
   /**
    * Modifie le nom du titulaire du compte en banque.
    * 
-   * @param banqueTitulaireNom Le nouveau nom du titulaire.
+   * @param accountHolder Le nouveau nom du titulaire.
    */
   @Override
-  public void setBanqueTitulaireNom(String banqueTitulaireNom) {
-    this.banqueTitulaireNom = banqueTitulaireNom;
+  public void setAccountHolder(String accountHolder) {
+    this.accountHolder = accountHolder;
   }
 
   /**
@@ -269,18 +269,18 @@ class UserImpl implements UserBizz {
    * @return Le nom de la banque de l'utilisateur.
    */
   @Override
-  public String getBanqueNom() {
-    return banqueNom;
+  public String getBankName() {
+    return bankName;
   }
 
   /**
    * Modifie le nom de la banque de l'utilisateur.
    * 
-   * @param banqueNom Le nouveau nom de la banque.
+   * @param bankName Le nouveau nom de la banque.
    */
   @Override
-  public void setBanqueNom(String banqueNom) {
-    this.banqueNom = banqueNom;
+  public void setBankName(String bankName) {
+    this.bankName = bankName;
   }
 
   /**
@@ -289,18 +289,18 @@ class UserImpl implements UserBizz {
    * @return Le nombre d'annee reussies par l'utilisateur.
    */
   @Override
-  public int getNbAnneeReussiesEnsSup() {
-    return nbAnneeReussiesEnsSup;
+  public int getSuccessfullYearInCollege() {
+    return successfullYearInCollege;
   }
 
   /**
    * Modifie le nombre d'annees reussies.
    * 
-   * @param nbAnneeReussiesEnsSup Le nouveau nombre d'annees reussies.
+   * @param successfullYearInCollege Le nouveau nombre d'annees reussies.
    */
   @Override
-  public void setNbAnneeReussiesEnsSup(int nbAnneeReussiesEnsSup) {
-    this.nbAnneeReussiesEnsSup = nbAnneeReussiesEnsSup;
+  public void setSuccessfullYearInCollege(int successfullYearInCollege) {
+    this.successfullYearInCollege = successfullYearInCollege;
   }
 
   /**
@@ -309,18 +309,18 @@ class UserImpl implements UserBizz {
    * @return La date d'inscription de l'utilisateur.
    */
   @Override
-  public LocalDate getDateInscription() {
-    return dateInscription;
+  public LocalDate getRegistrationDate() {
+    return registrationDate;
   }
 
   /**
    * Modifie la date d'inscription.
    * 
-   * @param dateInscription La nouvelle date d'inscription.
+   * @param registrationDate La nouvelle date d'inscription.
    */
   @Override
-  public void setDateInscription(LocalDate dateInscription) {
-    this.dateInscription = dateInscription;
+  public void setRegistrationDate(LocalDate registrationDate) {
+    this.registrationDate = registrationDate;
   }
 
   /**
@@ -329,26 +329,26 @@ class UserImpl implements UserBizz {
    * @return La date de naissance de l'utilisateur.
    */
   @Override
-  public LocalDate getDateNaissance() {
-    return dateNaissance;
+  public LocalDate getBirthDate() {
+    return birthDate;
   }
 
   /**
    * Modifie la date de naissance de l'utilisateur.
    * 
-   * @param dateNaissance La nouvelle date de naissance.
+   * @param birthDate La nouvelle date de naissance.
    */
   @Override
-  public void setDateNaissance(LocalDate dateNaissance) {
-    this.dateNaissance = dateNaissance;
+  public void setBirthDate(LocalDate birthDate) {
+    this.birthDate = birthDate;
   }
 
   /**
-   * Crypte l'attribut mdp de l'utilisateur qui doit être en clair.
+   * Crypte l'attribut password de l'utilisateur qui doit être en clair.
    */
   @Override
   public void cryptPassword() {
-    this.mdp = BCrypt.hashpw(mdp, BCrypt.gensalt());
+    this.password = BCrypt.hashpw(password, BCrypt.gensalt());
   }
 
   /**
@@ -359,6 +359,6 @@ class UserImpl implements UserBizz {
    */
   @Override
   public boolean checkPassword(String passwordToCheck) {
-    return BCrypt.checkpw(passwordToCheck, this.mdp);
+    return BCrypt.checkpw(passwordToCheck, this.password);
   }
 }

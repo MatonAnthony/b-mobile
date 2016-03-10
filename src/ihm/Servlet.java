@@ -36,7 +36,7 @@ public class Servlet extends HttpServlet {
   private BizzFactory bizzFactory = null;
 
   private Genson genson = new GensonBuilder().useFields(true, VisibilityFilter.PRIVATE)
-      .useMethods(false).exclude("mdp").create();
+      .useMethods(false).exclude("password").create();
 
   public Servlet(UserUcController userUcc, BizzFactory bizzFactory) {
     this.userUcc = userUcc;
@@ -72,14 +72,14 @@ public class Servlet extends HttpServlet {
           resp.setStatus(HttpStatus.ACCEPTED_202);
           UserDto userDto = bizzFactory.getUserDto();
           if (null != session.getAttribute("username")) {
-            userDto.setDroits("" + session.getAttribute("rights"));
+            userDto.setPermissions("" + session.getAttribute("rights"));
             userDto.setPseudo("" + session.getAttribute("username"));
             createJwtCookie(resp, userDto);
             resp.getWriter().println(dtoToJson(userDto));
 
           } else {
             if (readJwtCookie(req)) {
-              userDto.setDroits("" + session.getAttribute("rights"));
+              userDto.setPermissions("" + session.getAttribute("rights"));
               userDto.setPseudo("" + session.getAttribute("username"));
               resp.getWriter().println(dtoToJson(userDto));
             } else {
@@ -137,10 +137,10 @@ public class Servlet extends HttpServlet {
    */
   private void createJwtCookie(HttpServletResponse resp, UserDto userDto) {
 
-    // TODO Ajouter les droits etc.. Dans le cookie
+    // TODO Ajouter les permissions etc.. Dans le cookie
     Map<String, Object> claims = new HashMap<String, Object>();
     claims.put("username", userDto.getPseudo());
-    claims.put("rights", userDto.getDroits());
+    claims.put("rights", userDto.getPermissions());
     claims.put("id", "1");
 
     String token = new JWTSigner(SECRET).sign(claims);

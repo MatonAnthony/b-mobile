@@ -51,7 +51,7 @@ public class UserDaoImpl implements UserDao {
    */
   @Override
   public UserDto findByUserName(String username) {
-    String query = "SELECT pseudo, mdp, droits FROM bmobile.utilisateurs WHERE pseudo=?";
+    String query = "SELECT pseudo, password, permissions FROM bmobile.users WHERE pseudo=?";
     PreparedStatement preparedStatement = null;
     UserDto user = factory.getUserDto();
     try {
@@ -60,8 +60,8 @@ public class UserDaoImpl implements UserDao {
       try (ResultSet resultSet = preparedStatement.executeQuery()) {
         if (resultSet.next()) {
           user.setPseudo(resultSet.getString(1));
-          user.setMdp(resultSet.getString(2));
-          user.setDroits(resultSet.getString(3));
+          user.setPassword(resultSet.getString(2));
+          user.setPermissions(resultSet.getString(3));
         } else {
           return null;
         }

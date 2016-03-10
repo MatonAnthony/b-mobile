@@ -6,66 +6,66 @@ public interface UserDto {
 
   void setPseudo(String pseudo);
 
-  String getAdresse();
+  String getAddress();
 
   String getPseudo();
 
-  String getMdp();
+  String getPassword();
 
-  void setMdp(String mdp);
+  void setPassword(String password);
 
-  String getNom();
+  String getName();
 
-  void setNom(String nom);
+  void setName(String name);
 
-  String getPrenom();
+  String getFirstname();
 
-  void setPrenom(String prenom);
+  void setFirstname(String firstname);
 
   String getEmail();
 
   void setEmail(String email);
 
-  void setAdresse(String adresse);
+  void setAddress(String address);
 
   String getTel();
 
   void setTel(String tel);
 
-  String getSexe();
+  String getGender();
 
-  void setSexe(String sexe);
+  void setGender(String gender);
 
-  String getDroits();
+  String getPermissions();
 
-  void setDroits(String droits);
+  void setPermissions(String permissions);
 
-  String getBanqueIban();
+  String getIban();
 
-  void setBanqueIban(String banqueIban);
+  void setIban(String iban);
 
-  String getBanqueBic();
+  String getBic();
 
-  void setBanqueBic(String banqueBic);
+  void setBic(String bic);
 
-  String getBanqueTitulaireNom();
+  String getAccountHolder();
 
-  void setBanqueTitulaireNom(String banqueTitulaireNom);
+  void setAccountHolder(String accountHolder);
 
-  void setBanqueNom(String banqueNom);
+  void setBankName(String bankName);
 
-  String getBanqueNom();
+  String getBankName();
 
-  int getNbAnneeReussiesEnsSup();
+  int getSuccessfullYearInCollege();
 
-  void setNbAnneeReussiesEnsSup(int nbAnneeReussiesEnsSup);
+  void setSuccessfullYearInCollege(int successfullYearInCollege);
 
-  LocalDate getDateInscription();
+  LocalDate getRegistrationDate();
 
-  void setDateInscription(LocalDate dateInscription);
+  void setRegistrationDate(LocalDate registrationDate);
 
-  LocalDate getDateNaissance();
+  LocalDate getBirthDate();
 
-  void setDateNaissance(LocalDate dateNaissance);
+  void setBirthDate(LocalDate birthDate);
 
 }

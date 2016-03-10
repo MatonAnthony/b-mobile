@@ -6,9 +6,9 @@ public class BizzFactoryImpl implements BizzFactory {
 
   @Override
   /**
-   * Renvoie un UserDto vide.
+   * Return an empty UserDto.
    * 
-   * @return Un nouveau UserDto.
+   * @return a new UserDto.
    */
   public UserDto getUserDto() {
     return new UserImpl();

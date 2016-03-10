@@ -2,116 +2,116 @@
 
 CREATE SCHEMA bMobile;
 
-CREATE TABLE bMobile.programmes
+CREATE TABLE bMobile.programs
 (
-  id_programme SERIAL PRIMARY KEY,
-  nom_programme VARCHAR(100),
+  id SERIAL PRIMARY KEY,
+  name VARCHAR(100),
   description TEXT
 );
 
-CREATE TABLE bMobile.departements
+CREATE TABLE bMobile.departments
 (
-  id_departement SERIAL PRIMARY KEY,
-  libelle VARCHAR(50)
+  id SERIAL PRIMARY KEY,
+  label VARCHAR(50)
 );
 
-CREATE TABLE bMobile.annulations
+CREATE TABLE bMobile.cancelations
 (
-  id_annulation SERIAL PRIMARY KEY,
-  motif TEXT,
-  responsable VARCHAR(20)
+  id SERIAL PRIMARY KEY,
+  reason TEXT,
+  responsible VARCHAR(20)
 );
 
-CREATE TABLE bMobile.utilisateurs
+CREATE TABLE bMobile.users
 (
-  id_utilisateur SERIAL PRIMARY KEY,
+  id SERIAL PRIMARY KEY,
   pseudo VARCHAR(100),
-  mdp VARCHAR(250) ,
-  nom VARCHAR(100) ,
-  prenom VARCHAR(100) ,
+  password VARCHAR(250) ,
+  name VARCHAR(100) ,
+  firstname VARCHAR(100) ,
   email VARCHAR(150) ,
-  date_inscription TIMESTAMP ,
-  droits VARCHAR(20) ,
-  date_naissance TIMESTAMP,
-  rue VARCHAR(100),
-  numero VARCHAR(20),
-  boite VARCHAR(20),
-  code_postal VARCHAR(100),
-  ville VARCHAR(100),
-  pays VARCHAR(100),
+  registration_date TIMESTAMP ,
+  permissions VARCHAR(20) ,
+  birth_date TIMESTAMP,
+  street VARCHAR(100),
+  house_number VARCHAR(20),
+  mailbox VARCHAR(20),
+  zip VARCHAR(100),
+  city VARCHAR(100),
+  country VARCHAR(100),
   tel VARCHAR(20),
-  sexe VARCHAR(10),
-  nb_annee_reussies_ens_sup INTEGER,
-  banque_iban VARCHAR(50),
-  banque_bic VARCHAR(15),
-  banque_titulaire_nom VARCHAR(100),
-  banque_nom VARCHAR(100)
+  gender VARCHAR(10),
+  successfull_year_in_college INTEGER,
+  -- banque_permissions VARCHAR(50),
+  bic VARCHAR(15),
+  account_holder VARCHAR(100),
+  bank_name VARCHAR(100)
 );
 
-CREATE TABLE bMobile.partenaires
+CREATE TABLE bMobile.partners
 (
-  id_partenaire SERIAL PRIMARY KEY,
-  id_utilisateur INTEGER ,
-  nom_affaires VARCHAR(100),
-  nom_complet VARCHAR(100),
-  departement VARCHAR(100),
+  id SERIAL PRIMARY KEY,
+  id_user INTEGER ,
+  business_name VARCHAR(100),
+  full_name VARCHAR(100),
+  department VARCHAR(100),
   type VARCHAR(10),
-  nb_employes INTEGER,
-  rue VARCHAR(100),
-  numero VARCHAR(20),
-  boite VARCHAR(20),
-  code_postal VARCHAR(100),
-  ville VARCHAR(100),
-  region VARCHAR(100),
-  pays VARCHAR(100),
+  nb_employees INTEGER,
+  street VARCHAR(100),
+  number VARCHAR(20),
+  mailbox VARCHAR(20),
+  zip VARCHAR(100),
+  city VARCHAR(100),
+  state VARCHAR(100),
+  country VARCHAR(100),
   email VARCHAR(150),
-  site_web VARCHAR(150),
+  website VARCHAR(150),
 
-  CONSTRAINT foreign_key_utilisateur FOREIGN KEY (id_utilisateur) REFERENCES bMobile.utilisateurs (id_utilisateur)
+  CONSTRAINT foreign_key_user FOREIGN KEY (id_user) REFERENCES bMobile.users (id)
 );
 
-CREATE TABLE bMobile.mobilites
+CREATE TABLE bMobile.mobilities
 (
-  id_mobilite SERIAL PRIMARY KEY,
-  id_programme INTEGER ,
+  id SERIAL PRIMARY KEY,
+  id_program INTEGER ,
   type VARCHAR(10) ,
   destination VARCHAR(100),
-  partenaire INTEGER,
+  partner INTEGER,
 
-  CONSTRAINT foreign_key_programme FOREIGN KEY (id_programme) REFERENCES bMobile.programmes (id_programme),
-  CONSTRAINT foreign_key_partenaire FOREIGN KEY (partenaire) REFERENCES bMobile.partenaires (id_partenaire)
+  CONSTRAINT foreign_key_program FOREIGN KEY (id_program) REFERENCES bMobile.programs (id_program),
+  CONSTRAINT foreign_key_partner FOREIGN KEY (partner) REFERENCES bMobile.partners (partner)
 );
 
-CREATE TABLE bMobile.demandes
+CREATE TABLE bMobile.requests
 (
-  id_demande SERIAL PRIMARY KEY,
-  id_etudiant INTEGER ,
-  id_mobilite INTEGER ,
-  num_ordre_pref INTEGER ,
-  id_departement INTEGER ,
-  quadrimestre INTEGER,
-  etat VARCHAR(50) ,
-  annulee BOOLEAN ,
-  depart_contrat_bourse BOOLEAN ,
-  depart_convention_stage_etudes BOOLEAN ,
-  depart_charte_etudiant BOOLEAN,
-  depart_test_langue_erasmus BOOLEAN,
-  depart_doc_engagement BOOLEAN ,
-  depart_doc_envoye_he BOOLEAN ,
-  logiciel_proeco BOOLEAN ,
-  logiciel_mobility_tools BOOLEAN,
-  logiciel_mobi BOOLEAN,
-  retour_att_sejour BOOLEAN ,
-  retour_releve_note BOOLEAN,
-  retour_cert_stage BOOLEAN,
-  retour_rapport_final BOOLEAN ,
-  retour_test_langue_erasmus BOOLEAN,
-  retour_doc_envoye_he BOOLEAN ,
-  motif_annulation INTEGER,
+  id SERIAL PRIMARY KEY,
+  id_student INTEGER ,
+  id_mobility INTEGER ,
+  preference_order INTEGER ,
+  id_department INTEGER ,
+  quadrimester INTEGER,
+  status VARCHAR(50) ,
+  canceled BOOLEAN ,
+  departure_grant_contract BOOLEAN ,
+  departure_convention_internship_schoolarship BOOLEAN ,
+  departure_student_convention BOOLEAN,
+  departure_erasmus_language_test BOOLEAN,
+  departure_doc_aggreement BOOLEAN ,
+  depart_doc_sent_highschool BOOLEAN ,
+  software_proeco BOOLEAN ,
+  software_mobility_tools BOOLEAN,
+  software_mobi BOOLEAN,
+  return_residence_cert BOOLEAN ,
+  return_transcript BOOLEAN,
+  return_internship_cert BOOLEAN,
+  return_final_report BOOLEAN ,
+  return_erasmus_language_test BOOLEAN,
+  return_doc_sent_highschool BOOLEAN ,
+  cancelation_reason INTEGER,
 
-  CONSTRAINT foreign_key_etudiant FOREIGN KEY (id_etudiant) REFERENCES bMobile.utilisateurs (id_utilisateur),
-  CONSTRAINT foreign_key_mobilite FOREIGN KEY (id_mobilite) REFERENCES bMobile.mobilites (id_mobilite),
-  CONSTRAINT foreign_key_departement FOREIGN KEY (id_departement) REFERENCES bMobile.departements (id_departement),
-  CONSTRAINT foreign_key_annulation FOREIGN KEY  (motif_annulation) REFERENCES bMobile.annulations (id_annulation)
+  CONSTRAINT foreign_key_student FOREIGN KEY (id_student) REFERENCES bMobile.utilisateurs (id),
+  CONSTRAINT foreign_key_mobility FOREIGN KEY (id_mobility) REFERENCES bMobile.mobilites (id),
+  CONSTRAINT foreign_key_department FOREIGN KEY (id_department) REFERENCES bMobile.departments (id),
+  CONSTRAINT foreign_key_cancelation FOREIGN KEY  (cancelation_reason) REFERENCES bMobile.cancelations (id)
 );
 
