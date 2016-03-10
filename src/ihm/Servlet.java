@@ -86,7 +86,10 @@ public class Servlet extends HttpServlet {
               resp.setStatus(HttpStatus.FORBIDDEN_403);
             }
           }
+          break;
 
+        case "confirmedMobility":
+          // Appel de fonction
           break;
 
         default:

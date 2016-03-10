@@ -46,3 +46,31 @@ $(function(){
 		 return false;
 	});
 });
+
+// Managing of the confirmed table
+
+$(function(){
+	/*
+	$.ajax({
+        method: "POST",
+        url: "/home",
+        data: {
+            action: "confirmedMobility",
+        },
+        success: function(resp){
+        	resp=JSON.parse(resp);
+        	
+        },
+        error: function(error){
+            console.log("Connexion echouée");
+        }
+    });
+	*/
+	
+	$("#tableConfirmed tr td:last-child").each(function(){
+		if ($(this).html() === "Annulée"){
+			$(this).parent().addClass("danger");
+		}
+	});
+	
+});
