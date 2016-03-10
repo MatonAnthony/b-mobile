@@ -40,6 +40,7 @@ class UserImpl implements UserBizz {
    */
   @Override
   public void setPseudo(String pseudo) {
+    if(pseudo == null) throw new IllegalArgumentException();
     this.pseudo = pseudo;
   }
 
@@ -60,6 +61,7 @@ class UserImpl implements UserBizz {
    */
   @Override
   public void setPassword(String password) {
+    if(password == null) throw new IllegalArgumentException();
     this.password = password;
   }
 
