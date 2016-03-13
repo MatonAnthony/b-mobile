@@ -35,7 +35,7 @@ public class Servlet extends HttpServlet {
   private UserUcController userUcc = null;
   private BizzFactory bizzFactory = null;
 
-  private Genson genson = new GensonBuilder().useFields(true, VisibilityFilter.PRIVATE)
+  private transient Genson genson = new GensonBuilder().useFields(true, VisibilityFilter.PRIVATE)
       .useMethods(false).exclude("password").create();
 
   public Servlet(UserUcController userUcc, BizzFactory bizzFactory) {
