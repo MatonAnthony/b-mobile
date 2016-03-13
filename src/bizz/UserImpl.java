@@ -1,8 +1,8 @@
 package bizz;
 
-import org.mindrot.jbcrypt.BCrypt;
-
 import java.time.LocalDate;
+
+import org.mindrot.jbcrypt.BCrypt;
 
 class UserImpl implements UserBizz {
 
@@ -42,7 +42,8 @@ class UserImpl implements UserBizz {
    */
   @Override
   public void setPseudo(String pseudo) {
-    if(pseudo == null) throw new IllegalArgumentException();
+    if (pseudo == null)
+      throw new IllegalArgumentException();
     this.pseudo = pseudo;
   }
 
@@ -65,7 +66,8 @@ class UserImpl implements UserBizz {
    */
   @Override
   public void setPassword(String password) {
-    if(password == null) throw new IllegalArgumentException();
+    if (password == null)
+      throw new IllegalArgumentException();
     this.password = password;
   }
 
@@ -374,7 +376,7 @@ class UserImpl implements UserBizz {
    */
   @Override
   public void setRegistrationDate(LocalDate registrationDate) {
-    if (registrationDate == null)
+    if (registrationDate == null || registrationDate.isAfter(LocalDate.now()))
       throw new IllegalArgumentException();
     this.registrationDate = registrationDate;
   }
@@ -398,7 +400,7 @@ class UserImpl implements UserBizz {
    */
   @Override
   public void setBirthDate(LocalDate birthDate) {
-    if (birthDate == null)
+    if (birthDate == null || birthDate.isAfter(LocalDate.now()))
       throw new IllegalArgumentException();
     this.birthDate = birthDate;
   }
@@ -427,4 +429,118 @@ class UserImpl implements UserBizz {
       throw new NullPointerException();
     return BCrypt.checkpw(passwordToCheck, this.password);
   }
+
+  @Override
+  public int hashCode() {
+    final int prime = 31;
+    int result = 1;
+    result = prime * result + ((accountHolder == null) ? 0 : accountHolder.hashCode());
+    result = prime * result + ((address == null) ? 0 : address.hashCode());
+    result = prime * result + ((bankName == null) ? 0 : bankName.hashCode());
+    result = prime * result + ((bic == null) ? 0 : bic.hashCode());
+    result = prime * result + ((birthDate == null) ? 0 : birthDate.hashCode());
+    result = prime * result + ((email == null) ? 0 : email.hashCode());
+    result = prime * result + ((firstname == null) ? 0 : firstname.hashCode());
+    result = prime * result + ((gender == null) ? 0 : gender.hashCode());
+    result = prime * result + ((iban == null) ? 0 : iban.hashCode());
+    result = prime * result + ((name == null) ? 0 : name.hashCode());
+    result = prime * result + ((password == null) ? 0 : password.hashCode());
+    result = prime * result + ((permissions == null) ? 0 : permissions.hashCode());
+    result = prime * result + ((pseudo == null) ? 0 : pseudo.hashCode());
+    result = prime * result + ((registrationDate == null) ? 0 : registrationDate.hashCode());
+    result = prime * result + successfullYearInCollege;
+    result = prime * result + ((tel == null) ? 0 : tel.hashCode());
+    return result;
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj)
+      return true;
+    if (obj == null)
+      return false;
+    if (getClass() != obj.getClass())
+      return false;
+    UserImpl other = (UserImpl) obj;
+    if (accountHolder == null) {
+      if (other.accountHolder != null)
+        return false;
+    } else if (!accountHolder.equals(other.accountHolder))
+      return false;
+    if (address == null) {
+      if (other.address != null)
+        return false;
+    } else if (!address.equals(other.address))
+      return false;
+    if (bankName == null) {
+      if (other.bankName != null)
+        return false;
+    } else if (!bankName.equals(other.bankName))
+      return false;
+    if (bic == null) {
+      if (other.bic != null)
+        return false;
+    } else if (!bic.equals(other.bic))
+      return false;
+    if (birthDate == null) {
+      if (other.birthDate != null)
+        return false;
+    } else if (!birthDate.equals(other.birthDate))
+      return false;
+    if (email == null) {
+      if (other.email != null)
+        return false;
+    } else if (!email.equals(other.email))
+      return false;
+    if (firstname == null) {
+      if (other.firstname != null)
+        return false;
+    } else if (!firstname.equals(other.firstname))
+      return false;
+    if (gender == null) {
+      if (other.gender != null)
+        return false;
+    } else if (!gender.equals(other.gender))
+      return false;
+    if (iban == null) {
+      if (other.iban != null)
+        return false;
+    } else if (!iban.equals(other.iban))
+      return false;
+    if (name == null) {
+      if (other.name != null)
+        return false;
+    } else if (!name.equals(other.name))
+      return false;
+    if (password == null) {
+      if (other.password != null)
+        return false;
+    } else if (!password.equals(other.password))
+      return false;
+    if (permissions == null) {
+      if (other.permissions != null)
+        return false;
+    } else if (!permissions.equals(other.permissions))
+      return false;
+    if (pseudo == null) {
+      if (other.pseudo != null)
+        return false;
+    } else if (!pseudo.equals(other.pseudo))
+      return false;
+    if (registrationDate == null) {
+      if (other.registrationDate != null)
+        return false;
+    } else if (!registrationDate.equals(other.registrationDate))
+      return false;
+    if (successfullYearInCollege != other.successfullYearInCollege)
+      return false;
+    if (tel == null) {
+      if (other.tel != null)
+        return false;
+    } else if (!tel.equals(other.tel))
+      return false;
+    return true;
+  }
+
+
 }

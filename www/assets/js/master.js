@@ -104,3 +104,26 @@ $(function(){
 	});
 	
 });
+
+// Managing of the "myMobility" table
+
+$(function(){
+
+	$("#myMobility tr td:nth-child(6)").each(function(){
+		console.log($(this).html());
+		if ($(this).html() !== "Annulée"){
+			$(this).next().append("<button>Annuler</button>");
+		}else{
+			$(this).parent().addClass("danger");
+		}
+		if ($(this).html() === "Non confirmée"){
+			$(this).next().next().append("<button>Confirmer</button>");
+		}
+		//else{
+		//	$(this).parent().addClass("success");
+		//}
+		// On garde ou pas ?
+		
+	});
+
+});
