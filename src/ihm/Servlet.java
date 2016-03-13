@@ -92,6 +92,10 @@ public class Servlet extends HttpServlet {
           // Appel de fonction
           break;
 
+        case "editProfile":
+
+
+          break;
         default:
           resp.setStatus(HttpStatus.BAD_REQUEST_400);
       }

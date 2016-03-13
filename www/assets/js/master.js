@@ -45,6 +45,36 @@ $(function(){
 	    });
 		 return false;
 	});
+
+	$("#profileButton").click(function () {
+		$.ajax({
+			method: "POST",
+			url: "/profile",
+			data: {
+				action: "editProfile",
+				name: $("input[name='name']").val(),
+				firstname: $("input[name='firstname']").val(),
+				gender: $("select[name='gender']").val(),
+				// Birthdate on doit toujours se décider
+				citizenship: $("input[name='citizenship']").val(),
+				street: $("input[name='street']").val(),
+				zipcode: $("input[name='zipcode']").val(),
+				tel: $("input[name='tel']").val(),
+				email: $("input[name='email']").val(),
+				successfullYearsInCollege: $("input[name='successfullYearsInCollege']").val(),
+				iban: $("input[name='iban']").val(),
+				accountHolder: $("input[name='accountHolder']").val(),
+				bankName: $("input[name='bankName']").val(),
+				bic: $("input[name='bic']").val()
+			},
+			success: function (resp) {
+
+			},
+			error: function (resp) {
+
+			}
+		})
+	});
 });
 
 // Managing of the confirmed table
