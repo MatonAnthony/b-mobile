@@ -30,8 +30,9 @@ class UserImpl implements UserBizz {
    */
   @Override
   public String getPseudo() {
-    if (pseudo == null)
+    if (pseudo == null) {
       throw new NullPointerException();
+    }
     return pseudo;
   }
 
@@ -42,8 +43,9 @@ class UserImpl implements UserBizz {
    */
   @Override
   public void setPseudo(String pseudo) {
-    if (pseudo == null)
+    if (pseudo == null) {
       throw new IllegalArgumentException();
+    }
     this.pseudo = pseudo;
   }
 
@@ -54,8 +56,9 @@ class UserImpl implements UserBizz {
    */
   @Override
   public String getPassword() {
-    if (password == null)
+    if (password == null) {
       throw new NullPointerException();
+    }
     return password;
   }
 
@@ -66,8 +69,9 @@ class UserImpl implements UserBizz {
    */
   @Override
   public void setPassword(String password) {
-    if (password == null)
+    if (password == null) {
       throw new IllegalArgumentException();
+    }
     this.password = password;
   }
 
@@ -78,8 +82,9 @@ class UserImpl implements UserBizz {
    */
   @Override
   public String getName() {
-    if (name == null)
+    if (name == null) {
       throw new NullPointerException();
+    }
     return name;
   }
 
@@ -90,8 +95,9 @@ class UserImpl implements UserBizz {
    */
   @Override
   public void setName(String name) {
-    if (name == null)
+    if (name == null) {
       throw new IllegalArgumentException();
+    }
     this.name = name;
   }
 
@@ -102,8 +108,9 @@ class UserImpl implements UserBizz {
    */
   @Override
   public String getFirstname() {
-    if (firstname == null)
+    if (firstname == null) {
       throw new NullPointerException();
+    }
     return firstname;
   }
 
@@ -114,8 +121,9 @@ class UserImpl implements UserBizz {
    */
   @Override
   public void setFirstname(String firstname) {
-    if (firstname == null)
+    if (firstname == null) {
       throw new IllegalArgumentException();
+    }
     this.firstname = firstname;
   }
 
@@ -126,8 +134,9 @@ class UserImpl implements UserBizz {
    */
   @Override
   public String getEmail() {
-    if (email == null)
+    if (email == null) {
       throw new NullPointerException();
+    }
     return email;
   }
 
@@ -138,8 +147,9 @@ class UserImpl implements UserBizz {
    */
   @Override
   public void setEmail(String email) {
-    if (email == null)
+    if (email == null) {
       throw new IllegalArgumentException();
+    }
     this.email = email;
   }
 
@@ -150,8 +160,9 @@ class UserImpl implements UserBizz {
    */
   @Override
   public String getAddress() {
-    if (address == null)
+    if (address == null) {
       throw new NullPointerException();
+    }
     return address;
   }
 
@@ -162,8 +173,9 @@ class UserImpl implements UserBizz {
    */
   @Override
   public void setAddress(String address) {
-    if (address == null)
+    if (address == null) {
       throw new IllegalArgumentException();
+    }
     this.address = address;
   }
 
@@ -174,8 +186,9 @@ class UserImpl implements UserBizz {
    */
   @Override
   public String getTel() {
-    if (tel == null)
+    if (tel == null) {
       throw new NullPointerException();
+    }
     return tel;
   }
 
@@ -186,8 +199,9 @@ class UserImpl implements UserBizz {
    */
   @Override
   public void setTel(String tel) {
-    if (tel == null)
+    if (tel == null) {
       throw new IllegalArgumentException();
+    }
     this.tel = tel;
   }
 
@@ -198,8 +212,9 @@ class UserImpl implements UserBizz {
    */
   @Override
   public String getGender() {
-    if (gender == null)
+    if (gender == null) {
       throw new NullPointerException();
+    }
     return gender;
   }
 
@@ -210,8 +225,9 @@ class UserImpl implements UserBizz {
    */
   @Override
   public void setGender(String gender) {
-    if (gender == null)
+    if (gender == null) {
       throw new IllegalArgumentException();
+    }
     this.gender = gender;
   }
 
@@ -222,8 +238,9 @@ class UserImpl implements UserBizz {
    */
   @Override
   public String getPermissions() {
-    if (permissions == null)
+    if (permissions == null) {
       throw new NullPointerException();
+    }
     return permissions;
   }
 
@@ -234,8 +251,9 @@ class UserImpl implements UserBizz {
    */
   @Override
   public void setPermissions(String permissions) {
-    if (permissions == null)
+    if (permissions == null) {
       throw new IllegalArgumentException();
+    }
     this.permissions = permissions;
   }
 
@@ -246,8 +264,9 @@ class UserImpl implements UserBizz {
    */
   @Override
   public String getIban() {
-    if (iban == null)
+    if (iban == null) {
       throw new NullPointerException();
+    }
     return iban;
   }
 
@@ -258,8 +277,9 @@ class UserImpl implements UserBizz {
    */
   @Override
   public void setIban(String iban) {
-    if (iban == null)
+    if (iban == null) {
       throw new IllegalArgumentException();
+    }
     this.iban = iban;
   }
 
@@ -270,8 +290,9 @@ class UserImpl implements UserBizz {
    */
   @Override
   public String getBic() {
-    if (bic == null)
+    if (bic == null) {
       throw new NullPointerException();
+    }
     return bic;
   }
 
@@ -282,8 +303,9 @@ class UserImpl implements UserBizz {
    */
   @Override
   public void setBic(String bic) {
-    if (bic == null)
+    if (bic == null) {
       throw new IllegalArgumentException();
+    }
     this.bic = bic;
   }
 
@@ -294,8 +316,9 @@ class UserImpl implements UserBizz {
    */
   @Override
   public String getAccountHolder() {
-    if (accountHolder == null)
+    if (accountHolder == null) {
       throw new NullPointerException();
+    }
     return accountHolder;
   }
 
@@ -306,8 +329,9 @@ class UserImpl implements UserBizz {
    */
   @Override
   public void setAccountHolder(String accountHolder) {
-    if (accountHolder == null)
+    if (accountHolder == null) {
       throw new IllegalArgumentException();
+    }
     this.accountHolder = accountHolder;
   }
 
@@ -318,8 +342,9 @@ class UserImpl implements UserBizz {
    */
   @Override
   public String getBankName() {
-    if (bankName == null)
+    if (bankName == null) {
       throw new NullPointerException();
+    }
     return bankName;
   }
 
@@ -330,8 +355,9 @@ class UserImpl implements UserBizz {
    */
   @Override
   public void setBankName(String bankName) {
-    if (bankName == null)
+    if (bankName == null) {
       throw new IllegalArgumentException();
+    }
     this.bankName = bankName;
   }
 
@@ -352,8 +378,9 @@ class UserImpl implements UserBizz {
    */
   @Override
   public void setSuccessfullYearInCollege(int successfullYearInCollege) {
-    if (successfullYearInCollege < 0)
+    if (successfullYearInCollege < 0) {
       throw new IllegalArgumentException();
+    }
     this.successfullYearInCollege = successfullYearInCollege;
   }
 
@@ -364,8 +391,9 @@ class UserImpl implements UserBizz {
    */
   @Override
   public LocalDate getRegistrationDate() {
-    if (registrationDate == null)
+    if (registrationDate == null) {
       throw new NullPointerException();
+    }
     return registrationDate;
   }
 
@@ -376,8 +404,9 @@ class UserImpl implements UserBizz {
    */
   @Override
   public void setRegistrationDate(LocalDate registrationDate) {
-    if (registrationDate == null || registrationDate.isAfter(LocalDate.now()))
+    if (registrationDate == null || registrationDate.isAfter(LocalDate.now())) {
       throw new IllegalArgumentException();
+    }
     this.registrationDate = registrationDate;
   }
 
@@ -388,8 +417,9 @@ class UserImpl implements UserBizz {
    */
   @Override
   public LocalDate getBirthDate() {
-    if (birthDate == null)
+    if (birthDate == null) {
       throw new NullPointerException();
+    }
     return birthDate;
   }
 
@@ -400,8 +430,9 @@ class UserImpl implements UserBizz {
    */
   @Override
   public void setBirthDate(LocalDate birthDate) {
-    if (birthDate == null || birthDate.isAfter(LocalDate.now()))
+    if (birthDate == null || birthDate.isAfter(LocalDate.now())) {
       throw new IllegalArgumentException();
+    }
     this.birthDate = birthDate;
   }
 
@@ -410,8 +441,9 @@ class UserImpl implements UserBizz {
    */
   @Override
   public void cryptPassword() {
-    if (this.password == null)
+    if (this.password == null) {
       throw new NullPointerException();
+    }
     this.password = BCrypt.hashpw(password, BCrypt.gensalt());
   }
 
@@ -423,10 +455,12 @@ class UserImpl implements UserBizz {
    */
   @Override
   public boolean checkPassword(String passwordToCheck) {
-    if (passwordToCheck == null)
+    if (passwordToCheck == null) {
       throw new IllegalArgumentException();
-    if (this.password == null)
+    }
+    if (this.password == null) {
       throw new NullPointerException();
+    }
     return BCrypt.checkpw(passwordToCheck, this.password);
   }
 

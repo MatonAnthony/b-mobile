@@ -9,3 +9,7 @@
     font-weight: bold;
     color: #5BC0DE;
 }
+
+.error {
+    display: none;
+}

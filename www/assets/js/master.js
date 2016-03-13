@@ -19,7 +19,35 @@ $(function(){
             console.log("Authentification echouée");
         }
     });
+	// Register
+	$.("#registerButton").click(function () {
+		password = $("input[name='password']").val();
+		if (password === $("input[name='confirm']").val()) {
+			$.ajax({
+				method: "POST",
+				url: "/home",
+				data: {
+					action: "register",
+					username: $("input[name='login']").val(),
+					password: password,
+					name: $("input[name='name']").val(),
+					firstname: $("input[name='firstname']").val(),
+					email: $("input[name='email']").val()
+				},
+				success: function (resp) {
+					resp = JSON.parse(resp);
+					if (resp.droits === "ETUDIANT") {
+						window.location.pathname = "/studentHome.html";
+					} else {
+						window.location.pathname = "/teacherHome.html";
+					}
+				},
+			});
+		} else {
+			$("#password_matching").show();
+		}
 
+	});
 
 	$("#connectButton").click(function(){
 		 $.ajax({

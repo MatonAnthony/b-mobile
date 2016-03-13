@@ -7,6 +7,8 @@
                 </div>
                 <div class="panel-body">
                     <form role="form">
+                        <p id="password_matching" class="bg-danger error">Les deux mots de passes
+                            introduit ne correspondent pas.</p>
                         <fieldset>
                             <div class="form-group">
                                 <label>Nom d'utilisateur :</label>
@@ -34,7 +36,9 @@
                                 <input class="form-control" placeholder="Email" name="email" type="email" required>
                             </div>
                             <!-- Change this to a button or input when using this as a form -->
-                            <a href="index.html" class="btn btn-lg btn-info btn-block">M'enregistrer</a>
+                            <button id="registerButton" class="btn btn-lg btn-info btn-block">
+                                M'enregistrer
+                            </button>
                         </fieldset>
                     </form>
                 </div>
