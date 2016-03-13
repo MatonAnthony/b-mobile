@@ -4,7 +4,7 @@ import java.time.LocalDate;
 
 import org.mindrot.jbcrypt.BCrypt;
 
-class UserImpl implements UserBizz {
+class UserImpl implements UserBizz, Cloneable {
 
   private String pseudo;
   private String password;
@@ -576,5 +576,11 @@ class UserImpl implements UserBizz {
     return true;
   }
 
-
+  @Override
+  protected Object clone() throws CloneNotSupportedException {
+    UserImpl clone = (UserImpl) super.clone();
+    clone.setRegistrationDate(LocalDate.from(this.registrationDate));
+    clone.setBirthDate(LocalDate.from(this.birthDate));
+    return clone;
+  }
 }

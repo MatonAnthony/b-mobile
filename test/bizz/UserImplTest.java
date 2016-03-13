@@ -1,13 +1,13 @@
 package bizz;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
 import java.time.LocalDate;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import javax.jws.soap.SOAPBinding;
+
+import static org.junit.Assert.*;
 
 public class UserImplTest {
 
@@ -577,5 +577,83 @@ public class UserImplTest {
   public void testCheckPassword4() {
     puppet.cryptPassword();
     assertTrue(puppet.checkPassword("master"));
+  }
+
+  /*
+   * Test hashcode when values are different.
+   */
+  @Test
+  public void testHashCode() {
+    UserImpl sister = new UserImpl();
+    sister.setPseudo("ouppet");
+    sister.setPassword("master");
+    sister.setName("name");
+    sister.setFirstname("firstname");
+    sister.setEmail("xxx@yyy.zzz");
+    sister.setAddress("5th Street");
+    sister.setTel("32478803948");
+    sister.setGender("M");
+    sister.setPermissions("STUDENT");
+    sister.setSuccessfullYearInCollege(2);
+
+    sister.setAccountHolder("Maton Anthony");
+    sister.setBankName("Goldman Sachs");
+    sister.setRegistrationDate(LocalDate.now());
+    sister.setBirthDate(LocalDate.MIN);
+
+    assertFalse(puppet.hashCode() == sister.hashCode());
+  }
+
+  /*
+   * Test hashcode when value are similar.
+   */
+  @Test
+  public void testHashCode2() {
+    UserImpl sister = new UserImpl();
+    sister.setPseudo("puppet");
+    sister.setPassword("master");
+    sister.setName("name");
+    sister.setFirstname("firstname");
+    sister.setEmail("xxx@yyy.zzz");
+    sister.setAddress("5th Street");
+    sister.setTel("32478803948");
+    sister.setGender("M");
+    sister.setPermissions("STUDENT");
+    sister.setSuccessfullYearInCollege(2);
+
+    sister.setAccountHolder("Maton Anthony");
+    sister.setBankName("Goldman Sachs");
+    sister.setRegistrationDate(LocalDate.now());
+    sister.setBirthDate(LocalDate.MIN);
+
+    assertTrue(puppet.hashCode() == sister.hashCode());
+  }
+
+  /*
+   * Test equals when object are different
+   */
+  @Test
+  public void testEquals() throws CloneNotSupportedException {
+    UserImpl sister = (UserImpl) puppet.clone();
+    sister.setPseudo("sister");
+    assertFalse(sister.equals(puppet));
+  }
+
+  /*
+   * Test equals when object are similar
+   */
+  @Test
+  public void testEquals2() throws CloneNotSupportedException {
+    UserImpl sister = (UserImpl) puppet.clone();
+    assertTrue(sister.equals(puppet));
+  }
+
+  /*
+   * Test clone
+   */
+  @Test
+  public void testClone() throws CloneNotSupportedException {
+    UserImpl sister = (UserImpl) puppet.clone();
+    assertNotSame(puppet, sister);
   }
 }
