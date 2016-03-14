@@ -62,6 +62,41 @@ public class UserUcControllerImpl implements UserUcController {
     }
   }
 
+  /**
+   * The function register new user in the data base.
+   * 
+   * @param userdto is the user to register.
+   * @param confirmation to check the password.
+   * @return a userDto. It is the user added. Null if there was a error.
+   */
 
+  public UserDto register(UserDto userdto, String confirmation) {
+
+    UserBizz userBizz = (UserBizz) userdto;
+
+    if (!userBizz.getPassword().equals(confirmation))
+      return null;
+
+    userBizz.cryptPassword();
+
+    try {
+      dalServices.startTransaction();
+      if (userDao.findByUserName(userBizz.getPseudo()) != null)
+        return null;
+      if (!userDao.createUser(userBizz))
+        return null;
+      userBizz = (UserBizz) login(userBizz.getPseudo(), userBizz.getPassword());
+      dalServices.commitTransaction();
+      return userBizz;
+    } catch (SQLException exc) {
+      try {
+        dalServices.rollbackTransaction();
+      } catch (SQLException exc2) {
+        exc2.printStackTrace();
+      }
+    }
+
+    return null;
+  }
 
 }

@@ -18,10 +18,31 @@ public class UserDaoImpl implements UserDao {
     this.factory = bizzFactory;
   }
 
+  /**
+   * To add a user in the data base.
+   * 
+   * @param userdto is the user to add.
+   * @return true if the user is added. False is there was a error.
+   */
+
   @Override
-  public boolean createUser() {
-    // TODO Auto-generated method stub
-    return false;
+  public boolean createUser(UserDto userdto) {
+    // TODO(fany) values en fonction de la db
+    String query = "INSERT INTO bmobile.users VALUES (DEFAULT,?,?,?,?,?)";
+    PreparedStatement preparedStatement = null;
+    try {
+      preparedStatement = dalBackendServices.prepare(query);
+      preparedStatement.setString(1, userdto.getPseudo());
+      preparedStatement.setString(2, userdto.getPassword());
+      preparedStatement.setString(3, userdto.getName());
+      preparedStatement.setString(4, userdto.getFirstname());
+      preparedStatement.setString(5, userdto.getEmail());
+      preparedStatement.executeQuery();
+      return true;
+    } catch (SQLException exc) {
+      exc.printStackTrace();
+      return false;
+    }
   }
 
   @Override

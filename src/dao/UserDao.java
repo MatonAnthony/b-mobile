@@ -6,7 +6,7 @@ public interface UserDao {
 
   UserDto findByUserName(String username);
 
-  boolean createUser();
+  boolean createUser(UserDto userdto);
 
   void read();
 

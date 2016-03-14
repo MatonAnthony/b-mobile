@@ -88,12 +88,35 @@ public class Servlet extends HttpServlet {
           }
           break;
 
+        case "register":
+          UserDto userdto = bizzFactory.getUserDto();
+
+          userdto.setPseudo(req.getParameter("username"));
+          userdto.setPassword(req.getParameter("password"));
+          String confirmation = req.getParameter("confirmation");
+          userdto.setName(req.getParameter("name"));
+          userdto.setFirstname(req.getParameter("firstname"));
+          userdto.setEmail(req.getParameter("email"));
+
+
+
+          userDtoRecept = userUcc.register(userdto, confirmation);
+          if (userDtoRecept == null) {
+            resp.setStatus(HttpStatus.FORBIDDEN_403);
+          } else {
+            session.setAttribute("username", userDtoRecept.getPseudo());
+            createJwtCookie(resp, userDtoRecept);
+            resp.setStatus(HttpStatus.ACCEPTED_202);
+            resp.getWriter().println(dtoToJson(userDtoRecept));
+          }
+
+          break;
+
         case "confirmedMobility":
           // Appel de fonction
           break;
 
         case "editProfile":
-
 
           break;
         default:
