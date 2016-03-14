@@ -2,6 +2,7 @@ package bizz;
 
 import java.time.LocalDate;
 
+import nl.garvelink.iban.IBAN;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -27,7 +28,7 @@ public class UserImplTest {
     puppet.setGender("M");
     puppet.setPermissions("STUDENT");
     puppet.setSuccessfullYearInCollege(2);
-
+    puppet.setIban("BE39103123456719");
     puppet.setAccountHolder("Maton Anthony");
     puppet.setBankName("Goldman Sachs");
     puppet.setRegistrationDate(LocalDate.now());
@@ -326,7 +327,7 @@ public class UserImplTest {
     assertEquals(puppet.getPermissions(), "TEACHER");
   }
 
-  // Todo Ajouter tout les tests relatif à l'IBAN et au BIC
+  // Todo Ajouter tout les tests relatif au BIC
   /*
    * Test when iban is not defined yet
    */
@@ -336,11 +337,35 @@ public class UserImplTest {
   }
 
   /*
+   * Test getIban when a real Iban is defined
+   */
+  @Test
+  public void testGetIban1() {
+    assertEquals(puppet.getIban(), IBAN.parse("BE39103123456719").toPlainString());
+  }
+  /*
    * Test setIban with null
    */
   @Test(expected = IllegalArgumentException.class)
   public void testSetIban() {
     puppet.setIban(null);
+  }
+
+  /*
+   * Test setIban with a real IBAN
+   */
+  @Test
+  public void testSetIban1() {
+    puppet.setIban("BE41063012345610");
+    assertEquals(puppet.getIban(), IBAN.parse("BE41063012345610").toPlainString());
+  }
+
+  /*
+   * Test setIban with a false IBAN
+   */
+  @Test(expected = IllegalArgumentException.class)
+  public void testSetIban2() {
+    puppet.setIban("ZPEEEBE41063012345610");
   }
 
   /*
@@ -608,24 +633,8 @@ public class UserImplTest {
    * Test hashcode when value are similar.
    */
   @Test
-  public void testHashCode2() {
-    UserImpl sister = new UserImpl();
-    sister.setPseudo("puppet");
-    sister.setPassword("master");
-    sister.setName("name");
-    sister.setFirstname("firstname");
-    sister.setEmail("xxx@yyy.zzz");
-    sister.setAddress("5th Street");
-    sister.setTel("32478803948");
-    sister.setGender("M");
-    sister.setPermissions("STUDENT");
-    sister.setSuccessfullYearInCollege(2);
-
-    sister.setAccountHolder("Maton Anthony");
-    sister.setBankName("Goldman Sachs");
-    sister.setRegistrationDate(LocalDate.now());
-    sister.setBirthDate(LocalDate.MIN);
-
+  public void testHashCode2() throws CloneNotSupportedException {
+    UserImpl sister = (UserImpl) puppet.clone();
     assertTrue(puppet.hashCode() == sister.hashCode());
   }
 

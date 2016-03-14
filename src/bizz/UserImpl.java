@@ -2,6 +2,7 @@ package bizz;
 
 import java.time.LocalDate;
 
+import nl.garvelink.iban.IBAN;
 import org.mindrot.jbcrypt.BCrypt;
 
 class UserImpl implements UserBizz, Cloneable {
@@ -15,7 +16,7 @@ class UserImpl implements UserBizz, Cloneable {
   private String tel;
   private String gender;
   private String permissions;
-  private String iban;
+  private IBAN iban;
   private String bic;
   private String accountHolder;
   private String bankName;
@@ -267,7 +268,7 @@ class UserImpl implements UserBizz, Cloneable {
     if (iban == null) {
       throw new NullPointerException();
     }
-    return iban;
+    return iban.toPlainString();
   }
 
   /**
@@ -280,7 +281,8 @@ class UserImpl implements UserBizz, Cloneable {
     if (iban == null) {
       throw new IllegalArgumentException();
     }
-    this.iban = iban;
+    IBAN staging = IBAN.parse(iban);
+    this.iban = staging;
   }
 
   /**
