@@ -20,7 +20,7 @@ $(function(){
         }
     });
 	// Register
-	$.("#registerButton").click(function () {
+	$("#registerButton").click(function(){
 		password = $("input[name='password']").val();
 		if (password === $("input[name='confirm']").val()) {
 			$.ajax({
@@ -71,7 +71,7 @@ $(function(){
 	            console.log("Connexion echouée");
 	        }
 	    });
-		 return false;
+		return false;
 	});
 
 	$("#profileButton").click(function () {
@@ -96,12 +96,13 @@ $(function(){
 				bic: $("input[name='bic']").val()
 			},
 			success: function (resp) {
-
+				console.log("profileButton retour OK")
 			},
 			error: function (resp) {
-
+				console.log("profileButton retour not ok")
 			}
 		})
+		return false;
 	});
 });
 
