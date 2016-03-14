@@ -6,20 +6,34 @@ CREATE TABLE bMobile.programs
 (
   id SERIAL PRIMARY KEY,
   name VARCHAR(100),
-  description TEXT
+  description TEXT,
+  nr_ver INTEGER
+);
+
+CREATE TABLE bMobile.countries
+(
+  iso CHAR(2) PRIMARY KEY ,
+  name_en VARCHAR(150),
+  name_fr VARCHAR(150),
+  nr_ver INTEGER,
+  id_program INTEGER,
+
+  CONSTRAINT foreign_key_program FOREIGN KEY (id_program) REFERENCES bMobile.programs (id)
 );
 
 CREATE TABLE bMobile.departments
 (
   id SERIAL PRIMARY KEY,
-  label VARCHAR(50)
+  label VARCHAR(50),
+  nr_ver INTEGER
 );
 
 CREATE TABLE bMobile.cancelations
 (
   id SERIAL PRIMARY KEY,
   reason TEXT,
-  responsible VARCHAR(20)
+  responsible VARCHAR(20),
+  nr_ver INTEGER
 );
 
 CREATE TABLE bMobile.users
@@ -38,20 +52,24 @@ CREATE TABLE bMobile.users
   mailbox VARCHAR(20),
   zip VARCHAR(100),
   city VARCHAR(100),
-  country VARCHAR(100),
+  country CHAR(2),
   tel VARCHAR(20),
   gender VARCHAR(10),
   successfull_year_in_college INTEGER,
-  -- banque_permissions VARCHAR(50),
+  iban VARCHAR(50),
   bic VARCHAR(15),
   account_holder VARCHAR(100),
-  bank_name VARCHAR(100)
+  bank_name VARCHAR(100),
+  nr_ver INTEGER,
+
+  CONSTRAINT foreign_key_country FOREIGN KEY (country) REFERENCES bMobile.countries (iso)
 );
 
 CREATE TABLE bMobile.partners
 (
   id SERIAL PRIMARY KEY,
   id_user INTEGER ,
+  legal_name VARCHAR(100),
   business_name VARCHAR(100),
   full_name VARCHAR(100),
   department VARCHAR(100),
@@ -63,31 +81,25 @@ CREATE TABLE bMobile.partners
   zip VARCHAR(100),
   city VARCHAR(100),
   state VARCHAR(100),
-  country VARCHAR(100),
+  country CHAR(2),
   email VARCHAR(150),
   website VARCHAR(150),
+  exists BOOLEAN,
+  nr_ver INTEGER,
 
-  CONSTRAINT foreign_key_user FOREIGN KEY (id_user) REFERENCES bMobile.users (id)
+  CONSTRAINT foreign_key_user FOREIGN KEY (id_user) REFERENCES bMobile.users (id),
+  CONSTRAINT foreign_key_country FOREIGN KEY (country) REFERENCES bMobile.countries (iso)
 );
 
 CREATE TABLE bMobile.mobilities
 (
   id SERIAL PRIMARY KEY,
-  id_program INTEGER ,
-  type VARCHAR(10) ,
-  destination VARCHAR(100),
-  partner INTEGER,
-
-  CONSTRAINT foreign_key_program FOREIGN KEY (id_program) REFERENCES bMobile.programs (id_program),
-  CONSTRAINT foreign_key_partner FOREIGN KEY (partner) REFERENCES bMobile.partners (partner)
-);
-
-CREATE TABLE bMobile.requests
-(
-  id SERIAL PRIMARY KEY,
   id_student INTEGER ,
-  id_mobility INTEGER ,
+  id_program INTEGER ,
+  id_partner INTEGER,
+  type VARCHAR(10),
   preference_order INTEGER ,
+  country CHAR(2),
   id_department INTEGER ,
   quadrimester INTEGER,
   status VARCHAR(50) ,
@@ -108,10 +120,27 @@ CREATE TABLE bMobile.requests
   return_erasmus_language_test BOOLEAN,
   return_doc_sent_highschool BOOLEAN ,
   cancelation_reason INTEGER,
+  academic_year VARCHAR(30),
+  nr_ver INTEGER,
 
-  CONSTRAINT foreign_key_student FOREIGN KEY (id_student) REFERENCES bMobile.utilisateurs (id),
-  CONSTRAINT foreign_key_mobility FOREIGN KEY (id_mobility) REFERENCES bMobile.mobilites (id),
+  CONSTRAINT foreign_key_student FOREIGN KEY (id_student) REFERENCES bMobile.users (id),
+  CONSTRAINT foreign_key_program FOREIGN KEY (id_program) REFERENCES bMobile.programs (id),
+  CONSTRAINT foreign_key_partner FOREIGN KEY (id_partner) REFERENCES bMobile.partners (id),
+  CONSTRAINT foreign_key_country FOREIGN KEY (country) REFERENCES bMobile.countries (iso),
   CONSTRAINT foreign_key_department FOREIGN KEY (id_department) REFERENCES bMobile.departments (id),
-  CONSTRAINT foreign_key_cancelation FOREIGN KEY  (cancelation_reason) REFERENCES bMobile.cancelations (id)
+  CONSTRAINT foreign_key_cancel FOREIGN KEY  (cancelation_reason) REFERENCES bMobile.cancelations (id)
+);
+
+CREATE TABLE bMobile.partners_departments
+(
+  id_partner INTEGER,
+  id_department INTEGER,
+  nr_ver INTEGER,
+
+  CONSTRAINT pk_partner_department PRIMARY KEY (id_partner,id_department),
+  CONSTRAINT foreign_key_partner FOREIGN KEY (id_partner) REFERENCES bMobile.partners (id),
+  CONSTRAINT foreign_key_department FOREIGN KEY (id_department) REFERENCES bMobile.departments (id)
+
+
 );
 
