@@ -29,6 +29,8 @@ import javax.servlet.http.HttpSession;
 
 public class Servlet extends HttpServlet {
 
+  private static final long serialVersionUID = 1L;
+
   private static final String SECRET =
       "LICORNEkjcajn edea zfalzenf  faezfbalzbflf5f5eaz45 546 a4f5 af46 aezPONEY";
 
