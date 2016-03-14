@@ -491,90 +491,121 @@ class UserImpl implements UserBizz, Cloneable {
 
   @Override
   public boolean equals(Object obj) {
-    if (this == obj)
+    if (this == obj) {
       return true;
-    if (obj == null)
+    }
+    if (obj == null || getClass() != obj.getClass()) {
       return false;
-    if (getClass() != obj.getClass())
-      return false;
+    }
     UserImpl other = (UserImpl) obj;
     if (accountHolder == null) {
-      if (other.accountHolder != null)
+      if (other.accountHolder != null) {
         return false;
-    } else if (!accountHolder.equals(other.accountHolder))
+      }
+    } else if (!accountHolder.equals(other.accountHolder)) {
       return false;
+    }
     if (address == null) {
-      if (other.address != null)
+      if (other.address != null) {
         return false;
-    } else if (!address.equals(other.address))
+      }
+    } else if (!address.equals(other.address)) {
       return false;
+    }
     if (bankName == null) {
-      if (other.bankName != null)
+      if (other.bankName != null) {
         return false;
-    } else if (!bankName.equals(other.bankName))
+      }
+    } else if (!bankName.equals(other.bankName)) {
       return false;
+    }
     if (bic == null) {
-      if (other.bic != null)
+      if (other.bic != null) {
         return false;
-    } else if (!bic.equals(other.bic))
+      }
+    } else if (!bic.equals(other.bic)) {
       return false;
+    }
     if (birthDate == null) {
-      if (other.birthDate != null)
+      if (other.birthDate != null) {
         return false;
-    } else if (!birthDate.equals(other.birthDate))
+      }
+    } else if (!birthDate.equals(other.birthDate)) {
       return false;
+    }
     if (email == null) {
-      if (other.email != null)
+      if (other.email != null) {
         return false;
-    } else if (!email.equals(other.email))
+      }
+    } else if (!email.equals(other.email)) {
       return false;
+    }
     if (firstname == null) {
-      if (other.firstname != null)
+      if (other.firstname != null) {
         return false;
-    } else if (!firstname.equals(other.firstname))
+      }
+    } else if (!firstname.equals(other.firstname)) {
       return false;
+    }
     if (gender == null) {
-      if (other.gender != null)
+      if (other.gender != null) {
         return false;
-    } else if (!gender.equals(other.gender))
+      }
+    } else if (!gender.equals(other.gender)) {
       return false;
+    }
     if (iban == null) {
-      if (other.iban != null)
+      if (other.iban != null) {
         return false;
-    } else if (!iban.equals(other.iban))
+      }
+    } else if (!iban.equals(other.iban)) {
       return false;
+    }
     if (name == null) {
-      if (other.name != null)
+      if (other.name != null) {
         return false;
-    } else if (!name.equals(other.name))
+      }
+    } else if (!name.equals(other.name)) {
       return false;
+    }
     if (password == null) {
-      if (other.password != null)
+      if (other.password != null) {
         return false;
-    } else if (!password.equals(other.password))
+      }
+    } else if (!password.equals(other.password)) {
       return false;
+    }
     if (permissions == null) {
-      if (other.permissions != null)
+      if (other.permissions != null) {
         return false;
-    } else if (!permissions.equals(other.permissions))
+      }
+    } else if (!permissions.equals(other.permissions)) {
       return false;
+    }
     if (pseudo == null) {
-      if (other.pseudo != null)
+      if (other.pseudo != null) {
         return false;
-    } else if (!pseudo.equals(other.pseudo))
+      }
+    } else if (!pseudo.equals(other.pseudo)) {
       return false;
+    }
     if (registrationDate == null) {
-      if (other.registrationDate != null)
+      if (other.registrationDate != null) {
         return false;
-    } else if (!registrationDate.equals(other.registrationDate))
+      }
+    } else if (!registrationDate.equals(other.registrationDate)) {
       return false;
-    if (successfullYearInCollege != other.successfullYearInCollege)
+    }
+    if (successfullYearInCollege != other.successfullYearInCollege) {
       return false;
+    }
     if (tel == null) {
-      if (other.tel != null)
+      if (other.tel != null) {
         return false;
-    } else if (!tel.equals(other.tel))
+      }
+    } else if (!tel.equals(other.tel)) {
       return false;
+    }
     return true;
   }
 

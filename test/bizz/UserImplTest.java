@@ -29,6 +29,7 @@ public class UserImplTest {
     puppet.setPermissions("STUDENT");
     puppet.setSuccessfullYearInCollege(2);
     puppet.setIban("BE39103123456719");
+    puppet.setBic("GKCCBEBB");
     puppet.setAccountHolder("Maton Anthony");
     puppet.setBankName("Goldman Sachs");
     puppet.setRegistrationDate(LocalDate.now());
@@ -376,6 +377,14 @@ public class UserImplTest {
     empty.getBic();
   }
 
+  /*
+   * Test bic under standard case
+   */
+  @Test
+  public void testGetBic1() {
+    puppet.setBic("AXABEBB");
+    assertNotEquals(puppet.getBic(), "GKCCBEBB");
+  }
   /*
    * Test with null
    */
