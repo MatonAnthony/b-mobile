@@ -19,7 +19,7 @@ public class BizzFactoryImplTest {
   }
 
   @Test
-  public void TestGetUserDto() {
+  public void testGetUserDto() {
     assertEquals(userDto, bizzFactory.getUserDto());
   }
 
