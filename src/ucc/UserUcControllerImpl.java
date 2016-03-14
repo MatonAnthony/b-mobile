@@ -74,17 +74,19 @@ public class UserUcControllerImpl implements UserUcController {
 
     UserBizz userBizz = (UserBizz) userdto;
 
-    if (!userBizz.getPassword().equals(confirmation))
+    if (!userBizz.getPassword().equals(confirmation)) {
       return null;
-
+    }
     userBizz.cryptPassword();
 
     try {
       dalServices.startTransaction();
-      if (userDao.findByUserName(userBizz.getPseudo()) != null)
+      if (userDao.findByUserName(userBizz.getPseudo()) != null) {
         return null;
-      if (!userDao.createUser(userBizz))
+      }
+      if (!userDao.createUser(userBizz)) {
         return null;
+      }
       userBizz = (UserBizz) login(userBizz.getPseudo(), userBizz.getPassword());
       dalServices.commitTransaction();
       return userBizz;

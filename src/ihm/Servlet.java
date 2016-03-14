@@ -95,12 +95,10 @@ public class Servlet extends HttpServlet {
 
           userdto.setPseudo(req.getParameter("username"));
           userdto.setPassword(req.getParameter("password"));
-          String confirmation = req.getParameter("confirmation");
           userdto.setName(req.getParameter("name"));
           userdto.setFirstname(req.getParameter("firstname"));
           userdto.setEmail(req.getParameter("email"));
-
-
+          String confirmation = req.getParameter("confirmation");
 
           userDtoRecept = userUcc.register(userdto, confirmation);
           if (userDtoRecept == null) {
@@ -169,7 +167,6 @@ public class Servlet extends HttpServlet {
    */
   private void createJwtCookie(HttpServletResponse resp, UserDto userDto) {
 
-    // TODO Ajouter les permissions etc.. Dans le cookie
     Map<String, Object> claims = new HashMap<String, Object>();
     claims.put("username", userDto.getPseudo());
     claims.put("rights", userDto.getPermissions());

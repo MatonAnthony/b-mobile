@@ -37,8 +37,13 @@ public class UserDaoImpl implements UserDao {
       preparedStatement.setString(3, userdto.getName());
       preparedStatement.setString(4, userdto.getFirstname());
       preparedStatement.setString(5, userdto.getEmail());
-      preparedStatement.executeQuery();
-      return true;
+      try (ResultSet res = preparedStatement.executeQuery()) {
+        return true;
+
+      } catch (Exception exc) {
+        return false;
+      }
+
     } catch (SQLException exc) {
       exc.printStackTrace();
       return false;
