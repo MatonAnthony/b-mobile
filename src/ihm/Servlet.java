@@ -32,8 +32,8 @@ public class Servlet extends HttpServlet {
   private static final String SECRET =
       "LICORNEkjcajn edea zfalzenf  faezfbalzbflf5f5eaz45 546 a4f5 af46 aezPONEY";
 
-  private UserUcController userUcc = null;
-  private BizzFactory bizzFactory = null;
+  private transient UserUcController userUcc = null;
+  private transient BizzFactory bizzFactory = null;
 
   private transient Genson genson = new GensonBuilder().useFields(true, VisibilityFilter.PRIVATE)
       .useMethods(false).exclude("password").create();
