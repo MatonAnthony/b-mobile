@@ -1,8 +1,5 @@
-package bizz;
+package bizz.enumeration;
 
-/**
- * Created by anthony on 15/03/16.
- */
 public enum Departement {
     BIN,
     BBM,

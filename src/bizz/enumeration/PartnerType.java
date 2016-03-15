@@ -1,4 +1,4 @@
-package bizz;
+package bizz.enumeration;
 
 public enum PartnerType {
     TPE,
