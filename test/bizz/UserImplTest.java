@@ -1,14 +1,17 @@
 package bizz;
 
-import java.time.LocalDate;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.assertTrue;
 
 import nl.garvelink.iban.IBAN;
+
 import org.junit.Before;
 import org.junit.Test;
 
-import javax.jws.soap.SOAPBinding;
-
-import static org.junit.Assert.*;
+import java.time.LocalDate;
 
 public class UserImplTest {
 
@@ -18,6 +21,7 @@ public class UserImplTest {
   @Before
   public void setUp() throws Exception {
     puppet = new UserImpl();
+    puppet.setId(1);
     puppet.setPseudo("puppet");
     puppet.setPassword("master");
     puppet.setName("name");
@@ -36,6 +40,16 @@ public class UserImplTest {
     puppet.setBirthDate(LocalDate.MIN);
     empty = new UserImpl();
 
+  }
+
+  @Test
+  public void testGetId() {
+    assertEquals(0, empty.getId());
+  }
+
+  @Test
+  public void testGetId2() {
+    assertEquals(1, puppet.getId());
   }
 
   /*
@@ -344,6 +358,7 @@ public class UserImplTest {
   public void testGetIban1() {
     assertEquals(puppet.getIban(), IBAN.parse("BE39103123456719").toPlainString());
   }
+
   /*
    * Test setIban with null
    */
@@ -385,6 +400,7 @@ public class UserImplTest {
     puppet.setBic("AXABEBB");
     assertNotEquals(puppet.getBic(), "GKCCBEBB");
   }
+
   /*
    * Test with null
    */

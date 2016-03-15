@@ -77,6 +77,7 @@ public class UserDaoImpl implements UserDao {
    */
   @Override
   public UserDto findByUserName(String username) {
+    // TODO (Martin) Modifier pour que tous les champs soient remplis
     String query = "SELECT pseudo, password, permissions FROM bmobile.users WHERE pseudo=?";
     PreparedStatement preparedStatement = null;
     UserDto user = factory.getUserDto();

@@ -1,12 +1,14 @@
 package bizz;
 
-import java.time.LocalDate;
-
 import nl.garvelink.iban.IBAN;
+
 import org.mindrot.jbcrypt.BCrypt;
+
+import java.time.LocalDate;
 
 class UserImpl implements UserBizz, Cloneable {
 
+  private int id;
   private String pseudo;
   private String password;
   private String name;
@@ -466,6 +468,41 @@ class UserImpl implements UserBizz, Cloneable {
     return BCrypt.checkpw(passwordToCheck, this.password);
   }
 
+
+
+  @Override
+  protected Object clone() throws CloneNotSupportedException {
+    UserImpl clone = (UserImpl) super.clone();
+    clone.setRegistrationDate(LocalDate.from(this.registrationDate));
+    clone.setBirthDate(LocalDate.from(this.birthDate));
+    return clone;
+  }
+
+  /**
+   * Set the id for the curent user.
+   * 
+   * @param id_user the id_user to set
+   */
+  @Override
+  public void setId(int id) {
+    this.id = id;
+  }
+
+  /**
+   * Get the id of the current user.
+   * 
+   * @return the id of the user.
+   */
+  @Override
+  public int getId() {
+    return id;
+  }
+
+  /**
+   * Generate the hashcode for the current user.
+   * 
+   * @return the hashcode of the user.
+   */
   @Override
   public int hashCode() {
     final int prime = 31;
@@ -479,6 +516,7 @@ class UserImpl implements UserBizz, Cloneable {
     result = prime * result + ((firstname == null) ? 0 : firstname.hashCode());
     result = prime * result + ((gender == null) ? 0 : gender.hashCode());
     result = prime * result + ((iban == null) ? 0 : iban.hashCode());
+    result = prime * result + id;
     result = prime * result + ((name == null) ? 0 : name.hashCode());
     result = prime * result + ((password == null) ? 0 : password.hashCode());
     result = prime * result + ((permissions == null) ? 0 : permissions.hashCode());
@@ -489,12 +527,21 @@ class UserImpl implements UserBizz, Cloneable {
     return result;
   }
 
+  /**
+   * Check of the user is equal to the object in parameter.
+   * 
+   * @param obj the object to check
+   * @return true if the object is equal to the current user. False if it's not equal.
+   */
   @Override
   public boolean equals(Object obj) {
     if (this == obj) {
       return true;
     }
-    if (obj == null || getClass() != obj.getClass()) {
+    if (obj == null) {
+      return false;
+    }
+    if (getClass() != obj.getClass()) {
       return false;
     }
     UserImpl other = (UserImpl) obj;
@@ -561,6 +608,9 @@ class UserImpl implements UserBizz, Cloneable {
     } else if (!iban.equals(other.iban)) {
       return false;
     }
+    if (id != other.id) {
+      return false;
+    }
     if (name == null) {
       if (other.name != null) {
         return false;
@@ -607,13 +657,5 @@ class UserImpl implements UserBizz, Cloneable {
       return false;
     }
     return true;
-  }
-
-  @Override
-  protected Object clone() throws CloneNotSupportedException {
-    UserImpl clone = (UserImpl) super.clone();
-    clone.setRegistrationDate(LocalDate.from(this.registrationDate));
-    clone.setBirthDate(LocalDate.from(this.birthDate));
-    return clone;
   }
 }
