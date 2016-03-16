@@ -105,13 +105,82 @@ $(function(){
 		})
 		return false;
 	});
+
+	//AddMobility
+	$("#addMobilityRow").click(function(){
+
+		var nbRow = $("#addMobilityTable").attr("numberOfRows");
+		if(nbRow == 3)return false;
+		nbRow++;
+		$("#addMobilityTable").attr("numberOfRows", nbRow);
+		var value = 
+		"<tr> " +
+			"<form>"+
+				'<td>' + nbRow + '</td>'+
+				'<td>'+
+					'<select id="selectProgram' + nbRow + '" class="form-control">'+
+						'<option >FAME</option>'+
+						'<option>Erasmus</option>'+
+						'<option>Erabel</option>'+
+					'</select>'+
+				'</td>'+
+				'<td><input type="radio" name="optionsRadios' + nbRow + '" value="SMS" checked></input></td>'+
+				'<td><input type="radio" name="optionsRadios' + nbRow + '" value="SMP"></input></td>'+
+				'<td><select id="selectQuadri' + nbRow + '" class="form-control">'+
+						'<option value="1">1</option>'+
+						'<option value="2">2</option>'+
+					'</select>'+
+				'</td>'+
+				'<td><select id="selectDep' + nbRow + '" class="form-control">'+
+						'<option>Informatique</option>'+
+						'<option>Dietetique</option>'+
+						'<option>Imagerie Medicale</option>'+
+						'<option>Chimie</option>'+
+					'</select>'+
+				'</td>'+
+				'<td><select id="selectCountry' + nbRow + '" class="form-control">'+
+						'<option>Belgique</option>'+
+						'<option>France</option>'+
+					'</select>'+
+				'</td>'+
+			'</form>'+
+		'</tr>';
+
+		$("#addMobilityTableBody").append(value);
+		addCountriesToSelector(nbRow);
+		return false;
+	});
+
+	function addCountriesToSelector(id){
+		$.ajax({
+	        method: "POST",
+	        url: "/home",
+	        data: {
+	            action: "selectCountries"
+	        },
+	        success: function(resp){
+	        	var selectName = "#selectCountry"+id;
+
+	        	resp = JSON.parse(resp);
+	        	var key;
+	        	for(key in resp){
+	        		$(selectName).append("<option>" + resp[key]['nameFr'] + "</option>"); 
+	        	}
+	        },
+	        error: function(error){
+	            console.log("Problème lors de la récuperation de la liste des pays");
+	        }
+	    });
+	}
+
+
 	//navBar
 	$(".navButton").click(function(){
 		switch($(this).attr("href")){
 			case "#addMobility" :
 			loadAddMobility();
 			break;
-			
+
 		}
 
 	});
@@ -143,6 +212,7 @@ $(function(){
 		$("#studentHomePage").css("display", "none");
 		$("#teacherHomePage").css("display", "none");
 		$("#addMobilityPage").css("display", "block");
+		addCountriesToSelector(1);
 	}
 
 });
