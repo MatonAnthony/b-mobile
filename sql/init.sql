@@ -7,15 +7,14 @@ CREATE TABLE bMobile.programs
   id SERIAL PRIMARY KEY,
   name VARCHAR(100),
   description TEXT,
-  nr_ver INTEGER
+  ver_nr INTEGER
 );
 
 CREATE TABLE bMobile.countries
 (
-  iso CHAR(2) PRIMARY KEY ,
+  iso CHAR(2) PRIMARY KEY,
   name_en VARCHAR(150),
   name_fr VARCHAR(150),
-  nr_ver INTEGER,
   id_program INTEGER,
 
   CONSTRAINT foreign_key_program FOREIGN KEY (id_program) REFERENCES bMobile.programs (id)
@@ -23,9 +22,9 @@ CREATE TABLE bMobile.countries
 
 CREATE TABLE bMobile.departments
 (
-  id SERIAL PRIMARY KEY,
+  id CHAR(3) PRIMARY KEY,
   label VARCHAR(50),
-  nr_ver INTEGER
+  ver_nr INTEGER
 );
 
 CREATE TABLE bMobile.cancelations
@@ -33,19 +32,20 @@ CREATE TABLE bMobile.cancelations
   id SERIAL PRIMARY KEY,
   reason TEXT,
   responsible VARCHAR(20),
-  nr_ver INTEGER
+  ver_nr INTEGER
 );
 
 CREATE TABLE bMobile.users
 (
   id SERIAL PRIMARY KEY,
+  id_department CHAR(3),
   pseudo VARCHAR(100),
-  password VARCHAR(250) ,
-  name VARCHAR(100) ,
-  firstname VARCHAR(100) ,
+  password VARCHAR(250),
+  name VARCHAR(100),
+  firstname VARCHAR(100),
   email VARCHAR(150) ,
   registration_date TIMESTAMP ,
-  permissions VARCHAR(20) ,
+  permissions VARCHAR(20),
   birth_date TIMESTAMP,
   street VARCHAR(100),
   house_number VARCHAR(20),
@@ -60,15 +60,16 @@ CREATE TABLE bMobile.users
   bic VARCHAR(15),
   account_holder VARCHAR(100),
   bank_name VARCHAR(100),
-  nr_ver INTEGER,
+  ver_nr INTEGER,
 
-  CONSTRAINT foreign_key_country FOREIGN KEY (country) REFERENCES bMobile.countries (iso)
+  CONSTRAINT foreign_key_country FOREIGN KEY (country) REFERENCES bMobile.countries (iso),
+  CONSTRAINT foreign_key_department FOREIGN KEY (id_department) REFERENCES bMobile.departments
 );
 
 CREATE TABLE bMobile.partners
 (
   id SERIAL PRIMARY KEY,
-  id_user INTEGER ,
+  id_user INTEGER,
   legal_name VARCHAR(100),
   business_name VARCHAR(100),
   full_name VARCHAR(100),
@@ -85,7 +86,7 @@ CREATE TABLE bMobile.partners
   email VARCHAR(150),
   website VARCHAR(150),
   exists BOOLEAN,
-  nr_ver INTEGER,
+  ver_nr INTEGER,
 
   CONSTRAINT foreign_key_user FOREIGN KEY (id_user) REFERENCES bMobile.users (id),
   CONSTRAINT foreign_key_country FOREIGN KEY (country) REFERENCES bMobile.countries (iso)
@@ -94,34 +95,34 @@ CREATE TABLE bMobile.partners
 CREATE TABLE bMobile.mobilities
 (
   id SERIAL PRIMARY KEY,
-  id_student INTEGER ,
-  id_program INTEGER ,
+  id_student INTEGER,
+  id_program INTEGER,
   id_partner INTEGER,
   type VARCHAR(10),
-  preference_order INTEGER ,
+  preference_order INTEGER,
   country CHAR(2),
-  id_department INTEGER ,
+  id_department CHAR(3),
   quadrimester INTEGER,
-  status VARCHAR(50) ,
-  canceled BOOLEAN ,
-  departure_grant_contract BOOLEAN ,
-  departure_convention_internship_schoolarship BOOLEAN ,
+  status VARCHAR(50),
+  canceled BOOLEAN,
+  departure_grant_contract BOOLEAN,
+  departure_convention_internship_schoolarship BOOLEAN,
   departure_student_convention BOOLEAN,
   departure_erasmus_language_test BOOLEAN,
-  departure_doc_aggreement BOOLEAN ,
-  depart_doc_sent_highschool BOOLEAN ,
-  software_proeco BOOLEAN ,
+  departure_doc_aggreement BOOLEAN,
+  depart_doc_sent_highschool BOOLEAN,
+  software_proeco BOOLEAN,
   software_mobility_tools BOOLEAN,
   software_mobi BOOLEAN,
-  return_residence_cert BOOLEAN ,
+  return_residence_cert BOOLEAN,
   return_transcript BOOLEAN,
   return_internship_cert BOOLEAN,
-  return_final_report BOOLEAN ,
+  return_final_report BOOLEAN,
   return_erasmus_language_test BOOLEAN,
-  return_doc_sent_highschool BOOLEAN ,
+  return_doc_sent_highschool BOOLEAN,
   cancelation_reason INTEGER,
   academic_year VARCHAR(30),
-  nr_ver INTEGER,
+  ver_nr INTEGER,
 
   CONSTRAINT foreign_key_student FOREIGN KEY (id_student) REFERENCES bMobile.users (id),
   CONSTRAINT foreign_key_program FOREIGN KEY (id_program) REFERENCES bMobile.programs (id),
@@ -134,8 +135,8 @@ CREATE TABLE bMobile.mobilities
 CREATE TABLE bMobile.partners_departments
 (
   id_partner INTEGER,
-  id_department INTEGER,
-  nr_ver INTEGER,
+  id_department CHAR(3),
+  ver_nr INTEGER,
 
   CONSTRAINT pk_partner_department PRIMARY KEY (id_partner,id_department),
   CONSTRAINT foreign_key_partner FOREIGN KEY (id_partner) REFERENCES bMobile.partners (id),
