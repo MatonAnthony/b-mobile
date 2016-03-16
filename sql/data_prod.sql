@@ -9,6 +9,16 @@ TRUNCATE TABLE bmobile.partners CASCADE ;
 TRUNCATE TABLE bmobile.programs CASCADE ;
 TRUNCATE TABLE bmobile.countries CASCADE ;
 
+GRANT ALL ON DATABASE dbkamil_arszagi TO "anthony_maton", "martin_techy", "jonathan_samelson", "fany_bottemanne";
+GRANT ALL ON SCHEMA bmobile TO "anthony_maton", "martin_techy", "jonathan_samelson", "fany_bottemanne";
+GRANT ALL ON TABLE bmobile.users TO "anthony_maton", "martin_techy", "jonathan_samelson", "fany_bottemanne";
+GRANT ALL ON TABLE bmobile.cancelations TO "anthony_maton", "martin_techy", "jonathan_samelson", "fany_bottemanne";
+GRANT ALL ON TABLE bmobile.countries TO "anthony_maton", "martin_techy", "jonathan_samelson", "fany_bottemanne";
+GRANT ALL ON TABLE bmobile.departments TO "anthony_maton", "martin_techy", "jonathan_samelson", "fany_bottemanne";
+GRANT ALL ON TABLE bmobile.mobilities TO "anthony_maton", "martin_techy", "jonathan_samelson", "fany_bottemanne";
+GRANT ALL ON TABLE bmobile.partners TO "anthony_maton", "martin_techy", "jonathan_samelson", "fany_bottemanne";
+GRANT ALL ON TABLE bmobile.programs TO "anthony_maton", "martin_techy", "jonathan_samelson", "fany_bottemanne";
+GRANT ALL ON TABLE bmobile.partners_departments TO "anthony_maton", "martin_techy", "jonathan_samelson", "fany_bottemanne";
 
 INSERT INTO bmobile.users (id, pseudo, password, name, firstname, email, permissions)
 VALUES (DEFAULT, 'martin', '$2a$10$rdkGjZwuiZhatzgokIck3./2q48AElTSv9snaxDjNq.xjulxzdCUC', 'Techy', 'Martin', 'martin.techy@student.vinci.be','STUDENT');
