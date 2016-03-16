@@ -8,10 +8,10 @@ $(function(){
         },
         success: function(resp){
 			resp = JSON.parse(resp);
-			if(resp.droits === "ETUDIANT"){
-				window.location.pathname = "/studentHome.html";
+			if(resp.permissions === "STUDENT"){
+				authStudent();
 			}else{
-				window.location.pathname = "/teacherHome.html";
+				authTeacher();
 			}
             console.log("Authentification réussie");
         },
@@ -36,10 +36,10 @@ $(function(){
 				},
 				success: function (resp) {
 					resp = JSON.parse(resp);
-					if (resp.droits === "ETUDIANT") {
-						window.location.pathname = "/studentHome.html";
+					if (resp.permissions === "ETUDIANT") {
+						authStudent();
 					} else {
-						window.location.pathname = "/teacherHome.html";
+						authTeacher();
 					}
 				},
 			});
@@ -60,12 +60,11 @@ $(function(){
 	        },
 	        success: function(resp){
 			resp = JSON.parse(resp);
-				if(resp.droits === "ETUDIANT"){
-					window.location.pathname = "/studentHome.html";
+				if(resp.permissions === "STUDENT"){
+					authStudent();
 				}else{
-					window.location.pathname = "/teacherHome.html";
+					authTeacher();
 				}
-	            console.log("Connexion réussie");
 	        },
 	        error: function(error){
 	            console.log("Connexion echouée");
@@ -104,6 +103,25 @@ $(function(){
 		})
 		return false;
 	});
+
+
+	function authStudent(){
+		$("#loginPage").css("display", "none");
+		$("#navBarStudent").css("display", "block");
+		$("#navBarTeacher").css("display", "none");
+		$("#profilePage").css("display", "none");
+		$("#studentHomePage").css("display", "block");
+		$("#teacherHomePage").css("display", "none");
+	}
+
+	function authTeacher(){
+		$("#loginPage").css("display", "none");
+		$("#navBarStudent").css("display", "none");
+		$("#navBarTeacher").css("display", "block");
+		$("#profilePage").css("display", "none");
+		$("#studentHomePage").css("display", "none");
+		$("#teacherHomePage").css("display", "block");
+	}
 });
 
 // Managing of the confirmed table
