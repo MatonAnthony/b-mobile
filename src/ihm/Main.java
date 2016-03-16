@@ -41,12 +41,12 @@ public class Main {
 
     // Parametres du serveur
     context.setWelcomeFiles(new String[] {"index.html"});
-    context.setResourceBase("www/assets");
+    context.setResourceBase("www/assets/");
     context.setInitParameter("cacheControl", "no-store,nocache,must-revalidate");
     context.setInitParameter("redirectWelcome", "true");
     context.setClassLoader(Thread.currentThread().getContextClassLoader());
     context.setMaxFormContentSize(50000000);
-    Server server = new Server(8080);
+    Server server = new Server(8888);
     server.setHandler(context);
 
     server.start();
