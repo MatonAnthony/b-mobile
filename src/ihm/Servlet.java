@@ -1,7 +1,9 @@
 package ihm;
 
 import bizz.BizzFactory;
+import dto.CountryDto;
 import dto.UserDto;
+import ucc.CountryUcController;
 import ucc.UserUcController;
 
 import com.auth0.jwt.JWTSigner;
@@ -21,6 +23,7 @@ import java.io.PrintWriter;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SignatureException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -46,14 +49,19 @@ public class Servlet extends HttpServlet {
   private static final String KEY_ID = "id";
 
   private transient UserUcController userUcc = null;
+  private transient CountryUcController countryUcc = null;
   private transient BizzFactory bizzFactory = null;
 
-  private transient Genson genson = new GensonBuilder().useFields(true, VisibilityFilter.PRIVATE)
-      .useMethods(false).exclude("password").create();
+  private transient Genson userGenson = new GensonBuilder()
+      .useFields(true, VisibilityFilter.PRIVATE).useMethods(false).exclude("password").create();
+  private transient Genson countryGenson =
+      new GensonBuilder().useFields(true, VisibilityFilter.PRIVATE).useMethods(false).create();
 
-  public Servlet(UserUcController userUcc, BizzFactory bizzFactory) {
+  public Servlet(UserUcController userUcc, BizzFactory bizzFactory,
+      CountryUcController countryUcc) {
     this.userUcc = userUcc;
     this.bizzFactory = bizzFactory;
+    this.countryUcc = countryUcc;
   }
 
   @Override
@@ -157,6 +165,12 @@ public class Servlet extends HttpServlet {
         case "editProfile":
 
           break;
+        case "selectCountries":
+          ArrayList<CountryDto> countries = countryUcc.getAllCountries();
+          String jsonCountries = countryGenson.serialize(countries);
+          resp.getWriter().println(jsonCountries);
+          resp.setStatus(HttpStatus.ACCEPTED_202);
+          break;
         default:
           resp.setStatus(HttpStatus.BAD_REQUEST_400);
       }
@@ -219,7 +233,7 @@ public class Servlet extends HttpServlet {
   }
 
   private String dtoToJson(UserDto dto) {
-    return genson.serialize(dto);
+    return userGenson.serialize(dto);
   }
 
   /**

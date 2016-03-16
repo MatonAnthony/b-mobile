@@ -5,8 +5,12 @@ import bizz.BizzFactoryImpl;
 import dal.DalBackendServices;
 import dal.DalServices;
 import dal.DalServicesImpl;
+import dao.CountryDao;
+import dao.CountryDaoImpl;
 import dao.UserDao;
 import dao.UserDaoImpl;
+import ucc.CountryUcController;
+import ucc.CountryUcControllerImpl;
 import ucc.UserUcController;
 import ucc.UserUcControllerImpl;
 
@@ -33,7 +37,9 @@ public class Main {
     BizzFactory bizzFactory = new BizzFactoryImpl();
     UserDao userDao = new UserDaoImpl((DalBackendServices) dalServices, bizzFactory);
     UserUcController userUcc = new UserUcControllerImpl(dalServices, userDao);
-    Servlet servlet = new Servlet(userUcc, bizzFactory);
+    CountryDao countryDao = new CountryDaoImpl((DalBackendServices) dalServices, bizzFactory);
+    CountryUcController countryUcc = new CountryUcControllerImpl(dalServices, countryDao);
+    Servlet servlet = new Servlet(userUcc, bizzFactory, countryUcc);
 
     // Gestion des servlets
     context.addServlet(new ServletHolder(servlet), "/home");
