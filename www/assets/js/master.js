@@ -10,10 +10,12 @@ $(function(){
 			resp = JSON.parse(resp);
 			if(resp.permissions === "STUDENT"){
 				authStudent();
+				console.log("Authentification réussie etudiant");
 			}else{
 				authTeacher();
+				console.log("Authentification réussie professeur");
 			}
-            console.log("Authentification réussie");
+
         },
         error: function(error){
             console.log("Authentification echouée");
@@ -48,7 +50,7 @@ $(function(){
 		}
 
 	});
-
+	//Connect
 	$("#connectButton").click(function(){
 		 $.ajax({
 	        method: "POST",
@@ -72,7 +74,7 @@ $(function(){
 	    });
 		return false;
 	});
-
+	//MyProfile
 	$("#profileButton").click(function () {
 		$.ajax({
 			method: "POST",
@@ -103,6 +105,16 @@ $(function(){
 		})
 		return false;
 	});
+	//navBar
+	$(".navButton").click(function(){
+		switch($(this).attr("href")){
+			case "#addMobility" :
+			loadAddMobility();
+			break;
+			
+		}
+
+	});
 
 
 	function authStudent(){
@@ -122,6 +134,17 @@ $(function(){
 		$("#studentHomePage").css("display", "none");
 		$("#teacherHomePage").css("display", "block");
 	}
+
+	function loadAddMobility(){
+		$("#loginPage").css("display", "none");
+		$("#navBarStudent").css("display", "block");
+		$("#navBarTeacher").css("display", "none");
+		$("#profilePage").css("display", "none");
+		$("#studentHomePage").css("display", "none");
+		$("#teacherHomePage").css("display", "none");
+		$("#addMobilityPage").css("display", "block");
+	}
+
 });
 
 // Managing of the confirmed table
