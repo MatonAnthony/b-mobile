@@ -76,7 +76,6 @@ public class Servlet extends HttpServlet {
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse resp)
       throws ServletException, IOException {
-
     resp.setContentType(CONTENT_TYPE);
     PrintWriter out = resp.getWriter();
     out.println(htmlToString("www/assets/header.html"));
@@ -99,6 +98,7 @@ public class Servlet extends HttpServlet {
   @Override
   protected void doPost(HttpServletRequest req, HttpServletResponse resp)
       throws ServletException, IOException {
+    resp.setCharacterEncoding("UTF-8");
     try {
       String action = req.getParameter("action");
       HttpSession session = req.getSession();
@@ -179,6 +179,7 @@ public class Servlet extends HttpServlet {
         case "selectCountries":
           ArrayList<CountryDto> countries = countryUcc.getAllCountries();
           String jsonCountries = countryGenson.serialize(countries);
+
           resp.getWriter().println(jsonCountries);
           resp.setStatus(HttpStatus.ACCEPTED_202);
           break;
