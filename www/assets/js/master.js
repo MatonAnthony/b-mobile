@@ -146,29 +146,13 @@ $(function(){
 
 		$("#addMobilityTableBody").append(value);
 		addCountriesToSelector(nbRow);
-		return false;
+		return true;
 	});
 
 	function addCountriesToSelector(id){
-		$.ajax({
-	        method: "POST",
-	        url: "/home",
-	        data: {
-	            action: "selectCountries"
-	        },
-	        success: function(resp){
-	        	var selectName = "#selectCountry"+id;
-
-	        	resp = JSON.parse(resp);
-	        	var key;
-	        	for(key in resp){
-	        		$(selectName).append("<option>" + resp[key]['nameFr'] + "</option>"); 
-	        	}
-	        },
-	        error: function(error){
-	            console.log("Problème lors de la récuperation de la liste des pays");
-	        }
-	    });
+		var countries = $("#selectCountry1").html();
+		var selectName = "#selectCountry"+id;
+		$(selectName).html(countries);
 	}
 
 
@@ -210,7 +194,23 @@ $(function(){
 		$("#studentHomePage").css("display", "none");
 		$("#teacherHomePage").css("display", "none");
 		$("#addMobilityPage").css("display", "block");
-		addCountriesToSelector(1);
+		$.ajax({
+	        method: "POST",
+	        url: "/home",
+	        data: {
+	            action: "selectCountries"
+	        },
+	        success: function(resp){
+	        	resp = JSON.parse(resp);
+	        	var key;
+	        	for(key in resp){
+	        		$("#selectCountry1").append("<option>" + resp[key]['nameFr'] + "</option>"); 
+	        	}
+	        },
+	        error: function(error){
+	            console.log("Problème lors de la récuperation de la liste des pays");
+	        }
+	    });
 	}
 
 });

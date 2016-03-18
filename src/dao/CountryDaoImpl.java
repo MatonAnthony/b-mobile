@@ -1,6 +1,3 @@
-/**
- * 
- */
 package dao;
 
 import bizz.BizzFactory;
@@ -12,10 +9,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-/**
- * @author Martin
- * @since 16 mars 2016
- */
 public class CountryDaoImpl implements CountryDao {
 
 

@@ -1,12 +1,5 @@
-/**
- * 
- */
 package bizz;
 
-/**
- * @author Martin
- * @since 16 mars 2016
- */
 public class CountryImpl implements CountryBizz {
 
   private String iso;

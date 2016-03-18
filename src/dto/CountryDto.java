@@ -1,12 +1,5 @@
-/**
- * 
- */
 package dto;
 
-/**
- * @author Martin
- * @since 16 mars 2016
- */
 public interface CountryDto {
 
   /**

@@ -17,9 +17,11 @@ import org.eclipse.jetty.http.HttpStatus;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.nio.charset.Charset;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SignatureException;
@@ -57,6 +59,13 @@ public class Servlet extends HttpServlet {
   private transient Genson countryGenson =
       new GensonBuilder().useFields(true, VisibilityFilter.PRIVATE).useMethods(false).create();
 
+  /**
+   * The servlet used by the server.
+   * 
+   * @param userUcc The use case controller for the user
+   * @param bizzFactory The factory used to generate dto.
+   * @param countryUcc The use case controller for the user.
+   */
   public Servlet(UserUcController userUcc, BizzFactory bizzFactory,
       CountryUcController countryUcc) {
     this.userUcc = userUcc;
@@ -76,9 +85,11 @@ public class Servlet extends HttpServlet {
     out.println(htmlToString("www/assets/navBarTeacher.html"));
     File folder = new File(HTML_BODY_PAGES_PATH);
     File[] listOfFiles = folder.listFiles();
-    for (File file : listOfFiles) {
-      if (file.isFile()) {
-        out.println(htmlToString(HTML_BODY_PAGES_PATH + file.getName()));
+    if (null != listOfFiles) {
+      for (File file : listOfFiles) {
+        if (file.isFile()) {
+          out.println(htmlToString(HTML_BODY_PAGES_PATH + file.getName()));
+        }
       }
     }
     out.println(htmlToString("www/assets/footer.html"));
@@ -237,15 +248,16 @@ public class Servlet extends HttpServlet {
   }
 
   /**
-   * Extract html code from html file in an string
+   * Extract html code from html file in an string.
    *
-   * @param file path of html file
-   * @return String
+   * @param file path of html file.
+   * @return String.
    */
   private String htmlToString(String file) {
     StringBuilder contentBuilder = new StringBuilder();
     try {
-      BufferedReader in = new BufferedReader(new FileReader(file));
+      BufferedReader in = new BufferedReader(
+          new InputStreamReader(new FileInputStream(file), Charset.defaultCharset()));
       String str;
       while ((str = in.readLine()) != null) {
         contentBuilder.append(str);

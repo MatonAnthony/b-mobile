@@ -1,6 +1,3 @@
-/**
- * 
- */
 package ucc;
 
 import dal.DalServices;
@@ -10,10 +7,6 @@ import dto.CountryDto;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-/**
- * @author Martin
- * @since 16 mars 2016
- */
 public class CountryUcControllerImpl implements CountryUcController {
 
   private CountryDao countryDao;

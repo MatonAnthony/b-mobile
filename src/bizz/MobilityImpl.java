@@ -43,9 +43,9 @@ public class MobilityImpl implements MobilityBizz, Cloneable {
   }
 
   /**
-   * Sets the id of this mobilitu.
+   * Sets the id of this mobility.
    * 
-   * @param idMobility the idMobility to set.
+   * @param id the id of the mobility to set.
    */
   @Override
   public void setId(int id) {
@@ -611,6 +611,12 @@ public class MobilityImpl implements MobilityBizz, Cloneable {
   @Override
   public void setReturnDocSentHighschool(boolean returnDocSentHighschool) {
     this.returnDocSentHighschool = returnDocSentHighschool;
+  }
+
+  @Override
+  protected Object clone() throws CloneNotSupportedException {
+    // TODO (Jonathan) Auto-generated method stub
+    return super.clone();
   }
 
 }
