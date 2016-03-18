@@ -139,8 +139,6 @@ $(function(){
 					'</select>'+
 				'</td>'+
 				'<td><select id="selectCountry' + nbRow + '" class="form-control">'+
-						'<option>Belgique</option>'+
-						'<option>France</option>'+
 					'</select>'+
 				'</td>'+
 			'</form>'+
