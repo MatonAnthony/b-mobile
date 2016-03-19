@@ -6,5 +6,5 @@ public interface UserUcController {
 
   UserDto login(String login, String password);
 
-  UserDto register(UserDto userdto, String confirmation);
+  UserDto register(UserDto userdto);
 }

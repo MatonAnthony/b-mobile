@@ -66,17 +66,12 @@ public class UserUcControllerImpl implements UserUcController {
    * The function register new user in the data base.
    * 
    * @param userdto is the user to register.
-   * @param confirmation to check the password.
    * @return a userDto. It is the user added. Null if there was a error.
    */
 
-  public UserDto register(UserDto userdto, String confirmation) {
+  public UserDto register(UserDto userdto) {
 
     UserBizz userBizz = (UserBizz) userdto;
-
-    if (!userBizz.getPassword().equals(confirmation)) {
-      return null;
-    }
     userBizz.cryptPassword();
 
     try {

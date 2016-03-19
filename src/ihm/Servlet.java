@@ -155,7 +155,7 @@ public class Servlet extends HttpServlet {
           userdto.setEmail(req.getParameter("email"));
           String confirmation = req.getParameter("confirmation");
 
-          userDtoRecept = userUcc.register(userdto, confirmation);
+          userDtoRecept = userUcc.register(userdto);
           if (userDtoRecept == null) {
             resp.setStatus(HttpStatus.FORBIDDEN_403);
           } else {
