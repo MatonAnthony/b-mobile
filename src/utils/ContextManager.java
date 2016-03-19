@@ -24,7 +24,7 @@ public class ContextManager {
       buildConfig.load(build);
       build.close();
       FileInputStream file;
-      if (buildConfig.containsKey("status") && buildConfig.containsValue("PRODUCTION")) {
+      if (buildConfig.containsKey("status") && buildConfig.containsValue("DEBUG")) {
         file = new FileInputStream("src/debug.properties");
       } else {
         file = new FileInputStream("src/prod.properties");
