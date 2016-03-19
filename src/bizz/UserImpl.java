@@ -480,8 +480,8 @@ class UserImpl implements UserBizz, Cloneable {
 
   /**
    * Set the id for the curent user.
-   * 
-   * @param id_user the id_user to set
+   *
+   * @param id the id_user to set
    */
   @Override
   public void setId(int id) {
