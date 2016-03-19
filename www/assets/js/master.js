@@ -197,42 +197,45 @@ $(function(){
 		$("#studentHomePage").css("display", "none");
 		$("#teacherHomePage").css("display", "none");
 		$("#addMobilityPage").css("display", "block");
-		$.ajax({
-	        method: "POST",
-	        url: "/home",
-	        data: {
-	            action: "selectCountries"
-	        },
-	        success: function(resp){
-	        	resp = JSON.parse(resp);
-	        	var key;
-	        	for(key in resp){
-	        		$("#selectCountry1").append("<option>" + resp[key]['nameFr'] + "</option>"); 
-	        	}
-	        },
-	        error: function(error){
-	            console.log("Problème lors de la récuperation de la liste des pays");
-	        }
-	    });
-
-	    $.ajax({
-	        method: "POST",
-	        url: "/home",
-	        data: {
-	            action: "selectDepartments"
-	        },
-	        success: function(resp){
-	        	resp = JSON.parse(resp);
-	        	console.log(resp);
-	        	var key;
-	        	for(key in resp){
-	        		$("#selectDep1").append("<option>" + resp[key]['label'] + "</option>"); 
-	        	}
-	        },
-	        error: function(error){
-	            console.log("Problème lors de la récuperation de la liste des departements");
-	        }
-	    });
+		
+		if($("#selectCountry1").html()== ""){
+			$.ajax({
+		        method: "POST",
+		        url: "/home",
+		        data: {
+		            action: "selectCountries"
+		        },
+		        success: function(resp){
+		        	resp = JSON.parse(resp);
+		        	var key;
+		        	for(key in resp){
+		        		$("#selectCountry1").append("<option>" + resp[key]['nameFr'] + "</option>"); 
+		        	}
+		        },
+		        error: function(error){
+		            console.log("Problème lors de la récuperation de la liste des pays");
+		        }
+	    	});
+		}
+		if($("#selectDep1").html()== ""){
+		    $.ajax({
+		        method: "POST",
+		        url: "/home",
+		        data: {
+		            action: "selectDepartments"
+		        },
+		        success: function(resp){
+		        	resp = JSON.parse(resp);
+		        	var key;
+		        	for(key in resp){
+		        		$("#selectDep1").append("<option>" + resp[key]['label'] + "</option>"); 
+		        	}
+		        },
+		        error: function(error){
+		            console.log("Problème lors de la récuperation de la liste des departements");
+		        }
+		    });
+		}
 	}
 
 });
