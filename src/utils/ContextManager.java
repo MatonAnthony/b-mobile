@@ -13,12 +13,22 @@ import java.util.Properties;
 public class ContextManager {
 
   private static Properties props;
+  private static Properties buildConfig;
 
   static {
     props = new Properties();
+    buildConfig = new Properties();
 
     try {
-      FileInputStream file = new FileInputStream("src/prod.properties");
+      FileInputStream build = new FileInputStream("src/build.properties");
+      buildConfig.load(build);
+      build.close();
+      FileInputStream file;
+      if (buildConfig.containsKey("status") && buildConfig.containsValue("PRODUCTION")) {
+        file = new FileInputStream("src/debug.properties");
+      } else {
+        file = new FileInputStream("src/prod.properties");
+      }
       props.load(file);
       file.close();
     } catch (Throwable exc) {
