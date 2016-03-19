@@ -4,15 +4,19 @@ import dal.DalServices;
 import dao.CountryDao;
 import dto.CountryDto;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class CountryUcControllerImpl implements CountryUcController {
 
   private CountryDao countryDao;
-  DalServices dalServices;
+  private DalServices dalServices;
 
-
+  /**
+   * The constructor of the Country use case controller.
+   * 
+   * @param dalServices The dalServices that the ucc will use.
+   * @param countryDao The dao that the ucc will use.
+   */
   public CountryUcControllerImpl(DalServices dalServices, CountryDao countryDao) {
 
     this.countryDao = countryDao;
@@ -23,17 +27,7 @@ public class CountryUcControllerImpl implements CountryUcController {
   @Override
   public ArrayList<CountryDto> getAllCountries() {
     ArrayList<CountryDto> countries = new ArrayList<CountryDto>();
-    try {
-      dalServices.startTransaction();
-      countries = countryDao.getAll();
-      dalServices.commitTransaction();
-    } catch (Exception exc) {
-      try {
-        dalServices.rollbackTransaction();
-      } catch (SQLException exc1) {
-        exc1.printStackTrace();
-      }
-    }
+    countries = countryDao.getAll();
     return countries;
   }
 

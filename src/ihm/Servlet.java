@@ -2,8 +2,10 @@ package ihm;
 
 import bizz.BizzFactory;
 import dto.CountryDto;
+import dto.DepartmentDto;
 import dto.UserDto;
 import ucc.CountryUcController;
+import ucc.DepartmentUcController;
 import ucc.UserUcController;
 
 import com.auth0.jwt.JWTSigner;
@@ -43,7 +45,7 @@ public class Servlet extends HttpServlet {
   private static final String SECRET =
       "LICORNEkjcajn edea zfalzenf  faezfbalzbflf5f5eaz45 546 a4f5 af46 aezPONEY";
 
-  private static final String CONTENT_TYPE = "text/html; charset=utf-8";
+  private static final String CONTENT_TYPE = "text/html";
   private static final String HTML_BODY_PAGES_PATH = "www/assets/pages/";
 
   private static final String KEY_USERNAME = "username";
@@ -52,11 +54,12 @@ public class Servlet extends HttpServlet {
 
   private transient UserUcController userUcc = null;
   private transient CountryUcController countryUcc = null;
+  private transient DepartmentUcController departmentUcController = null;
   private transient BizzFactory bizzFactory = null;
 
   private transient Genson userGenson = new GensonBuilder()
       .useFields(true, VisibilityFilter.PRIVATE).useMethods(false).exclude("password").create();
-  private transient Genson countryGenson =
+  private transient Genson defaultGenson =
       new GensonBuilder().useFields(true, VisibilityFilter.PRIVATE).useMethods(false).create();
 
   /**
@@ -66,17 +69,19 @@ public class Servlet extends HttpServlet {
    * @param bizzFactory The factory used to generate dto.
    * @param countryUcc The use case controller for the user.
    */
-  public Servlet(UserUcController userUcc, BizzFactory bizzFactory,
-      CountryUcController countryUcc) {
+  public Servlet(UserUcController userUcc, BizzFactory bizzFactory, CountryUcController countryUcc,
+      DepartmentUcController departmentUcController) {
     this.userUcc = userUcc;
     this.bizzFactory = bizzFactory;
     this.countryUcc = countryUcc;
+    this.departmentUcController = departmentUcController;
   }
 
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse resp)
       throws ServletException, IOException {
     resp.setContentType(CONTENT_TYPE);
+    resp.setCharacterEncoding("UTF-8");
     PrintWriter out = resp.getWriter();
     out.println(htmlToString("www/assets/header.html"));
     out.println(htmlToString("www/assets/logo.html"));
@@ -178,9 +183,14 @@ public class Servlet extends HttpServlet {
           break;
         case "selectCountries":
           ArrayList<CountryDto> countries = countryUcc.getAllCountries();
-          String jsonCountries = countryGenson.serialize(countries);
-
+          String jsonCountries = defaultGenson.serialize(countries);
           resp.getWriter().println(jsonCountries);
+          resp.setStatus(HttpStatus.ACCEPTED_202);
+          break;
+        case "selectDepartments":
+          ArrayList<DepartmentDto> departments = departmentUcController.getAllDepartments();
+          String jsonDepartments = defaultGenson.serialize(departments);
+          resp.getWriter().println(jsonDepartments);
           resp.setStatus(HttpStatus.ACCEPTED_202);
           break;
         default:

@@ -10,10 +10,8 @@ $(function(){
 			resp = JSON.parse(resp);
 			if(resp.permissions === "STUDENT"){
 				authStudent();
-				console.log("Authentification réussie etudiant");
 			}else{
 				authTeacher();
-				console.log("Authentification réussie professeur");
 			}
 
         },
@@ -132,10 +130,6 @@ $(function(){
 					'</select>'+
 				'</td>'+
 				'<td><select id="selectDep' + nbRow + '" class="form-control">'+
-						'<option>Informatique</option>'+
-						'<option>Dietetique</option>'+
-						'<option>Imagerie Medicale</option>'+
-						'<option>Chimie</option>'+
 					'</select>'+
 				'</td>'+
 				'<td><select id="selectCountry' + nbRow + '" class="form-control">'+
@@ -145,9 +139,16 @@ $(function(){
 		'</tr>';
 
 		$("#addMobilityTableBody").append(value);
+		addDepartmentsToSelector(nbRow);
 		addCountriesToSelector(nbRow);
 		return true;
 	});
+
+	function addDepartmentsToSelector(id){
+		var departments = $("#selectDep1").html();
+		var selectName = "#selectDep"+id;
+		$(selectName).html(departments);	
+	}
 
 	function addCountriesToSelector(id){
 		var countries = $("#selectCountry1").html();
@@ -158,16 +159,18 @@ $(function(){
 
 	//navBar
 	$(".navButton").click(function(){
+		$(".active").removeClass("active");
 		switch($(this).attr("href")){
 			case "#addMobility" :
 			loadAddMobility();
+			$(".navButton[href='#addMobility']").parent().addClass("active");
 			break;
 
 		}
 
 	});
 
-
+	//Chargement des pages.
 	function authStudent(){
 		$("#loginPage").css("display", "none");
 		$("#navBarStudent").css("display", "block");
@@ -209,6 +212,25 @@ $(function(){
 	        },
 	        error: function(error){
 	            console.log("Problème lors de la récuperation de la liste des pays");
+	        }
+	    });
+
+	    $.ajax({
+	        method: "POST",
+	        url: "/home",
+	        data: {
+	            action: "selectDepartments"
+	        },
+	        success: function(resp){
+	        	resp = JSON.parse(resp);
+	        	console.log(resp);
+	        	var key;
+	        	for(key in resp){
+	        		$("#selectDep1").append("<option>" + resp[key]['label'] + "</option>"); 
+	        	}
+	        },
+	        error: function(error){
+	            console.log("Problème lors de la récuperation de la liste des departements");
 	        }
 	    });
 	}

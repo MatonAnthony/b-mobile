@@ -10,8 +10,8 @@ public abstract class Utils {
    * @param object The object to check.
    * @param ObjectType The type to compare.
    */
-  public static void checkObjects(Object object, Class ObjectType) {
-    if (object.getClass() != ObjectType) {
+  public static void checkObjects(Object object, Class objectType) {
+    if (object.getClass() != objectType) {
       throw new IllegalArgumentException();
     }
 

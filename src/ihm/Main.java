@@ -7,10 +7,14 @@ import dal.DalServices;
 import dal.DalServicesImpl;
 import dao.CountryDao;
 import dao.CountryDaoImpl;
+import dao.DepartmentDao;
+import dao.DepartmentDaoImpl;
 import dao.UserDao;
 import dao.UserDaoImpl;
 import ucc.CountryUcController;
 import ucc.CountryUcControllerImpl;
+import ucc.DepartmentUcController;
+import ucc.DepartmentUcControllerImpl;
 import ucc.UserUcController;
 import ucc.UserUcControllerImpl;
 
@@ -39,7 +43,11 @@ public class Main {
     UserUcController userUcc = new UserUcControllerImpl(dalServices, userDao);
     CountryDao countryDao = new CountryDaoImpl((DalBackendServices) dalServices, bizzFactory);
     CountryUcController countryUcc = new CountryUcControllerImpl(dalServices, countryDao);
-    Servlet servlet = new Servlet(userUcc, bizzFactory, countryUcc);
+    DepartmentDao departmentDao =
+        new DepartmentDaoImpl((DalBackendServices) dalServices, bizzFactory);
+    DepartmentUcController departmentUcc =
+        new DepartmentUcControllerImpl(dalServices, departmentDao);
+    Servlet servlet = new Servlet(userUcc, bizzFactory, countryUcc, departmentUcc);
 
     // Gestion des servlets
     context.addServlet(new ServletHolder(servlet), "/home");

@@ -1,6 +1,7 @@
 package bizz;
 
 import dto.CountryDto;
+import dto.DepartmentDto;
 import dto.MobilityDto;
 import dto.UserDto;
 
@@ -21,6 +22,12 @@ public class BizzFactoryImpl implements BizzFactory {
   @Override
   public CountryDto getCountryDto() {
     return new CountryImpl();
+  }
+
+
+  @Override
+  public DepartmentDto getDepartmentDto() {
+    return new DepartmentImpl();
   }
 
 }

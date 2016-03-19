@@ -1,45 +1,42 @@
+
 package dao;
 
 import bizz.BizzFactory;
 import dal.DalBackendServices;
-import dto.CountryDto;
+import dto.DepartmentDto;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class CountryDaoImpl implements CountryDao {
+public class DepartmentDaoImpl implements DepartmentDao {
 
 
   private DalBackendServices dalBackendServices;
   private BizzFactory factory;
 
-
-  public CountryDaoImpl(DalBackendServices dalBackendServices, BizzFactory bizzFactory) {
+  public DepartmentDaoImpl(DalBackendServices dalBackendServices, BizzFactory factory) {
     this.dalBackendServices = dalBackendServices;
-    this.factory = bizzFactory;
+    this.factory = factory;
   }
 
-
   @Override
-  public ArrayList<CountryDto> getAll() {
-    String query = "SELECT * FROM bmobile.countries c ORDER BY c.name_fr";
+  public ArrayList<DepartmentDto> getAllDepartments() {
+    String query = "SELECT * FROM bmobile.departments";
     PreparedStatement preparedStatement = null;
 
     try {
       preparedStatement = dalBackendServices.prepare(query);
-      ArrayList<CountryDto> countries = new ArrayList<CountryDto>();
+      ArrayList<DepartmentDto> departments = new ArrayList<DepartmentDto>();
       try (ResultSet resultSet = preparedStatement.executeQuery()) {
         while (resultSet.next()) {
-          CountryDto countryDto = factory.getCountryDto();
-          countryDto.setIso(resultSet.getString(1));
-          countryDto.setNameEn(resultSet.getString(2));
-          countryDto.setNameFr(resultSet.getString(3));
-          countryDto.setIdProgram(resultSet.getInt(4));
-          countries.add(countryDto);
+          DepartmentDto departmentDto = factory.getDepartmentDto();
+          departmentDto.setId(resultSet.getString(1));
+          departmentDto.setLabel(resultSet.getString(2));
+          departments.add(departmentDto);
         }
-        return countries;
+        return departments;
       } catch (SQLException exc2) {
         exc2.printStackTrace();
         return null;
