@@ -3,6 +3,7 @@ package bizz;
 import dto.CountryDto;
 import dto.DepartmentDto;
 import dto.MobilityDto;
+import dto.PartnerDto;
 import dto.UserDto;
 
 public class BizzFactoryImpl implements BizzFactory {
@@ -28,6 +29,12 @@ public class BizzFactoryImpl implements BizzFactory {
   @Override
   public DepartmentDto getDepartmentDto() {
     return new DepartmentImpl();
+  }
+
+
+  @Override
+  public PartnerDto getPartnerDto() {
+    return new PartnerImpl();
   }
 
 }

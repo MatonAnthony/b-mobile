@@ -3,6 +3,7 @@ package bizz;
 import dto.CountryDto;
 import dto.DepartmentDto;
 import dto.MobilityDto;
+import dto.PartnerDto;
 import dto.UserDto;
 
 public interface BizzFactory {
@@ -33,4 +34,11 @@ public interface BizzFactory {
    * @return a new DepartmentDto
    */
   DepartmentDto getDepartmentDto();
+
+  /**
+   * Return an empty PartnerDto
+   * 
+   * @return a new PartnerDto
+   */
+  PartnerDto getPartnerDto();
 }
