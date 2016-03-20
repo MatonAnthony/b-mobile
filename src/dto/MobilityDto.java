@@ -6,6 +6,26 @@ public interface MobilityDto {
 
   public void setId(int id);
 
+  public UserDto getUserDto();
+
+  public void setUserDto(UserDto userDto);
+
+  public ProgramDto getProgramDto();
+
+  public void setProgramDto(ProgramDto programDto);
+
+  public PartnerDto getPartnerDto();
+
+  public void setPartnerDto(PartnerDto partnerDto);
+
+  public DepartmentDto getDepartementDto();
+
+  public void setDepartementDto(DepartmentDto departementDto);
+
+  public CountryDto getCountryDto();
+
+  public void setCountryDto(CountryDto countryDto);
+
   public int getIdStudent();
 
   public void setIdStudent(int idStudent);
@@ -18,13 +38,21 @@ public interface MobilityDto {
 
   public void setIdPartner(int idPartner);
 
+  public String getIdDepartment();
+
+  public void setIdDepartment(String idDepartment);
+
+  public String getCountry();
+
+  public void setCountry(String country);
+
+  public int getCancelationReason();
+
+  public void setCancelationReason(int cancelationReason);
+
   public int getPreferenceOrder();
 
   public void setPreferenceOrder(int preferenceOrder);
-
-  public int getIdDepartment();
-
-  public void setIdDepartment(int idDepartment);
 
   public int getQuadrimester();
 
@@ -34,17 +62,9 @@ public interface MobilityDto {
 
   public void setVerNr(int verNr);
 
-  public int getCancelationReason();
-
-  public void setCancelationReason(int cancelationReason);
-
   public String getType();
 
   public void setType(String type);
-
-  public String getCountry();
-
-  public void setCountry(String country);
 
   public String getStatus();
 

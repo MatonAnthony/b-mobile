@@ -1,18 +1,30 @@
 package bizz;
 
-public class MobilityImpl implements MobilityBizz, Cloneable {
+import dto.CountryDto;
+import dto.DepartmentDto;
+import dto.PartnerDto;
+import dto.ProgramDto;
+import dto.UserDto;
 
+public class MobilityImpl implements MobilityBizz, Cloneable {
+  // TODO(fany) ajouter dto et leur get et set
   private int id;
   private int idStudent;
+  private UserDto userDto;
   private int idProgram;
+  private ProgramDto programDto;
   private int idPartner;
+  private PartnerDto partnerDto;
   private int preferenceOrder;
-  private int idDepartment;
+  private String idDepartment;
+  private DepartmentDto departementDto;
   private int quadrimester;
   private int verNr;
   private int cancelationReason;
+  // private CancelationDto cancelationDto;
   private String type;
-  private String country;
+  private String country;// iso
+  private CountryDto countryDto;
   private String status;
   private String academicYear;
   private boolean canceled;
@@ -50,6 +62,52 @@ public class MobilityImpl implements MobilityBizz, Cloneable {
   @Override
   public void setId(int id) {
     this.id = id;
+  }
+
+  public UserDto getUserDto() {
+    return userDto;
+  }
+
+  public void setUserDto(UserDto userDto) {
+    this.userDto = userDto;
+  }
+
+  public ProgramDto getProgramDto() {
+    return programDto;
+  }
+
+  public void setProgramDto(ProgramDto programDto) {
+    this.programDto = programDto;
+  }
+
+  public PartnerDto getPartnerDto() {
+    return partnerDto;
+  }
+
+  public void setPartnerDto(PartnerDto partnerDto) {
+    this.partnerDto = partnerDto;
+  }
+
+  public DepartmentDto getDepartementDto() {
+    if (departementDto == null) {
+
+    }
+    return departementDto;
+  }
+
+  public void setDepartementDto(DepartmentDto departementDto) {
+    this.departementDto = departementDto;
+  }
+
+  public CountryDto getCountryDto() {
+    if (countryDto == null) {
+
+    }
+    return countryDto;
+  }
+
+  public void setCountryDto(CountryDto countryDto) {
+    this.countryDto = countryDto;
   }
 
   /**
@@ -138,7 +196,7 @@ public class MobilityImpl implements MobilityBizz, Cloneable {
    * @return the idDepartment.
    */
   @Override
-  public int getIdDepartment() {
+  public String getIdDepartment() {
     return idDepartment;
   }
 
@@ -148,7 +206,7 @@ public class MobilityImpl implements MobilityBizz, Cloneable {
    * @param idDepartment the idDepartment to set.
    */
   @Override
-  public void setIdDepartment(int idDepartment) {
+  public void setIdDepartment(String idDepartment) {
     this.idDepartment = idDepartment;
   }
 

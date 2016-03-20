@@ -3,9 +3,11 @@ package ihm;
 import bizz.BizzFactory;
 import dto.CountryDto;
 import dto.DepartmentDto;
+import dto.MobilityDto;
 import dto.UserDto;
 import ucc.CountryUcController;
 import ucc.DepartmentUcController;
+import ucc.MobilityUcController;
 import ucc.UserUcController;
 
 import com.auth0.jwt.JWTSigner;
@@ -53,6 +55,7 @@ public class Servlet extends HttpServlet {
   private static final String KEY_ID = "id";
 
   private transient UserUcController userUcc = null;
+  private transient MobilityUcController mobilityUcc = null;
   private transient CountryUcController countryUcc = null;
   private transient DepartmentUcController departmentUcController = null;
   private transient BizzFactory bizzFactory = null;
@@ -69,10 +72,12 @@ public class Servlet extends HttpServlet {
    * @param bizzFactory The factory used to generate dto.
    * @param countryUcc The use case controller for the user.
    */
-  public Servlet(UserUcController userUcc, BizzFactory bizzFactory, CountryUcController countryUcc,
+  public Servlet(UserUcController userUcc, BizzFactory bizzFactory,
+      MobilityUcController mobilityUcc, CountryUcController countryUcc,
       DepartmentUcController departmentUcController) {
     this.userUcc = userUcc;
     this.bizzFactory = bizzFactory;
+    this.mobilityUcc = mobilityUcc;
     this.countryUcc = countryUcc;
     this.departmentUcController = departmentUcController;
   }
@@ -174,6 +179,10 @@ public class Servlet extends HttpServlet {
 
           break;
 
+        case "disconnect":
+
+          break;
+
         case "confirmedMobility":
           // Appel de fonction
           break;
@@ -181,12 +190,25 @@ public class Servlet extends HttpServlet {
         case "editProfile":
 
           break;
+
         case "selectCountries":
           ArrayList<CountryDto> countries = countryUcc.getAllCountries();
           String jsonCountries = defaultGenson.serialize(countries);
           resp.getWriter().println(jsonCountries);
           resp.setStatus(HttpStatus.ACCEPTED_202);
           break;
+
+        case "selectConfirmedMobility":
+          ArrayList<MobilityDto> mobilities = mobilityUcc.getconfirmedMobilities();
+          String jsonMobilities = defaultGenson.serialize(mobilities);
+          resp.getWriter().println(jsonMobilities);
+          resp.setStatus(HttpStatus.ACCEPTED_202);
+          break;
+
+        case "selectMyMobility":
+
+          break;
+
         case "selectDepartments":
           ArrayList<DepartmentDto> departments = departmentUcController.getAllDepartments();
           String jsonDepartments = defaultGenson.serialize(departments);

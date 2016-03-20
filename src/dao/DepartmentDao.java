@@ -10,4 +10,5 @@ public interface DepartmentDao {
 
   ArrayList<DepartmentDto> getAllDepartments();
 
+
 }
