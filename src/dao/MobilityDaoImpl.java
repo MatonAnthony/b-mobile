@@ -62,7 +62,7 @@ public class MobilityDaoImpl implements MobilityDao {
             + "depart_doc_sent_highschool, software_proeco, software_mobility_tools, software_mobi, return_residence_cert, "
             + "return_transcript, return_internship_cert, return_final_report, return_erasmus_language_test, "
             + "return_doc_sent_highschool, cancelation_reason, academic_year, ver_nr "
-            + "FROM bmobile.mobilities WHERE satus != \"PENDING\" || canceled = \"false\"";
+            + "FROM bmobile.mobilities WHERE status != 'PENDING' OR canceled = 'false'";
     return fillArrayDto(query);
   }
 
