@@ -247,9 +247,10 @@ class UserImpl implements UserBizz, Cloneable {
    */
   @Override
   public void setTel(String tel) {
-    if (tel == null) {
-      throw new IllegalArgumentException();
-    }
+    // TODO le tel peut etre null normalment
+    /*
+     * if (tel == null) { throw new IllegalArgumentException(); }
+     */
     this.tel = tel;
   }
 
@@ -273,9 +274,9 @@ class UserImpl implements UserBizz, Cloneable {
    */
   @Override
   public void setGender(String gender) {
-    if (gender == null) {
-      throw new IllegalArgumentException();
-    }
+    /*
+     * if (gender == null) { throw new IllegalArgumentException(); }
+     */
     this.gender = gender;
   }
 
@@ -326,10 +327,11 @@ class UserImpl implements UserBizz, Cloneable {
   @Override
   public void setIban(String iban) {
     if (iban == null) {
-      throw new IllegalArgumentException();
+      this.iban = null;
+    } else {
+      IBAN staging = IBAN.parse(iban);
+      this.iban = staging;
     }
-    IBAN staging = IBAN.parse(iban);
-    this.iban = staging;
   }
 
   /**
@@ -339,9 +341,9 @@ class UserImpl implements UserBizz, Cloneable {
    */
   @Override
   public String getBic() {
-    if (bic == null) {
-      throw new NullPointerException();
-    }
+    /*
+     * if (bic == null) { throw new NullPointerException(); }
+     */
     return bic;
   }
 
@@ -352,9 +354,9 @@ class UserImpl implements UserBizz, Cloneable {
    */
   @Override
   public void setBic(String bic) {
-    if (bic == null) {
-      throw new IllegalArgumentException();
-    }
+    /*
+     * if (bic == null) { throw new IllegalArgumentException(); }
+     */
     this.bic = bic;
   }
 
@@ -365,9 +367,9 @@ class UserImpl implements UserBizz, Cloneable {
    */
   @Override
   public String getAccountHolder() {
-    if (accountHolder == null) {
-      throw new NullPointerException();
-    }
+    /*
+     * if (accountHolder == null) { throw new NullPointerException(); }
+     */
     return accountHolder;
   }
 
@@ -378,9 +380,9 @@ class UserImpl implements UserBizz, Cloneable {
    */
   @Override
   public void setAccountHolder(String accountHolder) {
-    if (accountHolder == null) {
-      throw new IllegalArgumentException();
-    }
+    /*
+     * if (accountHolder == null) { throw new IllegalArgumentException(); }
+     */
     this.accountHolder = accountHolder;
   }
 
@@ -391,9 +393,9 @@ class UserImpl implements UserBizz, Cloneable {
    */
   @Override
   public String getBankName() {
-    if (bankName == null) {
-      throw new NullPointerException();
-    }
+    /*
+     * if (bankName == null) { throw new NullPointerException(); }
+     */
     return bankName;
   }
 
@@ -404,9 +406,9 @@ class UserImpl implements UserBizz, Cloneable {
    */
   @Override
   public void setBankName(String bankName) {
-    if (bankName == null) {
-      throw new IllegalArgumentException();
-    }
+    /*
+     * if (bankName == null) { throw new IllegalArgumentException(); }
+     */
     this.bankName = bankName;
   }
 
@@ -440,9 +442,9 @@ class UserImpl implements UserBizz, Cloneable {
    */
   @Override
   public LocalDate getRegistrationDate() {
-    if (registrationDate == null) {
-      throw new NullPointerException();
-    }
+    /*
+     * if (registrationDate == null) { throw new NullPointerException(); }
+     */
     return registrationDate;
   }
 
@@ -453,9 +455,10 @@ class UserImpl implements UserBizz, Cloneable {
    */
   @Override
   public void setRegistrationDate(LocalDate registrationDate) {
-    if (registrationDate == null || registrationDate.isAfter(LocalDate.now())) {
-      throw new IllegalArgumentException();
-    }
+    /*
+     * if (registrationDate == null || registrationDate.isAfter(LocalDate.now())) { throw new
+     * IllegalArgumentException(); }
+     */
     this.registrationDate = registrationDate;
   }
 
@@ -466,9 +469,9 @@ class UserImpl implements UserBizz, Cloneable {
    */
   @Override
   public LocalDate getBirthDate() {
-    if (birthDate == null) {
-      throw new NullPointerException();
-    }
+    /*
+     * if (birthDate == null) { throw new NullPointerException(); }
+     */
     return birthDate;
   }
 
@@ -479,9 +482,10 @@ class UserImpl implements UserBizz, Cloneable {
    */
   @Override
   public void setBirthDate(LocalDate birthDate) {
-    if (birthDate == null || birthDate.isAfter(LocalDate.now())) {
-      throw new IllegalArgumentException();
-    }
+    /*
+     * if (birthDate == null || birthDate.isAfter(LocalDate.now())) { throw new
+     * IllegalArgumentException(); }
+     */
     this.birthDate = birthDate;
   }
 
@@ -490,9 +494,9 @@ class UserImpl implements UserBizz, Cloneable {
    */
   @Override
   public void cryptPassword() {
-    if (this.password == null) {
-      throw new NullPointerException();
-    }
+    /*
+     * if (this.password == null) { throw new NullPointerException(); }
+     */
     this.password = BCrypt.hashpw(password, BCrypt.gensalt());
   }
 
@@ -504,12 +508,10 @@ class UserImpl implements UserBizz, Cloneable {
    */
   @Override
   public boolean checkPassword(String passwordToCheck) {
-    if (passwordToCheck == null) {
-      throw new IllegalArgumentException();
-    }
-    if (this.password == null) {
-      throw new NullPointerException();
-    }
+    /*
+     * if (passwordToCheck == null) { throw new IllegalArgumentException(); } if (this.password ==
+     * null) { throw new NullPointerException(); }
+     */
     return BCrypt.checkpw(passwordToCheck, this.password);
   }
 

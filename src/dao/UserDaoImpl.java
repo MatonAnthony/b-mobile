@@ -1,12 +1,13 @@
 package dao;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
 import bizz.BizzFactory;
 import dal.DalBackendServices;
 import dto.UserDto;
+
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Timestamp;
 
 public class UserDaoImpl implements UserDao {
 
@@ -65,8 +66,8 @@ public class UserDaoImpl implements UserDao {
   @Override
   public UserDto findByUserName(String username) {
     String query = "SELECT id, id_department, pseudo, password, name, firstname, email, "
-        + "registration_date, permission, birth_date, street, "
-        + "house_number, mailbox, zip, city, country, tel, gender, successfully_year_in_college, "
+        + "registration_date, permissions, birth_date, street, "
+        + "house_number, mailbox, zip, city, country, tel, gender, successfull_year_in_college, "
         + "iban, bic, account_holder, bank_name, ver_nr FROM bmobile.users WHERE pseudo=?";
     PreparedStatement preparedStatement = null;
     try {
@@ -82,8 +83,8 @@ public class UserDaoImpl implements UserDao {
   @Override
   public UserDto findById(int id) {
     String query = "SELECT id, id_department, pseudo, password, name, firstname, email, "
-        + "registration_date, permission, birth_date, street, "
-        + "house_number, mailbox, zip, city, country, tel, gender, successfully_year_in_college, "
+        + "registration_date, permissions, birth_date, street, "
+        + "house_number, mailbox, zip, city, country, tel, gender, successfull_year_in_college, "
         + "iban, bic, account_holder, bank_name, ver_nr FROM bmobile.users WHERE id=?";
     PreparedStatement preparedStatement = null;
     try {
@@ -107,9 +108,15 @@ public class UserDaoImpl implements UserDao {
         user.setName(resultSet.getString(5));
         user.setFirstname(resultSet.getString(6));
         user.setEmail(resultSet.getString(7));
-        user.setRegistrationDate(resultSet.getDate(8).toLocalDate());
+        Timestamp registrationDate = resultSet.getTimestamp(8);
+        if (null != registrationDate) {
+          user.setRegistrationDate(registrationDate.toLocalDateTime().toLocalDate());
+        }
         user.setPermissions(resultSet.getString(9));
-        user.setBirthDate(resultSet.getDate(10).toLocalDate());
+        Timestamp birthdate = resultSet.getTimestamp(10);
+        if (null != birthdate) {
+          user.setBirthDate(birthdate.toLocalDateTime().toLocalDate());
+        }
         user.setStreet(resultSet.getString(11));
         user.setHouseNumber(resultSet.getString(12));
         user.setMailBox(resultSet.getString(13));

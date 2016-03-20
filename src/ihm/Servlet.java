@@ -183,6 +183,14 @@ public class Servlet extends HttpServlet {
           break;
 
         case "disconnect":
+          req.getSession().invalidate();
+
+          Cookie cookie = new Cookie("user", "");
+          cookie.setPath("/");
+          cookie.setMaxAge(0);
+          resp.addCookie(cookie);
+
+          resp.setStatus(HttpStatus.OK_200);
 
           break;
 

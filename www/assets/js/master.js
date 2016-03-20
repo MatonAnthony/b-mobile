@@ -72,6 +72,28 @@ $(function(){
 	    });
 		return false;
 	});
+	//Disconnect
+	//TODO(fany)quel bouton?
+	/*$('#?').on('click',function(){
+		$.ajax({
+			url: "/home",
+			type: 'POST',
+			data: {choix:'disconnect'},
+			success: function(reponse) {
+				$("#loginPage").css("display", "block");
+				$("#navBarStudent").css("display", "none");
+				$("#navBarTeacher").css("display", "none");
+				$("#profilePage").css("display", "none");
+				$("#studentHomePage").css("display", "none");
+				$("#teacherHomePage").css("display", "none");
+				$("#addMobilityPage").css("display", "none");
+			},
+			error: function(e) {
+				console.log(e.message);
+			}
+		})
+	});*/
+	
 	//MyProfile
 	$("#profileButton").click(function () {
 		$.ajax({
