@@ -10,8 +10,6 @@ public interface UserDto {
 
   void setPseudo(String pseudo);
 
-  String getAddress();
-
   String getPseudo();
 
   String getPassword();
@@ -29,8 +27,6 @@ public interface UserDto {
   String getEmail();
 
   void setEmail(String email);
-
-  void setAddress(String address);
 
   String getTel();
 
@@ -71,5 +67,37 @@ public interface UserDto {
   LocalDate getBirthDate();
 
   void setBirthDate(LocalDate birthDate);
+
+  public int getIdDepartment();
+
+  public void setIdDepartment(int idDepartment);
+
+  public String getStreet();
+
+  public void setStreet(String street);
+
+  public String getHouseNumber();
+
+  public void setHouseNumber(String houseNumber);
+
+  public String getMailBox();
+
+  public void setMailBox(String mailBox);
+
+  public String getZip();
+
+  public void setZip(String zip);
+
+  public String getCity();
+
+  public void setCity(String city);
+
+  public String getCountry();
+
+  public void setCountry(String country);
+
+  public int getVerNr();
+
+  public void setVerNr(int verNr);
 
 }

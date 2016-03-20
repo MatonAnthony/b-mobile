@@ -1,20 +1,26 @@
 package bizz;
 
-import nl.garvelink.iban.IBAN;
+import java.time.LocalDate;
 
 import org.mindrot.jbcrypt.BCrypt;
 
-import java.time.LocalDate;
+import nl.garvelink.iban.IBAN;
 
 class UserImpl implements UserBizz, Cloneable {
 
   private int id;
+  private int idDepartment;
   private String pseudo;
   private String password;
   private String name;
   private String firstname;
   private String email;
-  private String address;
+  private String street;
+  private String houseNumber;
+  private String mailBox;
+  private String zip;
+  private String city;
+  private String country;
   private String tel;
   private String gender;
   private String permissions;
@@ -25,6 +31,76 @@ class UserImpl implements UserBizz, Cloneable {
   private int successfullYearInCollege;
   private LocalDate registrationDate;
   private LocalDate birthDate;
+  private int verNr;
+
+  public int getIdDepartment() {
+    return idDepartment;
+  }
+
+  public void setIdDepartment(int idDepartment) {
+    this.idDepartment = idDepartment;
+  }
+
+  public String getStreet() {
+    return street;
+  }
+
+  public void setStreet(String street) {
+    this.street = street;
+  }
+
+  public String getHouseNumber() {
+    return houseNumber;
+  }
+
+  public void setHouseNumber(String houseNumber) {
+    this.houseNumber = houseNumber;
+  }
+
+  public String getMailBox() {
+    return mailBox;
+  }
+
+  public void setMailBox(String mailBox) {
+    this.mailBox = mailBox;
+  }
+
+  public String getZip() {
+    return zip;
+  }
+
+  public void setZip(String zip) {
+    this.zip = zip;
+  }
+
+  public String getCity() {
+    return city;
+  }
+
+  public void setCity(String city) {
+    this.city = city;
+  }
+
+  public String getCountry() {
+    return country;
+  }
+
+  public void setCountry(String country) {
+    this.country = country;
+  }
+
+  public int getVerNr() {
+    return verNr;
+  }
+
+  public void setVerNr(int verNr) {
+    this.verNr = verNr;
+  }
+
+  // TODO (Jonathan) What the fuck is it ?
+  /*
+   * public void setIban(IBAN iban) { this.iban = iban; }
+   */
 
   /**
    * Return user pseudo
@@ -154,32 +230,6 @@ class UserImpl implements UserBizz, Cloneable {
       throw new IllegalArgumentException();
     }
     this.email = email;
-  }
-
-  /**
-   * Return address of an user.
-   * 
-   * @return user address.
-   */
-  @Override
-  public String getAddress() {
-    if (address == null) {
-      throw new NullPointerException();
-    }
-    return address;
-  }
-
-  /**
-   * Edit user address.
-   * 
-   * @param address New user address.
-   */
-  @Override
-  public void setAddress(String address) {
-    if (address == null) {
-      throw new IllegalArgumentException();
-    }
-    this.address = address;
   }
 
   /**
@@ -503,12 +553,12 @@ class UserImpl implements UserBizz, Cloneable {
    * 
    * @return the hashcode of the user.
    */
+  // TODO (Jonathan) Corriger hashCode avec les nouveaux champs + test
   @Override
   public int hashCode() {
     final int prime = 31;
     int result = 1;
     result = prime * result + ((accountHolder == null) ? 0 : accountHolder.hashCode());
-    result = prime * result + ((address == null) ? 0 : address.hashCode());
     result = prime * result + ((bankName == null) ? 0 : bankName.hashCode());
     result = prime * result + ((bic == null) ? 0 : bic.hashCode());
     result = prime * result + ((birthDate == null) ? 0 : birthDate.hashCode());
@@ -533,6 +583,7 @@ class UserImpl implements UserBizz, Cloneable {
    * @param obj the object to check
    * @return true if the object is equal to the current user. False if it's not equal.
    */
+  // TODO (Jonathan) Corriger le equals avec les nouveaux champs + test
   @Override
   public boolean equals(Object obj) {
     if (this == obj) {
@@ -550,13 +601,6 @@ class UserImpl implements UserBizz, Cloneable {
         return false;
       }
     } else if (!accountHolder.equals(other.accountHolder)) {
-      return false;
-    }
-    if (address == null) {
-      if (other.address != null) {
-        return false;
-      }
-    } else if (!address.equals(other.address)) {
       return false;
     }
     if (bankName == null) {
@@ -658,4 +702,5 @@ class UserImpl implements UserBizz, Cloneable {
     }
     return true;
   }
+
 }

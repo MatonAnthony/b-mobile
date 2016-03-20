@@ -1,11 +1,11 @@
 package ucc;
 
+import java.sql.SQLException;
+
 import bizz.UserBizz;
 import dal.DalServices;
 import dao.UserDao;
 import dto.UserDto;
-
-import java.sql.SQLException;
 
 public class UserUcControllerImpl implements UserUcController {
 
@@ -36,21 +36,9 @@ public class UserUcControllerImpl implements UserUcController {
   @Override
   public UserDto login(String username, String password) {
 
-    UserBizz user = null;
-
     // Récupérer les données du DAL
-    try {
-      dalServices.startTransaction();
-      user = (UserBizz) userDao.findByUserName(username);
+    UserBizz user = (UserBizz) userDao.findByUserName(username);
 
-      dalServices.commitTransaction();
-    } catch (SQLException exc) {
-      try {
-        dalServices.rollbackTransaction();
-      } catch (SQLException exc2) {
-        exc2.printStackTrace();
-      }
-    }
     // L'user est null si aucun utilisateur avec le pseudo entré n'existe
     if (null == user) {
       return null;

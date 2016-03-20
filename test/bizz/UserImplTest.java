@@ -6,12 +6,12 @@ import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertTrue;
 
-import nl.garvelink.iban.IBAN;
+import java.time.LocalDate;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import java.time.LocalDate;
+import nl.garvelink.iban.IBAN;
 
 public class UserImplTest {
 
@@ -27,7 +27,6 @@ public class UserImplTest {
     puppet.setName("name");
     puppet.setFirstname("firstname");
     puppet.setEmail("xxx@yyy.zzz");
-    puppet.setAddress("5th Street");
     puppet.setTel("32478803948");
     puppet.setGender("M");
     puppet.setPermissions("STUDENT");
@@ -219,38 +218,6 @@ public class UserImplTest {
     assertEquals(puppet.getEmail(), "anthony@anthony.be");
   }
 
-  /*
-   * Test getAddress when the address is null
-   */
-  @Test(expected = NullPointerException.class)
-  public void testGetAddress() {
-    empty.getAddress();
-  }
-
-  /*
-   * Test getAddress when there is an address set
-   */
-  @Test
-  public void testGetAddress1() {
-    assertEquals(puppet.getAddress(), "5th Street");
-  }
-
-  /*
-   * Test setAddress with null
-   */
-  @Test(expected = IllegalArgumentException.class)
-  public void testSetAddress() {
-    puppet.setAddress(null);
-  }
-
-  /*
-   * Test setAddress with a valid address
-   */
-  @Test
-  public void testSetAddress1() {
-    puppet.setAddress("Test Street");
-    assertEquals(puppet.getAddress(), "Test Street");
-  }
 
   /*
    * Test getTel when tel is not defined yet
@@ -640,7 +607,6 @@ public class UserImplTest {
     sister.setName("name");
     sister.setFirstname("firstname");
     sister.setEmail("xxx@yyy.zzz");
-    sister.setAddress("5th Street");
     sister.setTel("32478803948");
     sister.setGender("M");
     sister.setPermissions("STUDENT");

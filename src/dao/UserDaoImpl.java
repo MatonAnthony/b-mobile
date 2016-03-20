@@ -1,12 +1,12 @@
 package dao;
 
-import bizz.BizzFactory;
-import dal.DalBackendServices;
-import dto.UserDto;
-
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
+import bizz.BizzFactory;
+import dal.DalBackendServices;
+import dto.UserDto;
 
 public class UserDaoImpl implements UserDao {
 
@@ -64,30 +64,75 @@ public class UserDaoImpl implements UserDao {
 
   @Override
   public UserDto findByUserName(String username) {
-    // TODO (Martin) Modifier pour que tous les champs soient remplis
-    String query = "SELECT pseudo, password, permissions FROM bmobile.users WHERE pseudo=?";
+    String query = "SELECT id, id_department, pseudo, password, name, firstname, email, "
+        + "registration_date, permission, birth_date, street, "
+        + "house_number, mailbox, zip, city, country, tel, gender, successfully_year_in_college, "
+        + "iban, bic, account_holder, bank_name, ver_nr FROM bmobile.users WHERE pseudo=?";
     PreparedStatement preparedStatement = null;
-    UserDto user = factory.getUserDto();
     try {
       preparedStatement = dalBackendServices.prepare(query);
       preparedStatement.setString(1, username);
-      try (ResultSet resultSet = preparedStatement.executeQuery()) {
-        if (resultSet.next()) {
-          user.setPseudo(resultSet.getString(1));
-          user.setPassword(resultSet.getString(2));
-          user.setPermissions(resultSet.getString(3));
-        } else {
-          return null;
-        }
-        return user;
-      } catch (SQLException exc2) {
-        exc2.printStackTrace();
-        return null;
-      }
+      return fillDto(preparedStatement);
     } catch (SQLException exc) {
       exc.printStackTrace();
       return null;
     }
+  }
+
+  @Override
+  public UserDto findById(int id) {
+    String query = "SELECT id, id_department, pseudo, password, name, firstname, email, "
+        + "registration_date, permission, birth_date, street, "
+        + "house_number, mailbox, zip, city, country, tel, gender, successfully_year_in_college, "
+        + "iban, bic, account_holder, bank_name, ver_nr FROM bmobile.users WHERE id=?";
+    PreparedStatement preparedStatement = null;
+    try {
+      preparedStatement = dalBackendServices.prepare(query);
+      preparedStatement.setInt(1, id);
+      return fillDto(preparedStatement);
+    } catch (SQLException exc) {
+      exc.printStackTrace();
+      return null;
+    }
+  }
+
+  private UserDto fillDto(PreparedStatement preparedStatement) {
+    UserDto user = factory.getUserDto();
+    try (ResultSet resultSet = preparedStatement.executeQuery()) {
+      if (resultSet.next()) {
+        user.setId(resultSet.getInt(1));
+        user.setIdDepartment(resultSet.getInt(2));
+        user.setPseudo(resultSet.getString(3));
+        user.setPassword(resultSet.getString(4));
+        user.setName(resultSet.getString(5));
+        user.setFirstname(resultSet.getString(6));
+        user.setEmail(resultSet.getString(7));
+        user.setRegistrationDate(resultSet.getDate(8).toLocalDate());
+        user.setPermissions(resultSet.getString(9));
+        user.setBirthDate(resultSet.getDate(10).toLocalDate());
+        user.setStreet(resultSet.getString(11));
+        user.setHouseNumber(resultSet.getString(12));
+        user.setMailBox(resultSet.getString(13));
+        user.setZip(resultSet.getString(14));
+        user.setCity(resultSet.getString(15));
+        user.setCountry(resultSet.getString(16));
+        user.setTel(resultSet.getString(17));
+        user.setGender(resultSet.getString(18));
+        user.setSuccessfullYearInCollege(resultSet.getInt(19));
+        user.setIban(resultSet.getString(20));
+        user.setBic(resultSet.getString(21));
+        user.setAccountHolder(resultSet.getString(21));
+        user.setBankName(resultSet.getString(22));
+        user.setVerNr(resultSet.getInt(22));
+      } else {
+        return null;
+      }
+      return user;
+    } catch (SQLException exc2) {
+      exc2.printStackTrace();
+      return null;
+    }
+
 
   }
 

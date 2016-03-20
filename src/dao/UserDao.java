@@ -26,4 +26,6 @@ public interface UserDao {
 
   boolean delete();
 
+  UserDto findById(int id);
+
 }
