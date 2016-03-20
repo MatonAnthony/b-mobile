@@ -161,11 +161,18 @@ $(function(){
 	$(".navButton").click(function(){
 		$(".active").removeClass("active");
 		switch($(this).attr("href")){
+			case "#myMobility":
+				$(".navButton[href='#myMobility']").parent().addClass("active");
+				home("student");
+				break;
+			case "#confirmedMobility":
+				$(".navButton[href='#confirmedMobility']").parent().addClass("active");
+				home("teacher");
+				break;
 			case "#addMobility" :
-			loadAddMobility();
-			$(".navButton[href='#addMobility']").parent().addClass("active");
-			break;
-
+				loadAddMobility();
+				$(".navButton[href='#addMobility']").parent().addClass("active");
+				break;
 		}
 
 	});
@@ -187,6 +194,23 @@ $(function(){
 		$("#profilePage").css("display", "none");
 		$("#studentHomePage").css("display", "none");
 		$("#teacherHomePage").css("display", "block");
+	}
+	
+	function home(permission){
+		$("#loginPage").css("display", "none");
+		if (permission === "student"){
+			$("#navBarStudent").css("display", "block");
+			$("#studentHomePage").css("display", "block");
+			$("#navBarTeacher").css("display", "none");
+			$("#teacherHomePage").css("display", "none");
+		}else{	
+			$("#navBarStudent").css("display", "none");
+			$("#studentHomePage").css("display", "none");
+			$("#navBarTeacher").css("display", "block");
+			$("#teacherHomePage").css("display", "block");
+		}
+		$("#profilePage").css("display", "none");
+		$("#addMobilityPage").css("display", "none");
 	}
 
 	function loadAddMobility(){
@@ -273,7 +297,6 @@ $(function(){
 $(function(){
 
 	$("#myMobility tr td:nth-child(6)").each(function(){
-		console.log($(this).html());
 		if ($(this).html() !== "Annulée"){
 			$(this).next().append("<button>Annuler</button>");
 		}else{
