@@ -117,9 +117,6 @@ $(function(){
 				'<td>' + nbRow + '</td>'+
 				'<td>'+
 					'<select id="selectProgram' + nbRow + '" class="form-control">'+
-						'<option >FAME</option>'+
-						'<option>Erasmus</option>'+
-						'<option>Erabel</option>'+
 					'</select>'+
 				'</td>'+
 				'<td><input type="radio" name="optionsRadios' + nbRow + '" value="SMS" checked></input></td>'+
@@ -141,6 +138,7 @@ $(function(){
 		$("#addMobilityTableBody").append(value);
 		addDepartmentsToSelector(nbRow);
 		addCountriesToSelector(nbRow);
+		addProgramsToSelector(nbRow);
 		return true;
 	});
 
@@ -154,6 +152,12 @@ $(function(){
 		var countries = $("#selectCountry1").html();
 		var selectName = "#selectCountry"+id;
 		$(selectName).html(countries);
+	}
+	
+	function addProgramsToSelector(id){
+		var programs = $("#selectProgram1").html();
+		var selectName = "#selectProgram"+id;
+		$(selectName).html(programs);
 	}
 
 
@@ -257,6 +261,25 @@ $(function(){
 		        },
 		        error: function(error){
 		            console.log("Problème lors de la récuperation de la liste des departements");
+		        }
+		    });
+		}
+		if($("#selectProgram1").html()== ""){
+		    $.ajax({
+		        method: "POST",
+		        url: "/home",
+		        data: {
+		            action: "selectPrograms"
+		        },
+		        success: function(resp){
+		        	resp = JSON.parse(resp);
+		        	var key;
+		        	for(key in resp){
+		        		$("#selectProgram1").append("<option>" + resp[key]['name'] + "</option>"); 
+		        	}
+		        },
+		        error: function(error){
+		            console.log("Problème lors de la récuperation de la liste des programmes");
 		        }
 		    });
 		}

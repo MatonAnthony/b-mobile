@@ -4,10 +4,12 @@ import bizz.BizzFactory;
 import dto.CountryDto;
 import dto.DepartmentDto;
 import dto.MobilityDto;
+import dto.ProgramDto;
 import dto.UserDto;
 import ucc.CountryUcController;
 import ucc.DepartmentUcController;
 import ucc.MobilityUcController;
+import ucc.ProgramUcController;
 import ucc.UserUcController;
 
 import com.auth0.jwt.JWTSigner;
@@ -58,6 +60,7 @@ public class Servlet extends HttpServlet {
   private transient MobilityUcController mobilityUcc = null;
   private transient CountryUcController countryUcc = null;
   private transient DepartmentUcController departmentUcController = null;
+  private transient ProgramUcController programUcController = null;
   private transient BizzFactory bizzFactory = null;
 
   private transient Genson userGenson = new GensonBuilder()
@@ -74,12 +77,13 @@ public class Servlet extends HttpServlet {
    */
   public Servlet(UserUcController userUcc, BizzFactory bizzFactory,
       MobilityUcController mobilityUcc, CountryUcController countryUcc,
-      DepartmentUcController departmentUcController) {
+      DepartmentUcController departmentUcController, ProgramUcController programUcController) {
     this.userUcc = userUcc;
     this.bizzFactory = bizzFactory;
     this.mobilityUcc = mobilityUcc;
     this.countryUcc = countryUcc;
     this.departmentUcController = departmentUcController;
+    this.programUcController = programUcController;
   }
 
   @Override
@@ -163,7 +167,6 @@ public class Servlet extends HttpServlet {
           userdto.setName(req.getParameter("name"));
           userdto.setFirstname(req.getParameter("firstname"));
           userdto.setEmail(req.getParameter("email"));
-          String confirmation = req.getParameter("confirmation");
 
           userDtoRecept = userUcc.register(userdto);
           if (userDtoRecept == null) {
@@ -209,6 +212,12 @@ public class Servlet extends HttpServlet {
           ArrayList<DepartmentDto> departments = departmentUcController.getAllDepartments();
           String jsonDepartments = defaultGenson.serialize(departments);
           resp.getWriter().println(jsonDepartments);
+          resp.setStatus(HttpStatus.ACCEPTED_202);
+          break;
+        case "selectPrograms":
+          ArrayList<ProgramDto> programs = programUcController.getAllPrograms();
+          String jsonPrograms = defaultGenson.serialize(programs);
+          resp.getWriter().println(jsonPrograms);
           resp.setStatus(HttpStatus.ACCEPTED_202);
           break;
         default:

@@ -11,6 +11,8 @@ import dao.DepartmentDao;
 import dao.DepartmentDaoImpl;
 import dao.MobilityDao;
 import dao.MobilityDaoImpl;
+import dao.ProgramDao;
+import dao.ProgramDaoImpl;
 import dao.UserDao;
 import dao.UserDaoImpl;
 import ucc.CountryUcController;
@@ -19,6 +21,8 @@ import ucc.DepartmentUcController;
 import ucc.DepartmentUcControllerImpl;
 import ucc.MobilityUcController;
 import ucc.MobilityUcControllerImpl;
+import ucc.ProgramUcController;
+import ucc.ProgramUcControllerImpl;
 import ucc.UserUcController;
 import ucc.UserUcControllerImpl;
 
@@ -53,7 +57,10 @@ public class Main {
         new DepartmentDaoImpl((DalBackendServices) dalServices, bizzFactory);
     DepartmentUcController departmentUcc =
         new DepartmentUcControllerImpl(dalServices, departmentDao);
-    Servlet servlet = new Servlet(userUcc, bizzFactory, mobilityUcc, countryUcc, departmentUcc);
+    ProgramDao programDao = new ProgramDaoImpl((DalBackendServices) dalServices, bizzFactory);
+    ProgramUcController programUcController = new ProgramUcControllerImpl(dalServices, programDao);
+    Servlet servlet = new Servlet(userUcc, bizzFactory, mobilityUcc, countryUcc, departmentUcc,
+        programUcController);
 
     // Gestion des servlets
     context.addServlet(new ServletHolder(servlet), "/home");
