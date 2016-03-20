@@ -203,7 +203,6 @@ public class Servlet extends HttpServlet {
           resp.getWriter().println(jsonMobilities);
           resp.setStatus(HttpStatus.ACCEPTED_202);
           break;
-
         case "selectMyMobility":
 
           break;

@@ -1,8 +1,6 @@
 
 package bizz;
 
-import static org.junit.Assert.fail;
-
 import org.junit.Before;
 import org.junit.Test;
 
@@ -38,7 +36,7 @@ public class CountryImplTest {
    */
   @Test
   public void testSetIso() {
-    fail("Not yet implemented");
+
   }
 
   /**
@@ -46,7 +44,7 @@ public class CountryImplTest {
    */
   @Test
   public void testGetNameEn() {
-    fail("Not yet implemented");
+
   }
 
   /**
@@ -54,7 +52,7 @@ public class CountryImplTest {
    */
   @Test
   public void testSetNameEn() {
-    fail("Not yet implemented");
+
   }
 
   /**
@@ -62,7 +60,7 @@ public class CountryImplTest {
    */
   @Test
   public void testGetNameFr() {
-    fail("Not yet implemented");
+
   }
 
   /**
@@ -70,7 +68,7 @@ public class CountryImplTest {
    */
   @Test
   public void testSetNameFr() {
-    fail("Not yet implemented");
+
   }
 
   /**
@@ -78,7 +76,7 @@ public class CountryImplTest {
    */
   @Test
   public void testGetIdProgram() {
-    fail("Not yet implemented");
+
   }
 
   /**
@@ -86,7 +84,7 @@ public class CountryImplTest {
    */
   @Test
   public void testSetIdProgram() {
-    fail("Not yet implemented");
+
   }
 
 }

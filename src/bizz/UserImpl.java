@@ -1,10 +1,10 @@
 package bizz;
 
-import java.time.LocalDate;
+import nl.garvelink.iban.IBAN;
 
 import org.mindrot.jbcrypt.BCrypt;
 
-import nl.garvelink.iban.IBAN;
+import java.time.LocalDate;
 
 class UserImpl implements UserBizz, Cloneable {
 
@@ -96,11 +96,6 @@ class UserImpl implements UserBizz, Cloneable {
   public void setVerNr(int verNr) {
     this.verNr = verNr;
   }
-
-  // TODO (Jonathan) What the fuck is it ?
-  /*
-   * public void setIban(IBAN iban) { this.iban = iban; }
-   */
 
   /**
    * Return user pseudo

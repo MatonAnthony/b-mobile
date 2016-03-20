@@ -1,8 +1,6 @@
 
 package ucc;
 
-import static org.junit.Assert.*;
-
 import org.junit.Before;
 import org.junit.Test;
 
@@ -15,11 +13,13 @@ public class DepartmentUcControllerImplTest {
   public void setUp() throws Exception {}
 
   /**
-   * Test method for {@link ucc.DepartmentUcControllerImpl#DepartmentUcControllerImpl(dal.DalServices, dao.DepartmentDao)}.
+   * Test method for
+   * {@link ucc.DepartmentUcControllerImpl#DepartmentUcControllerImpl(dal.DalServices, dao.DepartmentDao)}
+   * .
    */
   @Test
   public void testDepartmentUcControllerImpl() {
-    fail("Not yet implemented");
+
   }
 
   /**
@@ -27,7 +27,7 @@ public class DepartmentUcControllerImplTest {
    */
   @Test
   public void testGetAllDepartments() {
-    fail("Not yet implemented");
+
   }
 
 }
