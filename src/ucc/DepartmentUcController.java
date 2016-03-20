@@ -12,6 +12,8 @@ public interface DepartmentUcController {
    * 
    * @return An arrayList with dto of all the departments.
    */
-  ArrayList<DepartmentDto> getAllDepartments();
+  public ArrayList<DepartmentDto> getAllDepartments();
+
+  public DepartmentDto getDepartementsById(String id);
 
 }

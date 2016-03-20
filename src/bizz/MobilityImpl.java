@@ -17,7 +17,7 @@ public class MobilityImpl implements MobilityBizz, Cloneable {
   private PartnerDto partnerDto;
   private int preferenceOrder;
   private String idDepartment;
-  private DepartmentDto departementDto;
+  private DepartmentDto departmentDto;
   private int quadrimester;
   private int verNr;
   private int cancelationReason;
@@ -89,14 +89,14 @@ public class MobilityImpl implements MobilityBizz, Cloneable {
   }
 
   public DepartmentDto getDepartementDto() {
-    if (departementDto == null) {
-
+    if (departmentDto == null) {
+      // departmentDto = ;
     }
-    return departementDto;
+    return departmentDto;
   }
 
-  public void setDepartementDto(DepartmentDto departementDto) {
-    this.departementDto = departementDto;
+  public void setDepartementDto(DepartmentDto departmentDto) {
+    this.departmentDto = departmentDto;
   }
 
   public CountryDto getCountryDto() {

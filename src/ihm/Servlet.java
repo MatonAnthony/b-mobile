@@ -183,10 +183,6 @@ public class Servlet extends HttpServlet {
 
           break;
 
-        case "confirmedMobility":
-          // Appel de fonction
-          break;
-
         case "editProfile":
 
           break;

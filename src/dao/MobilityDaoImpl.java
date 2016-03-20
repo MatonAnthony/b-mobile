@@ -51,7 +51,7 @@ public class MobilityDaoImpl implements MobilityDao {
             + "return_transcript, return_internship_cert, return_final_report, return_erasmus_language_test, "
             + "return_doc_sent_highschool, cancelation_reason, academic_year, ver_nr "
             + "FROM bmobile.mobilities";
-    return fillDto(query);
+    return fillArrayDto(query);
   }
 
   public ArrayList<MobilityDto> findConfirmedMobility() {
@@ -63,10 +63,10 @@ public class MobilityDaoImpl implements MobilityDao {
             + "return_transcript, return_internship_cert, return_final_report, return_erasmus_language_test, "
             + "return_doc_sent_highschool, cancelation_reason, academic_year, ver_nr "
             + "FROM bmobile.mobilities WHERE satus != \"PENDING\" || canceled = \"false\"";
-    return fillDto(query);
+    return fillArrayDto(query);
   }
 
-  private ArrayList<MobilityDto> fillDto(String query) {
+  private ArrayList<MobilityDto> fillArrayDto(String query) {
     PreparedStatement preparedStatement = null;
     try {
       preparedStatement = dalBackendServices.prepare(query);

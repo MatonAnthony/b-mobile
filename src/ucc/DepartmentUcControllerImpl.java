@@ -26,4 +26,8 @@ public class DepartmentUcControllerImpl implements DepartmentUcController {
     return departments;
   }
 
+  public DepartmentDto getDepartementsById(String id) {
+    return departmentDao.getDepartementById(id);
+  }
+
 }

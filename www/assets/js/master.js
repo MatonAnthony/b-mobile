@@ -267,12 +267,11 @@ $(function(){
 // Managing of the confirmed table
 
 $(function(){
-	/*
 	$.ajax({
         method: "POST",
         url: "/home",
         data: {
-            action: "confirmedMobility",
+            action: "selectConfirmedMobility",
         },
         success: function(resp){
         	resp=JSON.parse(resp);
@@ -282,7 +281,6 @@ $(function(){
             console.log("Connexion echouée");
         }
     });
-	*/
 	
 	$("#tableConfirmed tr td:last-child").each(function(){
 		if ($(this).html() === "Annulée"){

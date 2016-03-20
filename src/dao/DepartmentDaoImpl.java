@@ -2,6 +2,7 @@
 package dao;
 
 import bizz.BizzFactory;
+import bizz.DepartmentImpl;
 import dal.DalBackendServices;
 import dto.DepartmentDto;
 
@@ -37,6 +38,36 @@ public class DepartmentDaoImpl implements DepartmentDao {
           departments.add(departmentDto);
         }
         return departments;
+      } catch (SQLException exc2) {
+        exc2.printStackTrace();
+        return null;
+      }
+    } catch (SQLException exc) {
+      exc.printStackTrace();
+      return null;
+    }
+
+  }
+
+  @Override
+  public DepartmentDto getDepartementById(String id) {
+    String query = "SELECT * FROM bmobile.departments WHERE id = ?";
+
+    PreparedStatement preparedStatement = null;
+    try {
+      preparedStatement = dalBackendServices.prepare(query);
+      preparedStatement.setString(1, id);
+      DepartmentDto department = new DepartmentImpl();
+      try (ResultSet resultSet = preparedStatement.executeQuery()) {
+        if (resultSet.next()) {
+          DepartmentDto departmentDto = factory.getDepartmentDto();
+          departmentDto.setId(resultSet.getString(1));
+          departmentDto.setLabel(resultSet.getString(2));
+          departmentDto.setVer_nr(resultSet.getInt(3));
+          return department;
+        } else {
+          return null;
+        }
       } catch (SQLException exc2) {
         exc2.printStackTrace();
         return null;
