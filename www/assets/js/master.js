@@ -21,33 +21,42 @@ $(function(){
     });
 	// Register
 	$("#registerButton").click(function(){
-		password = $("input[name='password']").val();
-		if (password === $("input[name='confirm']").val()) {
+		password = $("#passwordRegister").val();
+		if (password === $("#confirmRegister").val()) {
 			$.ajax({
 				method: "POST",
 				url: "/home",
 				data: {
 					action: "register",
-					username: $("input[name='login']").val(),
+					username: $("#loginRegister").val(),
 					password: password,
-					name: $("input[name='name']").val(),
-					firstname: $("input[name='firstname']").val(),
-					email: $("input[name='email']").val()
+					name: $("#nameRegister").val(),
+					firstname: $("#firstnameRegister").val(),
+					email: $("#emailRegister").val()
 				},
 				success: function (resp) {
 					resp = JSON.parse(resp);
-					if (resp.permissions === "ETUDIANT") {
+					console.log(resp);
+					if (resp.permissions === "STUDENT") {
 						authStudent();
 					} else {
 						authTeacher();
 					}
 				},
+				error: function(error){
+					console.log("erreur lors de l'enregistrement");
+				}
 			});
 		} else {
 			$("#password_matching").show();
 		}
-
+		return false;
 	});
+
+	$("#registerLink").click(function(){
+		loadRegisterPage();
+	});
+
 	//Connect
 	$("#connectButton").click(function(){
 		 $.ajax({
@@ -73,27 +82,28 @@ $(function(){
 		return false;
 	});
 	//Disconnect
-	//TODO(fany)quel bouton?
-	/*$('#?').on('click',function(){
-		$.ajax({
-			url: "/home",
-			type: 'POST',
-			data: {choix:'disconnect'},
-			success: function(reponse) {
-				$("#loginPage").css("display", "block");
-				$("#navBarStudent").css("display", "none");
-				$("#navBarTeacher").css("display", "none");
-				$("#profilePage").css("display", "none");
-				$("#studentHomePage").css("display", "none");
-				$("#teacherHomePage").css("display", "none");
-				$("#addMobilityPage").css("display", "none");
-			},
-			error: function(e) {
-				console.log(e.message);
-			}
-		})
-	});*/
 	
+	function disconnect(){
+			$.ajax({
+				url: "/home",
+				type: 'POST',
+				data: {
+					action:"disconnect"
+				},
+				success: function(reponse) {
+					$("#loginPage").css("display", "block");
+					$("#navBarStudent").css("display", "none");
+					$("#navBarTeacher").css("display", "none");
+					$("#profilePage").css("display", "none");
+					$("#studentHomePage").css("display", "none");
+					$("#teacherHomePage").css("display", "none");
+					$("#addMobilityPage").css("display", "none");
+				},
+				error: function(e) {
+					console.log(e.message);
+				}
+			});
+	}
 	//MyProfile
 	$("#profileButton").click(function () {
 		$.ajax({
@@ -199,6 +209,11 @@ $(function(){
 				loadAddMobility();
 				$(".navButton[href='#addMobility']").parent().addClass("active");
 				break;
+			case "#disconnect" :
+				disconnect();
+				$(".navButton[href='#confirmedMobility']").parent().addClass("active");
+				$(".navButton[href='#myMobility']").parent().addClass("active");
+				break;
 		}
 
 	});
@@ -211,6 +226,7 @@ $(function(){
 		$("#profilePage").css("display", "none");
 		$("#studentHomePage").css("display", "block");
 		$("#teacherHomePage").css("display", "none");
+		$("#registerPage").css("display", "none");
 	}
 
 	function authTeacher(){
@@ -220,6 +236,7 @@ $(function(){
 		$("#profilePage").css("display", "none");
 		$("#studentHomePage").css("display", "none");
 		$("#teacherHomePage").css("display", "block");
+		$("#registerPage").css("display", "none");
 	}
 	
 	function home(permission){
@@ -305,6 +322,16 @@ $(function(){
 		        }
 		    });
 		}
+	}
+
+	function loadRegisterPage(){
+		$("#loginPage").css("display", "none");
+		$("#navBarStudent").css("display", "none");
+		$("#navBarTeacher").css("display", "none");
+		$("#profilePage").css("display", "none");
+		$("#studentHomePage").css("display", "none");
+		$("#teacherHomePage").css("display", "none");
+		$("#registerPage").css("display", "block");
 	}
 
 });

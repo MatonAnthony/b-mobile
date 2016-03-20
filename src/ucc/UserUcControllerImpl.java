@@ -1,11 +1,11 @@
 package ucc;
 
-import java.sql.SQLException;
-
 import bizz.UserBizz;
 import dal.DalServices;
 import dao.UserDao;
 import dto.UserDto;
+
+import java.sql.SQLException;
 
 public class UserUcControllerImpl implements UserUcController {
 
@@ -43,6 +43,7 @@ public class UserUcControllerImpl implements UserUcController {
     if (null == user) {
       return null;
     }
+
     if (user.checkPassword(password)) {
       return user;
     } else {
@@ -58,7 +59,7 @@ public class UserUcControllerImpl implements UserUcController {
    */
 
   public UserDto register(UserDto userdto) {
-
+    String password = userdto.getPassword();
     UserBizz userBizz = (UserBizz) userdto;
     userBizz.cryptPassword();
 
@@ -70,8 +71,8 @@ public class UserUcControllerImpl implements UserUcController {
       if (!userDao.createUser(userBizz)) {
         return null;
       }
-      userBizz = (UserBizz) login(userBizz.getPseudo(), userBizz.getPassword());
       dalServices.commitTransaction();
+      userBizz = (UserBizz) login(userBizz.getPseudo(), password);
       return userBizz;
     } catch (SQLException exc) {
       try {

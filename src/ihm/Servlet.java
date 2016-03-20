@@ -167,6 +167,8 @@ public class Servlet extends HttpServlet {
           userdto.setName(req.getParameter("name"));
           userdto.setFirstname(req.getParameter("firstname"));
           userdto.setEmail(req.getParameter("email"));
+          // TODO (Martin) gérer si c'est la première inscription
+          userdto.setPermissions("STUDENT");
 
           userDtoRecept = userUcc.register(userdto);
           if (userDtoRecept == null) {

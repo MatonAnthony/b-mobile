@@ -22,7 +22,8 @@ public class UserDaoImpl implements UserDao {
   @Override
   public boolean createUser(UserDto userdto) {
     // TODO(fany) values en fonction de la db
-    String query = "INSERT INTO bmobile.users VALUES (DEFAULT,?,?,?,?,?)";
+    String query =
+        "INSERT INTO bmobile.users VALUES (DEFAULT,NULL,?,?,?,?,?,NULL,?,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0)";
     PreparedStatement preparedStatement = null;
     try {
       preparedStatement = dalBackendServices.prepare(query);
@@ -31,10 +32,13 @@ public class UserDaoImpl implements UserDao {
       preparedStatement.setString(3, userdto.getName());
       preparedStatement.setString(4, userdto.getFirstname());
       preparedStatement.setString(5, userdto.getEmail());
-      try (ResultSet res = preparedStatement.executeQuery()) {
+      preparedStatement.setString(6, userdto.getPermissions());
+      try {
+        preparedStatement.executeUpdate();
         return true;
 
       } catch (Exception exc) {
+        exc.printStackTrace();
         return false;
       }
 
