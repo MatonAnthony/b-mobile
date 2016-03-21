@@ -7,7 +7,7 @@ public class DepartmentImpl implements DepartmentBizz {
 
   private String id;
   private String label;
-  private int verNr;
+  private int ver_nr;
 
   public String getId() {
     return id;
@@ -26,11 +26,11 @@ public class DepartmentImpl implements DepartmentBizz {
   }
 
   public int getVerNr() {
-    return verNr;
+    return ver_nr;
   }
 
-  public void setVerNr(int verNr) {
-    this.verNr = verNr;
+  public void setVerNr(int ver_nr) {
+    this.ver_nr = ver_nr;
   }
 
 }
