@@ -228,11 +228,11 @@ $(function(){
 		switch($(this).attr("href")){
 			case "#myMobility":
 				$(".navButton[href='#myMobility']").parent().addClass("active");
-				home("student");
+				authStudent();
 				break;
 			case "#confirmedMobility":
 				$(".navButton[href='#confirmedMobility']").parent().addClass("active");
-				home("teacher");
+				authTeacher();
 				break;
 			case "#addMobility" :
 				loadAddMobility();
@@ -243,10 +243,14 @@ $(function(){
 				$(".navButton[href='#confirmedMobility']").parent().addClass("active");
 				$(".navButton[href='#myMobility']").parent().addClass("active");
 				break;
+			case "#list":
+				$(".navButton[href='#list']").parent().addClass("active");
+				loadList();
+				break;
 		}
 
 	});
-
+	
 	//Chargement des pages.
 	function authStudent(){
 		$("#loginPage").css("display", "none");
@@ -256,6 +260,7 @@ $(function(){
 		$("#studentHomePage").css("display", "block");
 		$("#teacherHomePage").css("display", "none");
 		$("#registerPage").css("display", "none");
+		$("#listPage").css("display", "none");
 	}
 
 	function authTeacher(){
@@ -266,23 +271,19 @@ $(function(){
 		$("#studentHomePage").css("display", "none");
 		$("#teacherHomePage").css("display", "block");
 		$("#registerPage").css("display", "none");
+		$("#listPage").css("display", "none");
+		loadConfirmedMobility();
 	}
 	
-	function home(permission){
+	function loadList(){
 		$("#loginPage").css("display", "none");
-		if (permission === "student"){
-			$("#navBarStudent").css("display", "block");
-			$("#studentHomePage").css("display", "block");
-			$("#navBarTeacher").css("display", "none");
-			$("#teacherHomePage").css("display", "none");
-		}else{	
-			$("#navBarStudent").css("display", "none");
-			$("#studentHomePage").css("display", "none");
-			$("#navBarTeacher").css("display", "block");
-			$("#teacherHomePage").css("display", "block");
-		}
+		$("#navBarStudent").css("display", "none");
+		$("#navBarTeacher").css("display", "block");
 		$("#profilePage").css("display", "none");
-		$("#addMobilityPage").css("display", "none");
+		$("#studentHomePage").css("display", "none");
+		$("#teacherHomePage").css("display", "none");
+		$("#registerPage").css("display", "none");
+		$("#listPage").css("display", "block");
 	}
 
 	function loadAddMobility(){
@@ -293,6 +294,7 @@ $(function(){
 		$("#studentHomePage").css("display", "none");
 		$("#teacherHomePage").css("display", "none");
 		$("#addMobilityPage").css("display", "block");
+		$("#listPage").css("display", "none");
 		
 		if($("#selectCountry1").html()== ""){
 			$.ajax({
@@ -361,35 +363,38 @@ $(function(){
 		$("#studentHomePage").css("display", "none");
 		$("#teacherHomePage").css("display", "none");
 		$("#registerPage").css("display", "block");
+		$("#listPage").css("display", "none");
 	}
 
 });
 
 // Managing of the confirmed table
 
-$(function(){
-	$.ajax({
-        method: "POST",
-        url: "/home",
-        data: {
-            action: "selectConfirmedMobility",
-        },
-        success: function(resp){
-        	resp=JSON.parse(resp);
-        	
-        },
-        error: function(error){
-            console.log("Connexion echouée");
-        }
-    });
+function loadConfirmedMobility(){
+	$(function(){
+		$.ajax({
+			method: "POST",
+			url: "/home",
+			data: {
+				action: "selectConfirmedMobility",
+			},
+			success: function(resp){
+				resp=JSON.parse(resp);
+				console.log(resp);
+			},
+			error: function(error){
+				console.log("Connexion echouée");
+			}
+		});
+		
+		$("#tableConfirmed tr td:last-child").each(function(){
+			if ($(this).html() === "Annulée"){
+				$(this).parent().addClass("danger");
+			}
+		});
 	
-	$("#tableConfirmed tr td:last-child").each(function(){
-		if ($(this).html() === "Annulée"){
-			$(this).parent().addClass("danger");
-		}
 	});
-	
-});
+}
 
 // Managing of the "myMobility" table
 
@@ -404,11 +409,6 @@ $(function(){
 		if ($(this).html() === "Non confirmée"){
 			$(this).next().next().append("<button>Confirmer</button>");
 		}
-		//else{
-		//	$(this).parent().addClass("success");
-		//}
-		// On garde ou pas ?
-		
 	});
 
 });
