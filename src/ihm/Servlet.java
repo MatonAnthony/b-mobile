@@ -1,16 +1,18 @@
 package ihm;
 
-import bizz.BizzFactory;
+import bizz.interfaces.BizzFactory;
 import dto.CountryDto;
 import dto.DepartmentDto;
 import dto.MobilityDto;
 import dto.ProgramDto;
 import dto.UserDto;
-import ucc.CountryUcController;
-import ucc.DepartmentUcController;
-import ucc.MobilityUcController;
-import ucc.ProgramUcController;
-import ucc.UserUcController;
+import ucc.interfaces.CancelationUcController;
+import ucc.interfaces.CountryUcController;
+import ucc.interfaces.DepartmentUcController;
+import ucc.interfaces.MobilityUcController;
+import ucc.interfaces.PartnerUcController;
+import ucc.interfaces.ProgramUcController;
+import ucc.interfaces.UserUcController;
 
 import com.auth0.jwt.JWTSigner;
 import com.auth0.jwt.JWTVerifier;
@@ -61,6 +63,8 @@ public class Servlet extends HttpServlet {
   private transient CountryUcController countryUcc = null;
   private transient DepartmentUcController departmentUcController = null;
   private transient ProgramUcController programUcController = null;
+  private transient PartnerUcController partnerUcController = null;
+  private transient CancelationUcController cancelationUcController = null;
   private transient BizzFactory bizzFactory = null;
 
   private transient Genson userGenson = new GensonBuilder()
@@ -77,13 +81,16 @@ public class Servlet extends HttpServlet {
    */
   public Servlet(UserUcController userUcc, BizzFactory bizzFactory,
       MobilityUcController mobilityUcc, CountryUcController countryUcc,
-      DepartmentUcController departmentUcController, ProgramUcController programUcController) {
+      DepartmentUcController departmentUcController, ProgramUcController programUcController,
+      PartnerUcController partnerUcController, CancelationUcController cancelationUcController) {
     this.userUcc = userUcc;
     this.bizzFactory = bizzFactory;
     this.mobilityUcc = mobilityUcc;
     this.countryUcc = countryUcc;
     this.departmentUcController = departmentUcController;
     this.programUcController = programUcController;
+    this.partnerUcController = partnerUcController;
+    this.cancelationUcController = cancelationUcController;
   }
 
   @Override

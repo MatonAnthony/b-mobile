@@ -11,6 +11,7 @@ import java.time.LocalDate;
 import org.junit.Before;
 import org.junit.Test;
 
+import bizz.implementations.UserImpl;
 import nl.garvelink.iban.IBAN;
 
 public class UserImplTest {

@@ -4,6 +4,8 @@ package bizz;
 import org.junit.Before;
 import org.junit.Test;
 
+import bizz.implementations.CountryImpl;
+
 public class CountryImplTest {
 
   private CountryImpl puppet;
@@ -24,7 +26,7 @@ public class CountryImplTest {
   }
 
   /**
-   * Test method for {@link bizz.CountryImpl#getIso()}.
+   * Test method for {@link bizz.implementations.CountryImpl#getIso()}.
    */
   @Test
   public void testGetIso() {
@@ -32,7 +34,7 @@ public class CountryImplTest {
   }
 
   /**
-   * Test method for {@link bizz.CountryImpl#setIso(java.lang.String)}.
+   * Test method for {@link bizz.implementations.CountryImpl#setIso(java.lang.String)}.
    */
   @Test
   public void testSetIso() {
@@ -40,7 +42,7 @@ public class CountryImplTest {
   }
 
   /**
-   * Test method for {@link bizz.CountryImpl#getNameEn()}.
+   * Test method for {@link bizz.implementations.CountryImpl#getNameEn()}.
    */
   @Test
   public void testGetNameEn() {
@@ -48,7 +50,7 @@ public class CountryImplTest {
   }
 
   /**
-   * Test method for {@link bizz.CountryImpl#setNameEn(java.lang.String)}.
+   * Test method for {@link bizz.implementations.CountryImpl#setNameEn(java.lang.String)}.
    */
   @Test
   public void testSetNameEn() {
@@ -56,7 +58,7 @@ public class CountryImplTest {
   }
 
   /**
-   * Test method for {@link bizz.CountryImpl#getNameFr()}.
+   * Test method for {@link bizz.implementations.CountryImpl#getNameFr()}.
    */
   @Test
   public void testGetNameFr() {
@@ -64,7 +66,7 @@ public class CountryImplTest {
   }
 
   /**
-   * Test method for {@link bizz.CountryImpl#setNameFr(java.lang.String)}.
+   * Test method for {@link bizz.implementations.CountryImpl#setNameFr(java.lang.String)}.
    */
   @Test
   public void testSetNameFr() {
@@ -72,7 +74,7 @@ public class CountryImplTest {
   }
 
   /**
-   * Test method for {@link bizz.CountryImpl#getIdProgram()}.
+   * Test method for {@link bizz.implementations.CountryImpl#getIdProgram()}.
    */
   @Test
   public void testGetIdProgram() {
@@ -80,7 +82,7 @@ public class CountryImplTest {
   }
 
   /**
-   * Test method for {@link bizz.CountryImpl#setIdProgram(int)}.
+   * Test method for {@link bizz.implementations.CountryImpl#setIdProgram(int)}.
    */
   @Test
   public void testSetIdProgram() {

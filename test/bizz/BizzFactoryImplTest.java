@@ -2,6 +2,10 @@ package bizz;
 
 import static org.junit.Assert.assertEquals;
 
+import bizz.implementations.BizzFactoryImpl;
+import bizz.implementations.CountryImpl;
+import bizz.implementations.UserImpl;
+import bizz.interfaces.BizzFactory;
 import dto.CountryDto;
 import dto.UserDto;
 
