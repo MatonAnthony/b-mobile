@@ -27,7 +27,7 @@ public class BizzFactoryImplTest {
   }
 
   @Test
-  public void testGetCountryImpl() {
+  public void testGetCountryDto() {
     assertEquals(countryDto, bizzFactory.getCountryDto());
   }
 

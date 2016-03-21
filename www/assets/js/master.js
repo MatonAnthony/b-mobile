@@ -174,6 +174,35 @@ $(function(){
 		return true;
 	});
 
+	$("#addMobilityBtn").click(function(){
+		var nbRow = $("#addMobilityTable").attr("numberOfRows");
+		for (var i = 1; i < nbRow; i++){
+			$.ajax({
+		        method: "POST",
+		        url: "/home",
+		        data: {
+		            action: "addMobility",
+		            numPreference: i,
+		            program: $("#selectProgram"+i).val()
+		        },
+		        success: function(resp){
+		        	resp = JSON.parse(resp);
+		        	var key;
+		        	for(key in resp){
+		        		$("#selectCountry1").append("<option>" + resp[key]['nameFr'] + "</option>"); 
+		        	}
+		        },
+		        error: function(error){
+		            console.log("Problème lors de la récuperation de la liste des pays");
+		        }
+	    	});	
+		}
+		
+
+
+		return true;
+	});
+
 	function addDepartmentsToSelector(id){
 		var departments = $("#selectDep1").html();
 		var selectName = "#selectDep"+id;
