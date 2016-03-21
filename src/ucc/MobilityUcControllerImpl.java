@@ -24,7 +24,7 @@ public class MobilityUcControllerImpl implements MobilityUcController {
   }
 
   public ArrayList<MobilityDto> getconfirmedMobilities() {
-    ArrayList<MobilityDto> mobilities = mobilityDao.findConfirmedMobility();
+    ArrayList<MobilityDto> mobilities = mobilityDao.findFullConfirmedMobility();
     return mobilities;
   }
 

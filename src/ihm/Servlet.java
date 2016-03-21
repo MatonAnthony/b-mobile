@@ -126,7 +126,7 @@ public class Servlet extends HttpServlet {
           UserDto userDtoRecept = userUcc.login(username, password);
 
           if (userDtoRecept == null) {
-            resp.setStatus(HttpStatus.FORBIDDEN_403);
+            resp.setStatus(HttpStatus.UNAUTHORIZED_401);
           } else {
             session.setAttribute("username", userDtoRecept.getPseudo());
             session.setAttribute("permissions", userDtoRecept.getPermissions());
@@ -154,7 +154,7 @@ public class Servlet extends HttpServlet {
               userDto.setPseudo("" + session.getAttribute(KEY_USERNAME));
               resp.getWriter().println(dtoToJson(userDto));
             } else {
-              resp.setStatus(HttpStatus.FORBIDDEN_403);
+              resp.setStatus(HttpStatus.UNAUTHORIZED_401);
             }
           }
           break;

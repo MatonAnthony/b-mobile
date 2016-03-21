@@ -16,6 +16,6 @@ public interface MobilityDao {
 
   ArrayList<MobilityDto> findAllMobility();
 
-  ArrayList<MobilityDto> findConfirmedMobility();
+  ArrayList<MobilityDto> findFullConfirmedMobility();
 
 }
