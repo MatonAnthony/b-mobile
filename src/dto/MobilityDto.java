@@ -139,4 +139,9 @@ public interface MobilityDto {
 
   public void setReturnDocSentHighschool(boolean returnDocSentHighschool);
 
+  public CancelationDto getCancelationDto();
+
+  public void setCancelationDto(CancelationDto cancelationDto);
+
+
 }

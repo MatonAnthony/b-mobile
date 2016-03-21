@@ -1,6 +1,7 @@
 package bizz.implementations;
 
 import bizz.interfaces.MobilityBizz;
+import dto.CancelationDto;
 import dto.CountryDto;
 import dto.DepartmentDto;
 import dto.PartnerDto;
@@ -8,7 +9,6 @@ import dto.ProgramDto;
 import dto.UserDto;
 
 public class MobilityImpl implements MobilityBizz, Cloneable {
-  // TODO(fany) ajouter dto et leur get et set
   private int id;
   private int idStudent;
   private UserDto userDto;
@@ -22,7 +22,7 @@ public class MobilityImpl implements MobilityBizz, Cloneable {
   private int quadrimester;
   private int verNr;
   private int cancelationReason;
-  // private CancelationDto cancelationDto;
+  private CancelationDto cancelationDto;
   private String type;
   private String country;// iso
   private CountryDto countryDto;
@@ -676,6 +676,22 @@ public class MobilityImpl implements MobilityBizz, Cloneable {
   protected Object clone() throws CloneNotSupportedException {
     // TODO (Jonathan) Auto-generated method stub
     return super.clone();
+  }
+
+  public DepartmentDto getDepartmentDto() {
+    return departmentDto;
+  }
+
+  public void setDepartmentDto(DepartmentDto departmentDto) {
+    this.departmentDto = departmentDto;
+  }
+
+  public CancelationDto getCancelationDto() {
+    return cancelationDto;
+  }
+
+  public void setCancelationDto(CancelationDto cancelationDto) {
+    this.cancelationDto = cancelationDto;
   }
 
 }

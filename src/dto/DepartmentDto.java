@@ -11,7 +11,7 @@ public interface DepartmentDto {
 
   public void setLabel(String label);
 
-  public int getVer_nr();
+  public int getVerNr();
 
-  public void setVer_nr(int ver_nr);
+  public void setVerNr(int verNr);
 }

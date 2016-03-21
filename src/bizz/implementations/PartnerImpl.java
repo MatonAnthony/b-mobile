@@ -22,7 +22,7 @@ public class PartnerImpl implements PartnerBizz {
   private String email;
   private String website;
   private boolean exists;
-  private int ver_nr;
+  private int verNr;
 
 
   public int getId() {
@@ -169,12 +169,12 @@ public class PartnerImpl implements PartnerBizz {
     this.exists = exists;
   }
 
-  public int getVer_nr() {
-    return ver_nr;
+  public int getVerNr() {
+    return verNr;
   }
 
-  public void setVer_nr(int ver_nr) {
-    this.ver_nr = ver_nr;
+  public void setVerNr(int verNr) {
+    this.verNr = verNr;
   }
 
 

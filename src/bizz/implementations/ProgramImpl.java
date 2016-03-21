@@ -7,6 +7,8 @@ public class ProgramImpl implements ProgramBizz {
   private int id;
   private String name;
   private String description;
+  private int verNr;
+
 
   public int getId() {
     return id;
@@ -30,6 +32,14 @@ public class ProgramImpl implements ProgramBizz {
 
   public void setDescription(String description) {
     this.description = description;
+  }
+
+  public int getVerNr() {
+    return verNr;
+  }
+
+  public void setVerNr(int verNr) {
+    this.verNr = verNr;
   }
 
 }

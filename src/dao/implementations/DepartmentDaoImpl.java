@@ -64,7 +64,7 @@ public class DepartmentDaoImpl implements DepartmentDao {
           DepartmentDto departmentDto = factory.getDepartmentDto();
           departmentDto.setId(resultSet.getString(1));
           departmentDto.setLabel(resultSet.getString(2));
-          departmentDto.setVer_nr(resultSet.getInt(3));
+          departmentDto.setVerNr(resultSet.getInt(3));
           return department;
         } else {
           return null;

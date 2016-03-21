@@ -14,4 +14,8 @@ public interface ProgramDto {
 
   public void setDescription(String description);
 
+  public int getVerNr();
+
+  public void setVerNr(int verNr);
+
 }
