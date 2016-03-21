@@ -22,9 +22,30 @@ public class MobilityDaoImpl implements MobilityDao {
   }
 
   @Override
-  public boolean createMobility(MobilityDto mobilityDto) {
-    // TODO Auto-generated method stub
-    return false;
+  public void createMobility(MobilityDto mobilityDto) {
+    String query =
+        "INSERT INTO bmobile.mobilities VALUES (DEFAULT,?,?,NULL,?,?,?,?,?,NULL,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,NULL,NULL,0)";
+    PreparedStatement preparedStatement = null;
+    try {
+      preparedStatement = dalBackendServices.prepare(query);
+      preparedStatement.setInt(1, mobilityDto.getUserDto().getId());
+      preparedStatement.setInt(2, mobilityDto.getProgramDto().getId());
+      preparedStatement.setString(3, mobilityDto.getType());
+      preparedStatement.setInt(4, mobilityDto.getPreferenceOrder());
+      preparedStatement.setString(5, mobilityDto.getCountryDto().getIso());
+      preparedStatement.setString(6, mobilityDto.getDepartementDto().getId());
+      preparedStatement.setInt(7, mobilityDto.getQuadrimester());
+      try {
+        preparedStatement.executeUpdate();
+
+      } catch (Exception exc) {
+        exc.printStackTrace();
+      }
+
+    } catch (SQLException exc) {
+      exc.printStackTrace();
+    }
+
   }
 
   @Override

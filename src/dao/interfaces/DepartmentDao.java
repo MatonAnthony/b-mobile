@@ -11,4 +11,6 @@ public interface DepartmentDao {
   ArrayList<DepartmentDto> getAllDepartments();
 
   DepartmentDto getDepartementById(String id);
+
+  DepartmentDto getDepartmentByLabel(String label);
 }

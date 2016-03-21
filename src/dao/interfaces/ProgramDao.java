@@ -8,4 +8,6 @@ public interface ProgramDao {
 
   ArrayList<ProgramDto> getAllProgram();
 
+  ProgramDto findByName(String name);
+
 }

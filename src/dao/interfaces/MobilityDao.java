@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public interface MobilityDao {
 
-  boolean createMobility(MobilityDto mobilityDto);
+  void createMobility(MobilityDto mobilityDto);
 
   void read();
 

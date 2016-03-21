@@ -135,9 +135,11 @@ public class Servlet extends HttpServlet {
           if (userDtoRecept == null) {
             resp.setStatus(HttpStatus.UNAUTHORIZED_401);
           } else {
-            session.setAttribute("username", userDtoRecept.getPseudo());
-            session.setAttribute("permissions", userDtoRecept.getPermissions());
+
             createJwtCookie(resp, userDtoRecept);
+            session.setAttribute(KEY_ID, userDtoRecept.getId());
+            session.setAttribute(KEY_USERNAME, userDtoRecept.getPseudo());
+            session.setAttribute(KEY_PERMISSIONS, userDtoRecept.getPermissions());
             resp.setStatus(HttpStatus.ACCEPTED_202);
             resp.getWriter().println(dtoToJson(userDtoRecept));
 
@@ -156,7 +158,7 @@ public class Servlet extends HttpServlet {
 
           } else {
             if (readJwtCookie(req)) {
-              userDto.setPermissions("" + session.getAttribute(KEY_ID));
+              userDto.setId(Integer.parseInt((String) session.getAttribute(KEY_ID)));
               userDto.setPermissions("" + session.getAttribute(KEY_PERMISSIONS));
               userDto.setPseudo("" + session.getAttribute(KEY_USERNAME));
               resp.getWriter().println(dtoToJson(userDto));
@@ -206,14 +208,6 @@ public class Servlet extends HttpServlet {
         case "editProfile":
 
           break;
-
-        case "selectCountries":
-          ArrayList<CountryDto> countries = countryUcc.getAllCountries();
-          String jsonCountries = defaultGenson.serialize(countries);
-          resp.getWriter().println(jsonCountries);
-          resp.setStatus(HttpStatus.ACCEPTED_202);
-          break;
-
         case "selectConfirmedMobility":
           ArrayList<MobilityDto> mobilities = mobilityUcc.getconfirmedMobilities();
           String jsonMobilities = defaultGenson.serialize(mobilities);
@@ -223,7 +217,12 @@ public class Servlet extends HttpServlet {
         case "selectMyMobility":
 
           break;
-
+        case "selectCountries":
+          ArrayList<CountryDto> countries = countryUcc.getAllCountries();
+          String jsonCountries = defaultGenson.serialize(countries);
+          resp.getWriter().println(jsonCountries);
+          resp.setStatus(HttpStatus.ACCEPTED_202);
+          break;
         case "selectDepartments":
           ArrayList<DepartmentDto> departments = departmentUcController.getAllDepartments();
           String jsonDepartments = defaultGenson.serialize(departments);
@@ -236,6 +235,9 @@ public class Servlet extends HttpServlet {
           resp.getWriter().println(jsonPrograms);
           resp.setStatus(HttpStatus.ACCEPTED_202);
           break;
+        case "addMobility":
+          addMobility(req, resp);
+          break;
         default:
           resp.setStatus(HttpStatus.BAD_REQUEST_400);
       }
@@ -246,6 +248,31 @@ public class Servlet extends HttpServlet {
       resp.getWriter().println(exc.getMessage());
       resp.flushBuffer();
     }
+
+  }
+
+  /**
+   * The method used by the servlet to add a mobility to the DB.
+   * 
+   * @param req The request received by the server.
+   * @param resp The response sended by the server.
+   */
+  private void addMobility(HttpServletRequest req, HttpServletResponse resp) {
+    MobilityDto mobility = bizzFactory.getMobilityDto();
+    // TODO (Martin) Poser question : aller chercher les Dtos dans la servlet ou dans l'ucc pour
+    // profiter des transactions?
+
+    mobility.setUserDto(
+        userUcc.getUserById(Integer.parseInt("" + req.getSession().getAttribute(KEY_ID))));
+    mobility.setPreferenceOrder(Integer.parseInt(req.getParameter("preferenceOrder")));
+    mobility.setProgramDto(programUcController.getProgramByName(req.getParameter("program")));
+    mobility.setType(req.getParameter("type"));
+    mobility.setQuadrimester(Integer.parseInt(req.getParameter("quadrimestre")));
+    mobility.setDepartementDto(
+        departmentUcController.getDepartmentByLabel(req.getParameter("department")));
+    mobility.setCountryDto(countryUcc.getCountryByNameFr(req.getParameter("country")));
+
+    mobilityUcc.addMobility(mobility);
 
   }
 
@@ -285,9 +312,9 @@ public class Servlet extends HttpServlet {
   private void createJwtCookie(HttpServletResponse resp, UserDto userDto) {
 
     Map<String, Object> claims = new HashMap<String, Object>();
+    claims.put(KEY_ID, userDto.getId());
     claims.put(KEY_USERNAME, userDto.getPseudo());
     claims.put(KEY_PERMISSIONS, userDto.getPermissions());
-    claims.put(KEY_ID, userDto.getId());
 
     String token = new JWTSigner(SECRET).sign(claims);
 

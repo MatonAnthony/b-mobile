@@ -12,4 +12,6 @@ public interface CountryDao {
    */
   ArrayList<CountryDto> getAll();
 
+  CountryDto getCountryByNameFr(String name);
+
 }

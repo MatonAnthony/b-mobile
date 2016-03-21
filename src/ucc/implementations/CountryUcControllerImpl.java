@@ -32,4 +32,9 @@ public class CountryUcControllerImpl implements CountryUcController {
     return countries;
   }
 
+  @Override
+  public CountryDto getCountryByNameFr(String name) {
+    return countryDao.getCountryByNameFr(name);
+  }
+
 }

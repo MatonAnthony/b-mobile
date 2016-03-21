@@ -13,6 +13,8 @@ public interface CountryUcController {
    */
   ArrayList<CountryDto> getAllCountries();
 
+  CountryDto getCountryByNameFr(String name);
+
 
 
 }

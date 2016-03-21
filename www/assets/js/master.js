@@ -82,7 +82,6 @@ $(function(){
 		return false;
 	});
 	//Disconnect
-	
 	function disconnect(){
 			$.ajax({
 				url: "/home",
@@ -176,30 +175,27 @@ $(function(){
 
 	$("#addMobilityBtn").click(function(){
 		var nbRow = $("#addMobilityTable").attr("numberOfRows");
-		for (var i = 1; i < nbRow; i++){
+		for (var i = 1; i <= nbRow; i++){
 			$.ajax({
 		        method: "POST",
 		        url: "/home",
 		        data: {
 		            action: "addMobility",
-		            numPreference: i,
-		            program: $("#selectProgram"+i).val()
+		            preferenceOrder: i,
+		            program: $("#selectProgram"+i).val(),
+		            type:$("input[name='optionsRadios"+i+"']:checked").val(),
+		            quadrimestre: $("#selectQuadri"+i).val(),
+		            department: $("#selectDep"+i).val(),
+		            country:$("#selectCountry"+i).val()
 		        },
 		        success: function(resp){
-		        	resp = JSON.parse(resp);
-		        	var key;
-		        	for(key in resp){
-		        		$("#selectCountry1").append("<option>" + resp[key]['nameFr'] + "</option>"); 
-		        	}
+					console.log("Ajout de la mobilité dans la DB OK");		        	
 		        },
 		        error: function(error){
-		            console.log("Problème lors de la récuperation de la liste des pays");
+		            console.log("Problème lors de l'ajout de la mobilité dans la db");
 		        }
 	    	});	
 		}
-		
-
-
 		return true;
 	});
 
@@ -248,7 +244,6 @@ $(function(){
 				loadList();
 				break;
 		}
-
 	});
 	
 	//Chargement des pages.
@@ -261,6 +256,7 @@ $(function(){
 		$("#teacherHomePage").css("display", "none");
 		$("#registerPage").css("display", "none");
 		$("#listPage").css("display", "none");
+		$("#addMobilityPage").css("display", "none");
 	}
 
 	function authTeacher(){
@@ -272,6 +268,7 @@ $(function(){
 		$("#teacherHomePage").css("display", "block");
 		$("#registerPage").css("display", "none");
 		$("#listPage").css("display", "none");
+		$("#addMobilityPage").css("display", "none");
 		loadConfirmedMobility();
 	}
 	
@@ -283,6 +280,7 @@ $(function(){
 		$("#studentHomePage").css("display", "none");
 		$("#teacherHomePage").css("display", "none");
 		$("#registerPage").css("display", "none");
+		$("#addMobilityPage").css("display", "none");
 		$("#listPage").css("display", "block");
 	}
 

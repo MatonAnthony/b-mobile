@@ -7,4 +7,6 @@ public interface UserUcController {
   UserDto login(String login, String password);
 
   UserDto register(UserDto userdto);
+
+  UserDto getUserById(int id);
 }

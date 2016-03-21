@@ -16,4 +16,6 @@ public interface DepartmentUcController {
 
   public DepartmentDto getDepartementsById(String id);
 
+  public DepartmentDto getDepartmentByLabel(String label);
+
 }

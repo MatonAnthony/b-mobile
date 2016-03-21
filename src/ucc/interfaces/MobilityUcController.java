@@ -10,4 +10,6 @@ public interface MobilityUcController {
 
   ArrayList<MobilityDto> getconfirmedMobilities();
 
+  void addMobility(MobilityDto mobility);
+
 }

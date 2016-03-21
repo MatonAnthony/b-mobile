@@ -86,4 +86,9 @@ public class UserUcControllerImpl implements UserUcController {
     return null;
   }
 
+  @Override
+  public UserDto getUserById(int id) {
+    return userDao.findById(id);
+  }
+
 }

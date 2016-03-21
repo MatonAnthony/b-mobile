@@ -30,4 +30,9 @@ public class ProgramUcControllerImpl implements ProgramUcController {
     return programs;
   }
 
+  @Override
+  public ProgramDto getProgramByName(String name) {
+    return programDao.findByName(name);
+  }
+
 }

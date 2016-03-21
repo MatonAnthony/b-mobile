@@ -31,4 +31,9 @@ public class DepartmentUcControllerImpl implements DepartmentUcController {
     return departmentDao.getDepartementById(id);
   }
 
+  @Override
+  public DepartmentDto getDepartmentByLabel(String label) {
+    return departmentDao.getDepartmentByLabel(label);
+  }
+
 }
