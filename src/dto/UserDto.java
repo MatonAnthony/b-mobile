@@ -72,6 +72,10 @@ public interface UserDto {
 
   public void setIdDepartment(int idDepartment);
 
+  public DepartmentDto getDepartmentDto();
+
+  public void setDepartmentDto(DepartmentDto departmentDto);
+
   public String getStreet();
 
   public void setStreet(String street);
@@ -95,6 +99,10 @@ public interface UserDto {
   public String getCountry();
 
   public void setCountry(String country);
+
+  public CountryDto getCountryDto();
+
+  public void setCountryDto(CountryDto countryDto);
 
   public int getVerNr();
 

@@ -14,36 +14,29 @@ public class CountryImpl implements CountryBizz {
     return iso;
   }
 
-
   public void setIso(String iso) {
     this.iso = iso;
   }
-
 
   public String getNameEn() {
     return nameEn;
   }
 
-
   public void setNameEn(String nameEn) {
     this.nameEn = nameEn;
   }
-
 
   public String getNameFr() {
     return nameFr;
   }
 
-
   public void setNameFr(String nameFr) {
     this.nameFr = nameFr;
   }
 
-
   public int getIdProgram() {
     return idProgram;
   }
-
 
   public void setIdProgram(int idProgram) {
     this.idProgram = idProgram;

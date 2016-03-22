@@ -1,11 +1,11 @@
 package dal;
 
+import utils.ContextManager;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-
-import utils.ContextManager;
 
 public class DalServicesImpl implements DalServices, DalBackendServices {
 
@@ -15,9 +15,6 @@ public class DalServicesImpl implements DalServices, DalBackendServices {
    * Constructeur du DalServices.
    */
   public DalServicesImpl() {
-
-
-
     String url =
         ContextManager.getProperty("urlDB") + "?user=" + ContextManager.getProperty("userDB")
             + "&password=" + ContextManager.getProperty("passwordDB");

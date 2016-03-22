@@ -58,6 +58,10 @@ public interface PartnerDto {
 
   public void setState(String state);
 
+  public CountryDto getCountryDto();
+
+  public void setCountryDto(CountryDto countryDto);
+
   public String getCountry();
 
   public void setCountry(String country);

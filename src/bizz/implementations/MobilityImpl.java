@@ -11,23 +11,19 @@ import dto.UserDto;
 public class MobilityImpl implements MobilityBizz, Cloneable {
   private int id;
   private int idStudent;
-  private UserDto userDto;
+  private UserDto studentDto;
   private int idProgram;
   private ProgramDto programDto;
   private int idPartner;
   private PartnerDto partnerDto;
+  private String type;
   private int preferenceOrder;
+  private String isoCountry;
+  private CountryDto countryDto;
   private String idDepartment;
   private DepartmentDto departmentDto;
   private int quadrimester;
-  private int verNr;
-  private int cancelationReason;
-  private CancelationDto cancelationDto;
-  private String type;
-  private String country;// iso
-  private CountryDto countryDto;
   private String status;
-  private String academicYear;
   private boolean canceled;
   private boolean departureGrantContract;
   private boolean departureConventionInternshipSchoolarship;
@@ -44,6 +40,10 @@ public class MobilityImpl implements MobilityBizz, Cloneable {
   private boolean returnFinalReport;
   private boolean returnErasmusLanguageTest;
   private boolean returnDocSentHighschool;
+  private int cancelationReason;
+  private CancelationDto cancelationDto;
+  private String academicYear;
+  private int verNr;
 
   /**
    * Gets the id .
@@ -65,12 +65,12 @@ public class MobilityImpl implements MobilityBizz, Cloneable {
     this.id = id;
   }
 
-  public UserDto getUserDto() {
-    return userDto;
+  public UserDto getStudentDto() {
+    return studentDto;
   }
 
-  public void setUserDto(UserDto userDto) {
-    this.userDto = userDto;
+  public void setStudentDto(UserDto studentDto) {
+    this.studentDto = studentDto;
   }
 
   public ProgramDto getProgramDto() {
@@ -296,18 +296,18 @@ public class MobilityImpl implements MobilityBizz, Cloneable {
    * 
    * @return the country.
    */
-  public String getCountry() {
-    return country;
+  public String getIsoCountry() {
+    return isoCountry;
   }
 
   /**
    * Sets the country.
    * 
-   * @param country the country to set.
+   * @param isoCountry the country to set.
    */
   @Override
-  public void setCountry(String country) {
-    this.country = country;
+  public void setIsoCountry(String isoCountry) {
+    this.isoCountry = isoCountry;
   }
 
   /**

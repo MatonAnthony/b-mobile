@@ -158,7 +158,8 @@ public class Servlet extends HttpServlet {
 
           } else {
             if (readJwtCookie(req)) {
-              userDto.setId(Integer.parseInt((String) "" + session.getAttribute(KEY_ID)));
+              userDto.setId(Integer.parseInt("" + session.getAttribute(KEY_ID)));
+
               userDto.setPermissions("" + session.getAttribute(KEY_PERMISSIONS));
               userDto.setPseudo("" + session.getAttribute(KEY_USERNAME));
               resp.getWriter().println(dtoToJson(userDto));
@@ -262,7 +263,7 @@ public class Servlet extends HttpServlet {
     // TODO (Martin) Poser question : aller chercher les Dtos dans la servlet ou dans l'ucc pour
     // profiter des transactions?
 
-    mobility.setUserDto(
+    mobility.setStudentDto(
         userUcc.getUserById(Integer.parseInt("" + req.getSession().getAttribute(KEY_ID))));
     mobility.setPreferenceOrder(Integer.parseInt(req.getParameter("preferenceOrder")));
     mobility.setProgramDto(programUcController.getProgramByName(req.getParameter("program")));

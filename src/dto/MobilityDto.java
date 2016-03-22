@@ -6,9 +6,9 @@ public interface MobilityDto {
 
   public void setId(int id);
 
-  public UserDto getUserDto();
+  public UserDto getStudentDto();
 
-  public void setUserDto(UserDto userDto);
+  public void setStudentDto(UserDto studentDto);
 
   public ProgramDto getProgramDto();
 
@@ -42,9 +42,9 @@ public interface MobilityDto {
 
   public void setIdDepartment(String idDepartment);
 
-  public String getCountry();
+  public String getIsoCountry();
 
-  public void setCountry(String country);
+  public void setIsoCountry(String isoCountry);
 
   public int getCancelationReason();
 

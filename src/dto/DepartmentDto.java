@@ -13,5 +13,5 @@ public interface DepartmentDto {
 
   public int getVerNr();
 
-  public void setVerNr(int ver_nr);
+  public void setVerNr(int verNr);
 }

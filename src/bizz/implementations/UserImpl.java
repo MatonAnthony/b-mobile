@@ -1,6 +1,8 @@
 package bizz.implementations;
 
 import bizz.interfaces.UserBizz;
+import dto.CountryDto;
+import dto.DepartmentDto;
 import nl.garvelink.iban.IBAN;
 
 import org.mindrot.jbcrypt.BCrypt;
@@ -11,27 +13,29 @@ public class UserImpl implements UserBizz, Cloneable {
 
   private int id;
   private int idDepartment;
+  private DepartmentDto departmentDto;
   private String pseudo;
   private String password;
   private String name;
   private String firstname;
   private String email;
+  private LocalDate registrationDate;
+  private String permissions;
+  private LocalDate birthDate;
   private String street;
   private String houseNumber;
   private String mailBox;
   private String zip;
   private String city;
   private String country;
+  private CountryDto countryDto;
   private String tel;
   private String gender;
-  private String permissions;
+  private int successfullYearInCollege;
   private IBAN iban;
   private String bic;
   private String accountHolder;
   private String bankName;
-  private int successfullYearInCollege;
-  private LocalDate registrationDate;
-  private LocalDate birthDate;
   private int verNr;
 
   public int getIdDepartment() {
@@ -40,6 +44,14 @@ public class UserImpl implements UserBizz, Cloneable {
 
   public void setIdDepartment(int idDepartment) {
     this.idDepartment = idDepartment;
+  }
+
+  public DepartmentDto getDepartmentDto() {
+    return departmentDto;
+  }
+
+  public void setDepartmentDto(DepartmentDto departmentDto) {
+    this.departmentDto = departmentDto;
   }
 
   public String getStreet() {
@@ -88,6 +100,14 @@ public class UserImpl implements UserBizz, Cloneable {
 
   public void setCountry(String country) {
     this.country = country;
+  }
+
+  public CountryDto getCountryDto() {
+    return countryDto;
+  }
+
+  public void setCountryDto(CountryDto countryDto) {
+    this.countryDto = countryDto;
   }
 
   public int getVerNr() {

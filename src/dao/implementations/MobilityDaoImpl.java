@@ -28,7 +28,7 @@ public class MobilityDaoImpl implements MobilityDao {
     PreparedStatement preparedStatement = null;
     try {
       preparedStatement = dalBackendServices.prepare(query);
-      preparedStatement.setInt(1, mobilityDto.getUserDto().getId());
+      preparedStatement.setInt(1, mobilityDto.getStudentDto().getId());
       preparedStatement.setInt(2, mobilityDto.getProgramDto().getId());
       preparedStatement.setString(3, mobilityDto.getType());
       preparedStatement.setInt(4, mobilityDto.getPreferenceOrder());
@@ -148,7 +148,7 @@ public class MobilityDaoImpl implements MobilityDao {
     mobilitydto.setIdPartner(resultSet.getInt(4));
     mobilitydto.setType(resultSet.getString(5));
     mobilitydto.setPreferenceOrder(resultSet.getInt(6));
-    mobilitydto.setCountry(resultSet.getString(7));
+    mobilitydto.setIsoCountry(resultSet.getString(7));
     mobilitydto.setIdDepartment(resultSet.getString(8));
     mobilitydto.setQuadrimester(resultSet.getInt(9));
     mobilitydto.setStatus(resultSet.getString(10));
@@ -175,40 +175,41 @@ public class MobilityDaoImpl implements MobilityDao {
   }
 
   private MobilityDto fillFullDto(ResultSet resultSet) throws SQLException {
-    MobilityDto mobilitydto = fillDto(resultSet);
 
-    mobilitydto.setUserDto(factory.getUserDto());
-    mobilitydto.getUserDto().setId(resultSet.getInt(30));
-    mobilitydto.getUserDto().setIdDepartment(resultSet.getInt(31));
-    mobilitydto.getUserDto().setPseudo(resultSet.getString(32));
-    mobilitydto.getUserDto().setPassword(resultSet.getString(33));
-    mobilitydto.getUserDto().setName(resultSet.getString(34));
-    mobilitydto.getUserDto().setFirstname(resultSet.getString(35));
-    mobilitydto.getUserDto().setEmail(resultSet.getString(36));
+    MobilityDto mobilitydto = fillDto(resultSet);
+    mobilitydto.setStudentDto(factory.getUserDto());
+    mobilitydto.getStudentDto().setId(resultSet.getInt(30));
+    mobilitydto.getStudentDto().setIdDepartment(resultSet.getInt(31));
+    mobilitydto.getStudentDto().setPseudo(resultSet.getString(32));
+    mobilitydto.getStudentDto().setPassword(resultSet.getString(33));
+    mobilitydto.getStudentDto().setName(resultSet.getString(34));
+    mobilitydto.getStudentDto().setFirstname(resultSet.getString(35));
+    mobilitydto.getStudentDto().setEmail(resultSet.getString(36));
+
     Timestamp registrationDate = resultSet.getTimestamp(37);
     if (null != registrationDate) {
-      mobilitydto.getUserDto()
+      mobilitydto.getStudentDto()
           .setRegistrationDate(registrationDate.toLocalDateTime().toLocalDate());
     }
-    mobilitydto.getUserDto().setPermissions(resultSet.getString(38));
+    mobilitydto.getStudentDto().setPermissions(resultSet.getString(38));
     Timestamp birthdate = resultSet.getTimestamp(39);
     if (null != birthdate) {
-      mobilitydto.getUserDto().setBirthDate(birthdate.toLocalDateTime().toLocalDate());
+      mobilitydto.getStudentDto().setBirthDate(birthdate.toLocalDateTime().toLocalDate());
     }
-    mobilitydto.getUserDto().setStreet(resultSet.getString(40));
-    mobilitydto.getUserDto().setHouseNumber(resultSet.getString(41));
-    mobilitydto.getUserDto().setMailBox(resultSet.getString(42));
-    mobilitydto.getUserDto().setZip(resultSet.getString(43));
-    mobilitydto.getUserDto().setCity(resultSet.getString(44));
-    mobilitydto.getUserDto().setCountry(resultSet.getString(45));
-    mobilitydto.getUserDto().setTel(resultSet.getString(46));
-    mobilitydto.getUserDto().setGender(resultSet.getString(47));
-    mobilitydto.getUserDto().setSuccessfullYearInCollege(resultSet.getInt(48));
-    mobilitydto.getUserDto().setIban(resultSet.getString(49));
-    mobilitydto.getUserDto().setBic(resultSet.getString(50));
-    mobilitydto.getUserDto().setAccountHolder(resultSet.getString(51));
-    mobilitydto.getUserDto().setBankName(resultSet.getString(52));
-    mobilitydto.getUserDto().setVerNr(resultSet.getInt(53));
+    mobilitydto.getStudentDto().setStreet(resultSet.getString(40));
+    mobilitydto.getStudentDto().setHouseNumber(resultSet.getString(41));
+    mobilitydto.getStudentDto().setMailBox(resultSet.getString(42));
+    mobilitydto.getStudentDto().setZip(resultSet.getString(43));
+    mobilitydto.getStudentDto().setCity(resultSet.getString(44));
+    mobilitydto.getStudentDto().setCountry(resultSet.getString(45));
+    mobilitydto.getStudentDto().setTel(resultSet.getString(46));
+    mobilitydto.getStudentDto().setGender(resultSet.getString(47));
+    mobilitydto.getStudentDto().setSuccessfullYearInCollege(resultSet.getInt(48));
+    mobilitydto.getStudentDto().setIban(resultSet.getString(49));
+    mobilitydto.getStudentDto().setBic(resultSet.getString(50));
+    mobilitydto.getStudentDto().setAccountHolder(resultSet.getString(51));
+    mobilitydto.getStudentDto().setBankName(resultSet.getString(52));
+    mobilitydto.getStudentDto().setVerNr(resultSet.getInt(53));
 
     mobilitydto.setProgramDto(factory.getProgramDto());
     mobilitydto.getProgramDto().setId(resultSet.getInt(54));
