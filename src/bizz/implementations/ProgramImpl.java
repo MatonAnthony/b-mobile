@@ -55,27 +55,36 @@ public class ProgramImpl implements ProgramBizz {
 
   @Override
   public boolean equals(Object obj) {
-    if (this == obj)
+    if (this == obj) {
       return true;
-    if (obj == null)
+    }
+    if (obj == null) {
       return false;
-    if (getClass() != obj.getClass())
+    }
+    if (getClass() != obj.getClass()) {
       return false;
+    }
     ProgramImpl other = (ProgramImpl) obj;
     if (description == null) {
-      if (other.description != null)
+      if (other.description != null) {
         return false;
-    } else if (!description.equals(other.description))
+      }
+    } else if (!description.equals(other.description)) {
       return false;
-    if (id != other.id)
+    }
+    if (id != other.id) {
       return false;
+    }
     if (name == null) {
-      if (other.name != null)
+      if (other.name != null) {
         return false;
-    } else if (!name.equals(other.name))
+      }
+    } else if (!name.equals(other.name)) {
       return false;
-    if (verNr != other.verNr)
+    }
+    if (verNr != other.verNr) {
       return false;
+    }
     return true;
   }
 

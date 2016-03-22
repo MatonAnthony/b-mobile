@@ -55,30 +55,40 @@ public class CountryImpl implements CountryBizz {
 
   @Override
   public boolean equals(Object obj) {
-    if (this == obj)
+    if (this == obj) {
       return true;
-    if (obj == null)
+    }
+    if (obj == null) {
       return false;
-    if (getClass() != obj.getClass())
+    }
+    if (getClass() != obj.getClass()) {
       return false;
+    }
     CountryImpl other = (CountryImpl) obj;
-    if (idProgram != other.idProgram)
+    if (idProgram != other.idProgram) {
       return false;
+    }
     if (iso == null) {
-      if (other.iso != null)
+      if (other.iso != null) {
         return false;
-    } else if (!iso.equals(other.iso))
+      }
+    } else if (!iso.equals(other.iso)) {
       return false;
+    }
     if (nameEn == null) {
-      if (other.nameEn != null)
+      if (other.nameEn != null) {
         return false;
-    } else if (!nameEn.equals(other.nameEn))
+      }
+    } else if (!nameEn.equals(other.nameEn)) {
       return false;
+    }
     if (nameFr == null) {
-      if (other.nameFr != null)
+      if (other.nameFr != null) {
         return false;
-    } else if (!nameFr.equals(other.nameFr))
+      }
+    } else if (!nameFr.equals(other.nameFr)) {
       return false;
+    }
     return true;
   }
 

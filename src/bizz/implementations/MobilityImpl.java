@@ -688,6 +688,7 @@ public class MobilityImpl implements MobilityBizz, Cloneable {
     this.cancelationDto = cancelationDto;
   }
 
+
   @Override
   public int hashCode() {
     final int prime = 31;
@@ -732,116 +733,165 @@ public class MobilityImpl implements MobilityBizz, Cloneable {
 
   @Override
   public boolean equals(Object obj) {
-    if (this == obj)
+    if (this == obj) {
       return true;
-    if (obj == null)
+    }
+    if (obj == null) {
       return false;
-    if (getClass() != obj.getClass())
+    }
+    if (getClass() != obj.getClass()) {
       return false;
+    }
     MobilityImpl other = (MobilityImpl) obj;
     if (academicYear == null) {
-      if (other.academicYear != null)
+      if (other.academicYear != null) {
         return false;
-    } else if (!academicYear.equals(other.academicYear))
+      }
+    } else if (!academicYear.equals(other.academicYear)) {
       return false;
+    }
     if (cancelationDto == null) {
-      if (other.cancelationDto != null)
+      if (other.cancelationDto != null) {
         return false;
-    } else if (!cancelationDto.equals(other.cancelationDto))
+      }
+    } else if (!cancelationDto.equals(other.cancelationDto)) {
       return false;
-    if (cancelationReason != other.cancelationReason)
+    }
+    if (cancelationReason != other.cancelationReason) {
       return false;
-    if (canceled != other.canceled)
+    }
+    if (canceled != other.canceled) {
       return false;
+    }
     if (countryDto == null) {
-      if (other.countryDto != null)
+      if (other.countryDto != null) {
         return false;
-    } else if (!countryDto.equals(other.countryDto))
+      }
+    } else if (!countryDto.equals(other.countryDto)) {
       return false;
-    if (departDocSentHighschool != other.departDocSentHighschool)
+    }
+    if (departDocSentHighschool != other.departDocSentHighschool) {
       return false;
+    }
     if (departmentDto == null) {
-      if (other.departmentDto != null)
+      if (other.departmentDto != null) {
         return false;
-    } else if (!departmentDto.equals(other.departmentDto))
+      }
+    } else if (!departmentDto.equals(other.departmentDto)) {
       return false;
-    if (departureConventionInternshipSchoolarship != other.departureConventionInternshipSchoolarship)
+    }
+    if (departureConventionInternshipSchoolarship != other.departureConventionInternshipSchoolarship) {
       return false;
-    if (departureDocAggreement != other.departureDocAggreement)
+    }
+    if (departureDocAggreement != other.departureDocAggreement) {
       return false;
-    if (departureErasmusLanguageTest != other.departureErasmusLanguageTest)
+    }
+    if (departureErasmusLanguageTest != other.departureErasmusLanguageTest) {
       return false;
-    if (departureGrantContract != other.departureGrantContract)
+    }
+    if (departureGrantContract != other.departureGrantContract) {
       return false;
-    if (departureStudentConvention != other.departureStudentConvention)
+    }
+    if (departureStudentConvention != other.departureStudentConvention) {
       return false;
-    if (id != other.id)
+    }
+    if (id != other.id) {
       return false;
+    }
     if (idDepartment == null) {
-      if (other.idDepartment != null)
+      if (other.idDepartment != null) {
         return false;
-    } else if (!idDepartment.equals(other.idDepartment))
+      }
+    } else if (!idDepartment.equals(other.idDepartment)) {
       return false;
-    if (idPartner != other.idPartner)
+    }
+    if (idPartner != other.idPartner) {
       return false;
-    if (idProgram != other.idProgram)
+    }
+    if (idProgram != other.idProgram) {
       return false;
-    if (idStudent != other.idStudent)
+    }
+    if (idStudent != other.idStudent) {
       return false;
+    }
     if (isoCountry == null) {
-      if (other.isoCountry != null)
+      if (other.isoCountry != null) {
         return false;
-    } else if (!isoCountry.equals(other.isoCountry))
+      }
+    } else if (!isoCountry.equals(other.isoCountry)) {
       return false;
+    }
     if (partnerDto == null) {
-      if (other.partnerDto != null)
+      if (other.partnerDto != null) {
         return false;
-    } else if (!partnerDto.equals(other.partnerDto))
+      }
+    } else if (!partnerDto.equals(other.partnerDto)) {
       return false;
-    if (preferenceOrder != other.preferenceOrder)
+    }
+    if (preferenceOrder != other.preferenceOrder) {
       return false;
+    }
     if (programDto == null) {
-      if (other.programDto != null)
+      if (other.programDto != null) {
         return false;
-    } else if (!programDto.equals(other.programDto))
+      }
+    } else if (!programDto.equals(other.programDto)) {
       return false;
-    if (quadrimester != other.quadrimester)
+    }
+    if (quadrimester != other.quadrimester) {
       return false;
-    if (returnDocSentHighschool != other.returnDocSentHighschool)
+    }
+    if (returnDocSentHighschool != other.returnDocSentHighschool) {
       return false;
-    if (returnErasmusLanguageTest != other.returnErasmusLanguageTest)
+    }
+    if (returnErasmusLanguageTest != other.returnErasmusLanguageTest) {
       return false;
-    if (returnFinalReport != other.returnFinalReport)
+    }
+    if (returnFinalReport != other.returnFinalReport) {
       return false;
-    if (returnInternshipCert != other.returnInternshipCert)
+    }
+    if (returnInternshipCert != other.returnInternshipCert) {
       return false;
-    if (returnResidenceCert != other.returnResidenceCert)
+    }
+    if (returnResidenceCert != other.returnResidenceCert) {
       return false;
-    if (returnTranscript != other.returnTranscript)
+    }
+    if (returnTranscript != other.returnTranscript) {
       return false;
-    if (softwareMobi != other.softwareMobi)
+    }
+    if (softwareMobi != other.softwareMobi) {
       return false;
-    if (softwareMobilityTools != other.softwareMobilityTools)
+    }
+    if (softwareMobilityTools != other.softwareMobilityTools) {
       return false;
-    if (softwareProeco != other.softwareProeco)
+    }
+    if (softwareProeco != other.softwareProeco) {
       return false;
+    }
     if (status == null) {
-      if (other.status != null)
+      if (other.status != null) {
         return false;
-    } else if (!status.equals(other.status))
+      }
+    } else if (!status.equals(other.status)) {
       return false;
+    }
     if (studentDto == null) {
-      if (other.studentDto != null)
+      if (other.studentDto != null) {
         return false;
-    } else if (!studentDto.equals(other.studentDto))
+      }
+    } else if (!studentDto.equals(other.studentDto)) {
       return false;
+    }
     if (type == null) {
-      if (other.type != null)
+      if (other.type != null) {
         return false;
-    } else if (!type.equals(other.type))
+      }
+    } else if (!type.equals(other.type)) {
       return false;
-    if (verNr != other.verNr)
+    }
+    if (verNr != other.verNr) {
       return false;
+    }
     return true;
   }
 

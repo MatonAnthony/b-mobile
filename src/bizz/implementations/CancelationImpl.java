@@ -54,27 +54,36 @@ public class CancelationImpl implements CancelationBizz {
 
   @Override
   public boolean equals(Object obj) {
-    if (this == obj)
+    if (this == obj) {
       return true;
-    if (obj == null)
+    }
+    if (obj == null) {
       return false;
-    if (getClass() != obj.getClass())
+    }
+    if (getClass() != obj.getClass()) {
       return false;
+    }
     CancelationImpl other = (CancelationImpl) obj;
-    if (id != other.id)
+    if (id != other.id) {
       return false;
+    }
     if (reason == null) {
-      if (other.reason != null)
+      if (other.reason != null) {
         return false;
-    } else if (!reason.equals(other.reason))
+      }
+    } else if (!reason.equals(other.reason)) {
       return false;
+    }
     if (responsible == null) {
-      if (other.responsible != null)
+      if (other.responsible != null) {
         return false;
-    } else if (!responsible.equals(other.responsible))
+      }
+    } else if (!responsible.equals(other.responsible)) {
       return false;
-    if (verNr != other.verNr)
+    }
+    if (verNr != other.verNr) {
       return false;
+    }
     return true;
   }
 

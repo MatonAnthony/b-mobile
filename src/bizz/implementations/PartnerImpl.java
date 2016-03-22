@@ -188,11 +188,6 @@ public class PartnerImpl implements PartnerBizz {
     this.verNr = verNr;
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see java.lang.Object#hashCode()
-   */
   @Override
   public int hashCode() {
     final int prime = 31;
@@ -220,105 +215,138 @@ public class PartnerImpl implements PartnerBizz {
     return result;
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see java.lang.Object#equals(java.lang.Object)
-   */
   @Override
   public boolean equals(Object obj) {
-    if (this == obj)
+    if (this == obj) {
       return true;
-    if (obj == null)
+    }
+    if (obj == null) {
       return false;
-    if (getClass() != obj.getClass())
+    }
+    if (getClass() != obj.getClass()) {
       return false;
+    }
     PartnerImpl other = (PartnerImpl) obj;
     if (businessName == null) {
-      if (other.businessName != null)
+      if (other.businessName != null) {
         return false;
-    } else if (!businessName.equals(other.businessName))
+      }
+    } else if (!businessName.equals(other.businessName)) {
       return false;
+    }
     if (city == null) {
-      if (other.city != null)
+      if (other.city != null) {
         return false;
-    } else if (!city.equals(other.city))
+      }
+    } else if (!city.equals(other.city)) {
       return false;
+    }
     if (country == null) {
-      if (other.country != null)
+      if (other.country != null) {
         return false;
-    } else if (!country.equals(other.country))
+      }
+    } else if (!country.equals(other.country)) {
       return false;
+    }
     if (countryDto == null) {
-      if (other.countryDto != null)
+      if (other.countryDto != null) {
         return false;
-    } else if (!countryDto.equals(other.countryDto))
+      }
+    } else if (!countryDto.equals(other.countryDto)) {
       return false;
+    }
     if (department == null) {
-      if (other.department != null)
+      if (other.department != null) {
         return false;
-    } else if (!department.equals(other.department))
+      }
+    } else if (!department.equals(other.department)) {
       return false;
+    }
     if (email == null) {
-      if (other.email != null)
+      if (other.email != null) {
         return false;
-    } else if (!email.equals(other.email))
+      }
+    } else if (!email.equals(other.email)) {
       return false;
-    if (exists != other.exists)
+    }
+    if (exists != other.exists) {
       return false;
+    }
     if (fullName == null) {
-      if (other.fullName != null)
+      if (other.fullName != null) {
         return false;
-    } else if (!fullName.equals(other.fullName))
+      }
+    } else if (!fullName.equals(other.fullName)) {
       return false;
-    if (id != other.id)
+    }
+    if (id != other.id) {
       return false;
-    if (idUser != other.idUser)
+    }
+    if (idUser != other.idUser) {
       return false;
+    }
     if (legalName == null) {
-      if (other.legalName != null)
+      if (other.legalName != null) {
         return false;
-    } else if (!legalName.equals(other.legalName))
+      }
+    } else if (!legalName.equals(other.legalName)) {
       return false;
+    }
     if (mailbox == null) {
-      if (other.mailbox != null)
+      if (other.mailbox != null) {
         return false;
-    } else if (!mailbox.equals(other.mailbox))
+      }
+    } else if (!mailbox.equals(other.mailbox)) {
       return false;
-    if (nbEmployees != other.nbEmployees)
+    }
+    if (nbEmployees != other.nbEmployees) {
       return false;
+    }
     if (number == null) {
-      if (other.number != null)
+      if (other.number != null) {
         return false;
-    } else if (!number.equals(other.number))
+      }
+    } else if (!number.equals(other.number)) {
       return false;
+    }
     if (state == null) {
-      if (other.state != null)
+      if (other.state != null) {
         return false;
-    } else if (!state.equals(other.state))
+      }
+    } else if (!state.equals(other.state)) {
       return false;
+    }
     if (street == null) {
-      if (other.street != null)
+      if (other.street != null) {
         return false;
-    } else if (!street.equals(other.street))
+      }
+    } else if (!street.equals(other.street)) {
       return false;
+    }
     if (type == null) {
-      if (other.type != null)
+      if (other.type != null) {
         return false;
-    } else if (!type.equals(other.type))
+      }
+    } else if (!type.equals(other.type)) {
       return false;
-    if (verNr != other.verNr)
+    }
+    if (verNr != other.verNr) {
       return false;
+    }
     if (website == null) {
-      if (other.website != null)
+      if (other.website != null) {
         return false;
-    } else if (!website.equals(other.website))
+      }
+    } else if (!website.equals(other.website)) {
       return false;
+    }
     if (zip == null) {
-      if (other.zip != null)
+      if (other.zip != null) {
         return false;
-    } else if (!zip.equals(other.zip))
+      }
+    } else if (!zip.equals(other.zip)) {
       return false;
+    }
     return true;
   }
 
