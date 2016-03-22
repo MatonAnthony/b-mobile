@@ -175,39 +175,9 @@ public class MobilityDaoImpl implements MobilityDao {
   }
 
   private MobilityDto fillFullDto(ResultSet resultSet) throws SQLException {
-    MobilityDto mobilitydto = factory.getMobilityDto();
-    mobilitydto.setId(resultSet.getInt(1));
-    mobilitydto.setIdStudent(resultSet.getInt(2));
-    mobilitydto.setIdProgram(resultSet.getInt(3));
-    mobilitydto.setIdPartner(resultSet.getInt(4));
-    mobilitydto.setType(resultSet.getString(5));
-    mobilitydto.setPreferenceOrder(resultSet.getInt(6));
-    mobilitydto.setCountry(resultSet.getString(7));
-    mobilitydto.setIdDepartment(resultSet.getString(8));
-    mobilitydto.setQuadrimester(resultSet.getInt(9));
-    mobilitydto.setStatus(resultSet.getString(10));
-    mobilitydto.setCanceled(resultSet.getBoolean(11));
-    mobilitydto.setDepartureGrantContract(resultSet.getBoolean(12));
-    mobilitydto.setDepartureConventionInternshipSchoolarship(resultSet.getBoolean(13));
-    mobilitydto.setDepartureStudentConvention(resultSet.getBoolean(14));
-    mobilitydto.setDepartureErasmusLanguageTest(resultSet.getBoolean(15));
-    mobilitydto.setDepartureDocAggreement(resultSet.getBoolean(16));
-    mobilitydto.setDepartDocSentHighschool(resultSet.getBoolean(17));
-    mobilitydto.setSoftwareProeco(resultSet.getBoolean(18));
-    mobilitydto.setSoftwareMobilityTools(resultSet.getBoolean(19));
-    mobilitydto.setSoftwareMobi(resultSet.getBoolean(20));
-    mobilitydto.setReturnResidenceCert(resultSet.getBoolean(21));
-    mobilitydto.setReturnTranscript(resultSet.getBoolean(22));
-    mobilitydto.setReturnInternshipCert(resultSet.getBoolean(23));
-    mobilitydto.setReturnFinalReport(resultSet.getBoolean(24));
-    mobilitydto.setReturnErasmusLanguageTest(resultSet.getBoolean(25));
-    mobilitydto.setReturnDocSentHighschool(resultSet.getBoolean(26));
-    mobilitydto.setCancelationReason(resultSet.getInt(27));
-    mobilitydto.setAcademicYear(resultSet.getString(28));
-    mobilitydto.setVerNr(resultSet.getInt(29));
+    MobilityDto mobilitydto = fillDto(resultSet);
+
     mobilitydto.setUserDto(factory.getUserDto());
-
-
     mobilitydto.getUserDto().setId(resultSet.getInt(30));
     mobilitydto.getUserDto().setIdDepartment(resultSet.getInt(31));
     mobilitydto.getUserDto().setPseudo(resultSet.getString(32));

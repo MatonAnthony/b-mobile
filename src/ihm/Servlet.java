@@ -158,7 +158,7 @@ public class Servlet extends HttpServlet {
 
           } else {
             if (readJwtCookie(req)) {
-              userDto.setId((int) session.getAttribute(KEY_ID));
+              userDto.setId(Integer.parseInt((String) "" + session.getAttribute(KEY_ID)));
               userDto.setPermissions("" + session.getAttribute(KEY_PERMISSIONS));
               userDto.setPseudo("" + session.getAttribute(KEY_USERNAME));
               resp.getWriter().println(dtoToJson(userDto));
