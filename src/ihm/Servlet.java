@@ -42,7 +42,6 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 public class Servlet extends HttpServlet {
 
@@ -63,7 +62,9 @@ public class Servlet extends HttpServlet {
   private transient CountryUcController countryUcc = null;
   private transient DepartmentUcController departmentUcController = null;
   private transient ProgramUcController programUcController = null;
+  @SuppressWarnings("unused")
   private transient PartnerUcController partnerUcController = null;
+  @SuppressWarnings("unused")
   private transient CancelationUcController cancelationUcController = null;
   private transient BizzFactory bizzFactory = null;
 
@@ -122,119 +123,34 @@ public class Servlet extends HttpServlet {
     resp.setCharacterEncoding("UTF-8");
     try {
       String action = req.getParameter("action");
-      HttpSession session = req.getSession();
-
       switch (action) {
-
         case "login":
-          String username = req.getParameter("username");
-          String password = req.getParameter("password");
-
-          UserDto userDtoRecept = userUcc.login(username, password);
-
-          if (userDtoRecept == null) {
-            resp.setStatus(HttpStatus.UNAUTHORIZED_401);
-          } else {
-
-            createJwtCookie(resp, userDtoRecept);
-            session.setAttribute(KEY_ID, userDtoRecept.getId());
-            session.setAttribute(KEY_USERNAME, userDtoRecept.getPseudo());
-            session.setAttribute(KEY_PERMISSIONS, userDtoRecept.getPermissions());
-            resp.setStatus(HttpStatus.ACCEPTED_202);
-            resp.getWriter().println(dtoToJson(userDtoRecept));
-
-          }
+          login(req, resp);
           break;
-
         case "authenticate":
-          resp.setStatus(HttpStatus.ACCEPTED_202);
-          UserDto userDto = bizzFactory.getUserDto();
-          if (null != session.getAttribute(KEY_USERNAME)) {
-            userDto.setPermissions("" + session.getAttribute(KEY_ID));
-            userDto.setPermissions("" + session.getAttribute(KEY_PERMISSIONS));
-            userDto.setPseudo("" + session.getAttribute(KEY_USERNAME));
-            createJwtCookie(resp, userDto);
-            resp.getWriter().println(dtoToJson(userDto));
-
-          } else {
-            if (readJwtCookie(req)) {
-              userDto.setId(Integer.parseInt("" + session.getAttribute(KEY_ID)));
-
-              userDto.setPermissions("" + session.getAttribute(KEY_PERMISSIONS));
-              userDto.setPseudo("" + session.getAttribute(KEY_USERNAME));
-              resp.getWriter().println(dtoToJson(userDto));
-            } else {
-              resp.setStatus(HttpStatus.UNAUTHORIZED_401);
-            }
-          }
+          authenticate(req, resp);
           break;
-
         case "register":
-          UserDto userdto = bizzFactory.getUserDto();
-
-          userdto.setPseudo(req.getParameter("username"));
-          userdto.setPassword(req.getParameter("password"));
-          userdto.setName(req.getParameter("name"));
-          userdto.setFirstname(req.getParameter("firstname"));
-          userdto.setEmail(req.getParameter("email"));
-          // TODO (Martin) gérer si c'est la première inscription
-          userdto.setPermissions("STUDENT");
-
-          userDtoRecept = userUcc.register(userdto);
-          if (userDtoRecept == null) {
-            resp.setStatus(HttpStatus.FORBIDDEN_403);
-          } else {
-            session.setAttribute(KEY_ID, userDtoRecept.getId());
-            session.setAttribute(KEY_USERNAME, userDtoRecept.getPseudo());
-            session.setAttribute(KEY_PERMISSIONS, userDtoRecept.getPermissions());
-            createJwtCookie(resp, userDtoRecept);
-            resp.setStatus(HttpStatus.ACCEPTED_202);
-            resp.getWriter().println(dtoToJson(userDtoRecept));
-          }
-
+          register(req, resp);
           break;
-
         case "disconnect":
-          req.getSession().invalidate();
-
-          Cookie cookie = new Cookie("user", "");
-          cookie.setPath("/");
-          cookie.setMaxAge(0);
-          resp.addCookie(cookie);
-
-          resp.setStatus(HttpStatus.OK_200);
-
+          disconnect(req, resp);
           break;
-
         case "editProfile":
-
           break;
         case "selectConfirmedMobility":
-          ArrayList<MobilityDto> mobilities = mobilityUcc.getconfirmedMobilities();
-          String jsonMobilities = defaultGenson.serialize(mobilities);
-          resp.getWriter().println(jsonMobilities);
-          resp.setStatus(HttpStatus.ACCEPTED_202);
+          selectConfirmedMobility(req, resp);
           break;
         case "selectMyMobility":
-
           break;
         case "selectCountries":
-          ArrayList<CountryDto> countries = countryUcc.getAllCountries();
-          String jsonCountries = defaultGenson.serialize(countries);
-          resp.getWriter().println(jsonCountries);
-          resp.setStatus(HttpStatus.ACCEPTED_202);
+          selectCountries(req, resp);
           break;
         case "selectDepartments":
-          ArrayList<DepartmentDto> departments = departmentUcController.getAllDepartments();
-          String jsonDepartments = defaultGenson.serialize(departments);
-          resp.getWriter().println(jsonDepartments);
-          resp.setStatus(HttpStatus.ACCEPTED_202);
+          selectDepartments(req, resp);
           break;
         case "selectPrograms":
-          ArrayList<ProgramDto> programs = programUcController.getAllPrograms();
-          String jsonPrograms = defaultGenson.serialize(programs);
-          resp.getWriter().println(jsonPrograms);
-          resp.setStatus(HttpStatus.ACCEPTED_202);
+          selectPrograms(req, resp);
           break;
         case "addMobility":
           addMobility(req, resp);
@@ -250,6 +166,118 @@ public class Servlet extends HttpServlet {
       resp.flushBuffer();
     }
 
+  }
+
+
+  private void selectPrograms(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    ArrayList<ProgramDto> programs = programUcController.getAllPrograms();
+    String jsonPrograms = defaultGenson.serialize(programs);
+    resp.getWriter().println(jsonPrograms);
+    resp.setStatus(HttpStatus.ACCEPTED_202);
+  }
+
+  private void selectDepartments(HttpServletRequest req, HttpServletResponse resp)
+      throws IOException {
+    ArrayList<DepartmentDto> departments = departmentUcController.getAllDepartments();
+    String jsonDepartments = defaultGenson.serialize(departments);
+    resp.getWriter().println(jsonDepartments);
+    resp.setStatus(HttpStatus.ACCEPTED_202);
+  }
+
+  private void selectCountries(HttpServletRequest req, HttpServletResponse resp)
+      throws IOException {
+    ArrayList<CountryDto> countries = countryUcc.getAllCountries();
+    String jsonCountries = defaultGenson.serialize(countries);
+    resp.getWriter().println(jsonCountries);
+    resp.setStatus(HttpStatus.ACCEPTED_202);
+  }
+
+  private void selectConfirmedMobility(HttpServletRequest req, HttpServletResponse resp)
+      throws IOException {
+    ArrayList<MobilityDto> mobilities = mobilityUcc.getconfirmedMobilities();
+    String jsonMobilities = defaultGenson.serialize(mobilities);
+    resp.getWriter().println(jsonMobilities);
+    resp.setStatus(HttpStatus.ACCEPTED_202);
+  }
+
+  private void disconnect(HttpServletRequest req, HttpServletResponse resp) {
+    req.getSession().invalidate();
+
+    Cookie cookie = new Cookie("user", "");
+    cookie.setPath("/");
+    cookie.setMaxAge(0);
+    resp.addCookie(cookie);
+
+    resp.setStatus(HttpStatus.OK_200);
+
+  }
+
+  private void register(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    UserDto userdto = bizzFactory.getUserDto();
+
+    userdto.setPseudo(req.getParameter("username"));
+    userdto.setPassword(req.getParameter("password"));
+    userdto.setName(req.getParameter("name"));
+    userdto.setFirstname(req.getParameter("firstname"));
+    userdto.setEmail(req.getParameter("email"));
+    // TODO (Martin) gérer si c'est la première inscription
+    userdto.setPermissions("STUDENT");
+
+    UserDto userDtoRecept = userUcc.register(userdto);
+    if (userDtoRecept == null) {
+      resp.setStatus(HttpStatus.FORBIDDEN_403);
+    } else {
+      req.getSession().setAttribute(KEY_ID, userDtoRecept.getId());
+      req.getSession().setAttribute(KEY_USERNAME, userDtoRecept.getPseudo());
+      req.getSession().setAttribute(KEY_PERMISSIONS, userDtoRecept.getPermissions());
+      createJwtCookie(resp, userDtoRecept);
+      resp.setStatus(HttpStatus.ACCEPTED_202);
+      resp.getWriter().println(dtoToJson(userDtoRecept));
+    }
+
+  }
+
+  private void authenticate(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    resp.setStatus(HttpStatus.ACCEPTED_202);
+    UserDto userDto = bizzFactory.getUserDto();
+    if (null != req.getSession().getAttribute(KEY_USERNAME)) {
+      userDto.setPermissions("" + req.getSession().getAttribute(KEY_ID));
+      userDto.setPermissions("" + req.getSession().getAttribute(KEY_PERMISSIONS));
+      userDto.setPseudo("" + req.getSession().getAttribute(KEY_USERNAME));
+      createJwtCookie(resp, userDto);
+      resp.getWriter().println(dtoToJson(userDto));
+
+    } else {
+      if (readJwtCookie(req)) {
+        userDto.setId(Integer.parseInt("" + req.getSession().getAttribute(KEY_ID)));
+
+        userDto.setPermissions("" + req.getSession().getAttribute(KEY_PERMISSIONS));
+        userDto.setPseudo("" + req.getSession().getAttribute(KEY_USERNAME));
+        resp.getWriter().println(dtoToJson(userDto));
+      } else {
+        resp.setStatus(HttpStatus.UNAUTHORIZED_401);
+      }
+    }
+
+  }
+
+  private void login(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    String username = req.getParameter("username");
+    String password = req.getParameter("password");
+
+    UserDto userDtoRecept = userUcc.login(username, password);
+
+    if (userDtoRecept == null) {
+      resp.setStatus(HttpStatus.UNAUTHORIZED_401);
+    } else {
+
+      createJwtCookie(resp, userDtoRecept);
+      req.getSession().setAttribute(KEY_ID, userDtoRecept.getId());
+      req.getSession().setAttribute(KEY_USERNAME, userDtoRecept.getPseudo());
+      req.getSession().setAttribute(KEY_PERMISSIONS, userDtoRecept.getPermissions());
+      resp.setStatus(HttpStatus.ACCEPTED_202);
+      resp.getWriter().println(dtoToJson(userDtoRecept));
+    }
   }
 
   /**
