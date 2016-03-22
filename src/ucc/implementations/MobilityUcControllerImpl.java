@@ -13,20 +13,25 @@ public class MobilityUcControllerImpl implements MobilityUcController {
   private DalServices dalServices = null;
   private MobilityDao mobilityDao = null;
 
+  /**
+   * Create a new Use Case Controller for mobilities.
+   * 
+   * @param dalServices The dalServices used by the Use case controller.
+   * @param mobilityDao The dao used by the Use case controller.
+   */
   public MobilityUcControllerImpl(DalServices dalServices, MobilityDao mobilityDao) {
-
     this.mobilityDao = mobilityDao;
     this.dalServices = dalServices;
 
   }
 
   public ArrayList<MobilityDto> getAllMobilities() {
-    ArrayList<MobilityDto> mobilities = mobilityDao.findAllMobility();
+    ArrayList<MobilityDto> mobilities = mobilityDao.getAllMobilities();
     return mobilities;
   }
 
   public ArrayList<MobilityDto> getconfirmedMobilities() {
-    ArrayList<MobilityDto> mobilities = mobilityDao.findFullConfirmedMobility();
+    ArrayList<MobilityDto> mobilities = mobilityDao.getFullConfirmedMobilities();
     return mobilities;
   }
 

@@ -90,9 +90,6 @@ public class MobilityImpl implements MobilityBizz, Cloneable {
   }
 
   public DepartmentDto getDepartementDto() {
-    if (departmentDto == null) {
-      // departmentDto = ;
-    }
     return departmentDto;
   }
 
@@ -101,9 +98,6 @@ public class MobilityImpl implements MobilityBizz, Cloneable {
   }
 
   public CountryDto getCountryDto() {
-    if (countryDto == null) {
-
-    }
     return countryDto;
   }
 

@@ -6,13 +6,13 @@ import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertTrue;
 
-import java.time.LocalDate;
+import bizz.implementations.UserImpl;
+import nl.garvelink.iban.IBAN;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import bizz.implementations.UserImpl;
-import nl.garvelink.iban.IBAN;
+import java.time.LocalDate;
 
 public class UserImplTest {
 
@@ -237,14 +237,6 @@ public class UserImplTest {
   }
 
   /*
-   * Test setTel with null
-   */
-  @Test(expected = IllegalArgumentException.class)
-  public void testSetTel() {
-    puppet.setTel(null);
-  }
-
-  /*
    * Test when gender is not defined yet
    */
   @Test(expected = NullPointerException.class)
@@ -261,18 +253,10 @@ public class UserImplTest {
   }
 
   /*
-   * Test setGender with null
-   */
-  @Test(expected = IllegalArgumentException.class)
-  public void testSetGender() {
-    puppet.setGender(null);
-  }
-
-  /*
    * Test setGender with a valid argument
    */
   @Test
-  public void testSetGender1() {
+  public void testSetGender() {
     puppet.setGender("F");
     assertEquals(puppet.getGender(), "F");
   }
@@ -325,14 +309,6 @@ public class UserImplTest {
   @Test
   public void testGetIban1() {
     assertEquals(puppet.getIban(), IBAN.parse("BE39103123456719").toPlainString());
-  }
-
-  /*
-   * Test setIban with null
-   */
-  @Test(expected = IllegalArgumentException.class)
-  public void testSetIban() {
-    puppet.setIban(null);
   }
 
   /*
@@ -394,18 +370,10 @@ public class UserImplTest {
   }
 
   /*
-   * Test setAccountHolder with null
-   */
-  @Test(expected = IllegalArgumentException.class)
-  public void testSetAccountHolder() {
-    puppet.setAccountHolder(null);
-  }
-
-  /*
    * Test setAccountHolder with a valid string
    */
   @Test
-  public void testSetAccountHolder1() {
+  public void testSetAccountHolder() {
     puppet.setAccountHolder("Tyrion Lannister");
     assertEquals(puppet.getAccountHolder(), "Tyrion Lannister");
   }
@@ -427,18 +395,10 @@ public class UserImplTest {
   }
 
   /*
-   * Test setBankName with null
-   */
-  @Test(expected = IllegalArgumentException.class)
-  public void testSetBankName() {
-    puppet.setBankName(null);
-  }
-
-  /*
    * Test with a valid bankname
    */
   @Test
-  public void testSetBankName1() {
+  public void testSetBankName() {
     puppet.setBankName("Ethias");
     assertEquals(puppet.getBankName(), "Ethias");
   }
@@ -482,18 +442,10 @@ public class UserImplTest {
   }
 
   /*
-   * Test setRegistrationDate with null
-   */
-  @Test(expected = IllegalArgumentException.class)
-  public void testSetRegistrationDate() {
-    puppet.setRegistrationDate(null);
-  }
-
-  /*
    * Test setRegistrationDate with a correct value
    */
   @Test
-  public void testSetRegistrationDate1() {
+  public void testSetRegistrationDate() {
     puppet.setRegistrationDate(LocalDate.MIN);
     assertEquals(puppet.getRegistrationDate(), LocalDate.MIN);
   }
@@ -502,7 +454,7 @@ public class UserImplTest {
    * Test setRegistrationDate when the argument is a future date
    */
   @Test(expected = IllegalArgumentException.class)
-  public void testSetRegistrationDate2() {
+  public void testSetRegistrationDate1() {
     puppet.setRegistrationDate(LocalDate.MAX);
   }
 
@@ -523,18 +475,10 @@ public class UserImplTest {
   }
 
   /*
-   * Test setBirthDate with null
-   */
-  @Test(expected = IllegalArgumentException.class)
-  public void testSetBirthDate() {
-    puppet.setBirthDate(null);
-  }
-
-  /*
    * Test with a valid date
    */
   @Test
-  public void testSetBirthDate1() {
+  public void testSetBirthDate() {
     puppet.setBirthDate(LocalDate.of(1996, 10, 20));
   }
 

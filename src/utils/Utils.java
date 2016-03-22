@@ -8,7 +8,7 @@ public abstract class Utils {
    * Check if the object is of the correct type.
    * 
    * @param object The object to check.
-   * @param ObjectType The type to compare.
+   * @param objectType The type to compare.
    */
   public static void checkObjects(Object object, Class objectType) {
     if (object.getClass() != objectType) {

@@ -31,14 +31,14 @@ public interface BizzFactory {
   CountryDto getCountryDto();
 
   /**
-   * Return an empty DepartmentDto
+   * Return an empty DepartmentDto.
    * 
    * @return a new DepartmentDto
    */
   DepartmentDto getDepartmentDto();
 
   /**
-   * Return an empty ProgramDto
+   * Return an empty ProgramDto.
    * 
    * @return a new ProgramDto
    */
@@ -46,14 +46,14 @@ public interface BizzFactory {
 
 
   /**
-   * Return an empty PartnerDto
+   * Return an empty PartnerDto.
    * 
    * @return a new PartnerDto
    */
   PartnerDto getPartnerDto();
 
   /**
-   * Return an empty CancelationDto
+   * Return an empty CancelationDto.
    * 
    * @return a new CancelationDto
    */

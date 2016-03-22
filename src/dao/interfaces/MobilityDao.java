@@ -14,8 +14,8 @@ public interface MobilityDao {
 
   boolean delete();
 
-  ArrayList<MobilityDto> findAllMobility();
+  ArrayList<MobilityDto> getAllMobilities();
 
-  ArrayList<MobilityDto> findFullConfirmedMobility();
+  ArrayList<MobilityDto> getFullConfirmedMobilities();
 
 }

@@ -27,9 +27,7 @@ public class CountryUcControllerImpl implements CountryUcController {
 
   @Override
   public ArrayList<CountryDto> getAllCountries() {
-    ArrayList<CountryDto> countries = new ArrayList<CountryDto>();
-    countries = countryDao.getAll();
-    return countries;
+    return countryDao.getAll();
   }
 
   @Override

@@ -37,6 +37,7 @@ public class UserUcControllerImplTest {
     userdto.setFirstname("firstname");
     userdto.setName("name");
     userdto.setEmail("email@email.email");
+    userdto.setPermissions("STUDENT");
     user.createUser(userdto);
 
     empty = bizz.getUserDto();
@@ -70,6 +71,7 @@ public class UserUcControllerImplTest {
     empty.setFirstname("empty");
     empty.setName("empty");
     empty.setEmail("empty");
+    empty.setPermissions("STUDENT");
 
     userUcc.register(empty);
   }
