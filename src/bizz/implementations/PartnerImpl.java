@@ -188,6 +188,140 @@ public class PartnerImpl implements PartnerBizz {
     this.verNr = verNr;
   }
 
+  /*
+   * (non-Javadoc)
+   * 
+   * @see java.lang.Object#hashCode()
+   */
+  @Override
+  public int hashCode() {
+    final int prime = 31;
+    int result = 1;
+    result = prime * result + ((businessName == null) ? 0 : businessName.hashCode());
+    result = prime * result + ((city == null) ? 0 : city.hashCode());
+    result = prime * result + ((country == null) ? 0 : country.hashCode());
+    result = prime * result + ((countryDto == null) ? 0 : countryDto.hashCode());
+    result = prime * result + ((department == null) ? 0 : department.hashCode());
+    result = prime * result + ((email == null) ? 0 : email.hashCode());
+    result = prime * result + (exists ? 1231 : 1237);
+    result = prime * result + ((fullName == null) ? 0 : fullName.hashCode());
+    result = prime * result + id;
+    result = prime * result + idUser;
+    result = prime * result + ((legalName == null) ? 0 : legalName.hashCode());
+    result = prime * result + ((mailbox == null) ? 0 : mailbox.hashCode());
+    result = prime * result + nbEmployees;
+    result = prime * result + ((number == null) ? 0 : number.hashCode());
+    result = prime * result + ((state == null) ? 0 : state.hashCode());
+    result = prime * result + ((street == null) ? 0 : street.hashCode());
+    result = prime * result + ((type == null) ? 0 : type.hashCode());
+    result = prime * result + verNr;
+    result = prime * result + ((website == null) ? 0 : website.hashCode());
+    result = prime * result + ((zip == null) ? 0 : zip.hashCode());
+    return result;
+  }
+
+  /*
+   * (non-Javadoc)
+   * 
+   * @see java.lang.Object#equals(java.lang.Object)
+   */
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj)
+      return true;
+    if (obj == null)
+      return false;
+    if (getClass() != obj.getClass())
+      return false;
+    PartnerImpl other = (PartnerImpl) obj;
+    if (businessName == null) {
+      if (other.businessName != null)
+        return false;
+    } else if (!businessName.equals(other.businessName))
+      return false;
+    if (city == null) {
+      if (other.city != null)
+        return false;
+    } else if (!city.equals(other.city))
+      return false;
+    if (country == null) {
+      if (other.country != null)
+        return false;
+    } else if (!country.equals(other.country))
+      return false;
+    if (countryDto == null) {
+      if (other.countryDto != null)
+        return false;
+    } else if (!countryDto.equals(other.countryDto))
+      return false;
+    if (department == null) {
+      if (other.department != null)
+        return false;
+    } else if (!department.equals(other.department))
+      return false;
+    if (email == null) {
+      if (other.email != null)
+        return false;
+    } else if (!email.equals(other.email))
+      return false;
+    if (exists != other.exists)
+      return false;
+    if (fullName == null) {
+      if (other.fullName != null)
+        return false;
+    } else if (!fullName.equals(other.fullName))
+      return false;
+    if (id != other.id)
+      return false;
+    if (idUser != other.idUser)
+      return false;
+    if (legalName == null) {
+      if (other.legalName != null)
+        return false;
+    } else if (!legalName.equals(other.legalName))
+      return false;
+    if (mailbox == null) {
+      if (other.mailbox != null)
+        return false;
+    } else if (!mailbox.equals(other.mailbox))
+      return false;
+    if (nbEmployees != other.nbEmployees)
+      return false;
+    if (number == null) {
+      if (other.number != null)
+        return false;
+    } else if (!number.equals(other.number))
+      return false;
+    if (state == null) {
+      if (other.state != null)
+        return false;
+    } else if (!state.equals(other.state))
+      return false;
+    if (street == null) {
+      if (other.street != null)
+        return false;
+    } else if (!street.equals(other.street))
+      return false;
+    if (type == null) {
+      if (other.type != null)
+        return false;
+    } else if (!type.equals(other.type))
+      return false;
+    if (verNr != other.verNr)
+      return false;
+    if (website == null) {
+      if (other.website != null)
+        return false;
+    } else if (!website.equals(other.website))
+      return false;
+    if (zip == null) {
+      if (other.zip != null)
+        return false;
+    } else if (!zip.equals(other.zip))
+      return false;
+    return true;
+  }
+
 
 
 }

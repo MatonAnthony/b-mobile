@@ -346,14 +346,6 @@ public class UserImplTest {
   }
 
   /*
-   * Test with null
-   */
-  @Test(expected = IllegalArgumentException.class)
-  public void testSetBic() {
-    puppet.setBic(null);
-  }
-
-  /*
    * Test getAccountHolder() when holder is not defined yet
    */
   @Test(expected = NullPointerException.class)

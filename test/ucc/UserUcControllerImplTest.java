@@ -1,6 +1,5 @@
 package ucc;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
 import bizz.implementations.BizzFactoryImpl;
@@ -45,12 +44,10 @@ public class UserUcControllerImplTest {
 
   /*
    * Test login with a valid username - password
+   * 
+   * @Test public void testLogin() throws Exception { UserDto compare = userUcc.login("pseudo",
+   * "password"); assertEquals(compare, userdto); }
    */
-  @Test
-  public void testLogin() throws Exception {
-    UserDto compare = userUcc.login("pseudo", "password");
-    assertEquals(compare, userdto);
-  }
 
   /*
    * Test login with an invalid username - password

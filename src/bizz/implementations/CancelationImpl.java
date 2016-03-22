@@ -41,4 +41,43 @@ public class CancelationImpl implements CancelationBizz {
     this.verNr = verNr;
   }
 
+  @Override
+  public int hashCode() {
+    final int prime = 31;
+    int result = 1;
+    result = prime * result + id;
+    result = prime * result + ((reason == null) ? 0 : reason.hashCode());
+    result = prime * result + ((responsible == null) ? 0 : responsible.hashCode());
+    result = prime * result + verNr;
+    return result;
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj)
+      return true;
+    if (obj == null)
+      return false;
+    if (getClass() != obj.getClass())
+      return false;
+    CancelationImpl other = (CancelationImpl) obj;
+    if (id != other.id)
+      return false;
+    if (reason == null) {
+      if (other.reason != null)
+        return false;
+    } else if (!reason.equals(other.reason))
+      return false;
+    if (responsible == null) {
+      if (other.responsible != null)
+        return false;
+    } else if (!responsible.equals(other.responsible))
+      return false;
+    if (verNr != other.verNr)
+      return false;
+    return true;
+  }
+
+
+
 }
