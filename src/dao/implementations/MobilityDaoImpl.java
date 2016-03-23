@@ -66,6 +66,7 @@ public class MobilityDaoImpl implements MobilityDao {
     return false;
   }
 
+  @Override
   public ArrayList<MobilityDto> getAllMobilities() {
     String query =
         "SELECT id, id_student, id_program, id_partner, type, preference_order, country, id_department, "
@@ -94,6 +95,7 @@ public class MobilityDaoImpl implements MobilityDao {
     }
   }
 
+  @Override
   public ArrayList<MobilityDto> getFullConfirmedMobilities() {
     String query =
         "SELECT m.id, m.id_student, m.id_program, m.id_partner, m.type, m.preference_order, m.country, m.id_department, "
