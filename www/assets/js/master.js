@@ -217,6 +217,8 @@ $(function(){
 		$(selectName).html(programs);
 	}
 
+	//userList
+
 
 	//navBar
 	$(".navButton").click(function(){
@@ -243,6 +245,10 @@ $(function(){
 				$(".navButton[href='#list']").parent().addClass("active");
 				loadList();
 				break;
+			case "#userList":
+				$(".navButton[href='#userList']").parent().addClass("active");
+				loadUserList();
+				break;
 		}
 	});
 	
@@ -257,6 +263,7 @@ $(function(){
 		$("#registerPage").css("display", "none");
 		$("#listPage").css("display", "none");
 		$("#addMobilityPage").css("display", "none");
+		$("#userListPage").css("display", "none");
 	}
 
 	function authTeacher(){
@@ -269,6 +276,7 @@ $(function(){
 		$("#registerPage").css("display", "none");
 		$("#listPage").css("display", "none");
 		$("#addMobilityPage").css("display", "none");
+		$("#userListPage").css("display", "none");
 		loadConfirmedMobility();
 	}
 	
@@ -282,6 +290,20 @@ $(function(){
 		$("#registerPage").css("display", "none");
 		$("#addMobilityPage").css("display", "none");
 		$("#listPage").css("display", "block");
+		$("#userListPage").css("display", "none");
+	}
+
+	function loadUserList(){
+		$("#loginPage").css("display", "none");
+		$("#navBarStudent").css("display", "none");
+		$("#navBarTeacher").css("display", "block");
+		$("#profilePage").css("display", "none");
+		$("#studentHomePage").css("display", "none");
+		$("#teacherHomePage").css("display", "none");
+		$("#registerPage").css("display", "none");
+		$("#addMobilityPage").css("display", "none");
+		$("#listPage").css("display", "none");
+		$("#userListPage").css("display", "block");
 	}
 
 	function loadAddMobility(){
@@ -293,6 +315,7 @@ $(function(){
 		$("#teacherHomePage").css("display", "none");
 		$("#addMobilityPage").css("display", "block");
 		$("#listPage").css("display", "none");
+		$("#userListPage").css("display", "none");
 		
 		if($("#selectCountry1").html()== ""){
 			$.ajax({
@@ -362,6 +385,7 @@ $(function(){
 		$("#teacherHomePage").css("display", "none");
 		$("#registerPage").css("display", "block");
 		$("#listPage").css("display", "none");
+		$("#userListPage").css("display", "none");
 	}
 
 });

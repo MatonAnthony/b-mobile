@@ -42,9 +42,8 @@ public class UserUcControllerImplTest {
     empty = bizz.getUserDto();
   }
 
+  // Test login with a valid username - password
   /*
-   * Test login with a valid username - password
-   * 
    * @Test public void testLogin() throws Exception { UserDto compare = userUcc.login("pseudo",
    * "password"); assertEquals(compare, userdto); }
    */
