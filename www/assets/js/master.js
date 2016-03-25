@@ -97,6 +97,7 @@ $(function(){
 					$("#studentHomePage").css("display", "none");
 					$("#teacherHomePage").css("display", "none");
 					$("#addMobilityPage").css("display", "none");
+					$("#userListPage").css("display", "none");
 				},
 				error: function(e) {
 					console.log(e.message);
@@ -220,6 +221,7 @@ $(function(){
 	//userList
 
 
+
 	//navBar
 	$(".navButton").click(function(){
 		$(".active").removeClass("active");
@@ -304,6 +306,46 @@ $(function(){
 		$("#addMobilityPage").css("display", "none");
 		$("#listPage").css("display", "none");
 		$("#userListPage").css("display", "block");
+		if($("#userListTableBody").html()== ""){
+			$.ajax({
+		        method: "POST",
+		        url: "/home",
+		        data: {
+		            action: "selectUsers"
+		        },
+		        success: function(resp){
+		        	resp = JSON.parse(resp);
+		        	var key;
+		        	for(key in resp){
+		        		var value;
+		        		if(resp[key]['permissions'] === "STUDENT"){
+		        			value = "<tr>"
+		        			+"<td>" + resp[key]['id'] + "</td>"
+		        			+"<td>" + resp[key]['name'] + "</td>"
+		        			+"<td>" + resp[key]['firstname'] + "</td>"
+		        			+"<td>" + resp[key]['permissions'] + "</td>"
+		        			+'<td><button value="'+ resp[key]['id'] + '" class="btn btn-danger btnNommer">Nommer</button></td>'
+							+'<td><button value="'+ resp[key]['id'] + '" class="btn btn-success btnGererInfos">Gérer les informations</button></td>'
+		        			+"</tr>";
+		        		}else{
+		        			value = "<tr>"
+		        			+"<td>" + resp[key]['id'] + "</td>"
+		        			+"<td>" + resp[key]['name'] + "</td>"
+		        			+"<td>" + resp[key]['firstname'] + "</td>"
+		        			+"<td>" + resp[key]['permissions'] + "</td>"
+		        			+'<td></td>'
+							+'<td></td>'
+		        			+"</tr>";
+		        		}
+		        		$("#userListTableBody").append(value); 
+		        	}
+		        },
+		        error: function(error){
+
+		            console.log("Problème lors de la récuperation de la liste des utilisateurs");
+		        }
+	    	});
+		}
 	}
 
 	function loadAddMobility(){

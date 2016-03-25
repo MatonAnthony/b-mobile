@@ -2,6 +2,8 @@ package dao.interfaces;
 
 import dto.UserDto;
 
+import java.util.ArrayList;
+
 public interface UserDao {
   /**
    * Cherche et renvoie l'utilisateur sur base du pseudo.
@@ -10,7 +12,7 @@ public interface UserDao {
    * @return null si l'utilisateur n'est pas enregistre dans la BDD. Un dto avec les informations de
    *         l'utilisateur si l'utilisateur est enregistre dans la BDD.
    */
-  UserDto findByUserName(String username);
+  UserDto getUserByUserName(String username);
 
   /**
    * To add a user in the data base.
@@ -20,12 +22,8 @@ public interface UserDao {
    */
   boolean createUser(UserDto userdto);
 
-  void read();
+  UserDto getUserById(int id);
 
-  boolean update();
-
-  boolean delete();
-
-  UserDto findById(int id);
+  ArrayList<UserDto> getAllUsers();
 
 }

@@ -60,12 +60,12 @@ public class Servlet extends HttpServlet {
   private transient UserUcController userUcc = null;
   private transient MobilityUcController mobilityUcc = null;
   private transient CountryUcController countryUcc = null;
-  private transient DepartmentUcController departmentUcController = null;
-  private transient ProgramUcController programUcController = null;
+  private transient DepartmentUcController departmentUcc = null;
+  private transient ProgramUcController programUcc = null;
   @SuppressWarnings("unused")
-  private transient PartnerUcController partnerUcController = null;
+  private transient PartnerUcController partnerUcc = null;
   @SuppressWarnings("unused")
-  private transient CancelationUcController cancelationUcController = null;
+  private transient CancelationUcController cancelationUcc = null;
   private transient BizzFactory bizzFactory = null;
 
   private transient Genson userGenson = new GensonBuilder()
@@ -88,10 +88,10 @@ public class Servlet extends HttpServlet {
     this.bizzFactory = bizzFactory;
     this.mobilityUcc = mobilityUcc;
     this.countryUcc = countryUcc;
-    this.departmentUcController = departmentUcController;
-    this.programUcController = programUcController;
-    this.partnerUcController = partnerUcController;
-    this.cancelationUcController = cancelationUcController;
+    this.departmentUcc = departmentUcController;
+    this.programUcc = programUcController;
+    this.partnerUcc = partnerUcController;
+    this.cancelationUcc = cancelationUcController;
   }
 
   @Override
@@ -152,6 +152,9 @@ public class Servlet extends HttpServlet {
         case "selectPrograms":
           selectPrograms(req, resp);
           break;
+        case "selectUsers":
+          selectUsers(req, resp);
+          break;
         case "addMobility":
           addMobility(req, resp);
           break;
@@ -168,9 +171,15 @@ public class Servlet extends HttpServlet {
 
   }
 
+  private void selectUsers(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    ArrayList<UserDto> users = userUcc.getAllUsers();
+    String jsonUsers = userGenson.serialize(users);
+    resp.getWriter().println(jsonUsers);
+    resp.setStatus(HttpStatus.ACCEPTED_202);
+  }
 
   private void selectPrograms(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-    ArrayList<ProgramDto> programs = programUcController.getAllPrograms();
+    ArrayList<ProgramDto> programs = programUcc.getAllPrograms();
     String jsonPrograms = defaultGenson.serialize(programs);
     resp.getWriter().println(jsonPrograms);
     resp.setStatus(HttpStatus.ACCEPTED_202);
@@ -178,7 +187,7 @@ public class Servlet extends HttpServlet {
 
   private void selectDepartments(HttpServletRequest req, HttpServletResponse resp)
       throws IOException {
-    ArrayList<DepartmentDto> departments = departmentUcController.getAllDepartments();
+    ArrayList<DepartmentDto> departments = departmentUcc.getAllDepartments();
     String jsonDepartments = defaultGenson.serialize(departments);
     resp.getWriter().println(jsonDepartments);
     resp.setStatus(HttpStatus.ACCEPTED_202);
@@ -294,11 +303,10 @@ public class Servlet extends HttpServlet {
     mobility.setStudentDto(
         userUcc.getUserById(Integer.parseInt("" + req.getSession().getAttribute(KEY_ID))));
     mobility.setPreferenceOrder(Integer.parseInt(req.getParameter("preferenceOrder")));
-    mobility.setProgramDto(programUcController.getProgramByName(req.getParameter("program")));
+    mobility.setProgramDto(programUcc.getProgramByName(req.getParameter("program")));
     mobility.setType(req.getParameter("type"));
     mobility.setQuadrimester(Integer.parseInt(req.getParameter("quadrimestre")));
-    mobility.setDepartementDto(
-        departmentUcController.getDepartmentByLabel(req.getParameter("department")));
+    mobility.setDepartementDto(departmentUcc.getDepartmentByLabel(req.getParameter("department")));
     mobility.setCountryDto(countryUcc.getCountryByNameFr(req.getParameter("country")));
 
     mobilityUcc.addMobility(mobility);

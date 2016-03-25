@@ -7,6 +7,7 @@ import dto.UserDto;
 import ucc.interfaces.UserUcController;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class UserUcControllerImpl implements UserUcController {
 
@@ -38,7 +39,7 @@ public class UserUcControllerImpl implements UserUcController {
   public UserDto login(String username, String password) {
 
     // Récupérer les données du DAL
-    UserBizz user = (UserBizz) userDao.findByUserName(username);
+    UserBizz user = (UserBizz) userDao.getUserByUserName(username);
 
     // L'user est null si aucun utilisateur avec le pseudo entré n'existe
     if (null == user) {
@@ -66,7 +67,7 @@ public class UserUcControllerImpl implements UserUcController {
 
     try {
       dalServices.startTransaction();
-      if (userDao.findByUserName(userBizz.getPseudo()) != null) {
+      if (userDao.getUserByUserName(userBizz.getPseudo()) != null) {
         return null;
       }
       if (!userDao.createUser(userBizz)) {
@@ -88,7 +89,12 @@ public class UserUcControllerImpl implements UserUcController {
 
   @Override
   public UserDto getUserById(int id) {
-    return userDao.findById(id);
+    return userDao.getUserById(id);
+  }
+
+  @Override
+  public ArrayList<UserDto> getAllUsers() {
+    return userDao.getAllUsers();
   }
 
 }
