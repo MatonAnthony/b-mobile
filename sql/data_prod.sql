@@ -41,3 +41,4 @@ INSERT INTO bmobile.programs (name, description, ver_nr) VALUES
   ('Erasmus+','Fonds de la Commission européenne pour les étudiants qui partent dans les pays de l''UE autre que la Belgique.',0 ),
   ('Erabel','Fonds nationaux pour les étudiants qui vont dans une autre communauté linguistique.',0),
   ('FAME','Fonds nationaux pour les étudiants qui vont dans un pays pour lequel l''Europe ne soutient pas la mobilité étudiante',0);
+

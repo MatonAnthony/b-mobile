@@ -204,7 +204,37 @@ public class Servlet extends HttpServlet {
   private void selectConfirmedMobility(HttpServletRequest req, HttpServletResponse resp)
       throws IOException {
     ArrayList<MobilityDto> mobilities = mobilityUcc.getconfirmedMobilities();
-    String jsonMobilities = defaultGenson.serialize(mobilities);
+    String jsonMobilities = "[";
+    for (int i = 0; i < mobilities.size(); i++) {
+      jsonMobilities += defaultGenson.serialize(mobilities.get(i));
+
+      // Parsing DepartmentDto
+      String jsonDepartmentDto = defaultGenson.serialize(mobilities.get(i).getDepartementDto());
+      jsonMobilities = jsonMobilities.replaceFirst("departmentDto\":\\{\\}",
+          "departmentDto\":" + jsonDepartmentDto);
+
+      // Parsing ProgramDto
+      String jsonProgramDto = defaultGenson.serialize(mobilities.get(i).getProgramDto());
+      jsonMobilities =
+          jsonMobilities.replaceFirst("programDto\":\\{\\}", "programDto\":" + jsonProgramDto);
+
+      // Parsing StudentDto
+      String jsonStudentDto = defaultGenson.serialize(mobilities.get(i).getStudentDto());
+      jsonMobilities =
+          jsonMobilities.replaceFirst("studentDto\":\\{\\}", "studentDto\":" + jsonStudentDto);
+
+      // Parsing countryDto
+      String jsonCountryDto = defaultGenson.serialize(mobilities.get(i).getCountryDto());
+      jsonMobilities =
+          jsonMobilities.replaceFirst("countryDto\":\\{\\}", "countryDto\":" + jsonCountryDto);
+
+      if (i != mobilities.size() - 1) {
+        jsonMobilities += ",";
+      } else {
+        jsonMobilities += "]";
+      }
+
+    }
     resp.getWriter().println(jsonMobilities);
     resp.setStatus(HttpStatus.ACCEPTED_202);
   }
