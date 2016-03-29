@@ -49,7 +49,8 @@ UPDATE bmobile.countries SET id_program = 1 WHERE iso = 'AT' OR iso = 'DK' OR is
                                                   OR iso = 'CZ' OR iso = 'CY' OR iso = 'DE' OR iso = 'GR' OR iso = 'IS'
                                                   OR iso = 'LU' OR iso = 'NL' OR iso = 'PT' OR iso = 'SI' OR iso = 'ES'
                                                   OR iso = 'TR' OR iso = 'BG' OR iso = 'EE' OR iso = 'HU' OR iso = 'LV'
-                                                  OR iso = 'LT' OR iso = 'MT' OR iso = 'PL' OR iso = 'RO' OR iso = 'MK';
+                                                  OR iso = 'LT' OR iso = 'MT' OR iso = 'PL' OR iso = 'RO' OR iso = 'MK'
+                                                  OR iso = 'IT' OR iso = 'SK';
 
 UPDATE bmobile.countries SET id_program = 2 WHERE iso = 'BE';
 UPDATE bmobile.countries SET id_program = 3 WHERE id_program IS NULL ;
