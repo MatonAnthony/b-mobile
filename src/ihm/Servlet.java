@@ -1,7 +1,6 @@
 package ihm;
 
 import bizz.interfaces.BizzFactory;
-import bizz.enumeration.Permissions;
 import dto.CountryDto;
 import dto.DepartmentDto;
 import dto.MobilityDto;
@@ -33,7 +32,6 @@ import java.io.PrintWriter;
 import java.nio.charset.Charset;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
-import java.security.Permission;
 import java.security.SignatureException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -205,7 +203,7 @@ public class Servlet extends HttpServlet {
 
   private void selectConfirmedMobility(HttpServletRequest req, HttpServletResponse resp)
       throws IOException {
-    ArrayList<MobilityDto> mobilities = mobilityUcc.getconfirmedMobilities();
+    ArrayList<MobilityDto> mobilities = mobilityUcc.getConfirmedMobilities();
     String jsonMobilities = "[";
     for (int i = 0; i < mobilities.size(); i++) {
       jsonMobilities += defaultGenson.serialize(mobilities.get(i));

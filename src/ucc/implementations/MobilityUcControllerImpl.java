@@ -30,7 +30,7 @@ public class MobilityUcControllerImpl implements MobilityUcController {
     return mobilities;
   }
 
-  public ArrayList<MobilityDto> getconfirmedMobilities() {
+  public ArrayList<MobilityDto> getConfirmedMobilities() {
     ArrayList<MobilityDto> mobilities = mobilityDao.getFullConfirmedMobilities();
     return mobilities;
   }
