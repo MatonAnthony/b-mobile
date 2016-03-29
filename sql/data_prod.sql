@@ -42,3 +42,15 @@ INSERT INTO bmobile.programs (name, description, ver_nr) VALUES
   ('Erabel','Fonds nationaux pour les étudiants qui vont dans une autre communauté linguistique.',0),
   ('FAME','Fonds nationaux pour les étudiants qui vont dans un pays pour lequel l''Europe ne soutient pas la mobilité étudiante',0);
 
+-- ID PROGRAMS TO COUNTRY - ERASMUS+ --
+-- 1 = Erasums+, 2 = Erabel, 3 = Fame --
+UPDATE bmobile.countries SET id_program = 1 WHERE iso = 'AT' OR iso = 'DK' OR iso = 'FI' OR iso = 'FR' OR iso = 'IE'
+                                                  OR iso = 'LI' OR iso = 'NO' OR iso = 'SE' OR iso = 'GB' OR iso = 'HR'
+                                                  OR iso = 'CZ' OR iso = 'CY' OR iso = 'DE' OR iso = 'GR' OR iso = 'IS'
+                                                  OR iso = 'LU' OR iso = 'NL' OR iso = 'PT' OR iso = 'SI' OR iso = 'ES'
+                                                  OR iso = 'TR' OR iso = 'BG' OR iso = 'EE' OR iso = 'HU' OR iso = 'LV'
+                                                  OR iso = 'LT' OR iso = 'MT' OR iso = 'PL' OR iso = 'RO' OR iso = 'MK';
+
+UPDATE bmobile.countries SET id_program = 2 WHERE iso = 'BE';
+UPDATE bmobile.countries SET id_program = 3 WHERE id_program IS NULL ;
+
