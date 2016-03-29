@@ -13,6 +13,13 @@ public interface CountryUcController {
    */
   ArrayList<CountryDto> getAllCountries();
 
+
+  /**
+   * Get a country from the database.
+   *
+   * @param name The french name of the country.
+   * @return CountryDto a CountryDto Object fill with the country information.
+   */
   CountryDto getCountryByNameFr(String name);
 
 

@@ -14,8 +14,20 @@ public interface DepartmentUcController {
    */
   public ArrayList<DepartmentDto> getAllDepartments();
 
+  /**
+   * Get a department from the database.
+   *
+   * @param id Id of the department.
+   * @return DepartmentDto a DepartmentDto Object filled with the department information.
+   */
   public DepartmentDto getDepartementsById(String id);
 
+  /**
+   * Get a department from the database.
+   *
+   * @param label Name of the department.
+   * @return DepartmentDto a DepartmentDto Object filled with the department information.
+   */
   public DepartmentDto getDepartmentByLabel(String label);
 
 }

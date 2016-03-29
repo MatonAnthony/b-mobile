@@ -1,6 +1,7 @@
 package ihm;
 
 import bizz.interfaces.BizzFactory;
+import bizz.enumeration.Permissions;
 import dto.CountryDto;
 import dto.DepartmentDto;
 import dto.MobilityDto;
@@ -32,6 +33,7 @@ import java.io.PrintWriter;
 import java.nio.charset.Charset;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.security.Permission;
 import java.security.SignatureException;
 import java.util.ArrayList;
 import java.util.HashMap;

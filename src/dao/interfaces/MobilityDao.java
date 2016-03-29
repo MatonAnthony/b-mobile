@@ -15,16 +15,16 @@ public interface MobilityDao {
   boolean delete();
 
   /**
-   * Return an arraylist of all the mobilities in the database.
-   * 
-   * @return an arrayList of MobilityDto.
+   * Return an ArrayList containing all the mobilities stored in database.
+   *
+   * @return an ArrayList of MobilityDto.
    */
   ArrayList<MobilityDto> getAllMobilities();
 
   /**
-   * Return an arraylist of all the confirmed mobilities in the database.
-   * 
-   * @return an arraylist of MobilityDto.
+   * Return an ArrayList containing all the confirmed mobilities stored in database.
+   *
+   * @return an ArrayList of MobilityDto.
    */
   ArrayList<MobilityDto> getFullConfirmedMobilities();
 

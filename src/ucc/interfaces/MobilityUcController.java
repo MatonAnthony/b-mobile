@@ -8,7 +8,7 @@ public interface MobilityUcController {
 
   ArrayList<MobilityDto> getAllMobilities();
 
-  ArrayList<MobilityDto> getconfirmedMobilities();
+  ArrayList<MobilityDto> getConfirmedMobilities();
 
   void addMobility(MobilityDto mobility);
 
