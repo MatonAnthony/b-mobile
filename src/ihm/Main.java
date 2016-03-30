@@ -67,10 +67,9 @@ public class Main {
     CountryDao countryDao = new CountryDaoImpl((DalBackendServices) dalServices, bizzFactory);
     CountryUcController countryUcc = new CountryUcControllerImpl(dalServices, countryDao);
 
-    DepartmentDao departmentDao =
-        new DepartmentDaoImpl((DalBackendServices) dalServices, bizzFactory);
-    DepartmentUcController departmentUcc =
-        new DepartmentUcControllerImpl(dalServices, departmentDao);
+    DepartmentDao departmentDao = new DepartmentDaoImpl(
+        (DalBackendServices) dalServices, bizzFactory);
+    DepartmentUcController departmentUcc = new DepartmentUcControllerImpl(dalServices, departmentDao);
 
     ProgramDao programDao = new ProgramDaoImpl((DalBackendServices) dalServices, bizzFactory);
     ProgramUcController programUcController = new ProgramUcControllerImpl(dalServices, programDao);
@@ -83,8 +82,8 @@ public class Main {
     CancelationUcController cancelationUcController =
         new CancelationUcControllerImpl(dalServices, cancelationDao);
 
-    Servlet servlet =
-        new Servlet(userUcc, bizzFactory, mobilityUcc, countryUcc, departmentUcc, programUcController, partnerUcController, cancelationUcController);
+    Servlet servlet = new Servlet(userUcc, bizzFactory, mobilityUcc, countryUcc,
+        departmentUcc, programUcController, partnerUcController, cancelationUcController);
 
     // Gestion des servlets
     context.addServlet(new ServletHolder(servlet), "/home");

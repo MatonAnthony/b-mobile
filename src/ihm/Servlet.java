@@ -71,8 +71,8 @@ public class Servlet extends HttpServlet {
   private transient CancelationUcController cancelationUcc = null;
   private transient BizzFactory bizzFactory = null;
 
-  private transient Genson userGenson =
-      new GensonBuilder().useFields(true, VisibilityFilter.PRIVATE).useMethods(false).exclude("password").create();
+  private transient Genson userGenson =new GensonBuilder().useFields(
+      true, VisibilityFilter.PRIVATE).useMethods(false).exclude("password").create();
   private transient Genson defaultGenson =
       new GensonBuilder().useFields(true, VisibilityFilter.PRIVATE).useMethods(false).create();
 
@@ -83,7 +83,11 @@ public class Servlet extends HttpServlet {
    * @param bizzFactory The factory used to generate dto.
    * @param countryUcc  The use case controller for the user.
    */
-  public Servlet(UserUcController userUcc, BizzFactory bizzFactory, MobilityUcController mobilityUcc, CountryUcController countryUcc, DepartmentUcController departmentUcController, ProgramUcController programUcController, PartnerUcController partnerUcController, CancelationUcController cancelationUcController) {
+  public Servlet(UserUcController userUcc, BizzFactory bizzFactory,
+                 MobilityUcController mobilityUcc, CountryUcController countryUcc,
+                 DepartmentUcController departmentUcController,
+                 ProgramUcController programUcController, PartnerUcController partnerUcController,
+                 CancelationUcController cancelationUcController) {
     this.userUcc = userUcc;
     this.bizzFactory = bizzFactory;
     this.mobilityUcc = mobilityUcc;
@@ -95,7 +99,8 @@ public class Servlet extends HttpServlet {
   }
 
   @Override
-  protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+  protected void doGet(HttpServletRequest req, HttpServletResponse resp)
+      throws ServletException, IOException {
     resp.setContentType(CONTENT_TYPE);
     resp.setCharacterEncoding("UTF-8");
     PrintWriter out = resp.getWriter();
@@ -117,7 +122,8 @@ public class Servlet extends HttpServlet {
   }
 
   @Override
-  protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+  protected void doPost(HttpServletRequest req, HttpServletResponse resp)
+      throws ServletException, IOException {
     resp.setCharacterEncoding("UTF-8");
     try {
       String action = req.getParameter("action");
@@ -183,21 +189,24 @@ public class Servlet extends HttpServlet {
     resp.setStatus(HttpStatus.ACCEPTED_202);
   }
 
-  private void selectDepartments(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+  private void selectDepartments(HttpServletRequest req, HttpServletResponse resp)
+      throws IOException {
     ArrayList<DepartmentDto> departments = departmentUcc.getAllDepartments();
     String jsonDepartments = defaultGenson.serialize(departments);
     resp.getWriter().println(jsonDepartments);
     resp.setStatus(HttpStatus.ACCEPTED_202);
   }
 
-  private void selectCountries(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+  private void selectCountries(HttpServletRequest req, HttpServletResponse resp)
+      throws IOException {
     ArrayList<CountryDto> countries = countryUcc.getAllCountries();
     String jsonCountries = defaultGenson.serialize(countries);
     resp.getWriter().println(jsonCountries);
     resp.setStatus(HttpStatus.ACCEPTED_202);
   }
 
-  private void selectConfirmedMobility(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+  private void selectConfirmedMobility(HttpServletRequest req, HttpServletResponse resp)
+      throws IOException {
     ArrayList<MobilityDto> mobilities = mobilityUcc.getConfirmedMobilities();
     String jsonMobilities = "[";
     for (int i = 0; i < mobilities.size(); i++) {
@@ -402,7 +411,8 @@ public class Servlet extends HttpServlet {
     StringBuilder contentBuilder = new StringBuilder();
     try {
       BufferedReader in =
-          new BufferedReader(new InputStreamReader(new FileInputStream(file), Charset.defaultCharset()));
+          new BufferedReader(new InputStreamReader(new FileInputStream(file),
+              Charset.defaultCharset()));
       String str;
       while ((str = in.readLine()) != null) {
         contentBuilder.append(str);
