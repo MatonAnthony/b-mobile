@@ -283,6 +283,7 @@ $(function(){
 	}
 	
 	function loadList(){
+		
 		$("#loginPage").css("display", "none");
 		$("#navBarStudent").css("display", "none");
 		$("#navBarTeacher").css("display", "block");
@@ -293,6 +294,8 @@ $(function(){
 		$("#addMobilityPage").css("display", "none");
 		$("#listPage").css("display", "block");
 		$("#userListPage").css("display", "none");
+		
+		$("#tableConfirmed tbody").empty();
 	}
 
 	function loadUserList(){
@@ -444,7 +447,23 @@ function loadConfirmedMobility(){
 			},
 			success: function(resp){
 				resp=JSON.parse(resp);
-				console.log(resp);
+				$("#tableConfirmed tbody").empty();
+				
+				for(key in resp){				
+					
+					$("#tableConfirmed tbody").append(
+					"<tr>"+
+						"<td>"+resp[key]['departmentDto']['label']+"</td>"+
+						"<td>"+resp[key]['programDto']['name']+"</td>"+
+						"<td>"+resp[key]['type']+"</td>"+
+						"<td>"+resp[key]['countryDto']['nameFr']+"</td>"+
+						"<td>"+resp[key]['studentDto']['name']+"</td>"+
+						"<td>"+resp[key]['studentDto']['firstname']+"</td>"+
+						"<td>"+resp[key]['status']+"</td>"
+					+"</tr>");
+					
+				}
+				
 			},
 			error: function(error){
 				console.log("Connexion echouée");
