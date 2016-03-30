@@ -105,38 +105,7 @@ public class UserDaoImpl implements UserDao {
     UserDto user = factory.getUserDto();
     try (ResultSet resultSet = preparedStatement.executeQuery()) {
       if (resultSet.next()) {
-        user.setId(resultSet.getInt(1));
-        user.setIdDepartment(resultSet.getInt(2));
-        user.setPseudo(resultSet.getString(3));
-        user.setPassword(resultSet.getString(4));
-        user.setName(resultSet.getString(5));
-        user.setFirstname(resultSet.getString(6));
-        user.setEmail(resultSet.getString(7));
-        Timestamp registrationDate = resultSet.getTimestamp(8);
-        if (null != registrationDate) {
-          user.setRegistrationDate(registrationDate.toLocalDateTime().toLocalDate());
-        }
-        user.setPermissions(resultSet.getString(9));
-        Timestamp birthdate = resultSet.getTimestamp(10);
-        if (null != birthdate) {
-          user.setBirthDate(birthdate.toLocalDateTime().toLocalDate());
-        }
-        user.setStreet(resultSet.getString(11));
-        user.setHouseNumber(resultSet.getString(12));
-        user.setMailBox(resultSet.getString(13));
-        user.setZip(resultSet.getString(14));
-        user.setCity(resultSet.getString(15));
-        user.setCountry(resultSet.getString(16));
-        user.setTel(resultSet.getString(17));
-        user.setGender(resultSet.getString(18));
-        user.setSuccessfullYearInCollege(resultSet.getInt(19));
-        user.setIban(resultSet.getString(20));
-        user.setBic(resultSet.getString(21));
-        user.setAccountHolder(resultSet.getString(21));
-        user.setBankName(resultSet.getString(22));
-        user.setVerNr(resultSet.getInt(22));
-      } else {
-        return null;
+        completeDto(user, resultSet);
       }
       return user;
     } catch (SQLException exc2) {
@@ -152,36 +121,7 @@ public class UserDaoImpl implements UserDao {
     try (ResultSet resultSet = preparedStatement.executeQuery()) {
       while (resultSet.next()) {
         UserDto user = factory.getUserDto();
-        user.setId(resultSet.getInt(1));
-        user.setIdDepartment(resultSet.getInt(2));
-        user.setPseudo(resultSet.getString(3));
-        user.setPassword(resultSet.getString(4));
-        user.setName(resultSet.getString(5));
-        user.setFirstname(resultSet.getString(6));
-        user.setEmail(resultSet.getString(7));
-        Timestamp registrationDate = resultSet.getTimestamp(8);
-        if (null != registrationDate) {
-          user.setRegistrationDate(registrationDate.toLocalDateTime().toLocalDate());
-        }
-        user.setPermissions(resultSet.getString(9));
-        Timestamp birthdate = resultSet.getTimestamp(10);
-        if (null != birthdate) {
-          user.setBirthDate(birthdate.toLocalDateTime().toLocalDate());
-        }
-        user.setStreet(resultSet.getString(11));
-        user.setHouseNumber(resultSet.getString(12));
-        user.setMailBox(resultSet.getString(13));
-        user.setZip(resultSet.getString(14));
-        user.setCity(resultSet.getString(15));
-        user.setCountry(resultSet.getString(16));
-        user.setTel(resultSet.getString(17));
-        user.setGender(resultSet.getString(18));
-        user.setSuccessfullYearInCollege(resultSet.getInt(19));
-        user.setIban(resultSet.getString(20));
-        user.setBic(resultSet.getString(21));
-        user.setAccountHolder(resultSet.getString(21));
-        user.setBankName(resultSet.getString(22));
-        user.setVerNr(resultSet.getInt(22));
+        user = completeDto(user, resultSet);
         users.add(user);
       }
       return users;
@@ -190,7 +130,40 @@ public class UserDaoImpl implements UserDao {
       return null;
     }
 
+  }
 
+  private UserDto completeDto(UserDto user, ResultSet resultSet) throws SQLException {
+    user.setId(resultSet.getInt(1));
+    user.setIdDepartment(resultSet.getInt(2));
+    user.setPseudo(resultSet.getString(3));
+    user.setPassword(resultSet.getString(4));
+    user.setName(resultSet.getString(5));
+    user.setFirstname(resultSet.getString(6));
+    user.setEmail(resultSet.getString(7));
+    Timestamp registrationDate = resultSet.getTimestamp(8);
+    if (null != registrationDate) {
+      user.setRegistrationDate(registrationDate.toLocalDateTime().toLocalDate());
+    }
+    user.setPermissions(resultSet.getString(9));
+    Timestamp birthdate = resultSet.getTimestamp(10);
+    if (null != birthdate) {
+      user.setBirthDate(birthdate.toLocalDateTime().toLocalDate());
+    }
+    user.setStreet(resultSet.getString(11));
+    user.setHouseNumber(resultSet.getString(12));
+    user.setMailBox(resultSet.getString(13));
+    user.setZip(resultSet.getString(14));
+    user.setCity(resultSet.getString(15));
+    user.setCountry(resultSet.getString(16));
+    user.setTel(resultSet.getString(17));
+    user.setGender(resultSet.getString(18));
+    user.setSuccessfullYearInCollege(resultSet.getInt(19));
+    user.setIban(resultSet.getString(20));
+    user.setBic(resultSet.getString(21));
+    user.setAccountHolder(resultSet.getString(21));
+    user.setBankName(resultSet.getString(22));
+    user.setVerNr(resultSet.getInt(22));
+    return user;
   }
 
 }
