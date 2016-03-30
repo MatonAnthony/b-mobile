@@ -71,7 +71,7 @@ public class Servlet extends HttpServlet {
   private transient CancelationUcController cancelationUcc = null;
   private transient BizzFactory bizzFactory = null;
 
-  private transient Genson userGenson =new GensonBuilder().useFields(
+  private transient Genson userGenson = new GensonBuilder().useFields(
       true, VisibilityFilter.PRIVATE).useMethods(false).exclude("password").create();
   private transient Genson defaultGenson =
       new GensonBuilder().useFields(true, VisibilityFilter.PRIVATE).useMethods(false).create();

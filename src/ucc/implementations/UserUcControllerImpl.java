@@ -50,7 +50,7 @@ public class UserUcControllerImpl implements UserUcController {
     }
 
     if (user.checkPassword(password)) {
-      LOGGER.info("[" + user.getPermissions() + "] \"" + username +"\" connected");
+      LOGGER.info("[" + user.getPermissions() + "] \"" + username + "\" connected");
       return user;
     } else {
       LOGGER.warning("\"" + username + "\" : bad password ");

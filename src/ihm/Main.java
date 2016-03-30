@@ -69,7 +69,8 @@ public class Main {
 
     DepartmentDao departmentDao = new DepartmentDaoImpl(
         (DalBackendServices) dalServices, bizzFactory);
-    DepartmentUcController departmentUcc = new DepartmentUcControllerImpl(dalServices, departmentDao);
+    DepartmentUcController departmentUcc = new DepartmentUcControllerImpl(
+        dalServices, departmentDao);
 
     ProgramDao programDao = new ProgramDaoImpl((DalBackendServices) dalServices, bizzFactory);
     ProgramUcController programUcController = new ProgramUcControllerImpl(dalServices, programDao);
