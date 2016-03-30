@@ -106,6 +106,8 @@ public class UserDaoImpl implements UserDao {
     try (ResultSet resultSet = preparedStatement.executeQuery()) {
       if (resultSet.next()) {
         completeDto(user, resultSet);
+      } else {
+        return null;
       }
       return user;
     } catch (SQLException exc2) {
