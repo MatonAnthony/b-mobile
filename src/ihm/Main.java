@@ -39,11 +39,13 @@ import org.eclipse.jetty.servlet.DefaultServlet;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jetty.webapp.WebAppContext;
 
+import java.util.logging.Logger;
+
 public class Main {
 
   /**
    * Le point d'entree de mon application.
-   * 
+   *
    * @param args Les parametres de notre application.
    * @throws Exception Les exceptions renvoyees par l'application
    */
@@ -81,8 +83,8 @@ public class Main {
     CancelationUcController cancelationUcController =
         new CancelationUcControllerImpl(dalServices, cancelationDao);
 
-    Servlet servlet = new Servlet(userUcc, bizzFactory, mobilityUcc, countryUcc, departmentUcc,
-        programUcController, partnerUcController, cancelationUcController);
+    Servlet servlet =
+        new Servlet(userUcc, bizzFactory, mobilityUcc, countryUcc, departmentUcc, programUcController, partnerUcController, cancelationUcController);
 
     // Gestion des servlets
     context.addServlet(new ServletHolder(servlet), "/home");
@@ -99,7 +101,6 @@ public class Main {
     server.setHandler(context);
 
     server.start();
-
   }
 
 }

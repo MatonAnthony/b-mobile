@@ -8,11 +8,13 @@ import ucc.interfaces.UserUcController;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Logger;
 
 public class UserUcControllerImpl implements UserUcController {
 
   private UserDao userDao = null;
   private DalServices dalServices = null;
+  private static final Logger LOGGER = Logger.getLogger(UserUcControllerImpl.class.getName());
 
   /**
    * Constructeur d'un userUcController.
@@ -43,12 +45,15 @@ public class UserUcControllerImpl implements UserUcController {
 
     // L'user est null si aucun utilisateur avec le pseudo entré n'existe
     if (null == user) {
+      LOGGER.warning("\"" + username + "\" : username not exist ");
       return null;
     }
 
     if (user.checkPassword(password)) {
+      LOGGER.info("["+ user.getPermissions()+ "] \"" + username +"\" connected");
       return user;
     } else {
+      LOGGER.warning("\"" + username + "\" : bad password ");
       return null;
     }
   }
@@ -57,7 +62,7 @@ public class UserUcControllerImpl implements UserUcController {
    * The function register new user in the data base.
    * 
    * @param userdto is the user to register.
-   * @return a userDto. It is the user added. Null if there was a error.
+   * @return a userDto. It is the user added. Null if there was a error."
    */
 
   public UserDto register(UserDto userdto) {

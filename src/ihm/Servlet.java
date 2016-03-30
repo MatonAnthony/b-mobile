@@ -36,6 +36,7 @@ import java.security.SignatureException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
@@ -57,6 +58,8 @@ public class Servlet extends HttpServlet {
   private static final String KEY_PERMISSIONS = "permissions";
   private static final String KEY_ID = "id";
 
+  private static final Logger LOGGER = Logger.getLogger(Servlet.class.getName());
+
   private transient UserUcController userUcc = null;
   private transient MobilityUcController mobilityUcc = null;
   private transient CountryUcController countryUcc = null;
@@ -68,22 +71,19 @@ public class Servlet extends HttpServlet {
   private transient CancelationUcController cancelationUcc = null;
   private transient BizzFactory bizzFactory = null;
 
-  private transient Genson userGenson = new GensonBuilder()
-      .useFields(true, VisibilityFilter.PRIVATE).useMethods(false).exclude("password").create();
+  private transient Genson userGenson =
+      new GensonBuilder().useFields(true, VisibilityFilter.PRIVATE).useMethods(false).exclude("password").create();
   private transient Genson defaultGenson =
       new GensonBuilder().useFields(true, VisibilityFilter.PRIVATE).useMethods(false).create();
 
   /**
    * The servlet used by the server.
-   * 
-   * @param userUcc The use case controller for the user
+   *
+   * @param userUcc     The use case controller for the user
    * @param bizzFactory The factory used to generate dto.
-   * @param countryUcc The use case controller for the user.
+   * @param countryUcc  The use case controller for the user.
    */
-  public Servlet(UserUcController userUcc, BizzFactory bizzFactory,
-      MobilityUcController mobilityUcc, CountryUcController countryUcc,
-      DepartmentUcController departmentUcController, ProgramUcController programUcController,
-      PartnerUcController partnerUcController, CancelationUcController cancelationUcController) {
+  public Servlet(UserUcController userUcc, BizzFactory bizzFactory, MobilityUcController mobilityUcc, CountryUcController countryUcc, DepartmentUcController departmentUcController, ProgramUcController programUcController, PartnerUcController partnerUcController, CancelationUcController cancelationUcController) {
     this.userUcc = userUcc;
     this.bizzFactory = bizzFactory;
     this.mobilityUcc = mobilityUcc;
@@ -95,8 +95,7 @@ public class Servlet extends HttpServlet {
   }
 
   @Override
-  protected void doGet(HttpServletRequest req, HttpServletResponse resp)
-      throws ServletException, IOException {
+  protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
     resp.setContentType(CONTENT_TYPE);
     resp.setCharacterEncoding("UTF-8");
     PrintWriter out = resp.getWriter();
@@ -118,8 +117,7 @@ public class Servlet extends HttpServlet {
   }
 
   @Override
-  protected void doPost(HttpServletRequest req, HttpServletResponse resp)
-      throws ServletException, IOException {
+  protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
     resp.setCharacterEncoding("UTF-8");
     try {
       String action = req.getParameter("action");
@@ -185,24 +183,21 @@ public class Servlet extends HttpServlet {
     resp.setStatus(HttpStatus.ACCEPTED_202);
   }
 
-  private void selectDepartments(HttpServletRequest req, HttpServletResponse resp)
-      throws IOException {
+  private void selectDepartments(HttpServletRequest req, HttpServletResponse resp) throws IOException {
     ArrayList<DepartmentDto> departments = departmentUcc.getAllDepartments();
     String jsonDepartments = defaultGenson.serialize(departments);
     resp.getWriter().println(jsonDepartments);
     resp.setStatus(HttpStatus.ACCEPTED_202);
   }
 
-  private void selectCountries(HttpServletRequest req, HttpServletResponse resp)
-      throws IOException {
+  private void selectCountries(HttpServletRequest req, HttpServletResponse resp) throws IOException {
     ArrayList<CountryDto> countries = countryUcc.getAllCountries();
     String jsonCountries = defaultGenson.serialize(countries);
     resp.getWriter().println(jsonCountries);
     resp.setStatus(HttpStatus.ACCEPTED_202);
   }
 
-  private void selectConfirmedMobility(HttpServletRequest req, HttpServletResponse resp)
-      throws IOException {
+  private void selectConfirmedMobility(HttpServletRequest req, HttpServletResponse resp) throws IOException {
     ArrayList<MobilityDto> mobilities = mobilityUcc.getConfirmedMobilities();
     String jsonMobilities = "[";
     for (int i = 0; i < mobilities.size(); i++) {
@@ -240,6 +235,8 @@ public class Servlet extends HttpServlet {
   }
 
   private void disconnect(HttpServletRequest req, HttpServletResponse resp) {
+    LOGGER.info("[" + req.getSession().getAttribute(KEY_PERMISSIONS) + "] \""
+        + req.getSession().getAttribute(KEY_USERNAME) + "\" disconnected.");
     req.getSession().invalidate();
 
     Cookie cookie = new Cookie("user", "");
@@ -321,8 +318,8 @@ public class Servlet extends HttpServlet {
 
   /**
    * The method used by the servlet to add a mobility to the DB.
-   * 
-   * @param req The request received by the server.
+   *
+   * @param req  The request received by the server.
    * @param resp The response sended by the server.
    */
   private void addMobility(HttpServletRequest req, HttpServletResponse resp) {
@@ -330,8 +327,8 @@ public class Servlet extends HttpServlet {
     // TODO (Martin) Poser question : aller chercher les Dtos dans la servlet ou dans l'ucc pour
     // profiter des transactions?
 
-    mobility.setStudentDto(
-        userUcc.getUserById(Integer.parseInt("" + req.getSession().getAttribute(KEY_ID))));
+    mobility.setStudentDto(userUcc.getUserById(Integer.parseInt(
+        "" + req.getSession().getAttribute(KEY_ID))));
     mobility.setPreferenceOrder(Integer.parseInt(req.getParameter("preferenceOrder")));
     mobility.setProgramDto(programUcc.getProgramByName(req.getParameter("program")));
     mobility.setType(req.getParameter("type"));
@@ -373,7 +370,7 @@ public class Servlet extends HttpServlet {
   /**
    * Cree un cookie avec un token JWT afin de ne pas perdre l'authentification d'un utilisateur.
    *
-   * @param resp La reponse qui serra renvoyee par le serveur.
+   * @param resp  La reponse qui serra renvoyee par le serveur.
    * @param login Le pseudo de l'utilisateur.
    */
   private void createJwtCookie(HttpServletResponse resp, UserDto userDto) {
@@ -404,8 +401,8 @@ public class Servlet extends HttpServlet {
   private String htmlToString(String file) {
     StringBuilder contentBuilder = new StringBuilder();
     try {
-      BufferedReader in = new BufferedReader(
-          new InputStreamReader(new FileInputStream(file), Charset.defaultCharset()));
+      BufferedReader in =
+          new BufferedReader(new InputStreamReader(new FileInputStream(file), Charset.defaultCharset()));
       String str;
       while ((str = in.readLine()) != null) {
         contentBuilder.append(str);
