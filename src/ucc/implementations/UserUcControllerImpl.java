@@ -102,4 +102,25 @@ public class UserUcControllerImpl implements UserUcController {
     return userDao.getAllUsers();
   }
 
+  @Override
+  public void changePermissions(int id) {
+    try {
+      dalServices.startTransaction();
+      UserDto user = userDao.getUserById(id);
+      if (user.getPermissions().equals("STUDENT")) {
+        userDao.changePermissionsForUserById(user);
+      } else {
+        // TODO (Martin) Throw une exeption personnalisée si l'utilisateur n'est pas dans la BDD.
+      }
+
+      dalServices.commitTransaction();
+    } catch (Exception e) {
+      try {
+        dalServices.rollbackTransaction();
+      } catch (SQLException exc) {
+        exc.printStackTrace();
+      }
+    }
+  }
+
 }

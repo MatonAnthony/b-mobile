@@ -162,6 +162,9 @@ public class Servlet extends HttpServlet {
         case "addMobility":
           addMobility(req, resp);
           break;
+        case "changePermissions":
+          changePermissions(req, resp);
+          break;
         default:
           resp.setStatus(HttpStatus.BAD_REQUEST_400);
       }
@@ -173,6 +176,14 @@ public class Servlet extends HttpServlet {
       resp.flushBuffer();
     }
 
+  }
+
+  /**
+   * 
+   */
+  private void changePermissions(HttpServletRequest req, HttpServletResponse resp) {
+    userUcc.changePermissions(Integer.parseInt(req.getParameter("id")));
+    resp.setStatus(HttpStatus.ACCEPTED_202);
   }
 
   private void selectUsers(HttpServletRequest req, HttpServletResponse resp) throws IOException {

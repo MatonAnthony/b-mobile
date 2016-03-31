@@ -101,6 +101,20 @@ public class UserDaoImpl implements UserDao {
     }
   }
 
+
+  @Override
+  public void changePermissionsForUserById(UserDto user) {
+    String query = "UPDATE bmobile.users SET permissions='TEACHER' WHERE id=?";
+    PreparedStatement preparedStatement = null;
+    try {
+      preparedStatement = dalBackendServices.prepare(query);
+      preparedStatement.setInt(1, user.getId());
+      preparedStatement.executeUpdate();
+    } catch (SQLException exc) {
+      exc.printStackTrace();
+    }
+  }
+
   private UserDto fillDto(PreparedStatement preparedStatement) {
     UserDto user = factory.getUserDto();
     try (ResultSet resultSet = preparedStatement.executeQuery()) {
@@ -167,5 +181,4 @@ public class UserDaoImpl implements UserDao {
     user.setVerNr(resultSet.getInt(22));
     return user;
   }
-
 }

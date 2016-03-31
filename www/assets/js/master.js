@@ -10,8 +10,10 @@ $(function(){
 			resp = JSON.parse(resp);
 			if(resp.permissions === "STUDENT"){
 				authStudent();
+				history.pushState({page:"myMobility"}, "Mes mobilités", "/home#myMobility");
 			}else{
 				authTeacher();
+				history.pushState({page:"confirmedMobility"}, "Mobilites Confirmées", "/home#confirmedMobility");
 			}
 
         },
@@ -19,6 +21,46 @@ $(function(){
             console.log("Authentification echouée");
         }
     });
+
+	$(window).load(function () {
+		changePage();
+	});
+
+    window.onpopstate = function(event) {
+    	changePage();
+	};
+
+	function changePage(){
+		var state = history.state;
+		if(null === state)return true;
+    	switch(state['page']){
+	    	case "userList" :
+	    		loadUserList();
+	    		break;
+	    	case "list" :
+	    		loadList();
+	    		break;
+	    	case "confirmedMobility" :
+	    		authTeacher();
+	    		break;
+	    	case "myMobility" :
+	    		authStudent();
+	    		break;
+	    	case "addMobility" :
+	    		loadAddMobility();
+	    		break;
+	    	case "confirmedMobility" :
+	    		loadConfirmedMobility();
+	    		break;
+	    	case "addPartner" :
+	    		break;
+	    	case "myInformations" :
+	    		break;
+	    	default:
+	    		break;
+	   	}
+    }
+
 	// Register
 	$("#registerButton").click(function(){
 		password = $("#passwordRegister").val();
@@ -36,7 +78,6 @@ $(function(){
 				},
 				success: function (resp) {
 					resp = JSON.parse(resp);
-					console.log(resp);
 					if (resp.permissions === "STUDENT") {
 						authStudent();
 					} else {
@@ -71,8 +112,10 @@ $(function(){
 			resp = JSON.parse(resp);
 				if(resp.permissions === "STUDENT"){
 					authStudent();
+					history.pushState({page:"myMobility"}, "Mes mobilités", "/home#myMobility");
 				}else{
 					authTeacher();
+					history.pushState({page:"confirmedMobility"}, "Mobilites Confirmées", "/home#confirmedMobility");
 				}
 	        },
 	        error: function(error){
@@ -83,26 +126,28 @@ $(function(){
 	});
 	//Disconnect
 	function disconnect(){
-			$.ajax({
-				url: "/home",
-				type: 'POST',
-				data: {
-					action:"disconnect"
-				},
-				success: function(reponse) {
-					$("#loginPage").css("display", "block");
-					$("#navBarStudent").css("display", "none");
-					$("#navBarTeacher").css("display", "none");
-					$("#profilePage").css("display", "none");
-					$("#studentHomePage").css("display", "none");
-					$("#teacherHomePage").css("display", "none");
-					$("#addMobilityPage").css("display", "none");
-					$("#userListPage").css("display", "none");
-				},
-				error: function(e) {
-					console.log(e.message);
-				}
-			});
+		$.ajax({
+			url: "/home",
+			type: 'POST',
+			data: {
+				action:"disconnect"
+			},
+			success: function(reponse) {
+				$("#loginPage").css("display", "block");
+				$("#navBarStudent").css("display", "none");
+				$("#navBarTeacher").css("display", "none");
+				$("#profilePage").css("display", "none");
+				$("#studentHomePage").css("display", "none");
+				$("#teacherHomePage").css("display", "none");
+				$("#addMobilityPage").css("display", "none");
+				$("#userListPage").css("display", "none");
+			},
+			error: function(e) {
+				console.log(e.message);
+			}
+		});
+		$(".navButton[href='#confirmedMobility']").parent().addClass("active");
+		$(".navButton[href='#myMobility']").parent().addClass("active");
 	}
 	//MyProfile
 	$("#profileButton").click(function () {
@@ -220,36 +265,60 @@ $(function(){
 
 	//userList
 
+	$("#userListTableBody").on("click",".btnNommer", function(){
+		var id = $(this).attr("value");
+		$.ajax({
+		        method: "POST",
+		        url: "/home",
+		        data: {
+		            action:"changePermissions",
+		            id: id
+		        },
+		        success: function(resp){
+		        	$("#tdPermissions"+id).html("TEACHER");
+					$("#tdButtonNommer"+id).html("");
+					$("#tdButtonGererInfos"+id).html("");
+		        },
+		        error: function(error){
+		            console.log("Problème lors du changement des permissions de l'utilisateur");
+		        }
+	    	});	
+		return true;
+	});
 
 
 	//navBar
 	$(".navButton").click(function(){
-		$(".active").removeClass("active");
 		switch($(this).attr("href")){
 			case "#myMobility":
-				$(".navButton[href='#myMobility']").parent().addClass("active");
 				authStudent();
+				history.pushState({page:"myMobility"}, "Mes mobilités", "/home#myMobility");
 				break;
 			case "#confirmedMobility":
-				$(".navButton[href='#confirmedMobility']").parent().addClass("active");
 				authTeacher();
+				history.pushState({page:"confirmedMobility"}, "Mobilites Confirmées", "/home#confirmedMobility");
 				break;
 			case "#addMobility" :
 				loadAddMobility();
-				$(".navButton[href='#addMobility']").parent().addClass("active");
+				history.pushState({page:"addMobility"}, "Ajouter une mobilité", "/home#addMobility");
 				break;
 			case "#disconnect" :
 				disconnect();
-				$(".navButton[href='#confirmedMobility']").parent().addClass("active");
-				$(".navButton[href='#myMobility']").parent().addClass("active");
+				history.pushState({page:"index"}, "Page d'accueil", "/home");
 				break;
 			case "#list":
-				$(".navButton[href='#list']").parent().addClass("active");
 				loadList();
+				history.pushState({page:"list"}, "Liste des demandes de paiement", "/home#list");
 				break;
 			case "#userList":
-				$(".navButton[href='#userList']").parent().addClass("active");
 				loadUserList();
+				history.pushState({page:"userList"}, "Liste des utilisateurs", "/home#userList");
+				break;
+			case "#addPartner":
+				history.pushState({page:"addPartner"}, "Ajouter un partenaire", "/home#addPartner");
+				break;
+			case "#myInformations":
+				history.pushState({page:"myInformations"}, "Modifier mes informations", "/home#myInformations");
 				break;
 		}
 	});
@@ -266,6 +335,8 @@ $(function(){
 		$("#listPage").css("display", "none");
 		$("#addMobilityPage").css("display", "none");
 		$("#userListPage").css("display", "none");
+		$(".active").removeClass("active");
+		$(".navButton[href='#myMobility']").parent().addClass("active");
 	}
 
 	function authTeacher(){
@@ -280,6 +351,8 @@ $(function(){
 		$("#addMobilityPage").css("display", "none");
 		$("#userListPage").css("display", "none");
 		loadConfirmedMobility();
+		$(".active").removeClass("active");
+		$(".navButton[href='#confirmedMobility']").parent().addClass("active");
 	}
 	
 	function loadList(){
@@ -294,8 +367,10 @@ $(function(){
 		$("#addMobilityPage").css("display", "none");
 		$("#listPage").css("display", "block");
 		$("#userListPage").css("display", "none");
-		
+		$(".active").removeClass("active");
+		$(".navButton[href='#list']").parent().addClass("active");
 		$("#tableConfirmed tbody").empty();
+
 	}
 
 	function loadUserList(){
@@ -309,46 +384,48 @@ $(function(){
 		$("#addMobilityPage").css("display", "none");
 		$("#listPage").css("display", "none");
 		$("#userListPage").css("display", "block");
-		if($("#userListTableBody").html()== ""){
-			$.ajax({
-		        method: "POST",
-		        url: "/home",
-		        data: {
-		            action: "selectUsers"
-		        },
-		        success: function(resp){
-		        	resp = JSON.parse(resp);
-		        	var key;
-		        	for(key in resp){
-		        		var value;
-		        		if(resp[key]['permissions'] === "STUDENT"){
-		        			value = "<tr>"
-		        			+"<td>" + resp[key]['id'] + "</td>"
-		        			+"<td>" + resp[key]['name'] + "</td>"
-		        			+"<td>" + resp[key]['firstname'] + "</td>"
-		        			+"<td>" + resp[key]['permissions'] + "</td>"
-		        			+'<td><button value="'+ resp[key]['id'] + '" class="btn btn-danger btnNommer">Nommer</button></td>'
-							+'<td><button value="'+ resp[key]['id'] + '" class="btn btn-success btnGererInfos">Gérer les informations</button></td>'
-		        			+"</tr>";
-		        		}else{
-		        			value = "<tr>"
-		        			+"<td>" + resp[key]['id'] + "</td>"
-		        			+"<td>" + resp[key]['name'] + "</td>"
-		        			+"<td>" + resp[key]['firstname'] + "</td>"
-		        			+"<td>" + resp[key]['permissions'] + "</td>"
-		        			+'<td></td>'
-							+'<td></td>'
-		        			+"</tr>";
-		        		}
-		        		$("#userListTableBody").append(value); 
-		        	}
-		        },
-		        error: function(error){
+		$.ajax({
+	        method: "POST",
+	        url: "/home",
+	        data: {
+	            action: "selectUsers"
+	        },
+	        success: function(resp){
+	        	resp = JSON.parse(resp);
+	        	var key;
+	        	$("#userListTableBody").html(""); 
+	        	for(key in resp){
+	        		var value;
+	        		if(resp[key]['permissions'] === "STUDENT"){
+	        			value = "<tr>"
+	        			+"<td>" + resp[key]['id'] + "</td>"
+	        			+"<td>" + resp[key]['name'] + "</td>"
+	        			+"<td>" + resp[key]['firstname'] + "</td>"
+	        			+'<td id="tdPermissions'+ resp[key]['id'] +'">' + resp[key]['permissions'] + '</td>'
+	        			+'<td id="tdButtonNommer'+ resp[key]['id'] +'"><button value="'+ resp[key]['id'] + '" class="btnNommer btn btn-info">Nommer</button></td>'
+						+'<td id="tdButtonGererInfos'+ resp[key]['id'] +'"><button value="'+ resp[key]['id'] + '" class="btnGererInfos btn btn-info">Gérer les informations</button></td>'
+	        			+"</tr>";
+	        		}else{
+	        			value = "<tr>"
+	        			+"<td>" + resp[key]['id'] + "</td>"
+	        			+"<td>" + resp[key]['name'] + "</td>"
+	        			+"<td>" + resp[key]['firstname'] + "</td>"
+	        			+"<td>" + resp[key]['permissions'] + "</td>"
+	        			+'<td></td>'
+						+'<td></td>'
+	        			+"</tr>";
+	        		}
 
-		            console.log("Problème lors de la récuperation de la liste des utilisateurs");
-		        }
-	    	});
-		}
+	        		$("#userListTableBody").append(value); 
+	        	}
+	        },
+	        error: function(error){
+
+	            console.log("Problème lors de la récuperation de la liste des utilisateurs");
+	        }
+    	});
+    	$(".active").removeClass("active");
+    	$(".navButton[href='#userList']").parent().addClass("active");
 	}
 
 	function loadAddMobility(){
@@ -419,6 +496,8 @@ $(function(){
 		        }
 		    });
 		}
+		$(".active").removeClass("active");
+		$(".navButton[href='#addMobility']").parent().addClass("active");
 	}
 
 	function loadRegisterPage(){
@@ -431,6 +510,7 @@ $(function(){
 		$("#registerPage").css("display", "block");
 		$("#listPage").css("display", "none");
 		$("#userListPage").css("display", "none");
+
 	}
 
 });
@@ -463,7 +543,6 @@ function loadConfirmedMobility(){
 					+"</tr>");
 					
 				}
-				
 			},
 			error: function(error){
 				console.log("Connexion echouée");

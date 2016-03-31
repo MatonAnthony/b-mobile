@@ -26,4 +26,6 @@ public interface UserDao {
 
   ArrayList<UserDto> getAllUsers();
 
+  void changePermissionsForUserById(UserDto user);
+
 }
