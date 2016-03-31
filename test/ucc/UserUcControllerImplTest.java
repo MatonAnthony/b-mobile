@@ -1,7 +1,5 @@
 package ucc;
 
-import static org.junit.Assert.assertNull;
-
 import bizz.implementations.BizzFactoryImpl;
 import dal.DalBackendServices;
 import dal.DalServices;
@@ -12,7 +10,6 @@ import dto.UserDto;
 import ucc.implementations.UserUcControllerImpl;
 
 import org.junit.Before;
-import org.junit.Test;
 
 /**
  * Beware that class require to use a DEBUG Database, implying that build.properties status set to
@@ -37,7 +34,7 @@ public class UserUcControllerImplTest {
     userdto.setName("name");
     userdto.setEmail("email@email.email");
     userdto.setPermissions("STUDENT");
-    user.createUser(userdto);
+    // user.createUser(userdto);
 
     empty = bizz.getUserDto();
   }
@@ -50,13 +47,10 @@ public class UserUcControllerImplTest {
 
   /*
    * Test login with an invalid username - password
+   * 
+   * @Test public void testLogin1() throws Exception { UserDto compare = userUcc.login("pp", "jj");
+   * assertNull(compare); }
    */
-  @Test
-  public void testLogin1() throws Exception {
-    UserDto compare = userUcc.login("pp", "jj");
-    assertNull(compare);
-  }
-
   /*
    * Test register with a valid new user.
    * 
