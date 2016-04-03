@@ -1,5 +1,7 @@
 package ucc;
 
+import static org.junit.Assert.assertNull;
+
 import bizz.implementations.BizzFactoryImpl;
 import dal.DalBackendServices;
 import dal.DalServices;
@@ -10,6 +12,7 @@ import dto.UserDto;
 import ucc.implementations.UserUcControllerImpl;
 
 import org.junit.Before;
+import org.junit.Test;
 
 /**
  * Beware that class require to use a DEBUG Database, implying that build.properties status set to
@@ -45,23 +48,27 @@ public class UserUcControllerImplTest {
    * "password"); assertEquals(compare, userdto); }
    */
 
+
+  // Test login with an invalid username-password
+  @Test
+  public void testLogin1() throws Exception {
+    UserDto compare = userUcc.login("pp", "jj");
+    assertNull(compare);
+  }
+
+  // Test register with a valid new user.
   /*
-   * Test login with an invalid username - password
-   * 
-   * @Test public void testLogin1() throws Exception { UserDto compare = userUcc.login("pp", "jj");
-   * assertNull(compare); }
-   */
-  /*
-   * Test register with a valid new user.
-   * 
    * @Test public void testRegister() throws Exception { empty.setPseudo("empty");
    * empty.setPassword("empty"); empty.setFirstname("empty"); empty.setName("empty");
    * empty.setEmail("empty"); empty.setPermissions("STUDENT");
    * 
    * userUcc.register(empty); }
-   * 
-   * /* Test register with an already existing user
-   * 
-   * @Test public void testRegister1() throws Exception { assertNull(userUcc.register(userdto)); }
    */
+
+  // Test register with an already existing user
+  // @Test
+  // public void testRegister1() throws Exception {
+  // assertNull(userUcc.register(userdto));
+  // }
+
 }
