@@ -10,6 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.NoSuchElementException;
 
 public class UserDaoImpl implements UserDao {
 
@@ -51,7 +52,7 @@ public class UserDaoImpl implements UserDao {
   }
 
   @Override
-  public UserDto getUserByUserName(String username) {
+  public UserDto getUserByUserName(String username) throws NoSuchElementException {
     String query = "SELECT id, id_department, pseudo, password, name, firstname, email, "
         + "registration_date, permissions, birth_date, street, "
         + "house_number, mailbox, zip, city, country, tel, gender, successfull_year_in_college, "
@@ -68,7 +69,7 @@ public class UserDaoImpl implements UserDao {
   }
 
   @Override
-  public UserDto getUserById(int id) {
+  public UserDto getUserById(int id) throws NoSuchElementException {
     String query = "SELECT id, id_department, pseudo, password, name, firstname, email, "
         + "registration_date, permissions, birth_date, street, "
         + "house_number, mailbox, zip, city, country, tel, gender, successfull_year_in_college, "
@@ -121,7 +122,7 @@ public class UserDaoImpl implements UserDao {
       if (resultSet.next()) {
         completeDto(user, resultSet);
       } else {
-        return null;
+        throw new NoSuchElementException("Cet utilisateur n'existe pas.");
       }
       return user;
     } catch (SQLException exc2) {

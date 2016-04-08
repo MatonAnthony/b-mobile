@@ -6,6 +6,7 @@ import dto.DepartmentDto;
 import dto.MobilityDto;
 import dto.ProgramDto;
 import dto.UserDto;
+import exceptions.AuthenticationException;
 import ucc.interfaces.CancelationUcController;
 import ucc.interfaces.CountryUcController;
 import ucc.interfaces.DepartmentUcController;
@@ -314,17 +315,20 @@ public class Servlet extends HttpServlet {
     // TODO (Martin) gérer si c'est la première inscription
     userdto.setPermissions("STUDENT");
 
-    UserDto userDtoRecept = userUcc.register(userdto);
-    if (userDtoRecept == null) {
+    UserDto userDtoRecept = null;
+    try {
+      userDtoRecept = userUcc.register(userdto);
+    } catch (AuthenticationException exc) {
+      this.createToaster(exc, resp);
       resp.setStatus(HttpStatus.FORBIDDEN_403);
-    } else {
-      req.getSession().setAttribute(KEY_ID, userDtoRecept.getId());
-      req.getSession().setAttribute(KEY_USERNAME, userDtoRecept.getPseudo());
-      req.getSession().setAttribute(KEY_PERMISSIONS, userDtoRecept.getPermissions());
-      createJwtCookie(resp, userDtoRecept);
-      resp.setStatus(HttpStatus.ACCEPTED_202);
-      resp.getWriter().println(dtoToJson(userDtoRecept));
+      return;
     }
+    req.getSession().setAttribute(KEY_ID, userDtoRecept.getId());
+    req.getSession().setAttribute(KEY_USERNAME, userDtoRecept.getPseudo());
+    req.getSession().setAttribute(KEY_PERMISSIONS, userDtoRecept.getPermissions());
+    createJwtCookie(resp, userDtoRecept);
+    resp.setStatus(HttpStatus.ACCEPTED_202);
+    resp.getWriter().println(dtoToJson(userDtoRecept));
 
   }
 
@@ -356,19 +360,20 @@ public class Servlet extends HttpServlet {
     String username = req.getParameter("username");
     String password = req.getParameter("password");
 
-    UserDto userDtoRecept = userUcc.login(username, password);
-
-    if (userDtoRecept == null) {
+    UserDto userDtoRecept = null;
+    try {
+      userDtoRecept = userUcc.login(username, password);
+    } catch (AuthenticationException exc) {
+      this.createToaster(exc, resp);
       resp.setStatus(HttpStatus.UNAUTHORIZED_401);
-    } else {
-
-      createJwtCookie(resp, userDtoRecept);
-      req.getSession().setAttribute(KEY_ID, userDtoRecept.getId());
-      req.getSession().setAttribute(KEY_USERNAME, userDtoRecept.getPseudo());
-      req.getSession().setAttribute(KEY_PERMISSIONS, userDtoRecept.getPermissions());
-      resp.setStatus(HttpStatus.ACCEPTED_202);
-      resp.getWriter().println(dtoToJson(userDtoRecept));
+      return;
     }
+    createJwtCookie(resp, userDtoRecept);
+    req.getSession().setAttribute(KEY_ID, userDtoRecept.getId());
+    req.getSession().setAttribute(KEY_USERNAME, userDtoRecept.getPseudo());
+    req.getSession().setAttribute(KEY_PERMISSIONS, userDtoRecept.getPermissions());
+    resp.setStatus(HttpStatus.ACCEPTED_202);
+    resp.getWriter().println(dtoToJson(userDtoRecept));
   }
 
   /**
@@ -471,6 +476,30 @@ public class Servlet extends HttpServlet {
       exc.printStackTrace();
     }
     return contentBuilder.toString();
+  }
+
+  private HttpServletResponse createToaster(Exception exception, HttpServletResponse resp)
+      throws IOException {
+
+    Map<String, String> map = new HashMap<String, String>();
+    Genson genson = new GensonBuilder().create();
+
+    // warning, success, error, info
+    System.out.println(exception.getClass().toString());
+    switch (exception.getClass().toString()) {
+      case "class exceptions.AuthenticationException":
+        resp.setStatus(HttpStatus.UNAUTHORIZED_401);
+        map.put("type", "error");
+        map.put("message", exception.getMessage());
+        break;
+
+      default:
+
+        break;
+    }
+    resp.getWriter().println(genson.serialize(map));
+    System.out.println(genson.serialize(map));
+    return resp;
   }
 
 }

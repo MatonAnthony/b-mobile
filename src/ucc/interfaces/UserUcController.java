@@ -1,14 +1,15 @@
 package ucc.interfaces;
 
 import dto.UserDto;
+import exceptions.AuthenticationException;
 
 import java.util.ArrayList;
 
 public interface UserUcController {
 
-  UserDto login(String login, String password);
+  UserDto login(String login, String password) throws AuthenticationException;
 
-  UserDto register(UserDto userdto);
+  UserDto register(UserDto userdto) throws AuthenticationException;
 
   UserDto getUserById(int id);
 

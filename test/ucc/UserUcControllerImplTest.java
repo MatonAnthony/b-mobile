@@ -1,7 +1,5 @@
 package ucc;
 
-import static org.junit.Assert.assertNull;
-
 import bizz.implementations.BizzFactoryImpl;
 import dal.DalBackendServices;
 import dal.DalServices;
@@ -9,10 +7,12 @@ import dal.DalServicesImpl;
 import dao.implementations.UserDaoImpl;
 import dao.interfaces.UserDao;
 import dto.UserDto;
+import exceptions.AuthenticationException;
 import ucc.implementations.UserUcControllerImpl;
 
 import org.junit.Before;
 import org.junit.Test;
+
 
 /**
  * Beware that class require to use a DEBUG Database, implying that build.properties status set to
@@ -50,10 +50,9 @@ public class UserUcControllerImplTest {
 
 
   // Test login with an invalid username-password
-  @Test
+  @Test(expected = AuthenticationException.class)
   public void testLogin1() throws Exception {
-    UserDto compare = userUcc.login("pp", "jj");
-    assertNull(compare);
+    userUcc.login("pp", "jj");
   }
 
   // Test register with a valid new user.

@@ -4,10 +4,12 @@ import bizz.interfaces.UserBizz;
 import dal.DalServices;
 import dao.interfaces.UserDao;
 import dto.UserDto;
+import exceptions.AuthenticationException;
 import ucc.interfaces.UserUcController;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.NoSuchElementException;
 import java.util.logging.Logger;
 
 public class UserUcControllerImpl implements UserUcController {
@@ -34,19 +36,18 @@ public class UserUcControllerImpl implements UserUcController {
    * 
    * @param username Le nom d'utilisateur avec lequel la connexion doit être effectuee
    * @param password Le mot de passe avec lequel la connexion doit être effectuee.
-   * @return null si l'utilisateur n'a pas été trouvé dans la base de donnée ou si le mot de passe
-   *         entre n'est pas identique au mot de passe de la base de donnee.
+   * @throws AuthenticationException if the user doesn't exist or if the password is incorrect.
    */
   @Override
-  public UserDto login(String username, String password) {
-
-    // Récupérer les données du DAL
-    UserBizz user = (UserBizz) userDao.getUserByUserName(username);
-
-    // L'user est null si aucun utilisateur avec le pseudo entré n'existe
-    if (null == user) {
+  public UserDto login(String username, String password) throws AuthenticationException {
+    UserBizz user;
+    try {
+      // Récupérer les données du DAL
+      user = (UserBizz) userDao.getUserByUserName(username);
+    } catch (NoSuchElementException nsee) {
+      // L'user est null si aucun utilisateur avec le pseudo entré n'existe
       LOGGER.warning("\"" + username + "\" : username not exist ");
-      return null;
+      throw new AuthenticationException("L'utilisateur n'existe pas.");
     }
 
     if (user.checkPassword(password)) {
@@ -54,7 +55,7 @@ public class UserUcControllerImpl implements UserUcController {
       return user;
     } else {
       LOGGER.warning("\"" + username + "\" : bad password ");
-      return null;
+      throw new AuthenticationException("Le mot de passe indiqué est incorrect.");
     }
   }
 
@@ -63,9 +64,10 @@ public class UserUcControllerImpl implements UserUcController {
    * 
    * @param userdto is the user to register.
    * @return a userDto. It is the user added. Null if there was a error."
+   * @throws AuthenticationException if an error happen between register and login.
    */
 
-  public UserDto register(UserDto userdto) {
+  public UserDto register(UserDto userdto) throws AuthenticationException {
     String password = userdto.getPassword();
     UserBizz userBizz = (UserBizz) userdto;
     userBizz.cryptPassword();
