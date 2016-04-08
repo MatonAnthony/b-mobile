@@ -36,6 +36,11 @@ public class MobilityUcControllerImpl implements MobilityUcController {
   }
 
   @Override
+  public ArrayList<MobilityDto> getMyMobilities(String user) {
+    return mobilityDao.getFullMyMobilities(user);
+  }
+
+  @Override
   public void addMobility(MobilityDto mobility) {
     try {
       dalServices.startTransaction();
@@ -52,5 +57,6 @@ public class MobilityUcControllerImpl implements MobilityUcController {
     }
 
   }
+
 
 }

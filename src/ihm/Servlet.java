@@ -71,23 +71,22 @@ public class Servlet extends HttpServlet {
   private transient CancelationUcController cancelationUcc = null;
   private transient BizzFactory bizzFactory = null;
 
-  private transient Genson userGenson = new GensonBuilder().useFields(
-      true, VisibilityFilter.PRIVATE).useMethods(false).exclude("password").create();
+  private transient Genson userGenson = new GensonBuilder()
+      .useFields(true, VisibilityFilter.PRIVATE).useMethods(false).exclude("password").create();
   private transient Genson defaultGenson =
       new GensonBuilder().useFields(true, VisibilityFilter.PRIVATE).useMethods(false).create();
 
   /**
    * The servlet used by the server.
    *
-   * @param userUcc     The use case controller for the user
+   * @param userUcc The use case controller for the user
    * @param bizzFactory The factory used to generate dto.
-   * @param countryUcc  The use case controller for the user.
+   * @param countryUcc The use case controller for the user.
    */
   public Servlet(UserUcController userUcc, BizzFactory bizzFactory,
-                 MobilityUcController mobilityUcc, CountryUcController countryUcc,
-                 DepartmentUcController departmentUcController,
-                 ProgramUcController programUcController, PartnerUcController partnerUcController,
-                 CancelationUcController cancelationUcController) {
+      MobilityUcController mobilityUcc, CountryUcController countryUcc,
+      DepartmentUcController departmentUcController, ProgramUcController programUcController,
+      PartnerUcController partnerUcController, CancelationUcController cancelationUcController) {
     this.userUcc = userUcc;
     this.bizzFactory = bizzFactory;
     this.mobilityUcc = mobilityUcc;
@@ -146,6 +145,7 @@ public class Servlet extends HttpServlet {
           selectConfirmedMobility(req, resp);
           break;
         case "selectMyMobility":
+          selectMyMobility(req, resp);
           break;
         case "selectCountries":
           selectCountries(req, resp);
@@ -254,6 +254,41 @@ public class Servlet extends HttpServlet {
     resp.setStatus(HttpStatus.ACCEPTED_202);
   }
 
+  private void selectMyMobility(HttpServletRequest req, HttpServletResponse resp)
+      throws IOException {
+
+    ArrayList<MobilityDto> myMobilities =
+        mobilityUcc.getMyMobilities((String) req.getSession().getAttribute(KEY_USERNAME));
+    if (myMobilities.size() == 0) {
+      // TODO (fany) afficher un message
+      resp.setStatus(HttpStatus.ACCEPTED_202);
+    } else {
+      String jsonMobilities = "[";
+      for (int i = 0; i < myMobilities.size(); i++) {
+        jsonMobilities += defaultGenson.serialize(myMobilities.get(i));
+
+        // Parsing ProgramDto
+        String jsonProgramDto = defaultGenson.serialize(myMobilities.get(i).getProgramDto());
+        jsonMobilities =
+            jsonMobilities.replaceFirst("programDto\":\\{\\}", "programDto\":" + jsonProgramDto);
+
+
+        // Parsing countryDto
+        String jsonCountryDto = defaultGenson.serialize(myMobilities.get(i).getCountryDto());
+        jsonMobilities =
+            jsonMobilities.replaceFirst("countryDto\":\\{\\}", "countryDto\":" + jsonCountryDto);
+
+        if (i != myMobilities.size() - 1) {
+          jsonMobilities += ",";
+        } else {
+          jsonMobilities += "]";
+        }
+      }
+      resp.getWriter().println(jsonMobilities);
+      resp.setStatus(HttpStatus.ACCEPTED_202);
+    }
+  }
+
   private void disconnect(HttpServletRequest req, HttpServletResponse resp) {
     LOGGER.info("[" + req.getSession().getAttribute(KEY_PERMISSIONS) + "] \""
         + req.getSession().getAttribute(KEY_USERNAME) + "\" disconnected.");
@@ -297,7 +332,7 @@ public class Servlet extends HttpServlet {
     resp.setStatus(HttpStatus.ACCEPTED_202);
     UserDto userDto = bizzFactory.getUserDto();
     if (null != req.getSession().getAttribute(KEY_USERNAME)) {
-      userDto.setPermissions("" + req.getSession().getAttribute(KEY_ID));
+      userDto.setId((int) req.getSession().getAttribute(KEY_ID));
       userDto.setPermissions("" + req.getSession().getAttribute(KEY_PERMISSIONS));
       userDto.setPseudo("" + req.getSession().getAttribute(KEY_USERNAME));
       createJwtCookie(resp, userDto);
@@ -305,7 +340,7 @@ public class Servlet extends HttpServlet {
 
     } else {
       if (readJwtCookie(req)) {
-        userDto.setId(Integer.parseInt("" + req.getSession().getAttribute(KEY_ID)));
+        userDto.setId((int) req.getSession().getAttribute(KEY_ID));
 
         userDto.setPermissions("" + req.getSession().getAttribute(KEY_PERMISSIONS));
         userDto.setPseudo("" + req.getSession().getAttribute(KEY_USERNAME));
@@ -339,7 +374,7 @@ public class Servlet extends HttpServlet {
   /**
    * The method used by the servlet to add a mobility to the DB.
    *
-   * @param req  The request received by the server.
+   * @param req The request received by the server.
    * @param resp The response sended by the server.
    */
   private void addMobility(HttpServletRequest req, HttpServletResponse resp) {
@@ -347,8 +382,8 @@ public class Servlet extends HttpServlet {
     // TODO (Martin) Poser question : aller chercher les Dtos dans la servlet ou dans l'ucc pour
     // profiter des transactions?
 
-    mobility.setStudentDto(userUcc.getUserById(Integer.parseInt(
-        "" + req.getSession().getAttribute(KEY_ID))));
+    mobility.setStudentDto(
+        userUcc.getUserById(Integer.parseInt("" + req.getSession().getAttribute(KEY_ID))));
     mobility.setPreferenceOrder(Integer.parseInt(req.getParameter("preferenceOrder")));
     mobility.setProgramDto(programUcc.getProgramByName(req.getParameter("program")));
     mobility.setType(req.getParameter("type"));
@@ -371,30 +406,34 @@ public class Servlet extends HttpServlet {
     try {
       Cookie[] cookies = req.getCookies();
       String token = null;
-      for (Cookie c : cookies) {
-        if ("user".equals(c.getName())) {
-          token = c.getValue();
+      if (cookies != null) {
+        for (Cookie c : cookies) {
+          if ("user".equals(c.getName())) {
+            token = c.getValue();
+          }
         }
       }
-      decodedPayload = new JWTVerifier(SECRET).verify(token);
+      if (token != null) {
+        decodedPayload = new JWTVerifier(SECRET).verify(token);
+        req.getSession().setAttribute(KEY_ID, decodedPayload.get(KEY_ID));
+        req.getSession().setAttribute(KEY_USERNAME, decodedPayload.get(KEY_USERNAME));
+        req.getSession().setAttribute(KEY_PERMISSIONS, decodedPayload.get(KEY_PERMISSIONS));
+        return true;
+      }
     } catch (InvalidKeyException | NoSuchAlgorithmException | IllegalStateException
         | SignatureException | IOException | JWTVerifyException | NullPointerException exc) {
       return false;
     }
-    req.getSession().setAttribute(KEY_ID, decodedPayload.get(KEY_ID));
-    req.getSession().setAttribute(KEY_USERNAME, decodedPayload.get(KEY_USERNAME));
-    req.getSession().setAttribute(KEY_PERMISSIONS, decodedPayload.get(KEY_PERMISSIONS));
-    return true;
+    return false;
   }
 
   /**
    * Cree un cookie avec un token JWT afin de ne pas perdre l'authentification d'un utilisateur.
    *
-   * @param resp  La reponse qui serra renvoyee par le serveur.
+   * @param resp La reponse qui serra renvoyee par le serveur.
    * @param login Le pseudo de l'utilisateur.
    */
   private void createJwtCookie(HttpServletResponse resp, UserDto userDto) {
-
     Map<String, Object> claims = new HashMap<String, Object>();
     claims.put(KEY_ID, userDto.getId());
     claims.put(KEY_USERNAME, userDto.getPseudo());
@@ -421,9 +460,8 @@ public class Servlet extends HttpServlet {
   private String htmlToString(String file) {
     StringBuilder contentBuilder = new StringBuilder();
     try {
-      BufferedReader in =
-          new BufferedReader(new InputStreamReader(new FileInputStream(file),
-              Charset.defaultCharset()));
+      BufferedReader in = new BufferedReader(
+          new InputStreamReader(new FileInputStream(file), Charset.defaultCharset()));
       String str;
       while ((str = in.readLine()) != null) {
         contentBuilder.append(str);

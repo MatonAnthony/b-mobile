@@ -141,6 +141,7 @@ $(function(){
 				$("#teacherHomePage").css("display", "none");
 				$("#addMobilityPage").css("display", "none");
 				$("#userListPage").css("display", "none");
+				$("#listPage").css("display", "none");
 			},
 			error: function(e) {
 				console.log(e.message);
@@ -335,6 +336,7 @@ $(function(){
 		$("#listPage").css("display", "none");
 		$("#addMobilityPage").css("display", "none");
 		$("#userListPage").css("display", "none");
+		loadMyMobility();
 		$(".active").removeClass("active");
 		$(".navButton[href='#myMobility']").parent().addClass("active");
 	}
@@ -560,17 +562,49 @@ function loadConfirmedMobility(){
 
 // Managing of the "myMobility" table
 
-$(function(){
 
-	$("#myMobility tr td:nth-child(6)").each(function(){
-		if ($(this).html() !== "Annulée"){
-			$(this).next().append("<button>Annuler</button>");
-		}else{
-			$(this).parent().addClass("danger");
-		}
-		if ($(this).html() === "Non confirmée"){
-			$(this).next().next().append("<button>Confirmer</button>");
-		}
+function loadMyMobility(){
+	$(function(){
+		$.ajax({
+			method: "POST",
+			url: "/home",
+			data: {
+				action: "selectMyMobility",
+			},
+			success: function(resp){
+				resp=JSON.parse(resp);
+				$("#myMobility tbody").empty();
+				
+				for(key in resp){				
+					
+					$("#myMobility tbody").append(
+					"<tr>"+
+						"<td>"+resp[key]['preferenceOrder']+"</td>"+
+						"<td>"+resp[key]['programDto']['name']+"</td>"+
+						"<td>"+resp[key]['type']+"</td>"+
+						"<td>"+resp[key]['countryDto']['nameFr']+"</td>"+
+						"<td>"+resp[key]['quadrimester']+"</td>"+
+						"<td>"+resp[key]['status']+"</td>"
+					+"</tr>");
+					
+				}
+			},
+			error: function(error){
+				console.log("Connexion echouée");
+			}
+		});
+		
+		$("#myMobility tr td:nth-child(6)").each(function(){
+			if ($(this).html() !== "Annulée"){
+				$(this).next().append("<button>Annuler</button>");
+			}else{
+				$(this).parent().addClass("danger");
+			}
+			if ($(this).html() === "null"){
+				$(this).next().next().append("<button>Confirmer</button>");
+			}
+		});
 	});
+}
 
-});
+
