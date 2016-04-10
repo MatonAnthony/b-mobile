@@ -26,9 +26,14 @@ public class MobilityUcControllerImpl implements MobilityUcController {
   }
 
   public ArrayList<MobilityDto> getAllMobilities() {
-    ArrayList<MobilityDto> mobilities = mobilityDao.getAllMobilities();
-    return mobilities;
+    return mobilityDao.getAllMobilities();
   }
+
+  @Override
+  public ArrayList<MobilityDto> getMobilitiesDepartements(String departements) {
+    return mobilityDao.getFullMobilitiesDepartements(departements);
+  }
+
 
   public ArrayList<MobilityDto> getConfirmedMobilities() {
     ArrayList<MobilityDto> mobilities = mobilityDao.getFullConfirmedMobilities();
@@ -57,6 +62,5 @@ public class MobilityUcControllerImpl implements MobilityUcController {
     }
 
   }
-
 
 }

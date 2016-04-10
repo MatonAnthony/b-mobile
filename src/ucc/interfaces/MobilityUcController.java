@@ -6,8 +6,27 @@ import java.util.ArrayList;
 
 public interface MobilityUcController {
 
+  /**
+   * Return an ArrayList containing all the mobilities
+   * 
+   * @return an ArrayList of MobilityDto.
+   */
   ArrayList<MobilityDto> getAllMobilities();
 
+  /**
+   * Return an ArrayList containing all the mobilities of one departements stored in database.
+   * 
+   * @param name of departements for witch you want his mobilities
+   * 
+   * @return an ArrayList of MobilityDto.
+   */
+  ArrayList<MobilityDto> getMobilitiesDepartements(String departements);
+
+  /**
+   * Return an ArrayList containing all the confirmed mobilities stored in database.
+   *
+   * @return an ArrayList of MobilityDto.
+   */
   ArrayList<MobilityDto> getConfirmedMobilities();
 
   /**

@@ -22,6 +22,16 @@ public interface MobilityDao {
   ArrayList<MobilityDto> getAllMobilities();
 
   /**
+   * Return an ArrayList containing all the mobilities of one departements stored in database.
+   * 
+   * @param name of departements for witch you want his mobilities
+   * 
+   * @return an ArrayList of MobilityDto.
+   */
+
+  ArrayList<MobilityDto> getFullMobilitiesDepartements(String departements);
+
+  /**
    * Return an ArrayList containing all the confirmed mobilities stored in database.
    *
    * @return an ArrayList of MobilityDto.

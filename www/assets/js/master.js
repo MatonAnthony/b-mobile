@@ -369,6 +369,7 @@ $(function(){
 		$("#addMobilityPage").css("display", "none");
 		$("#listPage").css("display", "block");
 		$("#userListPage").css("display", "none");
+		loadMobility();
 		$(".active").removeClass("active");
 		$(".navButton[href='#list']").parent().addClass("active");
 		$("#tableConfirmed tbody").empty();
@@ -517,6 +518,54 @@ $(function(){
 
 });
 
+
+function loadMobility(){
+	$(function(){
+		$.ajax({
+			method: "POST",
+			url: "/home",
+			data: {
+				action: "selectAllMobility",
+			},
+			success: function(resp){
+				resp=JSON.parse(resp);
+				$("#list tbody").empty();
+				
+				for(key in resp){				
+					
+					$("#list tbody").append(
+					"<tr>"+
+						"<td>"+resp[key]['id']+"</td>"+
+						"<td>"+resp[key]['studentDto']['name']+"</td>"+
+						"<td>"+resp[key]['studentDto']['firstname']+"</td>"+
+						"<td>"+resp[key]['departmentDto']['label']+"</td>"+
+						"<td>"+resp[key]['preferenceOrder']+"</td>"+
+						"<td>"+resp[key]['programDto']['name']+"</td>"+
+						"<td>"+resp[key]['type']+"</td>"+
+						"<td>"+resp[key]['quadrimester']+"</td>"+
+						//+"<td>"+resp[key]['partnerDto']['legal_name']+"</td>"
+						"<td>"+"</td>"
+					+"</tr>");
+					
+				}
+			},
+			error: function(error){
+				console.log("Connexion echouée");
+			}
+		});
+		//TODO (fany) doit on mettre un bouton confirmer?
+		/*$("#list tr td:last-child").each(function(){
+			if ($(this).html() !== "Annulée"){
+				$(this).next().append("<p>Annuler</p>");
+				$(this).parent().addClass("danger");
+			}else{
+				$(this).next().append("<button>Confirmer</button>");
+		});*/
+	
+	});
+}
+
+
 // Managing of the confirmed table
 
 function loadConfirmedMobility(){
@@ -600,7 +649,7 @@ function loadMyMobility(){
 			}else{
 				$(this).parent().addClass("danger");
 			}
-			if ($(this).html() === "null"){
+			if ($(this).html() === "En_ATTENTE"){
 				$(this).next().next().append("<button>Confirmer</button>");
 			}
 		});

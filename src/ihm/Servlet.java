@@ -142,6 +142,9 @@ public class Servlet extends HttpServlet {
           break;
         case "editProfile":
           break;
+        case "selectAllMobility":
+          selectAllMobility(req, resp);
+          break;
         case "selectConfirmedMobility":
           selectConfirmedMobility(req, resp);
           break;
@@ -215,6 +218,45 @@ public class Servlet extends HttpServlet {
     String jsonCountries = defaultGenson.serialize(countries);
     resp.getWriter().println(jsonCountries);
     resp.setStatus(HttpStatus.ACCEPTED_202);
+  }
+
+  private void selectAllMobility(HttpServletRequest req, HttpServletResponse resp)
+      throws IOException {
+    // TODO (fany) gerer le choix du departements
+    ArrayList<MobilityDto> mobilities = mobilityUcc.getMobilitiesDepartements(null);
+    if (mobilities.size() == 0) {
+      // TODO (fany) afficher un message
+      resp.setStatus(HttpStatus.ACCEPTED_202);
+    } else {
+      String jsonMobilities = "[";
+      for (int i = 0; i < mobilities.size(); i++) {
+        jsonMobilities += defaultGenson.serialize(mobilities.get(i));
+
+        // Parsing DepartmentDto
+        String jsonDepartmentDto = defaultGenson.serialize(mobilities.get(i).getDepartementDto());
+        jsonMobilities = jsonMobilities.replaceFirst("departmentDto\":\\{\\}",
+            "departmentDto\":" + jsonDepartmentDto);
+
+        // Parsing ProgramDto
+        String jsonProgramDto = defaultGenson.serialize(mobilities.get(i).getProgramDto());
+        jsonMobilities =
+            jsonMobilities.replaceFirst("programDto\":\\{\\}", "programDto\":" + jsonProgramDto);
+
+        // Parsing StudentDto
+        String jsonStudentDto = defaultGenson.serialize(mobilities.get(i).getStudentDto());
+        jsonMobilities =
+            jsonMobilities.replaceFirst("studentDto\":\\{\\}", "studentDto\":" + jsonStudentDto);
+
+
+        if (i != mobilities.size() - 1) {
+          jsonMobilities += ",";
+        } else {
+          jsonMobilities += "]";
+        }
+      }
+      resp.getWriter().println(jsonMobilities);
+      resp.setStatus(HttpStatus.ACCEPTED_202);
+    }
   }
 
   private void selectConfirmedMobility(HttpServletRequest req, HttpServletResponse resp)

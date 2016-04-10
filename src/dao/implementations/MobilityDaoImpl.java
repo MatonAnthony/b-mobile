@@ -15,6 +15,18 @@ public class MobilityDaoImpl implements MobilityDao {
 
   private DalBackendServices dalBackendServices;
   private BizzFactory factory;
+
+  // query for select mobilities
+  private String query =
+      "SELECT id, id_student, id_program, id_partner, type, preference_order, country, id_department, "
+          + "quadrimester, status, canceled, departure_grant_contract, departure_convention_internship_schoolarship,"
+          + " departure_student_convention, departure_erasmus_language_test, departure_doc_aggreement, "
+          + "depart_doc_sent_highschool, software_proeco, software_mobility_tools, software_mobi, return_residence_cert, "
+          + "return_transcript, return_internship_cert, return_final_report, return_erasmus_language_test, "
+          + "return_doc_sent_highschool, cancelation_reason, academic_year, ver_nr "
+          + "FROM bmobile.mobilities";
+
+  // query for select mobilities full
   private String queryFull =
       "SELECT m.id, m.id_student, m.id_program, m.id_partner, m.type, m.preference_order, m.country, m.id_department, "
           + "m.quadrimester, m.status, m.canceled, m.departure_grant_contract, m.departure_convention_internship_schoolarship, "
@@ -46,6 +58,7 @@ public class MobilityDaoImpl implements MobilityDao {
   // + "AND (m.id_partner = par.id) "
           + "AND (m.country = co.iso) AND (m.id_department = d.id)";
   // + "AND (m.cancelation_reason = c.id) AND ";
+
 
   public MobilityDaoImpl(DalBackendServices dalBackendServices, BizzFactory bizzFactory) {
     this.dalBackendServices = dalBackendServices;
@@ -99,14 +112,7 @@ public class MobilityDaoImpl implements MobilityDao {
 
   @Override
   public ArrayList<MobilityDto> getAllMobilities() {
-    String query =
-        "SELECT id, id_student, id_program, id_partner, type, preference_order, country, id_department, "
-            + "quadrimester, status, canceled, departure_grant_contract, departure_convention_internship_schoolarship,"
-            + " departure_student_convention, departure_erasmus_language_test, departure_doc_aggreement, "
-            + "depart_doc_sent_highschool, software_proeco, software_mobility_tools, software_mobi, return_residence_cert, "
-            + "return_transcript, return_internship_cert, return_final_report, return_erasmus_language_test, "
-            + "return_doc_sent_highschool, cancelation_reason, academic_year, ver_nr "
-            + "FROM bmobile.mobilities";
+
     PreparedStatement preparedStatement = null;
     try {
       preparedStatement = dalBackendServices.prepare(query);
@@ -114,6 +120,32 @@ public class MobilityDaoImpl implements MobilityDao {
       try (ResultSet resultSet = preparedStatement.executeQuery()) {
         while (resultSet.next()) {
           mobilities.add(fillDto(resultSet));
+        }
+        return mobilities;
+      } catch (SQLException exc2) {
+        exc2.printStackTrace();
+        return null;
+      }
+    } catch (SQLException exc) {
+      exc.printStackTrace();
+      return null;
+    }
+  }
+
+  @Override
+  public ArrayList<MobilityDto> getFullMobilitiesDepartements(String departements) {
+    // TODO (fany) seulement celle en attente ou toute?
+    if (departements != null) {
+      queryFull += " AND (d.label = '" + departements + "' )";
+    }
+
+    PreparedStatement preparedStatement = null;
+    try {
+      preparedStatement = dalBackendServices.prepare(queryFull);
+      ArrayList<MobilityDto> mobilities = new ArrayList<MobilityDto>();
+      try (ResultSet resultSet = preparedStatement.executeQuery()) {
+        while (resultSet.next()) {
+          mobilities.add(fillFullDto(resultSet));
         }
         return mobilities;
       } catch (SQLException exc2) {
@@ -175,6 +207,8 @@ public class MobilityDaoImpl implements MobilityDao {
       return null;
     }
   }
+
+  // ***********************************************//
 
   private MobilityDto fillDto(ResultSet resultSet) throws SQLException {
     MobilityDto mobilitydto = factory.getMobilityDto();
