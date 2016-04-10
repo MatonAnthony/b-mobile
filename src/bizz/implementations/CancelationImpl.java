@@ -2,7 +2,7 @@ package bizz.implementations;
 
 import bizz.interfaces.CancelationBizz;
 
-public class CancelationImpl implements CancelationBizz {
+public class CancelationImpl implements CancelationBizz, Cloneable {
 
   private int id;
   private String reason;
@@ -87,6 +87,8 @@ public class CancelationImpl implements CancelationBizz {
     return true;
   }
 
-
-
+  @Override
+  protected Object clone() throws CloneNotSupportedException {
+    return super.clone();
+  }
 }

@@ -1,4 +1,4 @@
-package bizz;
+package bizz.implementations;
 
 import static org.junit.Assert.assertEquals;
 
