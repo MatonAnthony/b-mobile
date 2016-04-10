@@ -12,7 +12,7 @@ public class DalServicesImpl implements DalServices, DalBackendServices {
   private Connection connection;
 
   /**
-   * Constructeur du DalServices.
+   * Constructor for our DalServices.
    */
   public DalServicesImpl() {
     String url =
@@ -33,17 +33,11 @@ public class DalServicesImpl implements DalServices, DalBackendServices {
 
   }
 
-  /**
-   * Demarre une nouvelle transaction sur la connexion.
-   */
   @Override
   public void startTransaction() throws SQLException {
     connection.setAutoCommit(false);
   }
 
-  /**
-   * Execute tous les changements effectues depuis le debut de la transaction.
-   */
   @Override
   public void commitTransaction() throws SQLException {
     connection.commit();
@@ -51,21 +45,12 @@ public class DalServicesImpl implements DalServices, DalBackendServices {
 
   }
 
-  /**
-   * Annule toutes les instructions executees depuis le debut de la transaction.
-   */
   @Override
   public void rollbackTransaction() throws SQLException {
     connection.rollback();
     connection.setAutoCommit(true);
   }
 
-  /**
-   * Prepare le query sur la connexion.
-   * 
-   * @param query Le query qui sera prepare.
-   * @return PreparedStatement
-   */
   @Override
   public PreparedStatement prepare(String query) throws SQLException {
     return connection.prepareStatement(query);
