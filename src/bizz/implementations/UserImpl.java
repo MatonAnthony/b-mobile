@@ -262,9 +262,9 @@ public class UserImpl implements UserBizz, Cloneable {
   }
 
   /**
-   * Modifie le numero de telephone de l'utilisateur.
-   * 
-   * @param tel Le nouveau numero de telephone de l'utilisateur.
+   * Set the phone number for our user
+   *
+   * @param tel New phone number.
    */
   @Override
   public void setTel(String tel) {
@@ -276,9 +276,9 @@ public class UserImpl implements UserBizz, Cloneable {
   }
 
   /**
-   * Renvoie le gender de l'utilisateur.
-   * 
-   * @return Le gender de l'utilisateur.
+   * Return the gender of User.
+   *
+   * @return gender of a user.
    */
   @Override
   public String getGender() {
@@ -289,9 +289,9 @@ public class UserImpl implements UserBizz, Cloneable {
   }
 
   /**
-   * Modifie le gender de l'utilisateur.
-   * 
-   * @param gender Le nouveau gender de l'utilisateur.
+   * Set the user gender
+   *
+   * @param gender user's gender.
    */
   @Override
   public void setGender(String gender) {
@@ -302,9 +302,9 @@ public class UserImpl implements UserBizz, Cloneable {
   }
 
   /**
-   * Renvoie les doits de l'utilisateur.
-   * 
-   * @return Les permissions de l'utilisateur.
+   * Return user permissions
+   *
+   * @return permissions for a user.
    */
   @Override
   public String getPermissions() {
@@ -315,9 +315,9 @@ public class UserImpl implements UserBizz, Cloneable {
   }
 
   /**
-   * Modifie les permissions de l'utilisateur.
-   * 
-   * @param permissions Les nouveaux permissions de l'utilisateur.
+   * Set user permissions.
+   *
+   * @param permissions Set of permissions to apply.
    */
   @Override
   public void setPermissions(String permissions) {
@@ -328,9 +328,9 @@ public class UserImpl implements UserBizz, Cloneable {
   }
 
   /**
-   * Renvoie le numero de banque iban de l'utilisateur.
-   * 
-   * @return Le numero de banque iban de l'utilisateur.
+   * Return the IBAN of a user.
+   *
+   * @return IBAN number for a user.
    */
   @Override
   public String getIban() {
@@ -341,9 +341,9 @@ public class UserImpl implements UserBizz, Cloneable {
   }
 
   /**
-   * Modifie Modifie le numero de banque Iban de l'utilisateur.
-   * 
-   * @param iban Le nouveau numero de banque Iban de l'utilisateur.
+   * Set the IBAN
+   *
+   * @param iban IBAN to set.
    */
   @Override
   public void setIban(String iban) {
@@ -356,9 +356,9 @@ public class UserImpl implements UserBizz, Cloneable {
   }
 
   /**
-   * Renvoie le numero de banque Bic de l'utilisateur.
-   * 
-   * @return Le numero de banque Bic de l'utilisateur.
+   * Return the BIC.
+   *
+   * @return BIC number for this user.
    */
   @Override
   public String getBic() {
@@ -371,9 +371,9 @@ public class UserImpl implements UserBizz, Cloneable {
   }
 
   /**
-   * Modifie le numero de banque Bic de l'utilisateur.
-   * 
-   * @param bic Le nouveau numero de banque Bic.
+   * Set the BIC.
+   *
+   * @param bic BIC to set.
    */
   @Override
   public void setBic(String bic) {
@@ -384,9 +384,9 @@ public class UserImpl implements UserBizz, Cloneable {
   }
 
   /**
-   * Renvoie le nom du titulaire du compte en banque de l'utilisateur.
-   * 
-   * @return Le nom du titulaire du compte en banque de l'utilisateur.
+   * Return the account holder
+   *
+   * @return Name of the account holder
    */
   @Override
   public String getAccountHolder() {
@@ -399,9 +399,9 @@ public class UserImpl implements UserBizz, Cloneable {
   }
 
   /**
-   * Modifie le nom du titulaire du compte en banque.
-   * 
-   * @param accountHolder Le nouveau nom du titulaire.
+   * Set the account holder name.
+   *
+   * @param accountHolder New account holder name.
    */
   @Override
   public void setAccountHolder(String accountHolder) {
@@ -412,9 +412,9 @@ public class UserImpl implements UserBizz, Cloneable {
   }
 
   /**
-   * Renvoie le nom de la banque de l'utilisateur.
-   * 
-   * @return Le nom de la banque de l'utilisateur.
+   * Return the bank name.
+   *
+   * @return Bank name.
    */
   @Override
   public String getBankName() {
@@ -427,9 +427,9 @@ public class UserImpl implements UserBizz, Cloneable {
   }
 
   /**
-   * Modifie le nom de la banque de l'utilisateur.
-   * 
-   * @param bankName Le nouveau nom de la banque.
+   * Set the bank name.
+   *
+   * @param bankName New bank name.
    */
   @Override
   public void setBankName(String bankName) {
@@ -440,9 +440,9 @@ public class UserImpl implements UserBizz, Cloneable {
   }
 
   /**
-   * Renvoie le nombre d'annee reussies par l'utilisateur.
-   * 
-   * @return Le nombre d'annee reussies par l'utilisateur.
+   * Return the number of successfull year in college.
+   *
+   * @return number of successfull college year.
    */
   @Override
   public int getSuccessfullYearInCollege() {
@@ -450,9 +450,9 @@ public class UserImpl implements UserBizz, Cloneable {
   }
 
   /**
-   * Modifie le nombre d'annees reussies.
-   * 
-   * @param successfullYearInCollege Le nouveau nombre d'annees reussies.
+   * Set the number of successfull college year
+   *
+   * @param successfullYearInCollege New number of successfull college year.
    */
   @Override
   public void setSuccessfullYearInCollege(int successfullYearInCollege) {
@@ -463,9 +463,9 @@ public class UserImpl implements UserBizz, Cloneable {
   }
 
   /**
-   * Renvoie la date d'inscription de l'utilisateur.
-   * 
-   * @return La date d'inscription de l'utilisateur.
+   * Return registration date.
+   *
+   * @return Registration date.
    */
   @Override
   public LocalDate getRegistrationDate() {
@@ -478,9 +478,9 @@ public class UserImpl implements UserBizz, Cloneable {
   }
 
   /**
-   * Modifie la date d'inscription.
-   * 
-   * @param registrationDate La nouvelle date d'inscription.
+   * Set the registration date.
+   *
+   * @param registrationDate New registration date.
    */
   @Override
   public void setRegistrationDate(LocalDate registrationDate) {
@@ -493,9 +493,9 @@ public class UserImpl implements UserBizz, Cloneable {
   }
 
   /**
-   * Renvoie la date de naissance de l'utilisateur.
-   * 
-   * @return La date de naissance de l'utilisateur.
+   * Return the birthdate.
+   *
+   * @return The birthdate.
    */
   @Override
   public LocalDate getBirthDate() {
@@ -508,9 +508,9 @@ public class UserImpl implements UserBizz, Cloneable {
   }
 
   /**
-   * Modifie la date de naissance de l'utilisateur.
-   * 
-   * @param birthDate La nouvelle date de naissance.
+   * Set the birthdate.
+   *
+   * @param birthDate New birthdate.
    */
   @Override
   public void setBirthDate(LocalDate birthDate) {
@@ -523,7 +523,7 @@ public class UserImpl implements UserBizz, Cloneable {
   }
 
   /**
-   * Crypte l'attribut password de l'utilisateur qui doit être en clair.
+   * Encrypt the password attribute (Assume the password set is in clear).
    */
   @Override
   public void cryptPassword() {
@@ -531,15 +531,13 @@ public class UserImpl implements UserBizz, Cloneable {
     if (this.password == null) {
       throw new NullPointerException();
     }
-
     this.password = BCrypt.hashpw(password, BCrypt.gensalt());
   }
 
   /**
-   * Compare le mot de passe passé en paramètre avec le mot de passe crypté en attribut.
-   * 
-   * @param passwordToCheck Le mot de passe a comparer avec le mot de passe de l'utilisateur.
-   * @return true si le mot de passe correspond, false sinon.
+   * Compare the parameter with the stored password.
+   * @param passwordToCheck Password to check (in clear).
+   * @return true if password match.
    */
   @Override
   public boolean checkPassword(String passwordToCheck) {
