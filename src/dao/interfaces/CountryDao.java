@@ -12,6 +12,12 @@ public interface CountryDao {
    */
   ArrayList<CountryDto> getAll();
 
+  /**
+   * Get a Country by his french name.
+   *
+   * @param name French name of the country.
+   * @return Informations relative to the country you asked about.
+   */
   CountryDto getCountryByNameFr(String name);
 
 }

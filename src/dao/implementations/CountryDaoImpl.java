@@ -12,17 +12,24 @@ import java.util.ArrayList;
 
 public class CountryDaoImpl implements CountryDao {
 
-
   private DalBackendServices dalBackendServices;
   private BizzFactory factory;
 
-
+  /**
+   * Instantiates a new Country dao.
+   *
+   * @param dalBackendServices the dal backend services
+   * @param bizzFactory        the bizz factory
+   */
   public CountryDaoImpl(DalBackendServices dalBackendServices, BizzFactory bizzFactory) {
     this.dalBackendServices = dalBackendServices;
     this.factory = bizzFactory;
   }
 
-
+  /**
+   * Return all countries registered in our database.
+   * @return a list all countries registered in our database.
+   */
   @Override
   public ArrayList<CountryDto> getAll() {
     String query =
@@ -44,6 +51,12 @@ public class CountryDaoImpl implements CountryDao {
 
   }
 
+  /**
+   * Get a Country by his french name.
+   *
+   * @param name French name of the country.
+   * @return Informations relative to the country you asked about.
+   */
   @Override
   public CountryDto getCountryByNameFr(String name) {
     String query =

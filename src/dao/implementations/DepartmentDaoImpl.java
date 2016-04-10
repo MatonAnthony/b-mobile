@@ -13,10 +13,15 @@ import java.util.ArrayList;
 
 public class DepartmentDaoImpl implements DepartmentDao {
 
-
   private DalBackendServices dalBackendServices;
   private BizzFactory factory;
 
+  /**
+   * Instantiates a new Department dao.
+   *
+   * @param dalBackendServices the dal backend services
+   * @param factory            the factory
+   */
   public DepartmentDaoImpl(DalBackendServices dalBackendServices, BizzFactory factory) {
     this.dalBackendServices = dalBackendServices;
     this.factory = factory;

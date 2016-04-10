@@ -10,6 +10,12 @@ public class CancelationDaoImpl implements CancelationDao {
   private BizzFactory factory;
 
 
+  /**
+   * Instantiates a new Cancelation dao.
+   *
+   * @param dalBackendServices the dal backend services
+   * @param bizzFactory        the bizz factory
+   */
   public CancelationDaoImpl(DalBackendServices dalBackendServices, BizzFactory bizzFactory) {
     this.dalBackendServices = dalBackendServices;
     this.factory = bizzFactory;
