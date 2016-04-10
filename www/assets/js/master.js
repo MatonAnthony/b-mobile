@@ -53,6 +53,7 @@ $(function(){
 	    		loadConfirmedMobility();
 	    		break;
 	    	case "addPartner" :
+                loadAddPartner();
 	    		break;
 	    	case "myInformations" :
 	    		break;
@@ -140,6 +141,7 @@ $(function(){
 				$("#studentHomePage").css("display", "none");
 				$("#teacherHomePage").css("display", "none");
 				$("#addMobilityPage").css("display", "none");
+                $("#addPartnerPage").css("display", "none");
 				$("#userListPage").css("display", "none");
 				$("#listPage").css("display", "none");
 			},
@@ -287,6 +289,42 @@ $(function(){
 		return true;
 	});
 
+    //addPartner
+    $("#addPartnerBtn").click(function(){
+        $.ajax({
+            method: "POST",
+            url: "/home",
+            data: {
+                action: "addPartner",
+                legal_name: $("#add_partner_legal_name").val(),
+                business_name: $("#add_partner_business_name").val(),
+                full_name: $("#add_partner_full_name").val(),
+                department: $("#add_partner_department").val(),
+                type: $("#add_partner_type").val(),
+                nb_employees: $("#add_partner_nb_employees").val(),
+                street: $("#add_partner_street").val(),
+                number: $("#add_partner_number").val(),
+                mailbox: $("#add_partner_mailbox").val(),
+                zip: $("#add_partner_zip").val(),
+                city: $("#add_partner_city").val(),
+                state: $("#add_partner_state").val(),
+                country:$("#add_partner_country").val(),
+                tel: $("#add_partner_tel").val(),
+                email: $("#add_partner_email").val(),
+                website: $("#add_partner_website").val()
+
+            },
+            success: function(resp){
+                console.log("Ajout de la mobilité dans la DB OK");
+            },
+            error: function(error){
+                console.log("Problème lors de l'ajout de la mobilité dans la db");
+            }
+        });
+
+        return true;
+    });
+
 
 	//navBar
 	$(".navButton").click(function(){
@@ -321,6 +359,7 @@ $(function(){
 			case "#myInformations":
 				history.pushState({page:"myInformations"}, "Modifier mes informations", "/home#myInformations");
 				break;
+
 		}
 	});
 	
@@ -335,6 +374,7 @@ $(function(){
 		$("#registerPage").css("display", "none");
 		$("#listPage").css("display", "none");
 		$("#addMobilityPage").css("display", "none");
+        $("#addPartnerPage").css("display", "none");
 		$("#userListPage").css("display", "none");
 		loadMyMobility();
 		$(".active").removeClass("active");
@@ -351,6 +391,7 @@ $(function(){
 		$("#registerPage").css("display", "none");
 		$("#listPage").css("display", "none");
 		$("#addMobilityPage").css("display", "none");
+        $("#addPartnerPage").css("display", "none");
 		$("#userListPage").css("display", "none");
 		loadConfirmedMobility();
 		$(".active").removeClass("active");
@@ -367,6 +408,7 @@ $(function(){
 		$("#teacherHomePage").css("display", "none");
 		$("#registerPage").css("display", "none");
 		$("#addMobilityPage").css("display", "none");
+        $("#addPartnerPage").css("display", "none");
 		$("#listPage").css("display", "block");
 		$("#userListPage").css("display", "none");
 		loadMobility();
@@ -385,6 +427,7 @@ $(function(){
 		$("#teacherHomePage").css("display", "none");
 		$("#registerPage").css("display", "none");
 		$("#addMobilityPage").css("display", "none");
+        $("#addPartnerPage").css("display", "none");
 		$("#listPage").css("display", "none");
 		$("#userListPage").css("display", "block");
 		$.ajax({
@@ -432,89 +475,126 @@ $(function(){
 	}
 
 	function loadAddMobility(){
-		$("#loginPage").css("display", "none");
-		$("#navBarStudent").css("display", "block");
-		$("#navBarTeacher").css("display", "none");
-		$("#profilePage").css("display", "none");
-		$("#studentHomePage").css("display", "none");
-		$("#teacherHomePage").css("display", "none");
-		$("#addMobilityPage").css("display", "block");
-		$("#listPage").css("display", "none");
-		$("#userListPage").css("display", "none");
-		
-		if($("#selectCountry1").html()== ""){
-			$.ajax({
-		        method: "POST",
-		        url: "/home",
-		        data: {
-		            action: "selectCountries"
-		        },
-		        success: function(resp){
-		        	resp = JSON.parse(resp);
-		        	var key;
-		        	for(key in resp){
-		        		$("#selectCountry1").append("<option>" + resp[key]['nameFr'] + "</option>"); 
-		        	}
-		        },
-		        error: function(error){
-		            console.log("Problème lors de la récuperation de la liste des pays");
-		        }
-	    	});
-		}
-		if($("#selectDep1").html()== ""){
-		    $.ajax({
-		        method: "POST",
-		        url: "/home",
-		        data: {
-		            action: "selectDepartments"
-		        },
-		        success: function(resp){
-		        	resp = JSON.parse(resp);
-		        	var key;
-		        	for(key in resp){
-		        		$("#selectDep1").append("<option>" + resp[key]['label'] + "</option>"); 
-		        	}
-		        },
-		        error: function(error){
-		            console.log("Problème lors de la récuperation de la liste des departements");
-		        }
-		    });
-		}
-		if($("#selectProgram1").html()== ""){
-		    $.ajax({
-		        method: "POST",
-		        url: "/home",
-		        data: {
-		            action: "selectPrograms"
-		        },
-		        success: function(resp){
-		        	resp = JSON.parse(resp);
-		        	var key;
-		        	for(key in resp){
-		        		$("#selectProgram1").append("<option>" + resp[key]['name'] + "</option>"); 
-		        	}
-		        },
-		        error: function(error){
-		            console.log("Problème lors de la récuperation de la liste des programmes");
-		        }
-		    });
-		}
-		$(".active").removeClass("active");
-		$(".navButton[href='#addMobility']").parent().addClass("active");
-	}
+	$("#loginPage").css("display", "none");
+	$("#navBarStudent").css("display", "block");
+	$("#navBarTeacher").css("display", "none");
+	$("#profilePage").css("display", "none");
+	$("#studentHomePage").css("display", "none");
+	$("#teacherHomePage").css("display", "none");
+	$("#addMobilityPage").css("display", "block");
+    $("#addPartnerPage").css("display", "none");
+	$("#listPage").css("display", "none");
+	$("#userListPage").css("display", "none");
 
-	function loadRegisterPage(){
-		$("#loginPage").css("display", "none");
-		$("#navBarStudent").css("display", "none");
-		$("#navBarTeacher").css("display", "none");
-		$("#profilePage").css("display", "none");
-		$("#studentHomePage").css("display", "none");
-		$("#teacherHomePage").css("display", "none");
-		$("#registerPage").css("display", "block");
-		$("#listPage").css("display", "none");
-		$("#userListPage").css("display", "none");
-
+	if($("#selectCountry1").html()== ""){
+		$.ajax({
+			method: "POST",
+			url: "/home",
+			data: {
+				action: "selectCountries"
+			},
+			success: function(resp){
+				resp = JSON.parse(resp);
+				var key;
+				for(key in resp){
+					$("#selectCountry1").append("<option>" + resp[key]['nameFr'] + "</option>");
+				}
+			},
+			error: function(error){
+				console.log("Problème lors de la récuperation de la liste des pays");
+			}
+		});
 	}
+	if($("#selectDep1").html()== ""){
+		$.ajax({
+			method: "POST",
+			url: "/home",
+			data: {
+				action: "selectDepartments"
+			},
+			success: function(resp){
+				resp = JSON.parse(resp);
+				var key;
+				for(key in resp){
+					$("#selectDep1").append("<option>" + resp[key]['label'] + "</option>");
+				}
+			},
+			error: function(error){
+				console.log("Problème lors de la récuperation de la liste des departements");
+			}
+		});
+	}
+	if($("#selectProgram1").html()== ""){
+		$.ajax({
+			method: "POST",
+			url: "/home",
+			data: {
+				action: "selectPrograms"
+			},
+			success: function(resp){
+				resp = JSON.parse(resp);
+				var key;
+				for(key in resp){
+					$("#selectProgram1").append("<option>" + resp[key]['name'] + "</option>");
+				}
+			},
+			error: function(error){
+				console.log("Problème lors de la récuperation de la liste des programmes");
+			}
+		});
+	}
+	$(".active").removeClass("active");
+	$(".navButton[href='#addMobility']").parent().addClass("active");
+}
+    function loadAddPartner() {
+        $("#loginPage").css("display", "none");
+        $("#navBarStudent").css("display", "block");
+        $("#navBarTeacher").css("display", "none");
+        $("#profilePage").css("display", "none");
+        $("#studentHomePage").css("display", "none");
+        $("#teacherHomePage").css("display", "none");
+        $("#addMobilityPage").css("display", "none");
+        $("#addPartnerPage").css("display", "block");
+        $("#listPage").css("display", "none");
+        $("#userListPage").css("display", "none");
+
+        $(".active").removeClass("active");
+        $(".navButton[href='#addPartner']").parent().addClass("active");
+
+        if($("#add_partner_country").html()== "") {
+            $.ajax({
+                method: "POST",
+                url: "/home",
+                data: {
+                    action: "selectCountries"
+                },
+                success: function (resp) {
+                    resp = JSON.parse(resp);
+                    var key;
+                    for (key in resp) {
+                        $("#add_partner_country").append("<option>" + resp[key]['nameFr'] + "</option>");
+                    }
+                },
+                error: function (error) {
+                    console.log("Problème lors de la récuperation de la liste des pays");
+                }
+            });
+        }
+    }
+
+function loadRegisterPage(){
+	$("#loginPage").css("display", "none");
+	$("#navBarStudent").css("display", "none");
+	$("#navBarTeacher").css("display", "none");
+	$("#profilePage").css("display", "none");
+	$("#studentHomePage").css("display", "none");
+	$("#teacherHomePage").css("display", "none");
+    $("#addPartnerPage").css("display", "none");
+	$("#registerPage").css("display", "block");
+	$("#listPage").css("display", "none");
+	$("#userListPage").css("display", "none");
+
+}
 
 });
 

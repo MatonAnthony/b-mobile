@@ -2,12 +2,13 @@ package bizz.implementations;
 
 import bizz.interfaces.PartnerBizz;
 import dto.CountryDto;
+import dto.UserDto;
 
 public class PartnerImpl implements PartnerBizz {
 
   private int id;
   private int idUser;
-  // TODO (Martin) Ajouter un userDto si c'est nécessaire
+  private UserDto userDto;
   private String legalName;
   private String businessName;
   private String fullName;
@@ -20,6 +21,7 @@ public class PartnerImpl implements PartnerBizz {
   private String zip;
   private String city;
   private String state;
+  private String tel;
   private String country;
   private CountryDto countryDto;
   private String email;
@@ -43,6 +45,10 @@ public class PartnerImpl implements PartnerBizz {
   public void setIdUser(int idUser) {
     this.idUser = idUser;
   }
+
+  public UserDto getUserDto() { return userDto; }
+
+  public void setUserDto(UserDto userDto) { this.userDto = userDto; }
 
   public String getLegalName() {
     return legalName;
@@ -139,6 +145,10 @@ public class PartnerImpl implements PartnerBizz {
   public void setState(String state) {
     this.state = state;
   }
+
+  public String getTel() { return tel; }
+
+  public void setTel(String tel) {this.tel = tel; }
 
   public CountryDto getCountryDto() {
     return countryDto;

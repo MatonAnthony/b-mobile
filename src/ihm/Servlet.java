@@ -1,11 +1,7 @@
 package ihm;
 
 import bizz.interfaces.BizzFactory;
-import dto.CountryDto;
-import dto.DepartmentDto;
-import dto.MobilityDto;
-import dto.ProgramDto;
-import dto.UserDto;
+import dto.*;
 import exceptions.AuthenticationException;
 import ucc.interfaces.CancelationUcController;
 import ucc.interfaces.CountryUcController;
@@ -165,6 +161,9 @@ public class Servlet extends HttpServlet {
           break;
         case "addMobility":
           addMobility(req, resp);
+          break;
+        case "addPartner":
+          addPartner(req, resp);
           break;
         case "changePermissions":
           changePermissions(req, resp);
@@ -443,6 +442,35 @@ public class Servlet extends HttpServlet {
   }
 
   /**
+   * The method used by the servlet to add a partner to the DB.
+   *
+   * @param req The request received by the server.
+   * @param resp The response sended by the server.
+   */
+  private void addPartner(HttpServletRequest req, HttpServletResponse resp) {
+    PartnerDto partner = bizzFactory.getPartnerDto();
+    partner.setUserDto(userUcc.getUserById(Integer.parseInt("" + req.getSession().getAttribute(KEY_ID))));
+    partner.setLegalName(req.getParameter("legal_name"));
+    partner.setBusiness(req.getParameter("business_name"));
+    partner.setCountryDto(countryUcc.getCountryByNameFr(req.getParameter("country")));
+    partner.setFullName(req.getParameter("full_name"));
+    partner.setDepartment(req.getParameter("department"));
+    partner.setType(req.getParameter("type"));
+    partner.setNbEmployees(Integer.parseInt(req.getParameter("nb_employees")));
+    partner.setStreet(req.getParameter("street"));
+    partner.setNumber(req.getParameter("number"));
+    partner.setMailbox(req.getParameter("mailbox"));
+    partner.setZip(req.getParameter("zip"));
+    partner.setCity(req.getParameter("city"));
+    partner.setState(req.getParameter("state"));
+    partner.setTel(req.getParameter("tel"));
+    partner.setEmail(req.getParameter("email"));
+    partner.setWebsite(req.getParameter("website"));
+
+    partnerUcc.addPartner(partner);
+  }
+
+  /**
    * Lit le cookie JWT afin de verifier si l'utilisateur est authentifie.
    *
    * @param req La requete envoyee par la page
@@ -478,7 +506,7 @@ public class Servlet extends HttpServlet {
    * Cree un cookie avec un token JWT afin de ne pas perdre l'authentification d'un utilisateur.
    *
    * @param resp La reponse qui serra renvoyee par le serveur.
-   * @param login Le pseudo de l'utilisateur.
+   * @param userDto Le pseudo de l'utilisateur.
    */
   private void createJwtCookie(HttpServletResponse resp, UserDto userDto) {
     Map<String, Object> claims = new HashMap<String, Object>();

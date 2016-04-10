@@ -1,5 +1,9 @@
 @import url("https://fonts.googleapis.com/css?family=Fira+Sans&subset=latin,latin-ext");
 
+body {
+    margin-bottom: 50px;
+}
+
 .logo{
     font-family: 'Fira Sans', sans-serif;
     text-align: center;

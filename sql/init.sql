@@ -83,6 +83,7 @@ CREATE TABLE bMobile.partners
   city VARCHAR(100),
   state VARCHAR(100),
   country CHAR(2),
+  tel VARCHAR(20),
   email VARCHAR(150),
   website VARCHAR(150),
   exists BOOLEAN,

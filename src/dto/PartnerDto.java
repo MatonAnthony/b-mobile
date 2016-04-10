@@ -34,6 +34,20 @@ public interface PartnerDto {
   public void setIdUser(int idUser);
 
   /**
+   * Gets user DTO.
+   *
+   * @return the user DTO
+   */
+  public UserDto getUserDto();
+
+  /**
+   * Sets user DTO.
+   *
+   * @param userDto the user DTO
+   */
+  public void setUserDto(UserDto userDto);
+
+  /**
    * Gets legal name.
    *
    * @return the legal name
@@ -200,6 +214,20 @@ public interface PartnerDto {
    * @param state the state
    */
   public void setState(String state);
+
+  /**
+   * Gets state.
+   *
+   * @return the state
+   */
+  public String getTel();
+
+  /**
+   * Sets state.
+   *
+   * @param state the state
+   */
+  public void setTel(String tel);
 
   /**
    * Gets country dto.

@@ -2,7 +2,10 @@ package ucc.implementations;
 
 import dal.DalServices;
 import dao.interfaces.PartnerDao;
+import dto.PartnerDto;
 import ucc.interfaces.PartnerUcController;
+
+import java.sql.SQLException;
 
 public class PartnerUcControllerImpl implements PartnerUcController {
 
@@ -22,4 +25,19 @@ public class PartnerUcControllerImpl implements PartnerUcController {
 
   }
 
+  @Override
+  public void addPartner(PartnerDto partner) {
+    try {
+      dalServices.startTransaction();
+      partnerDao.createPartner(partner);
+      dalServices.commitTransaction();
+    } catch (SQLException exc1) {
+      exc1.printStackTrace();
+      try {
+        dalServices.rollbackTransaction();
+      } catch (SQLException exc2) {
+        exc2.printStackTrace();
+      }
+    }
+  }
 }
