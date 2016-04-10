@@ -1,10 +1,8 @@
 
-package bizz;
+package bizz.implementations;
 
 import org.junit.Before;
 import org.junit.Test;
-
-import bizz.implementations.CountryImpl;
 
 public class CountryImplTest {
 

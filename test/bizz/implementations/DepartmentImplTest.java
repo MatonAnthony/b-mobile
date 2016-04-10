@@ -1,4 +1,4 @@
-package bizz;
+package bizz.implementations;
 
 import org.junit.Before;
 import org.junit.Test;

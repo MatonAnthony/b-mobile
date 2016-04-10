@@ -1,4 +1,4 @@
-package bizz;
+package bizz.implementations;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -6,7 +6,6 @@ import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertTrue;
 
-import bizz.implementations.UserImpl;
 import nl.garvelink.iban.IBAN;
 
 import org.junit.Before;
