@@ -184,8 +184,8 @@ public class Servlet extends HttpServlet {
   }
 
   private void selectProfile(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-    UserDto userId = userUcc.getUserById((Integer) req.getSession().getAttribute(KEY_ID));
-    String json = userGenson.serialize(userId);
+    UserDto userSelected = userUcc.getUserById((Integer) req.getSession().getAttribute(KEY_ID));
+    String json = userGenson.serialize(userSelected);
     resp.getWriter().println(json);
     resp.setStatus(HttpStatus.ACCEPTED_202);
   }
