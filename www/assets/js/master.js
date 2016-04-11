@@ -614,6 +614,37 @@ function loadProfilePage(){
 
 	$(".active").removeClass("active");
 	$(".navButton[href='#myInformations']").parent().addClass("active");
+
+	$.ajax({
+		method: 'POST',
+		url: '/home',
+		data: {
+			action: 'selectProfile'
+		},
+		success: function(resp){
+			console.log(resp);
+			resp = JSON.parse(resp);
+			$("input[name='name']").val(resp['name']);
+			$("input[name='firstname']").val(resp['firstname']);
+			$("input[name='gender']").val(resp['gender']);
+			//	TODO : Gérer la date de naissance
+			// $("input[name='birthdate']").val(resp['birthdate']);
+			$("input[name='citizenship']").val(resp['citizenship']);
+			$("input[name='street']").val(resp['street']);
+			$("input[name='houseNumber']").val(resp['houseNumber']);
+			$("input[name='zipcode']").val(resp['zipcode']);
+			$("input[name='tel']").val(resp['tel']);
+			$("input[name='email']").val(resp['email']);
+			$("input[name='successfullYearsInCollege']").val(resp['successfullYearsInCollege']);
+			$("input[name='iban']").val(resp['iban']);
+			$("input[name='accountHolder']").val(resp['accountHolder']);
+			$("input[name='bankName']").val(resp['bankName']);
+			$("input[name='bic']").val(resp['bic']);
+		},
+		error: function(error){
+			console.log("Pré-remplissage du profil impossible");
+		}
+	});
 }
 
 function loadMobility(){

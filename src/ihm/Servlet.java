@@ -3,6 +3,7 @@ package ihm;
 import bizz.interfaces.BizzFactory;
 import dto.*;
 import exceptions.AuthenticationException;
+import ucc.implementations.UserUcControllerImpl;
 import ucc.interfaces.CancelationUcController;
 import ucc.interfaces.CountryUcController;
 import ucc.interfaces.DepartmentUcController;
@@ -136,7 +137,8 @@ public class Servlet extends HttpServlet {
         case "disconnect":
           disconnect(req, resp);
           break;
-        case "editProfile":
+        case "selectProfile":
+          selectProfile(req, resp);
           break;
         case "selectAllMobility":
           selectAllMobility(req, resp);
@@ -179,6 +181,13 @@ public class Servlet extends HttpServlet {
       resp.flushBuffer();
     }
 
+  }
+
+  private void selectProfile(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    UserDto userId = userUcc.getUserById((Integer) req.getSession().getAttribute(KEY_ID));
+    String json = userGenson.serialize(userId);
+    resp.getWriter().println(json);
+    resp.setStatus(HttpStatus.ACCEPTED_202);
   }
 
   /**
