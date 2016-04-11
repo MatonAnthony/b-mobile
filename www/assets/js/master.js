@@ -354,6 +354,7 @@ $(function(){
 				history.pushState({page:"userList"}, "Liste des utilisateurs", "/home#userList");
 				break;
 			case "#addPartner":
+				loadAddPartner();
 				history.pushState({page:"addPartner"}, "Ajouter un partenaire", "/home#addPartner");
 				break;
 			case "#myInformations":
