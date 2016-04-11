@@ -1,9 +1,13 @@
 package ihm;
 
 import bizz.interfaces.BizzFactory;
-import dto.*;
+import dto.CountryDto;
+import dto.DepartmentDto;
+import dto.MobilityDto;
+import dto.PartnerDto;
+import dto.ProgramDto;
+import dto.UserDto;
 import exceptions.AuthenticationException;
-import ucc.implementations.UserUcControllerImpl;
 import ucc.interfaces.CancelationUcController;
 import ucc.interfaces.CountryUcController;
 import ucc.interfaces.DepartmentUcController;
