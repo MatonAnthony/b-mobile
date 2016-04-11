@@ -449,14 +449,15 @@ public class Servlet extends HttpServlet {
    */
   private void addPartner(HttpServletRequest req, HttpServletResponse resp) {
     PartnerDto partner = bizzFactory.getPartnerDto();
-    partner.setUserDto(userUcc.getUserById(Integer.parseInt("" + req.getSession().getAttribute(KEY_ID))));
+    partner.setUserDto(
+        userUcc.getUserById(Integer.parseInt("" + req.getSession().getAttribute(KEY_ID))));
     partner.setLegalName(req.getParameter("legal_name"));
     partner.setBusiness(req.getParameter("business_name"));
     partner.setCountryDto(countryUcc.getCountryByNameFr(req.getParameter("country")));
     partner.setFullName(req.getParameter("full_name"));
     partner.setDepartment(req.getParameter("department"));
     partner.setType(req.getParameter("type"));
-    partner.setNbEmployees(Integer.parseInt(req.getParameter("nb_employees")));
+    partner.setNbEmployees(Integer.parseInt(0 + req.getParameter("nb_employees")));
     partner.setStreet(req.getParameter("street"));
     partner.setNumber(req.getParameter("number"));
     partner.setMailbox(req.getParameter("mailbox"));

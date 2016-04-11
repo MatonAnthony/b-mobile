@@ -295,7 +295,7 @@ public interface MobilityDto {
   /**
    * Sets departure convention internship schoolarship.
    *
-   * @param departureConventionInternshipSchoolarship the departure convention internship schoolarship
+   * @param departureConventionInternshipSchoolarship departure convention internship schoolarship.
    */
   public void setDepartureConventionInternshipSchoolarship(
       boolean departureConventionInternshipSchoolarship);

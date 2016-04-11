@@ -225,7 +225,7 @@ public interface PartnerDto {
   /**
    * Sets state.
    *
-   * @param state the state
+   * @param tel the state
    */
   public void setTel(String tel);
 

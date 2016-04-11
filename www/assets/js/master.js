@@ -290,7 +290,7 @@ $(function(){
 	});
 
     //addPartner
-    $("#addPartnerBtn").click(function(){
+    $("#addPartnerBtn").click(function() {
         $.ajax({
             method: "POST",
             url: "/home",
@@ -314,10 +314,10 @@ $(function(){
                 website: $("#add_partner_website").val()
 
             },
-            success: function(resp){
+            success: function(resp) {
                 console.log("Ajout de la mobilité dans la DB OK");
             },
-            error: function(error){
+            error: function(error) {
                 console.log("Problème lors de l'ajout de la mobilité dans la db");
             }
         });

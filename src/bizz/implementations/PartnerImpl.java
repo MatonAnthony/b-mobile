@@ -46,9 +46,13 @@ public class PartnerImpl implements PartnerBizz {
     this.idUser = idUser;
   }
 
-  public UserDto getUserDto() { return userDto; }
+  public UserDto getUserDto() {
+    return userDto;
+  }
 
-  public void setUserDto(UserDto userDto) { this.userDto = userDto; }
+  public void setUserDto(UserDto userDto) {
+    this.userDto = userDto;
+  }
 
   public String getLegalName() {
     return legalName;
@@ -146,9 +150,13 @@ public class PartnerImpl implements PartnerBizz {
     this.state = state;
   }
 
-  public String getTel() { return tel; }
+  public String getTel() {
+    return tel;
+  }
 
-  public void setTel(String tel) {this.tel = tel; }
+  public void setTel(String tel) {
+    this.tel = tel;
+  }
 
   public CountryDto getCountryDto() {
     return countryDto;

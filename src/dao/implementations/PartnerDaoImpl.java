@@ -24,9 +24,10 @@ public class PartnerDaoImpl implements PartnerDao {
    * @param partner DTO partner
    */
   public void createPartner(PartnerDto partner) {
-    String query = "INSERT INTO bmobile.partners VALUES (DEFAULT,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,NULL,0)";
+    String query = "INSERT INTO bmobile.partners VALUES "
+        + "(DEFAULT,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,NULL,0)";
     PreparedStatement preparedStatement = null;
-    try{
+    try {
       preparedStatement = dalBackendServices.prepare(query);
       preparedStatement.setInt(1, partner.getUserDto().getId());
       preparedStatement.setString(2, partner.getLegalName());
@@ -50,7 +51,7 @@ public class PartnerDaoImpl implements PartnerDao {
       } catch (Exception exc) {
         exc.printStackTrace();
       }
-    } catch (SQLException exc){
+    } catch (SQLException exc) {
       exc.printStackTrace();
     }
   }
