@@ -125,4 +125,20 @@ public class UserUcControllerImpl implements UserUcController {
     }
   }
 
+  @Override
+  public void updateUser(UserDto userEdited) {
+    try {
+      dalServices.startTransaction();
+      userDao.updateUser(userEdited);
+      dalServices.commitTransaction();
+    } catch (SQLException exc1) {
+      exc1.printStackTrace();
+      try {
+        dalServices.rollbackTransaction();
+      } catch (SQLException exc2) {
+        exc2.printStackTrace();
+      }
+    }
+  }
+
 }

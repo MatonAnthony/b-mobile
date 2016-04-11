@@ -11,11 +11,13 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
+import java.util.logging.Logger;
 
 public class UserDaoImpl implements UserDao {
 
   private DalBackendServices dalBackendServices;
   private BizzFactory factory;
+  private static final Logger LOGGER = Logger.getLogger(UserDaoImpl.class.getName());
 
   public UserDaoImpl(DalBackendServices dalBackendServices, BizzFactory bizzFactory) {
     this.dalBackendServices = dalBackendServices;
@@ -111,6 +113,40 @@ public class UserDaoImpl implements UserDao {
       preparedStatement = dalBackendServices.prepare(query);
       preparedStatement.setInt(1, user.getId());
       preparedStatement.executeUpdate();
+    } catch (SQLException exc) {
+      exc.printStackTrace();
+    }
+  }
+
+  @Override
+  public void updateUser(UserDto userEdited) {
+    String query = "UPDATE bmobile.users SET name = ?, firstname = ?, gender = ?, citizenship = ?,"
+        + "street = ?, house_number = ?, mailbox = ?, zip = ?, city = ?, tel = ?, email = ?,"
+        + "successfull_year_in_college = ?, bic = ?, account_holder = ?, bank_name = ?"
+        + "WHERE id = ?";
+    LOGGER.info(userEdited.getEmail());
+    PreparedStatement preparedStatement = null;
+    try {
+      preparedStatement = dalBackendServices.prepare(query);
+      preparedStatement.setString(1, userEdited.getName());
+      preparedStatement.setString(2, userEdited.getFirstname());
+      preparedStatement.setString(3, userEdited.getGender());
+      preparedStatement.setString(4, userEdited.getCitizenship());
+      preparedStatement.setString(5, userEdited.getStreet());
+      preparedStatement.setString(6, userEdited.getHouseNumber());
+      preparedStatement.setString(7, userEdited.getMailBox());
+      preparedStatement.setString(8, userEdited.getZip());
+      preparedStatement.setString(9, userEdited.getCity());
+      preparedStatement.setString(10, userEdited.getTel());
+      preparedStatement.setString(11, userEdited.getEmail());
+      preparedStatement.setInt(12, userEdited.getSuccessfullYearInCollege());
+      preparedStatement.setString(13, userEdited.getBic());
+      preparedStatement.setString(14, userEdited.getAccountHolder());
+      preparedStatement.setString(15, userEdited.getBankName());
+      preparedStatement.setInt(16, userEdited.getId());
+      //preparedStatement.executeUpdate();
+      // il faut encore ajouter la date de naissance, le pays et l'iban
+
     } catch (SQLException exc) {
       exc.printStackTrace();
     }

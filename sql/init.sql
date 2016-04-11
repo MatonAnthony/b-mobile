@@ -47,6 +47,7 @@ CREATE TABLE bMobile.users
   registration_date TIMESTAMP ,
   permissions VARCHAR(20),
   birth_date TIMESTAMP,
+  citizenship VARCHAR(100),
   street VARCHAR(100),
   house_number VARCHAR(20),
   mailbox VARCHAR(20),

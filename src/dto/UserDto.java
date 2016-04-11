@@ -371,4 +371,18 @@ public interface UserDto {
    */
   public void setVerNr(int verNr);
 
+  /**
+   * Gets vcitizenship.
+   *
+   * @return the citizenship.
+   */
+  public String getCitizenship();
+
+  /**
+   * Sets citizenship.
+   *
+   * @param citizenship the citizenship.
+   */
+  public void setCitizenship(String citizenship);
+
 }

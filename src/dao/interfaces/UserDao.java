@@ -46,4 +46,10 @@ public interface UserDao {
    */
   void changePermissionsForUserById(UserDto user);
 
+  /**
+   * Update user profile
+   *
+   * @param userEdited
+   */
+  void updateUser(UserDto userEdited);
 }

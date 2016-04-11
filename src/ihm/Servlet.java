@@ -144,6 +144,9 @@ public class Servlet extends HttpServlet {
         case "selectProfile":
           selectProfile(req, resp);
           break;
+        case "updateUser":
+          updateUser(req, resp);
+          break;
         case "selectAllMobility":
           selectAllMobility(req, resp);
           break;
@@ -193,10 +196,36 @@ public class Servlet extends HttpServlet {
     resp.getWriter().println(json);
     resp.setStatus(HttpStatus.ACCEPTED_202);
   }
-
   /**
-   * 
+   * The method used by the servlet to update a user into the DB.
+   *
+   * @param req The request received by the server.
+   * @param resp The response sended by the server.
    */
+  private void updateUser(HttpServletRequest req, HttpServletResponse resp) {
+    UserDto userEdited = userUcc.getUserById((Integer) req.getSession().getAttribute(KEY_ID));
+    userEdited.setId(Integer.parseInt("" + req.getSession().getAttribute(KEY_ID)));
+    userEdited.setName(req.getParameter("name"));
+    userEdited.setFirstname(req.getParameter("firstname"));
+    userEdited.setGender(req.getParameter("gender"));
+    //ici il faut ajouté la date de naissance et apres modifier le query
+    userEdited.setCitizenship(req.getParameter("citizenship"));
+    userEdited.setStreet(req.getParameter("street"));
+    userEdited.setHouseNumber(req.getParameter("houseNumber"));
+    userEdited.setMailBox(req.getParameter("mailbox"));
+    userEdited.setZip(req.getParameter("zipcode"));
+    userEdited.setCity(req.getParameter("city"));
+    //userEdited.setCountryDto(countryUcc.getCountryByNameFr(req.getParameter("country")));
+    userEdited.setTel(req.getParameter("tel"));
+    userEdited.setSuccessfullYearInCollege(Integer.parseInt(0 + req.getParameter("successfullYearsInCollege")));
+    //userEdited.setIban(req.getParameter("iban"));
+    userEdited.setAccountHolder(req.getParameter("accountHolder"));
+    userEdited.setBankName(req.getParameter("bankName"));
+    userEdited.setBic(req.getParameter("bic"));
+
+    userUcc.updateUser(userEdited);
+  }
+
   private void changePermissions(HttpServletRequest req, HttpServletResponse resp) {
     userUcc.changePermissions(Integer.parseInt(req.getParameter("id")));
     resp.setStatus(HttpStatus.ACCEPTED_202);

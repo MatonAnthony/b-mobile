@@ -22,6 +22,7 @@ public class UserImpl implements UserBizz, Cloneable {
   private LocalDate registrationDate;
   private String permissions;
   private LocalDate birthDate;
+  private String citizenship;
   private String street;
   private String houseNumber;
   private String mailBox;
@@ -522,6 +523,23 @@ public class UserImpl implements UserBizz, Cloneable {
     this.birthDate = birthDate;
   }
 
+  /**
+   * Return the citizenship.
+   *
+   * @return The citizenship.
+   */
+  public String getCitizenship() {
+    return citizenship;
+  }
+
+  /**
+   * Set the citizenship.
+   *
+   * @param citizenship new citizenship.
+   */
+  public void setCitizenship(String citizenship) {
+    this.citizenship = citizenship;
+  }
   /**
    * Encrypt the password attribute (Assume the password set is in clear).
    */

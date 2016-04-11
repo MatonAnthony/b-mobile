@@ -21,4 +21,6 @@ public interface UserUcController {
    * @param id the id of the user to change.
    */
   void changePermissions(int id);
+
+  void updateUser(UserDto userEdited);
 }
