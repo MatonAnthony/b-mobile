@@ -56,6 +56,7 @@ $(function(){
                 loadAddPartner();
 	    		break;
 	    	case "myInformations" :
+				loadProfilePage();
 	    		break;
 	    	default:
 	    		break;
@@ -184,6 +185,19 @@ $(function(){
 		return false;
 	});
 
+	function loadAddMobility() {
+		$("#loginPage").css("display", "none");
+		$("#navBarStudent").css("display", "block");
+		$("#navBarTeacher").css("display", "none");
+		$("#profilePage").css("display", "none");
+		$("#studentHomePage").css("display", "none");
+		$("#teacherHomePage").css("display", "none");
+		$("#addMobilityPage").css("display", "block");
+		$("#addPartnerPage").css("display", "none");
+		$("#listPage").css("display", "none");
+		$("#userListPage").css("display", "none");
+	}
+
 	//AddMobility
 	$("#addMobilityRow").click(function(){
 
@@ -199,8 +213,8 @@ $(function(){
 					'<select id="selectProgram' + nbRow + '" class="form-control">'+
 					'</select>'+
 				'</td>'+
-				'<td><input type="radio" name="optionsRadios' + nbRow + '" value="SMS" checked></input></td>'+
-				'<td><input type="radio" name="optionsRadios' + nbRow + '" value="SMP"></input></td>'+
+				'<td><input type="radio" name="optionsRadios' + nbRow + '" value="SMS" checked /></td>'+
+				'<td><input type="radio" name="optionsRadios' + nbRow + '" value="SMP"/></td>'+
 				'<td><select id="selectQuadri' + nbRow + '" class="form-control">'+
 						'<option value="1">1</option>'+
 						'<option value="2">2</option>'+
@@ -358,6 +372,7 @@ $(function(){
 				history.pushState({page:"addPartner"}, "Ajouter un partenaire", "/home#addPartner");
 				break;
 			case "#myInformations":
+				loadProfilePage();
 				history.pushState({page:"myInformations"}, "Modifier mes informations", "/home#myInformations");
 				break;
 
@@ -475,18 +490,6 @@ $(function(){
     	$(".navButton[href='#userList']").parent().addClass("active");
 	}
 
-	function loadAddMobility(){
-	$("#loginPage").css("display", "none");
-	$("#navBarStudent").css("display", "block");
-	$("#navBarTeacher").css("display", "none");
-	$("#profilePage").css("display", "none");
-	$("#studentHomePage").css("display", "none");
-	$("#teacherHomePage").css("display", "none");
-	$("#addMobilityPage").css("display", "block");
-    $("#addPartnerPage").css("display", "none");
-	$("#listPage").css("display", "none");
-	$("#userListPage").css("display", "none");
-
 	if($("#selectCountry1").html()== ""){
 		$.ajax({
 			method: "POST",
@@ -546,7 +549,7 @@ $(function(){
 	}
 	$(".active").removeClass("active");
 	$(".navButton[href='#addMobility']").parent().addClass("active");
-}
+});
     function loadAddPartner() {
         $("#loginPage").css("display", "none");
         $("#navBarStudent").css("display", "block");
@@ -594,11 +597,21 @@ function loadRegisterPage(){
 	$("#registerPage").css("display", "block");
 	$("#listPage").css("display", "none");
 	$("#userListPage").css("display", "none");
-
 }
 
-});
 
+function loadProfilePage(){
+	$("#loginPage").css("display", "none");
+	$("#navBarStudent").css("display", "block");
+	$("#navBarTeacher").css("display", "none");
+	$("#profilePage").css("display", "block");
+	$("#studentHomePage").css("display", "none");
+	$("#teacherHomePage").css("display", "none");
+	$("#addPartnerPage").css("display", "none");
+	$("#registerPage").css("display", "none");
+	$("#listPage").css("display", "none");
+	$("#userListPage").css("display", "none");
+}
 
 function loadMobility(){
 	$(function(){
