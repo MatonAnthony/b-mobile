@@ -611,6 +611,9 @@ function loadProfilePage(){
 	$("#registerPage").css("display", "none");
 	$("#listPage").css("display", "none");
 	$("#userListPage").css("display", "none");
+
+	$(".active").removeClass("active");
+	$(".navButton[href='#myInformations']").parent().addClass("active");
 }
 
 function loadMobility(){
