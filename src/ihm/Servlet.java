@@ -67,7 +67,6 @@ public class Servlet extends HttpServlet {
   private transient CountryUcController countryUcc = null;
   private transient DepartmentUcController departmentUcc = null;
   private transient ProgramUcController programUcc = null;
-  @SuppressWarnings("unused")
   private transient PartnerUcController partnerUcc = null;
   @SuppressWarnings("unused")
   private transient CancelationUcController cancelationUcc = null;

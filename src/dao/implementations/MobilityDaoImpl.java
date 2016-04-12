@@ -18,26 +18,31 @@ public class MobilityDaoImpl implements MobilityDao {
 
   // query for select mobilities
   private String query =
-      "SELECT id, id_student, id_program, id_partner, type, preference_order, country, id_department, "
-          + "quadrimester, status, canceled, departure_grant_contract, departure_convention_internship_schoolarship,"
-          + " departure_student_convention, departure_erasmus_language_test, departure_doc_aggreement, "
-          + "depart_doc_sent_highschool, software_proeco, software_mobility_tools, software_mobi, return_residence_cert, "
-          + "return_transcript, return_internship_cert, return_final_report, return_erasmus_language_test, "
-          + "return_doc_sent_highschool, cancelation_reason, academic_year, ver_nr "
-          + "FROM bmobile.mobilities";
+      "SELECT id, id_student, id_program, id_partner, type, preference_order, country,"
+          + " id_department, quadrimester, status, canceled, departure_grant_contract,"
+          + " departure_convention_internship_schoolarship, departure_student_convention,"
+          + " departure_erasmus_language_test, departure_doc_aggreement,"
+          + " depart_doc_sent_highschool, software_proeco, software_mobility_tools,"
+          + " software_mobi, return_residence_cert, return_transcript, return_internship_cert,"
+          + " return_final_report, return_erasmus_language_test, return_doc_sent_highschool, "
+          + "cancelation_reason, academic_year, ver_nr " + "FROM bmobile.mobilities";
 
   // query for select mobilities full
   private String queryFull =
-      "SELECT m.id, m.id_student, m.id_program, m.id_partner, m.type, m.preference_order, m.country, m.id_department, "
-          + "m.quadrimester, m.status, m.canceled, m.departure_grant_contract, m.departure_convention_internship_schoolarship, "
-          + "m.departure_student_convention, m.departure_erasmus_language_test, m.departure_doc_aggreement, "
-          + "m.depart_doc_sent_highschool, m.software_proeco, m.software_mobility_tools, m.software_mobi, m.return_residence_cert, "
-          + "m.return_transcript, m.return_internship_cert, m.return_final_report, m.return_erasmus_language_test, "
-          + "m.return_doc_sent_highschool, m.cancelation_reason, m.academic_year, m.ver_nr, "
+      "SELECT m.id, m.id_student, m.id_program, m.id_partner, m.type, m.preference_order,"
+          + " m.country, m.id_department, m.quadrimester, m.status, m.canceled,"
+          + " m.departure_grant_contract, m.departure_convention_internship_schoolarship, "
+          + "m.departure_student_convention, m.departure_erasmus_language_test, "
+          + "m.departure_doc_aggreement, m.depart_doc_sent_highschool, m.software_proeco,"
+          + " m.software_mobility_tools, m.software_mobi, m.return_residence_cert, "
+          + "m.return_transcript, m.return_internship_cert, m.return_final_report, "
+          + "m.return_erasmus_language_test, m.return_doc_sent_highschool, m.cancelation_reason, "
+          + "m.academic_year, m.ver_nr, "
 
-          + "u.id, u.id_department, u.pseudo, u.name, u.firstname, u.email, u.registration_date, u.permissions, "
-          + "u.birth_date, u.street, u.house_number, u.mailbox, u.zip, u.city, u.country, u.tel, u.gender, "
-          + "u.successfull_year_in_college, u.iban, u.bic, u.account_holder, u.bank_name, u.ver_nr, "
+          + "u.id, u.id_department, u.pseudo, u.name, u.firstname, u.email, u.registration_date,"
+          + " u.permissions, u.birth_date, u.street, u.house_number, u.mailbox, u.zip, u.city, "
+          + "u.country, u.tel, u.gender, u.successfull_year_in_college, u.iban, u.bic, "
+          + "u.account_holder, u.bank_name, u.ver_nr, "
 
           + "pro.id, pro.name, pro.description, pro.ver_nr, "
 
@@ -67,9 +72,9 @@ public class MobilityDaoImpl implements MobilityDao {
 
   @Override
   public void createMobility(MobilityDto mobilityDto) {
-    String query =
-        "INSERT INTO bmobile.mobilities VALUES (DEFAULT,?,?,NULL,?,?,?,?,?,'En attente',FALSE,FALSE,FALSE,FALSE,FALSE,"
-            + "FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,NULL,NULL,0)";
+    String query = "INSERT INTO bmobile.mobilities VALUES (DEFAULT,?,?,NULL,?,?,?,?,?,'En attente',"
+        + "FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,"
+        + "FALSE,FALSE,FALSE,NULL,NULL,0)";
     PreparedStatement preparedStatement = null;
     try {
       preparedStatement = dalBackendServices.prepare(query);
@@ -91,23 +96,6 @@ public class MobilityDaoImpl implements MobilityDao {
       exc.printStackTrace();
     }
 
-  }
-
-  @Override
-  public void read() {
-    // TODO Auto-generated method stub
-  }
-
-  @Override
-  public boolean update() {
-    // TODO Auto-generated method stub
-    return false;
-  }
-
-  @Override
-  public boolean delete() {
-    // TODO Auto-generated method stub
-    return false;
   }
 
   @Override
@@ -134,7 +122,6 @@ public class MobilityDaoImpl implements MobilityDao {
 
   @Override
   public ArrayList<MobilityDto> getFullMobilitiesDepartements(String departements) {
-    // TODO (fany) seulement celle en attente ou toute?
     if (departements != null) {
       queryFull += " AND (d.label = '" + departements + "' )";
     }

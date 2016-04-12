@@ -11,6 +11,8 @@ public class CountryImplTest {
 
 
   /**
+   * Set up the tests
+   * 
    * @throws java.lang.Exception
    */
   @Before

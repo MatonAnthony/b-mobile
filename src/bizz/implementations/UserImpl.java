@@ -385,7 +385,7 @@ public class UserImpl implements UserBizz, Cloneable {
   }
 
   /**
-   * Return the account holder
+   * Return the account holder.
    *
    * @return Name of the account holder
    */

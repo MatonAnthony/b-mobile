@@ -14,7 +14,7 @@ public class DepartmentUcControllerImplTest {
 
   /**
    * Test method for
-   * {@link ucc.implementations.DepartmentUcControllerImpl#DepartmentUcControllerImpl(dal.DalServices, dao.DepartmentDao)}
+   * {@link ucc.implementations.DepartmentUcControllerImpl#DepartmentUcControllerImpl (dal.DalServices, dao.DepartmentDao)}
    * .
    */
   @Test

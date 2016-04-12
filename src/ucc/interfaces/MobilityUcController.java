@@ -16,7 +16,7 @@ public interface MobilityUcController {
   /**
    * Return an ArrayList containing all the mobilities of one departements stored in database.
    * 
-   * @param name of departements for witch you want his mobilities
+   * @param departements name of departements for witch you want his mobilities
    * 
    * @return an ArrayList of MobilityDto.
    */
@@ -32,7 +32,7 @@ public interface MobilityUcController {
   /**
    * Return an ArrayList containing all the mobilities of one user stored in database.
    * 
-   * @param pseudo of user who want to see his mobilities
+   * @param user pseudo of user who want to see his mobilities
    * 
    * @return an ArrayList of MobilityDto.
    */

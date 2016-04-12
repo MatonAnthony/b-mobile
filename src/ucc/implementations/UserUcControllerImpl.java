@@ -116,11 +116,11 @@ public class UserUcControllerImpl implements UserUcController {
       }
 
       dalServices.commitTransaction();
-    } catch (Exception e) {
+    } catch (Exception exc1) {
       try {
         dalServices.rollbackTransaction();
-      } catch (SQLException exc) {
-        exc.printStackTrace();
+      } catch (SQLException exc2) {
+        exc2.printStackTrace();
       }
     }
   }
