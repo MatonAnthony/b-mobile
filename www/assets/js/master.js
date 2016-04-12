@@ -341,7 +341,7 @@ $(function () {
             }
         });
 
-        return true;
+        return false;
     });
 
 
@@ -642,7 +642,7 @@ function loadProfilePage() {
 			$("input[name='tel']").val(resp['tel']);
 			$("input[name='email']").val(resp['email']);
 			$("input[name='successfullYearsInCollege']").val(resp['successfullYearInCollege']);
-			$("input[name='iban']").val(resp["iban"]["value"]);
+			//$("input[name='iban ']").val(resp["iban"]["value"]);
 			$("input[name='accountHolder']").val(resp['accountHolder']);
 			$("input[name='bankName']").val(resp['bankName']);
 			$("input[name='bic']").val(resp['bic']);
