@@ -391,11 +391,6 @@ public class UserImpl implements UserBizz, Cloneable {
    */
   @Override
   public String getAccountHolder() {
-
-    if (accountHolder == null) {
-      throw new NullPointerException();
-    }
-
     return accountHolder;
   }
 
@@ -419,11 +414,6 @@ public class UserImpl implements UserBizz, Cloneable {
    */
   @Override
   public String getBankName() {
-
-    if (bankName == null) {
-      throw new NullPointerException();
-    }
-
     return bankName;
   }
 
@@ -540,6 +530,7 @@ public class UserImpl implements UserBizz, Cloneable {
   public void setCitizenship(String citizenship) {
     this.citizenship = citizenship;
   }
+
   /**
    * Encrypt the password attribute (Assume the password set is in clear).
    */
@@ -554,6 +545,7 @@ public class UserImpl implements UserBizz, Cloneable {
 
   /**
    * Compare the parameter with the stored password.
+   * 
    * @param passwordToCheck Password to check (in clear).
    * @return true if password match.
    */

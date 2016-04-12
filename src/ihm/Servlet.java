@@ -196,6 +196,7 @@ public class Servlet extends HttpServlet {
     resp.getWriter().println(json);
     resp.setStatus(HttpStatus.ACCEPTED_202);
   }
+
   /**
    * The method used by the servlet to update a user into the DB.
    *
@@ -208,17 +209,18 @@ public class Servlet extends HttpServlet {
     userEdited.setName(req.getParameter("name"));
     userEdited.setFirstname(req.getParameter("firstname"));
     userEdited.setGender(req.getParameter("gender"));
-    //ici il faut ajouté la date de naissance et apres modifier le query
+    // ici il faut ajouté la date de naissance et apres modifier le query
     userEdited.setCitizenship(req.getParameter("citizenship"));
     userEdited.setStreet(req.getParameter("street"));
     userEdited.setHouseNumber(req.getParameter("houseNumber"));
     userEdited.setMailBox(req.getParameter("mailbox"));
     userEdited.setZip(req.getParameter("zipcode"));
     userEdited.setCity(req.getParameter("city"));
-    //userEdited.setCountryDto(countryUcc.getCountryByNameFr(req.getParameter("country")));
+    // userEdited.setCountryDto(countryUcc.getCountryByNameFr(req.getParameter("country")));
     userEdited.setTel(req.getParameter("tel"));
-    userEdited.setSuccessfullYearInCollege(Integer.parseInt(0 + req.getParameter("successfullYearsInCollege")));
-    //userEdited.setIban(req.getParameter("iban"));
+    userEdited.setSuccessfullYearInCollege(
+        Integer.parseInt(0 + req.getParameter("successfullYearsInCollege")));
+    // userEdited.setIban(req.getParameter("iban"));
     userEdited.setAccountHolder(req.getParameter("accountHolder"));
     userEdited.setBankName(req.getParameter("bankName"));
     userEdited.setBic(req.getParameter("bic"));
@@ -273,21 +275,9 @@ public class Servlet extends HttpServlet {
       for (int i = 0; i < mobilities.size(); i++) {
         jsonMobilities += defaultGenson.serialize(mobilities.get(i));
 
-        // Parsing DepartmentDto
-        String jsonDepartmentDto = defaultGenson.serialize(mobilities.get(i).getDepartementDto());
-        jsonMobilities = jsonMobilities.replaceFirst("departmentDto\":\\{\\}",
-            "departmentDto\":" + jsonDepartmentDto);
-
-        // Parsing ProgramDto
-        String jsonProgramDto = defaultGenson.serialize(mobilities.get(i).getProgramDto());
-        jsonMobilities =
-            jsonMobilities.replaceFirst("programDto\":\\{\\}", "programDto\":" + jsonProgramDto);
-
-        // Parsing StudentDto
-        String jsonStudentDto = defaultGenson.serialize(mobilities.get(i).getStudentDto());
-        jsonMobilities =
-            jsonMobilities.replaceFirst("studentDto\":\\{\\}", "studentDto\":" + jsonStudentDto);
-
+        jsonMobilities = parseDepartmentDto(jsonMobilities, mobilities.get(i).getDepartementDto());
+        jsonMobilities = parseProgramDto(jsonMobilities, mobilities.get(i).getProgramDto());
+        jsonMobilities = ParseStudentDto(jsonMobilities, mobilities.get(i).getStudentDto());
 
         if (i != mobilities.size() - 1) {
           jsonMobilities += ",";
@@ -307,25 +297,10 @@ public class Servlet extends HttpServlet {
     for (int i = 0; i < mobilities.size(); i++) {
       jsonMobilities += defaultGenson.serialize(mobilities.get(i));
 
-      // Parsing DepartmentDto
-      String jsonDepartmentDto = defaultGenson.serialize(mobilities.get(i).getDepartementDto());
-      jsonMobilities = jsonMobilities.replaceFirst("departmentDto\":\\{\\}",
-          "departmentDto\":" + jsonDepartmentDto);
-
-      // Parsing ProgramDto
-      String jsonProgramDto = defaultGenson.serialize(mobilities.get(i).getProgramDto());
-      jsonMobilities =
-          jsonMobilities.replaceFirst("programDto\":\\{\\}", "programDto\":" + jsonProgramDto);
-
-      // Parsing StudentDto
-      String jsonStudentDto = defaultGenson.serialize(mobilities.get(i).getStudentDto());
-      jsonMobilities =
-          jsonMobilities.replaceFirst("studentDto\":\\{\\}", "studentDto\":" + jsonStudentDto);
-
-      // Parsing countryDto
-      String jsonCountryDto = defaultGenson.serialize(mobilities.get(i).getCountryDto());
-      jsonMobilities =
-          jsonMobilities.replaceFirst("countryDto\":\\{\\}", "countryDto\":" + jsonCountryDto);
+      jsonMobilities = parseDepartmentDto(jsonMobilities, mobilities.get(i).getDepartementDto());
+      jsonMobilities = parseProgramDto(jsonMobilities, mobilities.get(i).getProgramDto());
+      jsonMobilities = ParseCountryDto(jsonMobilities, mobilities.get(i).getCountryDto());
+      jsonMobilities = ParseStudentDto(jsonMobilities, mobilities.get(i).getStudentDto());
 
       if (i != mobilities.size() - 1) {
         jsonMobilities += ",";
@@ -336,6 +311,34 @@ public class Servlet extends HttpServlet {
     }
     resp.getWriter().println(jsonMobilities);
     resp.setStatus(HttpStatus.ACCEPTED_202);
+  }
+
+  private String ParseStudentDto(String jsonMobilities, UserDto studentDto) {
+    String jsonStudentDto = defaultGenson.serialize(studentDto);
+    jsonMobilities =
+        jsonMobilities.replaceFirst("studentDto\":\\{\\}", "studentDto\":" + jsonStudentDto);
+    return jsonMobilities;
+  }
+
+  private String ParseCountryDto(String jsonMobilities, CountryDto countryDto) {
+    String jsonCountryDto = defaultGenson.serialize(countryDto);
+    jsonMobilities =
+        jsonMobilities.replaceFirst("countryDto\":\\{\\}", "countryDto\":" + jsonCountryDto);
+    return jsonMobilities;
+  }
+
+  private String parseProgramDto(String jsonMobilities, ProgramDto programDto) {
+    String jsonProgramDto = defaultGenson.serialize(programDto);
+    jsonMobilities =
+        jsonMobilities.replaceFirst("programDto\":\\{\\}", "programDto\":" + jsonProgramDto);
+    return jsonMobilities;
+  }
+
+  private String parseDepartmentDto(String jsonMobilities, DepartmentDto departmentDto) {
+    String jsonDepartmentDto = defaultGenson.serialize(departmentDto);
+    jsonMobilities = jsonMobilities.replaceFirst("departmentDto\":\\{\\}",
+        "departmentDto\":" + jsonDepartmentDto);
+    return jsonMobilities;
   }
 
   private void selectMyMobility(HttpServletRequest req, HttpServletResponse resp)
@@ -351,16 +354,8 @@ public class Servlet extends HttpServlet {
       for (int i = 0; i < myMobilities.size(); i++) {
         jsonMobilities += defaultGenson.serialize(myMobilities.get(i));
 
-        // Parsing ProgramDto
-        String jsonProgramDto = defaultGenson.serialize(myMobilities.get(i).getProgramDto());
-        jsonMobilities =
-            jsonMobilities.replaceFirst("programDto\":\\{\\}", "programDto\":" + jsonProgramDto);
-
-
-        // Parsing countryDto
-        String jsonCountryDto = defaultGenson.serialize(myMobilities.get(i).getCountryDto());
-        jsonMobilities =
-            jsonMobilities.replaceFirst("countryDto\":\\{\\}", "countryDto\":" + jsonCountryDto);
+        jsonMobilities = parseProgramDto(jsonMobilities, myMobilities.get(i).getProgramDto());
+        jsonMobilities = ParseCountryDto(jsonMobilities, myMobilities.get(i).getCountryDto());
 
         if (i != myMobilities.size() - 1) {
           jsonMobilities += ",";
