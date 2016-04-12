@@ -68,7 +68,7 @@ public class MobilityDaoImpl implements MobilityDao {
   @Override
   public void createMobility(MobilityDto mobilityDto) {
     String query =
-        "INSERT INTO bmobile.mobilities VALUES (DEFAULT,?,?,NULL,?,?,?,?,?,'EN_ATTENTE',FALSE,FALSE,FALSE,FALSE,FALSE,"
+        "INSERT INTO bmobile.mobilities VALUES (DEFAULT,?,?,NULL,?,?,?,?,?,'En attente',FALSE,FALSE,FALSE,FALSE,FALSE,"
             + "FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,NULL,NULL,0)";
     PreparedStatement preparedStatement = null;
     try {
@@ -161,11 +161,11 @@ public class MobilityDaoImpl implements MobilityDao {
   @Override
   public ArrayList<MobilityDto> getFullConfirmedMobilities() {
 
-    queryFull += " AND (m.status != 'PENDING' OR m.canceled = 'false')";
+    String queryTemp = queryFull + " AND m.status != 'En attente' AND m.canceled = 'false'";
 
     PreparedStatement preparedStatement = null;
     try {
-      preparedStatement = dalBackendServices.prepare(queryFull);
+      preparedStatement = dalBackendServices.prepare(queryTemp);
       ArrayList<MobilityDto> mobilities = new ArrayList<MobilityDto>();
       try (ResultSet resultSet = preparedStatement.executeQuery()) {
         while (resultSet.next()) {
