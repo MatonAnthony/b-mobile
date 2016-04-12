@@ -99,33 +99,33 @@ $(function () {
     $("#registerLink").click(function () {
         loadRegisterPage();
     });
-
-    //Connect
-    $("#connectButton").click(function () {
-        $.ajax({
-            method: "POST",
-            url: "/home",
-            data: {
-                action: "login",
-                username: $("input[name='login']").val(),
-                password: $("input[name='password']").val()
-            },
-            success: function (resp) {
-                resp = JSON.parse(resp);
-                if (resp.permissions === "STUDENT") {
-                    authStudent();
-                    history.pushState({page: "myMobility"}, "Mes mobilités", "/home#myMobility");
-                } else {
-                    authTeacher();
-                    history.pushState({page: "confirmedMobility"}, "Mobilites Confirmées", "/home#confirmedMobility");
-                }
-            },
-            error: function (error) {
-                console.log("Connexion echouée");
-            }
-        });
-        return false;
-    });
+	//Connect
+	$("#connectButton").click(function(){
+		 $.ajax({
+	        method: "POST",
+	        url: "/home",
+	        data: {
+	            action: "login",
+	            username : $("input[name='login']").val(),
+	            password : $("input[name='password']").val()
+	        },
+	        success: function(resp){
+				resp = JSON.parse(resp);
+				if(resp.permissions === "STUDENT"){
+					authStudent();
+					history.pushState({page:"myMobility"}, "Mes mobilités", "/home#myMobility");
+				}else{
+					authTeacher();
+					history.pushState({page:"confirmedMobility"}, "Mobilites Confirmées", "/home#confirmedMobility");
+				}
+	        },
+	        error: function(error){
+	            error = JSON.parse(error.responseText);
+				printToaster(error.type, error.message);
+	        }
+	    });
+		return false;
+	});
     //Disconnect
     function disconnect() {
         $.ajax({
@@ -788,6 +788,24 @@ function loadMyMobility() {
             }
         });
     });
+}
+
+function printToaster(type, message){
+	switch(type){
+		case "warning":
+			toastr.warning(message);
+			break;
+		case "error":
+			toastr.error(message);
+			break;
+		case "success":
+			toastr.success(message);
+			break;
+		case "info":
+			toastr.info(message);
+			break;
+	}
+
 }
 
 
