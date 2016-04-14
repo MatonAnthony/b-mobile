@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data-sources>
+	<data-source id="postgres-jdbc-154165f4425-755e876430d13295" provider="postgresql" driver="postgres-jdbc" name="PostgreSQL - dbkamil_arszagi" create-date="1460664347613" update-date="1460664590339" save-password="true" show-system-objects="true" read-only="false">
+		<connection host="studentittools.ipl.be" port="5432" server="" database="dbkamil_arszagi" url="jdbc:postgresql://studentittools.ipl.be:5432/dbkamil_arszagi" user="martin_techy" password="ABEWIUVWVBcDHh9nRHak" home="postgresql-x64-9.3" type="prod">
+			<property name="@dbeaver-show-non-default-db@" value="false"/>
+			<property name="connectTimeout" value="20"/>
+			<property name="loginTimeout" value="20"/>
+			<network-handler type="TUNNEL" id="ssh_tunnel" enabled="false" user="" save-password="false">
+				<property name="port" value="22"/>
+				<property name="keyPath" value=""/>
+				<property name="host" value=""/>
+				<property name="authType" value="PASSWORD"/>
+			</network-handler>
+			<network-handler type="PROXY" id="socks_proxy" enabled="false" user="" save-password="false">
+				<property name="socks-host" value=""/>
+				<property name="socks-port" value="1080"/>
+			</network-handler>
+			<network-handler type="CONFIG" id="postgre_ssl" enabled="false" user="" save-password="false">
+				<property name="sslFactory" value=""/>
+				<property name="clientCert" value=""/>
+				<property name="clientKey" value=""/>
+				<property name="sslMode" value=""/>
+			</network-handler>
+			<bootstrap autocommit="false"/>
+		</connection>
+	</data-source>
+</data-sources>

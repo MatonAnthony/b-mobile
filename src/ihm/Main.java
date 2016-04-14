@@ -89,7 +89,7 @@ public class Main {
     context.addServlet(new ServletHolder(new DefaultServlet()), "/");
 
     // Parametres du serveur
-    context.setWelcomeFiles(new String[] {"index.html"});
+    context.setWelcomeFiles(new String[] { "index.html" });
     context.setResourceBase("www/assets/");
     context.setInitParameter("cacheControl", "no-store,nocache,must-revalidate");
     context.setInitParameter("redirectWelcome", "true");
@@ -97,6 +97,7 @@ public class Main {
     context.setMaxFormContentSize(50000000);
     Server server = new Server(8888);
     server.setHandler(context);
+
 
     server.start();
   }
