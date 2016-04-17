@@ -46,9 +46,11 @@ public class MobilityDaoImpl implements MobilityDao {
 
           + "pro.id, pro.name, pro.description, pro.ver_nr, "
 
-          // + "par.id, par.id_user, par.legal_name, par.business_name, par.full_name, par.department,
+          // + "par.id, par.id_user, par.legal_name, par.business_name, par.full_name,
+          // par.department,
           // par.type,"
-          // + "par.nb_employees, par.street, par.number, par.mailbox, par.zip, par.city, par.state,"
+          // + "par.nb_employees, par.street, par.number, par.mailbox, par.zip, par.city,
+          // par.state,"
           // + "par.country, par.email, par.website, par.exists, par.ver_nr,"
 
           + "co.iso, co.name_en, co.name_fr, co.id_program," + "d.id, d.label, d.ver_nr "
