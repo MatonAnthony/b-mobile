@@ -122,6 +122,7 @@ public class MobilityDaoImpl implements MobilityDao {
 
   @Override
   public ArrayList<MobilityDto> getFullMobilitiesDepartements() {
+
     PreparedStatement preparedStatement = null;
     try {
       preparedStatement = dalBackendServices.prepare(queryFull);
@@ -169,12 +170,11 @@ public class MobilityDaoImpl implements MobilityDao {
   @Override
   public ArrayList<MobilityDto> getFullMyMobilities(String pseudo) {
 
-    System.out.println(pseudo);
-    queryFull += " AND (u.pseudo = '" + pseudo + "' )";
+    String queryTemp = queryFull + " AND (u.pseudo = '" + pseudo + "' )";
 
     PreparedStatement preparedStatement = null;
     try {
-      preparedStatement = dalBackendServices.prepare(queryFull);
+      preparedStatement = dalBackendServices.prepare(queryTemp);
       ArrayList<MobilityDto> mobilities = new ArrayList<MobilityDto>();
       try (ResultSet resultSet = preparedStatement.executeQuery()) {
         while (resultSet.next()) {

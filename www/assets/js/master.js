@@ -1,35 +1,24 @@
 $(function () {
 
-    $.ajax({
-        method: "POST",
-        url: "/home",
-        data: {
-            action: "authenticate"
-        },
-        success: function (resp) {
-            resp = JSON.parse(resp);
-            if (resp.permissions === "STUDENT") {
-                authStudent();
-                history.pushState({page: "myMobility"}, "Mes mobilités", "/home#myMobility");
-            } else {
-                authTeacher();
-                history.pushState({page: "confirmedMobility"}, "Mobilites Confirmées", "/home#confirmedMobility");
-            }
-
+	$.ajax({
+		method: "POST",
+		url: "/home",
+		data: {
+			action: "authenticate"
+		},
+		success: function (resp) {
+			resp = JSON.parse(resp);
+            changePage();
         },
         error: function (error) {
             console.log("Authentification echouée");
         }
     });
 
-    $(window).load(function () {
-        changePage();
-    });
 
     window.onpopstate = function (event) {
         changePage();
     };
-
     function changePage() {
         var state = history.state;
         if (null === state)return true;
@@ -586,6 +575,7 @@ $(function () {
     $(".active").removeClass("active");
     $(".navButton[href='#addMobility']").parent().addClass("active");
 
+
 function loadAddPartner() {
     $("#loginPage").css("display", "none");
     $("#navBarStudent").css("display", "block");
@@ -598,7 +588,6 @@ function loadAddPartner() {
     $("#listPage").css("display", "none");
     $("#userListPage").css("display", "none");
 	$("#paymentPage").css("display", "none");
-
     $(".active").removeClass("active");
     $(".navButton[href='#addPartner']").parent().addClass("active");
 
