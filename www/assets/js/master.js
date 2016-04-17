@@ -808,5 +808,10 @@ $(function () {
 		}
 
 	}
+
+	// Export to CSV
+	$("#csv").click(function(){
+		$("#list").tableToCSV();
+	})
 });
 
