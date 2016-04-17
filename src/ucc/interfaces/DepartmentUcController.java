@@ -2,6 +2,7 @@
 package ucc.interfaces;
 
 import dto.DepartmentDto;
+import exceptions.NoDepartmentException;
 
 import java.util.ArrayList;
 
@@ -12,7 +13,7 @@ public interface DepartmentUcController {
    * 
    * @return An arrayList with dto of all the departments.
    */
-  public ArrayList<DepartmentDto> getAllDepartments();
+  public ArrayList<DepartmentDto> getAllDepartments() throws NoDepartmentException;
 
   /**
    * Get a department from the database.
@@ -20,7 +21,7 @@ public interface DepartmentUcController {
    * @param id Id of the department.
    * @return DepartmentDto a DepartmentDto Object filled with the department information.
    */
-  public DepartmentDto getDepartementsById(String id);
+  public DepartmentDto getDepartementsById(String id) throws NoDepartmentException;
 
   /**
    * Get a department from the database.
@@ -28,6 +29,6 @@ public interface DepartmentUcController {
    * @param label Name of the department.
    * @return DepartmentDto a DepartmentDto Object filled with the department information.
    */
-  public DepartmentDto getDepartmentByLabel(String label);
+  public DepartmentDto getDepartmentByLabel(String label) throws NoDepartmentException;
 
 }

@@ -8,6 +8,8 @@ import dto.PartnerDto;
 import dto.ProgramDto;
 import dto.UserDto;
 import exceptions.AuthenticationException;
+import exceptions.NoCountryException;
+import exceptions.NoDepartmentException;
 import ucc.interfaces.CancelationUcController;
 import ucc.interfaces.CountryUcController;
 import ucc.interfaces.DepartmentUcController;
@@ -35,6 +37,7 @@ import java.nio.charset.Charset;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SignatureException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -248,7 +251,12 @@ public class Servlet extends HttpServlet {
 
   private void selectDepartments(HttpServletRequest req, HttpServletResponse resp)
       throws IOException {
-    ArrayList<DepartmentDto> departments = departmentUcc.getAllDepartments();
+    ArrayList<DepartmentDto> departments = null;
+    try {
+      departments = departmentUcc.getAllDepartments();
+    } catch (NoDepartmentException exc) {
+      createToaster(exc, resp);
+    }
     String jsonDepartments = defaultGenson.serialize(departments);
     resp.getWriter().println(jsonDepartments);
     resp.setStatus(HttpStatus.ACCEPTED_202);
@@ -256,7 +264,12 @@ public class Servlet extends HttpServlet {
 
   private void selectCountries(HttpServletRequest req, HttpServletResponse resp)
       throws IOException {
-    ArrayList<CountryDto> countries = countryUcc.getAllCountries();
+    ArrayList<CountryDto> countries = null;
+    try {
+      countries = countryUcc.getAllCountries();
+    } catch (Exception exc) {
+      createToaster(exc, resp);
+    };
     String jsonCountries = defaultGenson.serialize(countries);
     resp.getWriter().println(jsonCountries);
     resp.setStatus(HttpStatus.ACCEPTED_202);
@@ -459,7 +472,7 @@ public class Servlet extends HttpServlet {
    * @param req The request received by the server.
    * @param resp The response sended by the server.
    */
-  private void addMobility(HttpServletRequest req, HttpServletResponse resp) {
+  private void addMobility(HttpServletRequest req, HttpServletResponse resp) throws IOException {
     MobilityDto mobility = bizzFactory.getMobilityDto();
     // TODO (Martin) Poser question : aller chercher les Dtos dans la servlet ou dans l'ucc pour
     // profiter des transactions?
@@ -470,8 +483,16 @@ public class Servlet extends HttpServlet {
     mobility.setProgramDto(programUcc.getProgramByName(req.getParameter("program")));
     mobility.setType(req.getParameter("type"));
     mobility.setQuadrimester(Integer.parseInt(req.getParameter("quadrimestre")));
-    mobility.setDepartementDto(departmentUcc.getDepartmentByLabel(req.getParameter("department")));
-    mobility.setCountryDto(countryUcc.getCountryByNameFr(req.getParameter("country")));
+    try {
+      mobility.setDepartementDto(departmentUcc.getDepartmentByLabel(req.getParameter("department")));
+    } catch (NoDepartmentException exc) {
+      createToaster(exc, resp);
+    }
+    try {
+      mobility.setCountryDto(countryUcc.getCountryByNameFr(req.getParameter("country")));
+    } catch (Exception exc){
+      createToaster(exc, resp);
+    }
 
     mobilityUcc.addMobility(mobility);
 
@@ -483,13 +504,17 @@ public class Servlet extends HttpServlet {
    * @param req The request received by the server.
    * @param resp The response sended by the server.
    */
-  private void addPartner(HttpServletRequest req, HttpServletResponse resp) {
+  private void addPartner(HttpServletRequest req, HttpServletResponse resp) throws IOException {
     PartnerDto partner = bizzFactory.getPartnerDto();
     partner.setUserDto(
         userUcc.getUserById(Integer.parseInt("" + req.getSession().getAttribute(KEY_ID))));
     partner.setLegalName(req.getParameter("legal_name"));
     partner.setBusiness(req.getParameter("business_name"));
-    partner.setCountryDto(countryUcc.getCountryByNameFr(req.getParameter("country")));
+    try {
+      partner.setCountryDto(countryUcc.getCountryByNameFr(req.getParameter("country")));
+    } catch (Exception exc){
+      createToaster(exc, resp);
+    }
     partner.setFullName(req.getParameter("full_name"));
     partner.setDepartment(req.getParameter("department"));
     partner.setType(req.getParameter("type"));
@@ -599,7 +624,15 @@ public class Servlet extends HttpServlet {
         map.put("type", "error");
         map.put("message", exception.getMessage());
         break;
-
+      case "class exceptions.NoCountryException":
+        resp.setStatus(HttpStatus.PARTIAL_CONTENT_206);
+        map.put("type", "error");
+        map.put("message", exception.getMessage());
+        break;
+      case "class exceptions.NoDepartmentException":
+        resp.setStatus(HttpStatus.PARTIAL_CONTENT_206);
+        map.put("type", "error");
+        map.put("message", exception.getMessage());
       default:
 
         break;

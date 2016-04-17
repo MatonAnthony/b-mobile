@@ -2,6 +2,7 @@
 package dao.interfaces;
 
 import dto.DepartmentDto;
+import exceptions.NoDepartmentException;
 
 import java.util.ArrayList;
 
@@ -15,7 +16,7 @@ public interface DepartmentDao {
    *
    * @return a list containing all departments.
    */
-  ArrayList<DepartmentDto> getAllDepartments();
+  ArrayList<DepartmentDto> getAllDepartments() throws NoDepartmentException, NoDepartmentException;
 
   /**
    * Gets departement by id.
@@ -23,7 +24,7 @@ public interface DepartmentDao {
    * @param id the id
    * @return the departement by id
    */
-  DepartmentDto getDepartementById(String id);
+  DepartmentDto getDepartementById(String id) throws NoDepartmentException;
 
   /**
    * Gets department by label.
@@ -31,5 +32,5 @@ public interface DepartmentDao {
    * @param label the label
    * @return the department by label
    */
-  DepartmentDto getDepartmentByLabel(String label);
+  DepartmentDto getDepartmentByLabel(String label) throws NoDepartmentException;
 }

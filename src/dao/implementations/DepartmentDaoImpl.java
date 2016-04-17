@@ -5,6 +5,7 @@ import bizz.interfaces.BizzFactory;
 import dal.DalBackendServices;
 import dao.interfaces.DepartmentDao;
 import dto.DepartmentDto;
+import exceptions.NoDepartmentException;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -28,7 +29,7 @@ public class DepartmentDaoImpl implements DepartmentDao {
   }
 
   @Override
-  public ArrayList<DepartmentDto> getAllDepartments() {
+  public ArrayList<DepartmentDto> getAllDepartments() throws NoDepartmentException {
     String query = "SELECT id, label, ver_nr FROM bmobile.departments";
     PreparedStatement preparedStatement = null;
 
@@ -38,17 +39,17 @@ public class DepartmentDaoImpl implements DepartmentDao {
         return fillDtoArray(preparedStatement);
       } catch (SQLException exc2) {
         exc2.printStackTrace();
-        return null;
+        throw new NoDepartmentException("An SQL Error happened");
       }
     } catch (SQLException exc) {
       exc.printStackTrace();
-      return null;
+      throw new NoDepartmentException("An SQL Error happened");
     }
 
   }
 
   @Override
-  public DepartmentDto getDepartementById(String id) {
+  public DepartmentDto getDepartementById(String id) throws NoDepartmentException {
     String query = "SELECT id, label, ver_nr FROM bmobile.departments WHERE id = ?";
 
     PreparedStatement preparedStatement = null;
@@ -59,17 +60,17 @@ public class DepartmentDaoImpl implements DepartmentDao {
         return fillDto(preparedStatement);
       } catch (SQLException exc2) {
         exc2.printStackTrace();
-        return null;
+        throw new NoDepartmentException("An SQL Error happened");
       }
     } catch (SQLException exc) {
       exc.printStackTrace();
-      return null;
+      throw new NoDepartmentException("An SQL Error happened");
     }
 
   }
 
   @Override
-  public DepartmentDto getDepartmentByLabel(String label) {
+  public DepartmentDto getDepartmentByLabel(String label) throws NoDepartmentException {
     String query = "SELECT id, label, ver_nr FROM bmobile.departments WHERE label=?";
 
     PreparedStatement preparedStatement = null;
@@ -80,16 +81,16 @@ public class DepartmentDaoImpl implements DepartmentDao {
         return fillDto(preparedStatement);
       } catch (SQLException exc2) {
         exc2.printStackTrace();
-        return null;
+        throw new NoDepartmentException("An SQL Error happened");
       }
     } catch (SQLException exc) {
       exc.printStackTrace();
-      return null;
+      throw new NoDepartmentException("An SQL Error happened");
     }
 
   }
 
-  private DepartmentDto fillDto(PreparedStatement preparedStatement) {
+  private DepartmentDto fillDto(PreparedStatement preparedStatement) throws NoDepartmentException {
     DepartmentDto departmentDto = factory.getDepartmentDto();
     try (ResultSet resultSet = preparedStatement.executeQuery()) {
       if (resultSet.next()) {
@@ -97,18 +98,18 @@ public class DepartmentDaoImpl implements DepartmentDao {
         departmentDto.setLabel(resultSet.getString(2));
         departmentDto.setVerNr(resultSet.getInt(3));
       } else {
-        return null;
+        throw new NoDepartmentException("Ce département n'existe pas");
       }
       return departmentDto;
     } catch (SQLException exc2) {
-      exc2.printStackTrace();
-      return null;
+      throw new NoDepartmentException("Une erreur est survenue");
     }
 
 
   }
 
-  private ArrayList<DepartmentDto> fillDtoArray(PreparedStatement preparedStatement) {
+  private ArrayList<DepartmentDto> fillDtoArray(PreparedStatement preparedStatement)
+    throws NoDepartmentException {
     ArrayList<DepartmentDto> departments = new ArrayList<DepartmentDto>();
     try (ResultSet resultSet = preparedStatement.executeQuery()) {
       while (resultSet.next()) {
@@ -121,7 +122,7 @@ public class DepartmentDaoImpl implements DepartmentDao {
       return departments;
     } catch (SQLException exc2) {
       exc2.printStackTrace();
-      return null;
+      throw new NoDepartmentException("La liste des départements n'a pu être chargée");
     }
 
 

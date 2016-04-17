@@ -1,7 +1,9 @@
 package ucc.interfaces;
 
 import dto.CountryDto;
+import exceptions.NoCountryException;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 
@@ -11,7 +13,7 @@ public interface CountryUcController {
    * 
    * @return an ArrayList wich contains the countries of the database.
    */
-  ArrayList<CountryDto> getAllCountries();
+  ArrayList<CountryDto> getAllCountries() throws NoCountryException, SQLException;
 
 
   /**
@@ -20,7 +22,7 @@ public interface CountryUcController {
    * @param name The french name of the country.
    * @return CountryDto a CountryDto Object fill with the country information.
    */
-  CountryDto getCountryByNameFr(String name);
+  CountryDto getCountryByNameFr(String name) throws NoCountryException, SQLException;
 
 
 

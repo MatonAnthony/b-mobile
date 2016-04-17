@@ -4,6 +4,7 @@ import bizz.interfaces.BizzFactory;
 import dal.DalBackendServices;
 import dao.interfaces.CountryDao;
 import dto.CountryDto;
+import exceptions.NoCountryException;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -31,7 +32,7 @@ public class CountryDaoImpl implements CountryDao {
    * @return a list all countries registered in our database.
    */
   @Override
-  public ArrayList<CountryDto> getAll() {
+  public ArrayList<CountryDto> getAll() throws SQLException, NoCountryException {
     String query =
         "SELECT iso, name_en, name_fr, id_program FROM bmobile.countries ORDER BY name_fr";
     PreparedStatement preparedStatement = null;
@@ -42,11 +43,11 @@ public class CountryDaoImpl implements CountryDao {
         return fillDtoArray(preparedStatement);
       } catch (SQLException exc2) {
         exc2.printStackTrace();
-        return null;
+        throw new SQLException();
       }
     } catch (SQLException exc) {
       exc.printStackTrace();
-      return null;
+      throw new SQLException();
     }
 
   }
@@ -58,7 +59,7 @@ public class CountryDaoImpl implements CountryDao {
    * @return Informations relative to the country you asked about.
    */
   @Override
-  public CountryDto getCountryByNameFr(String name) {
+  public CountryDto getCountryByNameFr(String name) throws SQLException, NoCountryException {
     String query =
         "SELECT iso, name_en, name_fr, id_program FROM bmobile.countries WHERE name_fr=?";
     PreparedStatement preparedStatement = null;
@@ -70,15 +71,15 @@ public class CountryDaoImpl implements CountryDao {
         return fillDto(preparedStatement);
       } catch (SQLException exc2) {
         exc2.printStackTrace();
-        return null;
+        throw new SQLException();
       }
     } catch (SQLException exc) {
       exc.printStackTrace();
-      return null;
+      throw new SQLException();
     }
   }
 
-  private CountryDto fillDto(PreparedStatement preparedStatement) {
+  private CountryDto fillDto(PreparedStatement preparedStatement) throws NoCountryException{
     CountryDto countryDto = factory.getCountryDto();
     try (ResultSet resultSet = preparedStatement.executeQuery()) {
       if (resultSet.next()) {
@@ -87,16 +88,17 @@ public class CountryDaoImpl implements CountryDao {
         countryDto.setNameFr(resultSet.getString("name_fr"));
         countryDto.setIdProgram(resultSet.getInt("id_program"));
       } else {
-        return null;
+        throw new NoCountryException("Ce pays n'existe pas");
       }
       return countryDto;
     } catch (SQLException exc2) {
       exc2.printStackTrace();
-      return null;
+      throw new NoCountryException("Ce pays n'existe pas");
     }
   }
 
-  private ArrayList<CountryDto> fillDtoArray(PreparedStatement preparedStatement) {
+  private ArrayList<CountryDto> fillDtoArray(PreparedStatement preparedStatement)
+      throws NoCountryException {
     ArrayList<CountryDto> countries = new ArrayList<CountryDto>();
     try (ResultSet resultSet = preparedStatement.executeQuery()) {
       while (resultSet.next()) {
@@ -110,7 +112,7 @@ public class CountryDaoImpl implements CountryDao {
       return countries;
     } catch (SQLException exc2) {
       exc2.printStackTrace();
-      return null;
+      throw new NoCountryException("Une erreur est survenue");
     }
   }
 
