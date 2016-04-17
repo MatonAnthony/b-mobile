@@ -1,6 +1,8 @@
 
 package bizz.implementations;
 
+import static org.junit.Assert.assertEquals;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -30,7 +32,7 @@ public class CountryImplTest {
    */
   @Test
   public void testGetIso() {
-    // TODO (Martin) remplir les tests
+    assertEquals(puppet.getIso(), "be");
   }
 
   /**
@@ -38,7 +40,8 @@ public class CountryImplTest {
    */
   @Test
   public void testSetIso() {
-
+    puppet.setIso("fr");
+    assertEquals(puppet.getIso(), "fr");
   }
 
   /**
@@ -46,7 +49,7 @@ public class CountryImplTest {
    */
   @Test
   public void testGetNameEn() {
-
+    assertEquals(puppet.getNameEn(), "Belgium");
   }
 
   /**
@@ -54,7 +57,8 @@ public class CountryImplTest {
    */
   @Test
   public void testSetNameEn() {
-
+    puppet.setNameEn("China");
+    assertEquals(puppet.getNameEn(), "China");
   }
 
   /**
@@ -62,7 +66,7 @@ public class CountryImplTest {
    */
   @Test
   public void testGetNameFr() {
-
+    assertEquals(puppet.getNameFr(), "Belgique");
   }
 
   /**
@@ -70,7 +74,8 @@ public class CountryImplTest {
    */
   @Test
   public void testSetNameFr() {
-
+    puppet.setNameFr("Chine");
+    assertEquals(puppet.getNameFr(), "Chine");
   }
 
   /**
@@ -78,7 +83,7 @@ public class CountryImplTest {
    */
   @Test
   public void testGetIdProgram() {
-
+    assertEquals(puppet.getIdProgram(), 3);
   }
 
   /**
@@ -86,7 +91,8 @@ public class CountryImplTest {
    */
   @Test
   public void testSetIdProgram() {
-
+    puppet.setIdProgram(0);
+    assertEquals(puppet.getIdProgram(), 0);
   }
 
 }
