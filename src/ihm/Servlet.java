@@ -655,7 +655,9 @@ public class Servlet extends HttpServlet {
         map.put("type", "error");
         map.put("message", exception.getMessage());
       default:
-
+        resp.setStatus(HttpStatus.PARTIAL_CONTENT_206);
+        map.put("type", "info");
+        map.put("message", "Une erreur inconnue est survenue");
         break;
     }
     resp.getWriter().println(genson.serialize(map));
