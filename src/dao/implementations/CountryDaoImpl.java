@@ -79,7 +79,7 @@ public class CountryDaoImpl implements CountryDao {
     }
   }
 
-  private CountryDto fillDto(PreparedStatement preparedStatement) throws NoCountryException{
+  private CountryDto fillDto(PreparedStatement preparedStatement) throws NoCountryException {
     CountryDto countryDto = factory.getCountryDto();
     try (ResultSet resultSet = preparedStatement.executeQuery()) {
       if (resultSet.next()) {

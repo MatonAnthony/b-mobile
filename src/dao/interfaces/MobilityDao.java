@@ -18,8 +18,6 @@ public interface MobilityDao {
   /**
    * Return an ArrayList containing all the mobilities of one departements stored in database.
    * 
-   * @param departements Name of departements for witch you want his mobilities
-   * 
    * @return an ArrayList of MobilityDto.
    */
 

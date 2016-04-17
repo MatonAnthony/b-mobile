@@ -6,7 +6,7 @@ public class NoCountryException extends Exception {
     super(message);
   }
 
-  public NoCountryException(){
+  public NoCountryException() {
     super();
   }
 }

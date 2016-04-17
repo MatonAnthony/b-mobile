@@ -6,7 +6,7 @@ public class NoDepartmentException extends Exception {
     super(message);
   }
 
-  public NoDepartmentException(){
+  public NoDepartmentException() {
     super();
   }
 }

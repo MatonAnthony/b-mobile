@@ -270,7 +270,7 @@ public class Servlet extends HttpServlet {
       countries = countryUcc.getAllCountries();
     } catch (Exception exc) {
       createToaster(exc, resp);
-    };
+    }
     String jsonCountries = defaultGenson.serialize(countries);
     resp.getWriter().println(jsonCountries);
     resp.setStatus(HttpStatus.ACCEPTED_202);
@@ -289,7 +289,7 @@ public class Servlet extends HttpServlet {
 
         jsonMobilities = parseDepartmentDto(jsonMobilities, mobilities.get(i).getDepartementDto());
         jsonMobilities = parseProgramDto(jsonMobilities, mobilities.get(i).getProgramDto());
-        jsonMobilities = ParseStudentDto(jsonMobilities, mobilities.get(i).getStudentDto());
+        jsonMobilities = parseStudentDto(jsonMobilities, mobilities.get(i).getStudentDto());
 
         if (i != mobilities.size() - 1) {
           jsonMobilities += ",";
@@ -314,8 +314,8 @@ public class Servlet extends HttpServlet {
 
         jsonMobilities = parseDepartmentDto(jsonMobilities, mobilities.get(i).getDepartementDto());
         jsonMobilities = parseProgramDto(jsonMobilities, mobilities.get(i).getProgramDto());
-        jsonMobilities = ParseCountryDto(jsonMobilities, mobilities.get(i).getCountryDto());
-        jsonMobilities = ParseStudentDto(jsonMobilities, mobilities.get(i).getStudentDto());
+        jsonMobilities = parseCountryDto(jsonMobilities, mobilities.get(i).getCountryDto());
+        jsonMobilities = parseStudentDto(jsonMobilities, mobilities.get(i).getStudentDto());
 
         if (i != mobilities.size() - 1) {
           jsonMobilities += ",";
@@ -329,14 +329,14 @@ public class Servlet extends HttpServlet {
     }
   }
 
-  private String ParseStudentDto(String jsonMobilities, UserDto studentDto) {
+  private String parseStudentDto(String jsonMobilities, UserDto studentDto) {
     String jsonStudentDto = defaultGenson.serialize(studentDto);
     jsonMobilities =
         jsonMobilities.replaceFirst("studentDto\":\\{\\}", "studentDto\":" + jsonStudentDto);
     return jsonMobilities;
   }
 
-  private String ParseCountryDto(String jsonMobilities, CountryDto countryDto) {
+  private String parseCountryDto(String jsonMobilities, CountryDto countryDto) {
     String jsonCountryDto = defaultGenson.serialize(countryDto);
     jsonMobilities =
         jsonMobilities.replaceFirst("countryDto\":\\{\\}", "countryDto\":" + jsonCountryDto);
@@ -370,7 +370,7 @@ public class Servlet extends HttpServlet {
         jsonMobilities += defaultGenson.serialize(myMobilities.get(i));
 
         jsonMobilities = parseProgramDto(jsonMobilities, myMobilities.get(i).getProgramDto());
-        jsonMobilities = ParseCountryDto(jsonMobilities, myMobilities.get(i).getCountryDto());
+        jsonMobilities = parseCountryDto(jsonMobilities, myMobilities.get(i).getCountryDto());
 
         if (i != myMobilities.size() - 1) {
           jsonMobilities += ",";
@@ -654,6 +654,7 @@ public class Servlet extends HttpServlet {
         resp.setStatus(HttpStatus.PARTIAL_CONTENT_206);
         map.put("type", "error");
         map.put("message", exception.getMessage());
+        break;
       default:
         resp.setStatus(HttpStatus.PARTIAL_CONTENT_206);
         map.put("type", "info");
