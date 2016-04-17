@@ -182,19 +182,6 @@ $(function () {
         return false;
     });
 
-    function loadAddMobility() {
-        $("#loginPage").css("display", "none");
-        $("#navBarStudent").css("display", "block");
-        $("#navBarTeacher").css("display", "none");
-        $("#profilePage").css("display", "none");
-        $("#studentHomePage").css("display", "none");
-        $("#teacherHomePage").css("display", "none");
-        $("#addMobilityPage").css("display", "block");
-        $("#addPartnerPage").css("display", "none");
-        $("#listPage").css("display", "none");
-        $("#userListPage").css("display", "none");
-    }
-
     //AddMobility
     $("#addMobilityRow").click(function () {
 
@@ -207,7 +194,7 @@ $(function () {
             "<form>" +
             '<td>' + nbRow + '</td>' +
             '<td>' +
-            '<select id="selectProgram' + nbRow + '" class="form-control">' +
+            '<select id="selectProgram' + nbRow + '" class="form-control programSelector">' +
             '</select>' +
             '</td>' +
             '<td><input type="radio" name="optionsRadios' + nbRow + '" value="SMS" checked /></td>' +
@@ -230,6 +217,7 @@ $(function () {
         addDepartmentsToSelector(nbRow);
         addCountriesToSelector(nbRow);
         addProgramsToSelector(nbRow);
+        showCountriesByProgram(nbRow, 'Erasmus+');
         return true;
     });
 
@@ -258,6 +246,44 @@ $(function () {
         }
         return true;
     });
+
+    $(document).on("change", ".programSelector", function(){
+    	showCountriesByProgram($(this).context['id'].charAt(13), this.value);
+    });
+
+    function showCountriesByProgram(row, programSelected){
+
+    	$("#selectCountry" + row + ">option").each(function(){
+    		var program = $(this).attr("program");
+    		switch(programSelected){
+    			case 'Erabel' :
+    				if(program != 2){
+    					$(this).css("display", "none");
+    				}else{
+						$(this).css("display", "block");
+    				}
+    				$(this).parent().val("Belgique");
+    			break;
+    			case 'FAME' :
+    				if(program != 3){
+    					$(this).css("display", "none");
+    				}else{
+						$(this).css("display", "block");
+    				}
+    				$(this).parent().val("Afghanistan");
+    			break;
+    			case 'Erasmus+' :
+    				if(program != 1){
+    					$(this).css("display", "none");
+    				}else{
+						$(this).css("display", "block");
+    				}
+    				$(this).parent().val("Allemagne");
+    			break;
+    		}
+
+    	});
+    }
 
     function addDepartmentsToSelector(id) {
         var departments = $("#selectDep1").html();
@@ -398,6 +424,80 @@ $(function () {
         $(".navButton[href='#myMobility']").parent().addClass("active");
     }
 
+    function loadAddMobility() {
+        $("#loginPage").css("display", "none");
+        $("#navBarStudent").css("display", "block");
+        $("#navBarTeacher").css("display", "none");
+        $("#profilePage").css("display", "none");
+        $("#studentHomePage").css("display", "none");
+        $("#teacherHomePage").css("display", "none");
+        $("#addMobilityPage").css("display", "block");
+        $("#addPartnerPage").css("display", "none");
+        $("#listPage").css("display", "none");
+        $("#userListPage").css("display", "none");
+
+        if ($("#selectProgram1").html() == "") {
+	        $.ajax({
+	            method: "POST",
+	            url: "/home",
+	            data: {
+	                action: "selectPrograms"
+	            },
+	            success: function (resp) {
+	                resp = JSON.parse(resp);
+	                var key;
+	                for (key in resp) {
+	                    $("#selectProgram1").append("<option>" + resp[key]['name'] + "</option>");
+	                }
+	            },
+	            error: function (error) {
+	                console.log("Problème lors de la récuperation de la liste des programmes");
+	            }
+	        });
+	    }
+        if ($("#selectCountry1").html() == "") {
+	        $.ajax({
+	            method: "POST",
+	            url: "/home",
+	            data: {
+	                action: "selectCountries"
+	            },
+	            success: function (resp) {
+	                resp = JSON.parse(resp);
+	                var key;
+	                for (key in resp) {
+	                    $("#selectCountry1").append("<option program=\"" + resp[key]['idProgram'] + "\">" + resp[key]['nameFr'] + "</option>");
+	                }
+	                 showCountriesByProgram(1, "Erasmus+");
+	            },
+	            error: function (error) {
+	                console.log("Problème lors de la récuperation de la liste des pays");
+	            }
+	        });
+	    }
+	    if ($("#selectDep1").html() == "") {
+	        $.ajax({
+	            method: "POST",
+	            url: "/home",
+	            data: {
+	                action: "selectDepartments"
+	            },
+	            success: function (resp) {
+	                resp = JSON.parse(resp);
+	                var key;
+	                for (key in resp) {
+	                    $("#selectDep1").append("<option>" + resp[key]['label'] + "</option>");
+	                }
+	            },
+	            error: function (error) {
+	                console.log("Problème lors de la récuperation de la liste des departements");
+	            }
+	        });
+	    }
+	    $(".active").removeClass("active");
+	    $(".navButton[href='#addMobility']").parent().addClass("active");
+    }
+
     function authTeacher() {
         $("#loginPage").css("display", "none");
         $("#navBarStudent").css("display", "none");
@@ -515,505 +615,444 @@ $(function () {
         $(".navButton[href='#userList']").parent().addClass("active");
     }
 
-    if ($("#selectCountry1").html() == "") {
-        $.ajax({
-            method: "POST",
-            url: "/home",
-            data: {
-                action: "selectCountries"
-            },
-            success: function (resp) {
-                resp = JSON.parse(resp);
-                var key;
-                for (key in resp) {
-                    $("#selectCountry1").append("<option>" + resp[key]['nameFr'] + "</option>");
-                }
-            },
-            error: function (error) {
-                console.log("Problème lors de la récuperation de la liste des pays");
-            }
-        });
-    }
-    if ($("#selectDep1").html() == "") {
-        $.ajax({
-            method: "POST",
-            url: "/home",
-            data: {
-                action: "selectDepartments"
-            },
-            success: function (resp) {
-                resp = JSON.parse(resp);
-                var key;
-                for (key in resp) {
-                    $("#selectDep1").append("<option>" + resp[key]['label'] + "</option>");
-                }
-            },
-            error: function (error) {
-                console.log("Problème lors de la récuperation de la liste des departements");
-            }
-        });
-    }
-    if ($("#selectProgram1").html() == "") {
-        $.ajax({
-            method: "POST",
-            url: "/home",
-            data: {
-                action: "selectPrograms"
-            },
-            success: function (resp) {
-                resp = JSON.parse(resp);
-                var key;
-                for (key in resp) {
-                    $("#selectProgram1").append("<option>" + resp[key]['name'] + "</option>");
-                }
-            },
-            error: function (error) {
-                console.log("Problème lors de la récuperation de la liste des programmes");
-            }
-        });
-    }
-    $(".active").removeClass("active");
-    $(".navButton[href='#addMobility']").parent().addClass("active");
+	function loadAddPartner() {
+	    $("#loginPage").css("display", "none");
+	    $("#navBarStudent").css("display", "block");
+	    $("#navBarTeacher").css("display", "none");
+	    $("#profilePage").css("display", "none");
+	    $("#studentHomePage").css("display", "none");
+	    $("#teacherHomePage").css("display", "none");
+	    $("#addMobilityPage").css("display", "none");
+	    $("#addPartnerPage").css("display", "block");
+	    $("#listPage").css("display", "none");
+	    $("#userListPage").css("display", "none");
+		$("#paymentPage").css("display", "none");
+	    $(".active").removeClass("active");
+	    $(".navButton[href='#addPartner']").parent().addClass("active");
+
+	    if ($("#add_partner_country").html() == "") {
+	        $.ajax({
+	            method: "POST",
+	            url: "/home",
+	            data: {
+	                action: "selectCountries"
+	            },
+	            success: function (resp) {
+	                resp = JSON.parse(resp);
+	                var key;
+	                for (key in resp) {
+	                    $("#add_partner_country").append("<option>" + resp[key]['nameFr'] + "</option>");
+	                }
+	            },
+	            error: function (error) {
+	                console.log("Problème lors de la récuperation de la liste des pays");
+	            }
+	        });
+	    }
+	}
+
+	function loadRegisterPage() {
+	    $("#loginPage").css("display", "none");
+	    $("#navBarStudent").css("display", "none");
+	    $("#navBarTeacher").css("display", "none");
+	    $("#profilePage").css("display", "none");
+	    $("#studentHomePage").css("display", "none");
+	    $("#teacherHomePage").css("display", "none");
+	    $("#addPartnerPage").css("display", "none");
+	    $("#registerPage").css("display", "block");
+	    $("#listPage").css("display", "none");
+	    $("#userListPage").css("display", "none");
+		$("#paymentPage").css("display", "none");
+	}
 
 
-function loadAddPartner() {
-    $("#loginPage").css("display", "none");
-    $("#navBarStudent").css("display", "block");
-    $("#navBarTeacher").css("display", "none");
-    $("#profilePage").css("display", "none");
-    $("#studentHomePage").css("display", "none");
-    $("#teacherHomePage").css("display", "none");
-    $("#addMobilityPage").css("display", "none");
-    $("#addPartnerPage").css("display", "block");
-    $("#listPage").css("display", "none");
-    $("#userListPage").css("display", "none");
-	$("#paymentPage").css("display", "none");
-    $(".active").removeClass("active");
-    $(".navButton[href='#addPartner']").parent().addClass("active");
+	function loadProfilePage() {
+	    $("#loginPage").css("display", "none");
+	    $("#navBarStudent").css("display", "block");
+	    $("#navBarTeacher").css("display", "none");
+	    $("#profilePage").css("display", "block");
+	    $("#studentHomePage").css("display", "none");
+	    $("#teacherHomePage").css("display", "none");
+	    $("#addPartnerPage").css("display", "none");
+		$("#addMobilityPage").css("display", "none");
+	    $("#registerPage").css("display", "none");
+	    $("#listPage").css("display", "none");
+	    $("#userListPage").css("display", "none");
+		$("#paymentPage").css("display", "none");
 
-    if ($("#add_partner_country").html() == "") {
-        $.ajax({
-            method: "POST",
-            url: "/home",
-            data: {
-                action: "selectCountries"
-            },
-            success: function (resp) {
-                resp = JSON.parse(resp);
-                var key;
-                for (key in resp) {
-                    $("#add_partner_country").append("<option>" + resp[key]['nameFr'] + "</option>");
-                }
-            },
-            error: function (error) {
-                console.log("Problème lors de la récuperation de la liste des pays");
-            }
-        });
-    }
-}
+		$(".active").removeClass("active");
+		$(".navButton[href='#myInformations']").parent().addClass("active");
 
-function loadRegisterPage() {
-    $("#loginPage").css("display", "none");
-    $("#navBarStudent").css("display", "none");
-    $("#navBarTeacher").css("display", "none");
-    $("#profilePage").css("display", "none");
-    $("#studentHomePage").css("display", "none");
-    $("#teacherHomePage").css("display", "none");
-    $("#addPartnerPage").css("display", "none");
-    $("#registerPage").css("display", "block");
-    $("#listPage").css("display", "none");
-    $("#userListPage").css("display", "none");
-	$("#paymentPage").css("display", "none");
-}
+		$.ajax({
+			method: 'POST',
+			url: '/home',
+			data: {
+				action: 'selectProfile'
+			},
+			success: function(resp){
+				console.log(resp);
+				resp = JSON.parse(resp);
+				$("input[name='name']").val(resp['name']);
+				$("input[name='firstname']").val(resp['firstname']);
+				$("input[name='gender']").val(resp['gender']);
+				//	TODO : Gérer la date de naissance
+				// $("input[name='birthdate']").val(resp['birthdate']);
+				$("input[name='citizenship']").val(resp['citizenship']);
+				$("input[name='street']").val(resp['street']);
+				$("input[name='houseNumber']").val(resp['houseNumber']);
+	            $("input[name='mailbox']").val(resp['mailbox']);
+				$("input[name='zipcode']").val(resp['zip']);
+				$("input[name='tel']").val(resp['tel']);
+				$("input[name='email']").val(resp['email']);
+				$("input[name='successfullYearsInCollege']").val(resp['successfullYearInCollege']);
+				//$("input[name='iban ']").val(resp["iban"]["value"]);
+				$("input[name='accountHolder']").val(resp['accountHolder']);
+				$("input[name='bankName']").val(resp['bankName']);
+				$("input[name='bic']").val(resp['bic']);
+			},
+			error: function(error){
+				console.log("Pré-remplissage du profil impossible");
+			}
+		});
+	}
 
+	function loadMobility() {
+	    $(function () {
+	        $.ajax({
+	            method: "POST",
+	            url: "/home",
+	            data: {
+	                action: "selectAllMobility",
+	            },
+	            success: function (resp) {
+	                if (resp === ""){
+						$("#empty").empty();
+						$("#list").after("<p id=\"empty\" class=\"text-center\"><strong> Il n'y aucune demande actuellement. </strong></p>");
+					}else{
+						clearButtons();
+						resp = JSON.parse(resp);
+						$("#list tbody").empty();
+						$("#empty").empty();
 
-function loadProfilePage() {
-    $("#loginPage").css("display", "none");
-    $("#navBarStudent").css("display", "block");
-    $("#navBarTeacher").css("display", "none");
-    $("#profilePage").css("display", "block");
-    $("#studentHomePage").css("display", "none");
-    $("#teacherHomePage").css("display", "none");
-    $("#addPartnerPage").css("display", "none");
-	$("#addMobilityPage").css("display", "none");
-    $("#registerPage").css("display", "none");
-    $("#listPage").css("display", "none");
-    $("#userListPage").css("display", "none");
-	$("#paymentPage").css("display", "none");
+						for (key in resp) {
 
-	$(".active").removeClass("active");
-	$(".navButton[href='#myInformations']").parent().addClass("active");
+							$("#list tbody").append(
+								"<tr class=\"clickable\">"+ 
+									//"onclick=\"document.location = '/home#confirmedMobility';\">"+//&id="+resp[key]['id']+"';\">" +
+								//TODO (jonathan) ajouter le liens vers les détails
+								"<td>" + resp[key]['id'] + "</td>" +
+									"<td>" + resp[key]['studentDto']['name'] + "</td>" +
+									"<td>" + resp[key]['studentDto']['firstname'] + "</td>" +
+									"<td>" + resp[key]['departmentDto']['label'] + "</td>" +
+									"<td>" + resp[key]['preferenceOrder'] + "</td>" +
+									"<td>" + resp[key]['programDto']['name'] + "</td>" +
+									"<td>" + resp[key]['type'] + "</td>" +
+									"<td>" + resp[key]['quadrimester'] + "</td>" +
+									//+"<td>"+resp[key]['partnerDto']['legal_name']+"</td> +"
+									"<td></td>"+
+									"<td>" + resp[key]['status'] + "</td>"+							
+									"<td></td><td></td>"
+								+ "</tr>");
+						}
+						
+						$("#list tr td:nth-child(10)").each(function(){
+							if ($(this).html() !== "Annulee") {
+								$(this).next().append("<button class=\"btnNommer btn btn-info\">Annuler</button>");
+							} else {
+								$(this).parent().addClass("danger");
+							}
+							if ($(this).html() === "En attente"){
+								$(this).next().next().append("<button class=\"btnNommer btn btn-info\">Confirmer</button>");
+							}
+						});
+						
+					}
+	            },
+	            error: function (error) {
+	                console.log("Connexion echouée");
+	            }
+	        });
+	    });
+	}
 
-	$.ajax({
-		method: 'POST',
-		url: '/home',
-		data: {
-			action: 'selectProfile'
-		},
-		success: function(resp){
-			console.log(resp);
-			resp = JSON.parse(resp);
-			$("input[name='name']").val(resp['name']);
-			$("input[name='firstname']").val(resp['firstname']);
-			$("input[name='gender']").val(resp['gender']);
-			//	TODO : Gérer la date de naissance
-			// $("input[name='birthdate']").val(resp['birthdate']);
-			$("input[name='citizenship']").val(resp['citizenship']);
-			$("input[name='street']").val(resp['street']);
-			$("input[name='houseNumber']").val(resp['houseNumber']);
-            $("input[name='mailbox']").val(resp['mailbox']);
-			$("input[name='zipcode']").val(resp['zip']);
-			$("input[name='tel']").val(resp['tel']);
-			$("input[name='email']").val(resp['email']);
-			$("input[name='successfullYearsInCollege']").val(resp['successfullYearInCollege']);
-			//$("input[name='iban ']").val(resp["iban"]["value"]);
-			$("input[name='accountHolder']").val(resp['accountHolder']);
-			$("input[name='bankName']").val(resp['bankName']);
-			$("input[name='bic']").val(resp['bic']);
-		},
-		error: function(error){
-			console.log("Pré-remplissage du profil impossible");
+	// Managing of filter buttons
+
+	$("#info").on("click", function(){
+		if($(this).hasClass('btn-primary')){
+			resetAllDemandsDisplay();
+		}else{
+			clearButtons();
+			$(this).addClass("btn-primary").removeClass("btn-default");
+			demandsDisplayManagement("Informatique de gestion");
 		}
 	});
-}
 
-function loadMobility() {
-    $(function () {
-        $.ajax({
-            method: "POST",
-            url: "/home",
-            data: {
-                action: "selectAllMobility",
-            },
-            success: function (resp) {
-                if (resp === ""){
-					$("#empty").empty();
-					$("#list").after("<p id=\"empty\" class=\"text-center\"><strong> Il n'y aucune demande actuellement. </strong></p>");
-				}else{
-					clearButtons();
+	$("#chim").on("click", function(){
+		if($(this).hasClass('btn-primary')){
+			resetAllDemandsDisplay();
+		}else{
+			clearButtons();
+			$(this).addClass("btn-primary").removeClass("btn-default");
+			demandsDisplayManagement("Chimie");
+		}
+	});
+
+	$("#biomed").on("click", function(){
+		if($(this).hasClass('btn-primary')){
+			resetAllDemandsDisplay();
+		}else{
+			clearButtons();
+			$(this).addClass("btn-primary").removeClass("btn-default");
+			demandsDisplayManagement("Biologie médicale");
+		}
+	});
+
+	$("#imamed").on("click", function(){
+		if($(this).hasClass('btn-primary')){
+			resetAllDemandsDisplay();
+		}else{
+			clearButtons();
+			$(this).addClass("btn-primary").removeClass("btn-default");
+			demandsDisplayManagement("Imagerie médicale");
+		}
+	});
+
+	$("#diet").on("click", function(){
+		if($(this).hasClass('btn-primary')){
+			resetAllDemandsDisplay();
+		}else{
+			clearButtons();
+			$(this).addClass("btn-primary").removeClass("btn-default");
+			demandsDisplayManagement("Diététique");
+		}
+	});
+
+	function resetAllDemandsDisplay(){
+		$("#list tr").each(function(){
+			$(this).css("display", "table-row"); 
+		});
+		clearButtons();
+	}
+
+	function clearButtons(){
+		$("#choice button").each(function(){
+			$(this).addClass('btn-default').removeClass("btn-primary");
+		});
+	}
+
+	function demandsDisplayManagement(department){
+		$("#list tr td:nth-child(4)").each(function(){
+			if($(this).html() === department){
+				if ($(this).parent().css("display") === "none"){
+					$(this).parent().css("display", "table-row");
+				}
+			}else{
+				$(this).parent().css("display", "none");
+			}
+		});
+	}
+
+	// Managing of the payment table
+
+	function loadPayment(){
+		$(function (){
+			$.ajax({
+	            method: "POST",
+	            url: "/home",
+	            data: {
+	                action: "academicYears"
+	            },
+	            success: function (resp) {
 					resp = JSON.parse(resp);
-					$("#list tbody").empty();
-					$("#empty").empty();
+					$('#selectYear').empty();
+					for(var i= 0; i < resp.length; i++){
+						var option = $('<option>');
+						$(option).val(resp[i]).text(resp[i]);
+						$('#selectYear').append(option);
+					}
+					$('#choix').trigger("change");
+	            },
+	            error: function (error) {
+	                console.log("Erreur sur le chargement des années académiques.");
+	            }
+	        });
+		});
+		
+		$(function () {
+	        $.ajax({
+	            method: "POST",
+	            url: "/home",
+	            data: {
+	                action: "selectPayments",
+	            },
+	            success: function (resp) {
+					if (resp === ""){
+						$("#empty").empty();
+						$("#myMobility").after("<p id=\"empty\" class=\"text-center\"><strong> Vous n'avez aucune mobilité actuellement. </strong></p>");
+					}else{
+						resp = JSON.parse(resp);
+						$("#myMobility tbody").empty();
+						$("#empty").empty();
 
-					for (key in resp) {
+						for (key in resp) {
 
-						$("#list tbody").append(
-							"<tr class=\"clickable\">"+ 
-								//"onclick=\"document.location = '/home#confirmedMobility';\">"+//&id="+resp[key]['id']+"';\">" +
-							//TODO (jonathan) ajouter le liens vers les détails
-							"<td>" + resp[key]['id'] + "</td>" +
-								"<td>" + resp[key]['studentDto']['name'] + "</td>" +
-								"<td>" + resp[key]['studentDto']['firstname'] + "</td>" +
-								"<td>" + resp[key]['departmentDto']['label'] + "</td>" +
+							$("#myMobility tbody").append(
+								"<tr>" +
 								"<td>" + resp[key]['preferenceOrder'] + "</td>" +
 								"<td>" + resp[key]['programDto']['name'] + "</td>" +
 								"<td>" + resp[key]['type'] + "</td>" +
+								"<td>" + resp[key]['countryDto']['nameFr'] + "</td>" +
 								"<td>" + resp[key]['quadrimester'] + "</td>" +
-								//+"<td>"+resp[key]['partnerDto']['legal_name']+"</td> +"
-								"<td></td>"+
-								"<td>" + resp[key]['status'] + "</td>"+							
+								"<td>" + resp[key]['status'] + "</td>"+
 								"<td></td><td></td>"
-							+ "</tr>");
+								+ "</tr>");
+
+						}	
+						$("#myMobility tr td:nth-child(6)").each(function () {
+							if ($(this).html() !== "Annulee") {
+								$(this).next().append("<button class=\"btnNommer btn btn-info\">Annuler</button>");
+							} else {
+								$(this).parent().addClass("danger");
+							}
+							if ($(this).html() === "En attente") {
+								$(this).next().next().append("<button class=\"btnNommer btn btn-info\">Confirmer</button>");
+							}
+						});
+					
 					}
 					
-					$("#list tr td:nth-child(10)").each(function(){
-						if ($(this).html() !== "Annulee") {
-							$(this).next().append("<button class=\"btnNommer btn btn-info\">Annuler</button>");
-						} else {
-							$(this).parent().addClass("danger");
+	            },
+	            error: function (error) {
+	                console.log("Connexion echouée");
+	            }
+	        });
+		});
+	}
+
+	// Managing of the confirmed table
+
+	function loadConfirmedMobility() {
+	    $(function () {
+	        $.ajax({
+	            method: "POST",
+	            url: "/home",
+	            data: {
+	                action: "selectConfirmedMobility",
+	            },
+	            success: function (resp) {
+					if (resp === ""){
+						$("#empty").empty();
+						$("#tableConfirmed").after("<p id=\"empty\" class=\"text-center\"><strong> Il n'y aucune demande confirmée actuellement. </strong></p>");
+					}else{
+						resp = JSON.parse(resp);
+						$("#tableConfirmed tbody").empty();
+						$("#empty").empty();
+
+						for (key in resp) {
+
+							$("#tableConfirmed tbody").append(
+								"<tr>" +
+								"<td>" + resp[key]['departmentDto']['label'] + "</td>" +
+								"<td>" + resp[key]['programDto']['name'] + "</td>" +
+								"<td>" + resp[key]['type'] + "</td>" +
+								"<td>" + resp[key]['countryDto']['nameFr'] + "</td>" +
+								"<td>" + resp[key]['studentDto']['name'] + "</td>" +
+								"<td>" + resp[key]['studentDto']['firstname'] + "</td>" +
+								"<td>" + resp[key]['status'] + "</td>"+
+								"<td></td>"
+								+ "</tr>");
+
 						}
-						if ($(this).html() === "En attente"){
-							$(this).next().next().append("<button class=\"btnNommer btn btn-info\">Confirmer</button>");
-						}
-					});
+						$("#tableConfirmed tr td:last-child").each(function () {
+							if ($(this).html() === "Annulee") {
+								$(this).parent().addClass("danger");
+							}
+						});
+					}
+	                
+	            },
+	            error: function (error) {
+	                console.log("Connexion echouée");
+	            }
+	        });
+
+	        
+
+	    });
+	}
+
+	// Managing of the "myMobility" table
+
+
+	function loadMyMobility() {
+	    $(function () {
+	        $.ajax({
+	            method: "POST",
+	            url: "/home",
+	            data: {
+	                action: "selectMyMobility",
+	            },
+	            success: function (resp) {
+					if (resp === ""){
+						$("#empty").empty();
+						$("#myMobility").after("<p id=\"empty\" class=\"text-center\"><strong> Vous n'avez aucune mobilité actuellement. </strong></p>");
+					}else{
+						resp = JSON.parse(resp);
+						$("#myMobility tbody").empty();
+						$("#empty").empty();
+
+						for (key in resp) {
+
+							$("#myMobility tbody").append(
+								"<tr>" +
+								"<td>" + resp[key]['preferenceOrder'] + "</td>" +
+								"<td>" + resp[key]['programDto']['name'] + "</td>" +
+								"<td>" + resp[key]['type'] + "</td>" +
+								"<td>" + resp[key]['countryDto']['nameFr'] + "</td>" +
+								"<td>" + resp[key]['quadrimester'] + "</td>" +
+								"<td>" + resp[key]['status'] + "</td>"+
+								"<td></td><td></td>"
+								+ "</tr>");
+
+						}	
+						$("#myMobility tr td:nth-child(6)").each(function () {
+							if ($(this).html() !== "Annulee") {
+								$(this).next().append("<button class=\"btnNommer btn btn-info\">Annuler</button>");
+							} else {
+								$(this).parent().addClass("danger");
+							}
+							if ($(this).html() === "En attente") {
+								$(this).next().next().append("<button class=\"btnNommer btn btn-info\">Confirmer</button>");
+							}
+						});
 					
-				}
-            },
-            error: function (error) {
-                console.log("Connexion echouée");
-            }
-        });
-    });
-}
-
-// Managing of filter buttons
-
-$("#info").on("click", function(){
-	if($(this).hasClass('btn-primary')){
-		resetAllDemandsDisplay();
-	}else{
-		clearButtons();
-		$(this).addClass("btn-primary").removeClass("btn-default");
-		demandsDisplayManagement("Informatique de gestion");
+					}
+					
+	            },
+	            error: function (error) {
+	                console.log("Connexion echouée");
+	            }
+	        });
+	    });
 	}
-});
 
-$("#chim").on("click", function(){
-	if($(this).hasClass('btn-primary')){
-		resetAllDemandsDisplay();
-	}else{
-		clearButtons();
-		$(this).addClass("btn-primary").removeClass("btn-default");
-		demandsDisplayManagement("Chimie");
-	}
-});
-
-$("#biomed").on("click", function(){
-	if($(this).hasClass('btn-primary')){
-		resetAllDemandsDisplay();
-	}else{
-		clearButtons();
-		$(this).addClass("btn-primary").removeClass("btn-default");
-		demandsDisplayManagement("Biologie médicale");
-	}
-});
-
-$("#imamed").on("click", function(){
-	if($(this).hasClass('btn-primary')){
-		resetAllDemandsDisplay();
-	}else{
-		clearButtons();
-		$(this).addClass("btn-primary").removeClass("btn-default");
-		demandsDisplayManagement("Imagerie médicale");
-	}
-});
-
-$("#diet").on("click", function(){
-	if($(this).hasClass('btn-primary')){
-		resetAllDemandsDisplay();
-	}else{
-		clearButtons();
-		$(this).addClass("btn-primary").removeClass("btn-default");
-		demandsDisplayManagement("Diététique");
-	}
-});
-
-function resetAllDemandsDisplay(){
-	$("#list tr").each(function(){
-		$(this).css("display", "table-row"); 
-	});
-	clearButtons();
-}
-
-function clearButtons(){
-	$("#choice button").each(function(){
-		$(this).addClass('btn-default').removeClass("btn-primary");
-	});
-}
-
-function demandsDisplayManagement(department){
-	$("#list tr td:nth-child(4)").each(function(){
-		if($(this).html() === department){
-			if ($(this).parent().css("display") === "none"){
-				$(this).parent().css("display", "table-row");
-			}
-		}else{
-			$(this).parent().css("display", "none");
+	function printToaster(type, message){
+		switch(type){
+			case "warning":
+				toastr.warning(message);
+				break;
+			case "error":
+				toastr.error(message);
+				break;
+			case "success":
+				toastr.success(message);
+				break;
+			case "info":
+				toastr.info(message);
+				break;
 		}
-	});
-}
 
-// Managing of the payment table
-
-function loadPayment(){
-	$(function (){
-		$.ajax({
-            method: "POST",
-            url: "/home",
-            data: {
-                action: "academicYears"
-            },
-            success: function (resp) {
-				resp = JSON.parse(resp);
-				$('#selectYear').empty();
-				for(var i= 0; i < resp.length; i++){
-					var option = $('<option>');
-					$(option).val(resp[i]).text(resp[i]);
-					$('#selectYear').append(option);
-				}
-				$('#choix').trigger("change");
-            },
-            error: function (error) {
-                console.log("Erreur sur le chargement des années académiques.");
-            }
-        });
-	});
-	
-	$(function () {
-        $.ajax({
-            method: "POST",
-            url: "/home",
-            data: {
-                action: "selectPayments",
-            },
-            success: function (resp) {
-				if (resp === ""){
-					$("#empty").empty();
-					$("#myMobility").after("<p id=\"empty\" class=\"text-center\"><strong> Vous n'avez aucune mobilité actuellement. </strong></p>");
-				}else{
-					resp = JSON.parse(resp);
-					$("#myMobility tbody").empty();
-					$("#empty").empty();
-
-					for (key in resp) {
-
-						$("#myMobility tbody").append(
-							"<tr>" +
-							"<td>" + resp[key]['preferenceOrder'] + "</td>" +
-							"<td>" + resp[key]['programDto']['name'] + "</td>" +
-							"<td>" + resp[key]['type'] + "</td>" +
-							"<td>" + resp[key]['countryDto']['nameFr'] + "</td>" +
-							"<td>" + resp[key]['quadrimester'] + "</td>" +
-							"<td>" + resp[key]['status'] + "</td>"+
-							"<td></td><td></td>"
-							+ "</tr>");
-
-					}	
-					$("#myMobility tr td:nth-child(6)").each(function () {
-						if ($(this).html() !== "Annulee") {
-							$(this).next().append("<button class=\"btnNommer btn btn-info\">Annuler</button>");
-						} else {
-							$(this).parent().addClass("danger");
-						}
-						if ($(this).html() === "En attente") {
-							$(this).next().next().append("<button class=\"btnNommer btn btn-info\">Confirmer</button>");
-						}
-					});
-				
-				}
-				
-            },
-            error: function (error) {
-                console.log("Connexion echouée");
-            }
-        });
-	});
-}
-
-// Managing of the confirmed table
-
-function loadConfirmedMobility() {
-    $(function () {
-        $.ajax({
-            method: "POST",
-            url: "/home",
-            data: {
-                action: "selectConfirmedMobility",
-            },
-            success: function (resp) {
-				if (resp === ""){
-					$("#empty").empty();
-					$("#tableConfirmed").after("<p id=\"empty\" class=\"text-center\"><strong> Il n'y aucune demande confirmée actuellement. </strong></p>");
-				}else{
-					resp = JSON.parse(resp);
-					$("#tableConfirmed tbody").empty();
-					$("#empty").empty();
-
-					for (key in resp) {
-
-						$("#tableConfirmed tbody").append(
-							"<tr>" +
-							"<td>" + resp[key]['departmentDto']['label'] + "</td>" +
-							"<td>" + resp[key]['programDto']['name'] + "</td>" +
-							"<td>" + resp[key]['type'] + "</td>" +
-							"<td>" + resp[key]['countryDto']['nameFr'] + "</td>" +
-							"<td>" + resp[key]['studentDto']['name'] + "</td>" +
-							"<td>" + resp[key]['studentDto']['firstname'] + "</td>" +
-							"<td>" + resp[key]['status'] + "</td>"+
-							"<td></td>"
-							+ "</tr>");
-
-					}
-					$("#tableConfirmed tr td:last-child").each(function () {
-						if ($(this).html() === "Annulee") {
-							$(this).parent().addClass("danger");
-						}
-					});
-				}
-                
-            },
-            error: function (error) {
-                console.log("Connexion echouée");
-            }
-        });
-
-        
-
-    });
-}
-
-// Managing of the "myMobility" table
-
-
-function loadMyMobility() {
-    $(function () {
-        $.ajax({
-            method: "POST",
-            url: "/home",
-            data: {
-                action: "selectMyMobility",
-            },
-            success: function (resp) {
-				if (resp === ""){
-					$("#empty").empty();
-					$("#myMobility").after("<p id=\"empty\" class=\"text-center\"><strong> Vous n'avez aucune mobilité actuellement. </strong></p>");
-				}else{
-					resp = JSON.parse(resp);
-					$("#myMobility tbody").empty();
-					$("#empty").empty();
-
-					for (key in resp) {
-
-						$("#myMobility tbody").append(
-							"<tr>" +
-							"<td>" + resp[key]['preferenceOrder'] + "</td>" +
-							"<td>" + resp[key]['programDto']['name'] + "</td>" +
-							"<td>" + resp[key]['type'] + "</td>" +
-							"<td>" + resp[key]['countryDto']['nameFr'] + "</td>" +
-							"<td>" + resp[key]['quadrimester'] + "</td>" +
-							"<td>" + resp[key]['status'] + "</td>"+
-							"<td></td><td></td>"
-							+ "</tr>");
-
-					}	
-					$("#myMobility tr td:nth-child(6)").each(function () {
-						if ($(this).html() !== "Annulee") {
-							$(this).next().append("<button class=\"btnNommer btn btn-info\">Annuler</button>");
-						} else {
-							$(this).parent().addClass("danger");
-						}
-						if ($(this).html() === "En attente") {
-							$(this).next().next().append("<button class=\"btnNommer btn btn-info\">Confirmer</button>");
-						}
-					});
-				
-				}
-				
-            },
-            error: function (error) {
-                console.log("Connexion echouée");
-            }
-        });
-    });
-}
-
-function printToaster(type, message){
-	switch(type){
-		case "warning":
-			toastr.warning(message);
-			break;
-		case "error":
-			toastr.error(message);
-			break;
-		case "success":
-			toastr.success(message);
-			break;
-		case "info":
-			toastr.info(message);
-			break;
 	}
-
-}
 
 
 	// Export to CSV
