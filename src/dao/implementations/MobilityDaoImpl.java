@@ -121,11 +121,7 @@ public class MobilityDaoImpl implements MobilityDao {
   }
 
   @Override
-  public ArrayList<MobilityDto> getFullMobilitiesDepartements(String departements) {
-    if (departements != null) {
-      queryFull += " AND (d.label = '" + departements + "' )";
-    }
-
+  public ArrayList<MobilityDto> getFullMobilitiesDepartements() {
     PreparedStatement preparedStatement = null;
     try {
       preparedStatement = dalBackendServices.prepare(queryFull);

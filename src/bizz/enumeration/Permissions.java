@@ -1,8 +1,9 @@
 package bizz.enumeration;
 
 /**
- * Define the permissions.
+ * Define the permissions
  */
 public enum Permissions {
-  STUDENT, TEACHER
+    STUDENT,
+    TEACHER
 }

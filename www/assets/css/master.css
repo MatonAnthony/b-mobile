@@ -21,3 +21,13 @@ body {
 main{
     padding-top: 15px;
 }
+
+.clickable{
+	cursor: pointer;
+}
+
+.dropdown:hover .dropdown-menu {
+    display: block;
+    margin-top: 0;
+ }
+ 

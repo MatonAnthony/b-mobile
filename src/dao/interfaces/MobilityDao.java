@@ -23,7 +23,7 @@ public interface MobilityDao {
    * @return an ArrayList of MobilityDto.
    */
 
-  ArrayList<MobilityDto> getFullMobilitiesDepartements(String departements);
+  ArrayList<MobilityDto> getFullMobilitiesDepartements();
 
   /**
    * Return an ArrayList containing all the confirmed mobilities stored in database.

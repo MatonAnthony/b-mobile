@@ -16,11 +16,9 @@ public interface MobilityUcController {
   /**
    * Return an ArrayList containing all the mobilities of one departements stored in database.
    * 
-   * @param departements name of departements for witch you want his mobilities
-   * 
    * @return an ArrayList of MobilityDto.
    */
-  ArrayList<MobilityDto> getMobilitiesDepartements(String departements);
+  ArrayList<MobilityDto> getMobilitiesDepartements();
 
   /**
    * Return an ArrayList containing all the confirmed mobilities stored in database.

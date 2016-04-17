@@ -12,7 +12,18 @@
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li class="active"><a href="#confirmedMobility" class="navButton"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Mobilités confirmées</a></li>
-                    <li><a href="#list" class="navButton"><span class="glyphicon glyphicon-euro" aria-hidden="true"></span> Liste de demande et paiement</a></li>
+					
+                    <li class="dropdown navButton">
+						<a href="#2lists" class="navButton dropdown-toggle" data-toggle="dropdown">
+							<span class="glyphicon glyphicon-euro" aria-hidden="true"></span> 
+							Liste de demandes et paiements
+						</a>
+						<ul class="dropdown-menu">
+                                <li><a href="#list" class="navButton">Demandes</a></li>
+                                <li><a href="#payment" class="navButton">Paiements</a></li>
+                        </ul>
+					</li>
+					
                     <li><a href="#userList" class="navButton"><span class="glyphicon glyphicon glyphicon-list-alt" aria-hidden="true"></span> Liste des utilisateurs</a></li>
                     <li class="dropdown"></li>
                 </ul>

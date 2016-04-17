@@ -30,8 +30,8 @@ public class MobilityUcControllerImpl implements MobilityUcController {
   }
 
   @Override
-  public ArrayList<MobilityDto> getMobilitiesDepartements(String departements) {
-    return mobilityDao.getFullMobilitiesDepartements(departements);
+  public ArrayList<MobilityDto> getMobilitiesDepartements() {
+    return mobilityDao.getFullMobilitiesDepartements();
   }
 
 
