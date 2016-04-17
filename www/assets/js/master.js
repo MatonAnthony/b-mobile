@@ -699,8 +699,8 @@ function loadMobility() {
 
 						$("#list tbody").append(
 							"<tr class=\"clickable\">"+ 
-								//"onclick=\"url.replace = '/home#confirmedMobility';\">"+//&id="+resp[key]['id']+"';\">" +
-							
+								//"onclick=\"document.location = '/home#confirmedMobility';\">"+//&id="+resp[key]['id']+"';\">" +
+							//TODO (jonathan) ajouter le liens vers les détails
 							"<td>" + resp[key]['id'] + "</td>" +
 								"<td>" + resp[key]['studentDto']['name'] + "</td>" +
 								"<td>" + resp[key]['studentDto']['firstname'] + "</td>" +
@@ -813,7 +813,32 @@ function demandsDisplayManagement(department){
 	});
 }
 
+// Managing of the payment table
+
 function loadPayment(){
+	$(function (){
+		$.ajax({
+            method: "POST",
+            url: "/home",
+            data: {
+                action: "academicYears"
+            },
+            success: function (resp) {
+				resp = JSON.parse(resp);
+				$('#selectYear').empty();
+				for(var i= 0; i < resp.length; i++){
+					var option = $('<option>');
+					$(option).val(resp[i]).text(resp[i]);
+					$('#selectYear').append(option);
+				}
+				$('#choix').trigger("change");
+            },
+            error: function (error) {
+                console.log("Erreur sur le chargement des années académiques.");
+            }
+        });
+	});
+	
 	$(function () {
         $.ajax({
             method: "POST",

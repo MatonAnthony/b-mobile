@@ -8,7 +8,6 @@ import dto.PartnerDto;
 import dto.ProgramDto;
 import dto.UserDto;
 import exceptions.AuthenticationException;
-import exceptions.NoCountryException;
 import exceptions.NoDepartmentException;
 import ucc.interfaces.CancelationUcController;
 import ucc.interfaces.CountryUcController;
@@ -37,7 +36,6 @@ import java.nio.charset.Charset;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SignatureException;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -178,6 +176,9 @@ public class Servlet extends HttpServlet {
           break;
         case "changePermissions":
           changePermissions(req, resp);
+          break;
+        case "academicYears":
+          loadAcademicYears(req, resp);
           break;
         default:
           resp.setStatus(HttpStatus.BAD_REQUEST_400);
@@ -486,13 +487,14 @@ public class Servlet extends HttpServlet {
     mobility.setType(req.getParameter("type"));
     mobility.setQuadrimester(Integer.parseInt(req.getParameter("quadrimestre")));
     try {
-      mobility.setDepartementDto(departmentUcc.getDepartmentByLabel(req.getParameter("department")));
+      mobility
+          .setDepartementDto(departmentUcc.getDepartmentByLabel(req.getParameter("department")));
     } catch (NoDepartmentException exc) {
       createToaster(exc, resp);
     }
     try {
       mobility.setCountryDto(countryUcc.getCountryByNameFr(req.getParameter("country")));
-    } catch (Exception exc){
+    } catch (Exception exc) {
       createToaster(exc, resp);
     }
 
@@ -514,7 +516,7 @@ public class Servlet extends HttpServlet {
     partner.setBusiness(req.getParameter("business_name"));
     try {
       partner.setCountryDto(countryUcc.getCountryByNameFr(req.getParameter("country")));
-    } catch (Exception exc){
+    } catch (Exception exc) {
       createToaster(exc, resp);
     }
     partner.setFullName(req.getParameter("full_name"));
@@ -532,6 +534,23 @@ public class Servlet extends HttpServlet {
     partner.setWebsite(req.getParameter("website"));
 
     partnerUcc.addPartner(partner);
+  }
+
+  /**
+   * The method used by the servlet to load the academic years
+   * 
+   * @param req The request received by the server.
+   * @param resp The response sended by the server.
+   */
+  private void loadAcademicYears(HttpServletRequest req, HttpServletResponse resp) {
+    ArrayList<String> academicYears = mobilityUcc.getAcademicYears();
+    String json = userGenson.serialize(academicYears);
+    try {
+      resp.getWriter().println(json);
+    } catch (IOException exc) {
+      exc.printStackTrace();
+    }
+    resp.setStatus(HttpStatus.ACCEPTED_202);
   }
 
   /**

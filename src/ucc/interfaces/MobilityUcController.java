@@ -38,4 +38,11 @@ public interface MobilityUcController {
 
   void addMobility(MobilityDto mobility);
 
+  /**
+   * Return an ArrayList containing all the academic years stored in database.
+   * 
+   * @return an ArrayList with the academic years.
+   */
+  ArrayList<String> getAcademicYears();
+
 }

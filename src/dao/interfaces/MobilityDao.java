@@ -42,4 +42,11 @@ public interface MobilityDao {
 
   ArrayList<MobilityDto> getFullMyMobilities(String user);
 
+  /**
+   * Return an ArrayList containing all the academic years stored in database.
+   * 
+   * @return an ArrayList with the academic years.
+   */
+  ArrayList<String> getAllAcademicYears();
+
 }

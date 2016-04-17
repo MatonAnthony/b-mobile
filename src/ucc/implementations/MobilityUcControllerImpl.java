@@ -63,4 +63,9 @@ public class MobilityUcControllerImpl implements MobilityUcController {
 
   }
 
+  @Override
+  public ArrayList<String> getAcademicYears() {
+    return mobilityDao.getAllAcademicYears();
+  }
+
 }

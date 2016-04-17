@@ -122,10 +122,10 @@ public class MobilityDaoImpl implements MobilityDao {
 
   @Override
   public ArrayList<MobilityDto> getFullMobilitiesDepartements() {
-
+    String queryTemp = queryFull + "ORDER BY m.id ASC";
     PreparedStatement preparedStatement = null;
     try {
-      preparedStatement = dalBackendServices.prepare(queryFull);
+      preparedStatement = dalBackendServices.prepare(queryTemp);
       ArrayList<MobilityDto> mobilities = new ArrayList<MobilityDto>();
       try (ResultSet resultSet = preparedStatement.executeQuery()) {
         while (resultSet.next()) {
@@ -145,7 +145,8 @@ public class MobilityDaoImpl implements MobilityDao {
   @Override
   public ArrayList<MobilityDto> getFullConfirmedMobilities() {
 
-    String queryTemp = queryFull + " AND m.status != 'En attente' AND m.canceled = 'false'";
+    String queryTemp =
+        queryFull + " AND m.status != 'En attente' AND m.canceled = 'false' ORDER BY m.id ASC";
 
     PreparedStatement preparedStatement = null;
     try {
@@ -170,8 +171,7 @@ public class MobilityDaoImpl implements MobilityDao {
   @Override
   public ArrayList<MobilityDto> getFullMyMobilities(String pseudo) {
 
-    String queryTemp = queryFull + " AND (u.pseudo = '" + pseudo + "' )";
-
+    String queryTemp = queryFull + " AND (u.pseudo = '" + pseudo + "' ) ORDER BY m.id ASC";
     PreparedStatement preparedStatement = null;
     try {
       preparedStatement = dalBackendServices.prepare(queryTemp);
@@ -309,6 +309,29 @@ public class MobilityDaoImpl implements MobilityDao {
      * mobilitydto.getCancelationDto().setVerNr(resultSet.getInt(87));
      */
     return mobilitydto;
+  }
+
+  @Override
+  public ArrayList<String> getAllAcademicYears() {
+    String queryAcademicYears =
+        "SELECT DISTINCT academic_year FROM bmobile.mobilities ORDER BY academic_year DESC";
+    PreparedStatement preparedStatement = null;
+    try {
+      preparedStatement = dalBackendServices.prepare(queryAcademicYears);
+      ArrayList<String> academicYears = new ArrayList<String>();
+      try (ResultSet resultSet = preparedStatement.executeQuery()) {
+        while (resultSet.next()) {
+          academicYears.add(resultSet.getString(1));
+        }
+        return academicYears;
+      } catch (SQLException exc2) {
+        exc2.printStackTrace();
+        return null;
+      }
+    } catch (SQLException exc) {
+      exc.printStackTrace();
+      return null;
+    }
   }
 
 
