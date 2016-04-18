@@ -19,9 +19,13 @@ $(function () {
     window.onpopstate = function (event) {
         changePage();
     };
+    
     function changePage() {
         var state = history.state;
-        if (null === state)return true;
+        if (null === state){
+            disconnect();
+            return true;
+        }
         switch (state['page']) {
             case "userList" :
                 loadUserList();
@@ -51,6 +55,7 @@ $(function () {
 				loadPaymentPage();
 				break;
             default:
+                disconnect();
                 break;
         }
     }
@@ -367,39 +372,39 @@ $(function () {
     $(".navButton").click(function () {
         switch ($(this).attr("href")) {
             case "#myMobility":
-                authStudent();
+                //authStudent();
                 history.pushState({page: "myMobility"}, "Mes mobilités", "/home#myMobility");
                 break;
             case "#confirmedMobility":
-                authTeacher();
+                //authTeacher();
                 history.pushState({page: "confirmedMobility"}, "Mobilites Confirmées", "/home#confirmedMobility");
                 break;
             case "#addMobility" :
-                loadAddMobility();
+                //loadAddMobility();
                 history.pushState({page: "addMobility"}, "Ajouter une mobilité", "/home#addMobility");
                 break;
             case "#disconnect" :
-                disconnect();
-                history.pushState({page: "index"}, "Page d'accueil", "/home");
+                //disconnect();
+                history.pushState({page: "index"}, "Page d'accueil", "/home#disconnect");
                 break;
             case "#list":
-                loadList();
+                //loadList();
                 history.pushState({page: "list"}, "Liste des demandes", "/home#list");
                 break;
             case "#userList":
-                loadUserList();
+                //loadUserList();
                 history.pushState({page: "userList"}, "Liste des utilisateurs", "/home#userList");
                 break;
             case "#addPartner":
-                loadAddPartner();
+                //loadAddPartner();
                 history.pushState({page: "addPartner"}, "Ajouter un partenaire", "/home#addPartner");
                 break;
             case "#myInformations":
-                loadProfilePage();
+                //loadProfilePage();
                 history.pushState({page: "myInformations"}, "Modifier mes informations", "/home#myInformations");
                 break;
 			case "#payment" :
-				loadPaymentPage();
+				//loadPaymentPage();
 				history.pushState({page: "payment"}, "Liste des paiements", "/home#payment");
 				break;
         }
@@ -425,6 +430,7 @@ $(function () {
     }
 
     function loadAddMobility() {
+        console.log("loadAddMobility");
         $("#loginPage").css("display", "none");
         $("#navBarStudent").css("display", "block");
         $("#navBarTeacher").css("display", "none");
