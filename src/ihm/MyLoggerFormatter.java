@@ -1,9 +1,12 @@
 package ihm;
 
-import java.util.logging.*;
+
 import java.util.Date;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.logging.Formatter;
+import java.util.logging.Handler;
+import java.util.logging.LogRecord;
 
 /**
  * Created by kamil on 18.04.2016.
@@ -25,11 +28,11 @@ class MyLoggerFormatter extends Formatter {
     return builder.toString();
   }
 
-  public String getHead(Handler h) {
-    return super.getHead(h);
+  public String getHead(Handler handler) {
+    return super.getHead(handler);
   }
 
-  public String getTail(Handler h) {
-    return super.getTail(h);
+  public String getTail(Handler handler) {
+    return super.getTail(handler);
   }
 }

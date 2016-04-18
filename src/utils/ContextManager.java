@@ -6,7 +6,7 @@ import java.util.Properties;
 
 /**
  * ContextManager pour la gestion des properties.
- * 
+ *
  * @author Martin
  * @since 7 mars 2016
  */
@@ -27,10 +27,10 @@ public class ContextManager {
       FileInputStream file;
       if (buildConfig.containsKey("status") && buildConfig.containsValue("DEBUG")) {
         env = "debug";
-        file = new FileInputStream("src/"+env+".properties");
+        file = new FileInputStream("src/" + env + ".properties");
       } else {
         env = "prod";
-        file = new FileInputStream("src/"+env+".properties");
+        file = new FileInputStream("src/" + env + ".properties");
       }
       props.load(file);
       file.close();
@@ -41,7 +41,7 @@ public class ContextManager {
 
   /**
    * Permet de récuperer une propriete stockee dans le fichier de proprietes.
-   * 
+   *
    * @param property Le nom de la propriete a trouver.
    * @return La valeur stockee dans la propriete.
    */

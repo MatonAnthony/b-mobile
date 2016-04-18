@@ -227,7 +227,8 @@ public class MobilityDaoImpl implements MobilityDao {
 
     Timestamp registrationDate = resultSet.getTimestamp(36);
     if (null != registrationDate) {
-      mobilitydto.getStudentDto().setRegistrationDate(registrationDate.toLocalDateTime().toLocalDate());
+      mobilitydto.getStudentDto().setRegistrationDate(registrationDate.toLocalDateTime().
+          toLocalDate());
     }
     mobilitydto.getStudentDto().setPermissions(resultSet.getString(37));
     Timestamp birthdate = resultSet.getTimestamp(38);
