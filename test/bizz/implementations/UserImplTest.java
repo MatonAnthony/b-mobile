@@ -52,14 +52,6 @@ public class UserImplTest {
   }
 
   /*
-   * Test return pseudo when there is no pseudo defined.
-   */
-  @Test(expected = NullPointerException.class)
-  public void testGetPseudo() {
-    empty.getPseudo();
-  }
-
-  /*
    * Test return pseudo
    */
   @Test
@@ -85,14 +77,6 @@ public class UserImplTest {
   }
 
   /*
-   * Test getPassword() when there is no password defined yet
-   */
-  @Test(expected = NullPointerException.class)
-  public void testGetPassword1() {
-    empty.getPassword();
-  }
-
-  /*
    * Test getPassword()
    */
   @Test
@@ -115,14 +99,6 @@ public class UserImplTest {
   public void testSetPassword1() {
     puppet.setPassword("password");
     assertEquals(puppet.getPassword(), "password");
-  }
-
-  /*
-   * Test getName() when the User doesn't have a name
-   */
-  @Test(expected = NullPointerException.class)
-  public void testGetName() {
-    empty.getName();
   }
 
   /*
@@ -152,14 +128,6 @@ public class UserImplTest {
 
 
   /*
-   * Test getFirstname() when firstname is not yet defined
-   */
-  @Test(expected = NullPointerException.class)
-  public void testGetFirstname() {
-    empty.getFirstname();
-  }
-
-  /*
    * Test getFirstname() when firstname is defined
    */
   @Test
@@ -182,14 +150,6 @@ public class UserImplTest {
   public void testSetFirstname1() {
     puppet.setFirstname("rico");
     assertEquals(puppet.getFirstname(), "rico");
-  }
-
-  /*
-   * Test getEmail when email is not yet defined
-   */
-  @Test(expected = NullPointerException.class)
-  public void testGetEmail() {
-    empty.getEmail();
   }
 
   /*
@@ -218,29 +178,12 @@ public class UserImplTest {
     assertEquals(puppet.getEmail(), "anthony@anthony.be");
   }
 
-
-  /*
-   * Test getTel when tel is not defined yet
-   */
-  @Test(expected = NullPointerException.class)
-  public void testGetTel() {
-    empty.getTel();
-  }
-
   /*
    * Test getTel when tel is defined
    */
   @Test
   public void testGetTel1() {
     assertEquals(puppet.getTel(), "32478803948");
-  }
-
-  /*
-   * Test when gender is not defined yet
-   */
-  @Test(expected = NullPointerException.class)
-  public void testGetGender() {
-    empty.getGender();
   }
 
   /*
@@ -258,14 +201,6 @@ public class UserImplTest {
   public void testSetGender() {
     puppet.setGender("F");
     assertEquals(puppet.getGender(), "F");
-  }
-
-  /*
-   * Test when permissions is undefined
-   */
-  @Test(expected = NullPointerException.class)
-  public void testGetPermissions() {
-    empty.getPermissions();
   }
 
   /*
@@ -294,13 +229,6 @@ public class UserImplTest {
   }
 
   // Todo Ajouter tout les tests relatif au BIC
-  /*
-   * Test when iban is not defined yet
-   */
-  @Test(expected = NullPointerException.class)
-  public void testGetIban() {
-    empty.getIban();
-  }
 
   /*
    * Test getIban when a real Iban is defined
@@ -328,14 +256,6 @@ public class UserImplTest {
   }
 
   /*
-   * Test when bic is not defined yet
-   */
-  @Test(expected = NullPointerException.class)
-  public void testGetBic() {
-    empty.getBic();
-  }
-
-  /*
    * Test bic under standard case
    */
   @Test
@@ -347,10 +267,10 @@ public class UserImplTest {
   /*
    * Test getAccountHolder() when holder is not defined yet
    */
-  /*@Test(expected = NullPointerException.class)
-  public void testGetAccountHolder() {
-    empty.getAccountHolder();
-  }*/
+  /*
+   * @Test(expected = NullPointerException.class) public void testGetAccountHolder() {
+   * empty.getAccountHolder(); }
+   */
 
   /*
    * Test getAccountHolder() when holder is defined
@@ -372,10 +292,10 @@ public class UserImplTest {
   /*
    * Test getBankName when bankName is undefined yet
    */
-  /*@Test(expected = NullPointerException.class)
-  public void testGetBankName() {
-    empty.getBankName();
-  }*/
+  /*
+   * @Test(expected = NullPointerException.class) public void testGetBankName() {
+   * empty.getBankName(); }
+   */
 
   /*
    * Test getBankName when bankName is defined
@@ -417,14 +337,6 @@ public class UserImplTest {
   }
 
   /*
-   * Test getRegistrationDate when registrationDate is undefined
-   */
-  @Test(expected = NullPointerException.class)
-  public void testGetRegistrationDate() {
-    empty.getRegistrationDate();
-  }
-
-  /*
    * Test getRegistrationDate when registrationDate is defined
    */
   @Test
@@ -447,14 +359,6 @@ public class UserImplTest {
   @Test(expected = IllegalArgumentException.class)
   public void testSetRegistrationDate1() {
     puppet.setRegistrationDate(LocalDate.MAX);
-  }
-
-  /*
-   * Test getBirthDate when it's not defined
-   */
-  @Test(expected = NullPointerException.class)
-  public void testGetBirthDate() {
-    empty.getBirthDate();
   }
 
   /*
