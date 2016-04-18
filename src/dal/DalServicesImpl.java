@@ -26,7 +26,7 @@ public class DalServicesImpl implements DalServices, DalBackendServices {
     connectionPool.setPassword(ContextManager.getProperty("passwordDB"));
     connectionPool.setDriverClassName("org.postgresql.Driver");
     connectionPool.setUrl(url);
-    connectionPool.setInitialSize(10);
+    connectionPool.setInitialSize(2);
     connectionPool.setMaxTotal(5);
   }
 
