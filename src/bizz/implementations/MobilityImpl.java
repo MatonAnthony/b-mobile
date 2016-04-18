@@ -780,8 +780,7 @@ public class MobilityImpl implements MobilityBizz, Cloneable {
     } else if (!departmentDto.equals(other.departmentDto)) {
       return false;
     }
-    if (departureConventionInternshipSchoolarship
-        != other.departureConventionInternshipSchoolarship) {
+    if (departureConventionInternshipSchoolarship != other.departureConventionInternshipSchoolarship) {
       return false;
     }
     if (departureDocAggreement != other.departureDocAggreement) {

@@ -79,14 +79,14 @@ public class DalServicesImpl implements DalServices, DalBackendServices {
   }
 
   @Override
-  public ResultSet executeQuery(PreparedStatement statement) {
+  public ResultSet executeQuery(PreparedStatement statement) throws SQLException {
     try {
       Main.LOGGER.finest(statement.toString());
       return statement.executeQuery();
     } catch (SQLException exc) {
       Main.LOGGER.severe(exc.getMessage());
       exc.printStackTrace();
-      return null;
+      throw exc;
     }
   }
 

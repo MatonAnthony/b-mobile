@@ -126,9 +126,9 @@ public class UserImpl implements UserBizz, Cloneable {
    */
   @Override
   public String getPseudo() {
-    if (pseudo == null) {
-      throw new NullPointerException();
-    }
+    /*
+     * if (pseudo == null) { throw new NullPointerException(); }
+     */
     return pseudo;
   }
 
@@ -152,9 +152,9 @@ public class UserImpl implements UserBizz, Cloneable {
    */
   @Override
   public String getPassword() {
-    if (password == null) {
-      throw new NullPointerException();
-    }
+    /*
+     * if (password == null) { throw new NullPointerException(); }
+     */
     return password;
   }
 
@@ -178,9 +178,9 @@ public class UserImpl implements UserBizz, Cloneable {
    */
   @Override
   public String getName() {
-    if (name == null) {
-      throw new NullPointerException();
-    }
+    /*
+     * if (name == null) { throw new NullPointerException(); }
+     */
     return name;
   }
 
@@ -204,9 +204,9 @@ public class UserImpl implements UserBizz, Cloneable {
    */
   @Override
   public String getFirstname() {
-    if (firstname == null) {
-      throw new NullPointerException();
-    }
+    /*
+     * if (firstname == null) { throw new NullPointerException(); }
+     */
     return firstname;
   }
 
@@ -230,9 +230,9 @@ public class UserImpl implements UserBizz, Cloneable {
    */
   @Override
   public String getEmail() {
-    if (email == null) {
-      throw new NullPointerException();
-    }
+    /*
+     * if (email == null) { throw new NullPointerException(); }
+     */
     return email;
   }
 
@@ -256,9 +256,9 @@ public class UserImpl implements UserBizz, Cloneable {
    */
   @Override
   public String getTel() {
-    if (tel == null) {
-      throw new NullPointerException();
-    }
+    /*
+     * if (tel == null) { throw new NullPointerException(); }
+     */
     return tel;
   }
 
@@ -283,9 +283,9 @@ public class UserImpl implements UserBizz, Cloneable {
    */
   @Override
   public String getGender() {
-    if (gender == null) {
-      throw new NullPointerException();
-    }
+    /*
+     * if (gender == null) { throw new NullPointerException(); }
+     */
     return gender;
   }
 
@@ -309,9 +309,9 @@ public class UserImpl implements UserBizz, Cloneable {
    */
   @Override
   public String getPermissions() {
-    if (permissions == null) {
-      throw new NullPointerException();
-    }
+    /*
+     * if (permissions == null) { throw new NullPointerException(); }
+     */
     return permissions;
   }
 
@@ -335,8 +335,9 @@ public class UserImpl implements UserBizz, Cloneable {
    */
   @Override
   public String getIban() {
+
     if (iban == null) {
-      throw new NullPointerException();
+      return null;
     }
     return iban.toPlainString();
   }
@@ -364,9 +365,9 @@ public class UserImpl implements UserBizz, Cloneable {
   @Override
   public String getBic() {
 
-    if (bic == null) {
-      throw new NullPointerException();
-    }
+    /*
+     * if (bic == null) { throw new NullPointerException(); }
+     */
 
     return bic;
   }
@@ -461,9 +462,9 @@ public class UserImpl implements UserBizz, Cloneable {
   @Override
   public LocalDate getRegistrationDate() {
 
-    if (registrationDate == null) {
-      throw new NullPointerException();
-    }
+    /*
+     * if (registrationDate == null) { throw new NullPointerException(); }
+     */
 
     return registrationDate;
   }
@@ -491,9 +492,9 @@ public class UserImpl implements UserBizz, Cloneable {
   @Override
   public LocalDate getBirthDate() {
 
-    if (birthDate == null) {
-      throw new NullPointerException();
-    }
+    /*
+     * if (birthDate == null) { throw new NullPointerException(); }
+     */
 
     return birthDate;
   }

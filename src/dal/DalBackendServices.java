@@ -28,6 +28,6 @@ public interface DalBackendServices {
    * @param statement Prepared statement to execute.
    * @return ResultSet The result set for statement
    */
-  ResultSet executeQuery(PreparedStatement statement);
+  ResultSet executeQuery(PreparedStatement statement) throws SQLException;
 
 }

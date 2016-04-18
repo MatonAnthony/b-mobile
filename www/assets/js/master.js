@@ -857,72 +857,72 @@ $(function () {
 		});
 	}
 
-	// Managing of the payment table
+// Managing of the payment table
 
 	function loadPayment(){
 		$(function (){
 			$.ajax({
-	            method: "POST",
-	            url: "/home",
-	            data: {
-	                action: "academicYears"
-	            },
-	            success: function (resp) {
+				method: "POST",
+				url: "/home",
+				data: {
+					action: "academicYears"
+				},
+				success: function (resp) {
 					resp = JSON.parse(resp);
 					$('#selectYear').empty();
 					for(var i= 0; i < resp.length; i++){
-						var option = $('<option>');
+						var option;
+						if (i===0){
+							option = $('<option selected="selected">');
+						}else{
+							option = $('<option>');
+						}
 						$(option).val(resp[i]).text(resp[i]);
 						$('#selectYear').append(option);
 					}
-					$('#choix').trigger("change");
-	            },
-	            error: function (error) {
-	                console.log("Erreur sur le chargement des années académiques.");
-	            }
-	        });
+					$('#selectYear').trigger("change");
+				},
+				error: function (error) {
+					console.log("Erreur sur le chargement des années académiques.");
+				}
+			});
+			$("#selectYear").on("change", function(){ loadPaymentTable($("#selectYear").val()) });
 		});
 		
-		$(function () {
+		function loadPaymentTable(year) {
 	        $.ajax({
 	            method: "POST",
 	            url: "/home",
 	            data: {
-	                action: "selectPayments",
+					academicYear : year,
+	                action: "selectPayments"
 	            },
 	            success: function (resp) {
 					if (resp === ""){
 						$("#empty").empty();
-						$("#myMobility").after("<p id=\"empty\" class=\"text-center\"><strong> Vous n'avez aucune mobilité actuellement. </strong></p>");
+						$("#tablePayments").after("<p id=\"empty\" class=\"text-center\"><strong> Il n'y a aucun payement actuellement. </strong></p>");
 					}else{
 						resp = JSON.parse(resp);
-						$("#myMobility tbody").empty();
+						$("#tablePayments tbody").empty();
 						$("#empty").empty();
 
 						for (key in resp) {
 
-							$("#myMobility tbody").append(
+							$("#tablePayments tbody").append(
 								"<tr>" +
-								"<td>" + resp[key]['preferenceOrder'] + "</td>" +
-								"<td>" + resp[key]['programDto']['name'] + "</td>" +
-								"<td>" + resp[key]['type'] + "</td>" +
-								"<td>" + resp[key]['countryDto']['nameFr'] + "</td>" +
-								"<td>" + resp[key]['quadrimester'] + "</td>" +
-								"<td>" + resp[key]['status'] + "</td>"+
-								"<td></td><td></td>"
+									"<td>" + resp[key]['id'] + "</td>"+
+									"<td>" + resp[key]['studentDto']['name'] + "</td>" +
+									"<td>" + resp[key]['studentDto']['firstname'] + "</td>" +
+									"<td>" + resp[key]['departmentDto']['label'] + "</td>" +
+									"<td>" + resp[key]['programDto']['name'] + "</td>" +
+									"<td>" + resp[key]['type'] + "</td>" +
+									//+"<td>"+resp[key]['partnerDto']['legal_name']+"</td> +"
+									+"<td></td>"+ // TODO(Jonathan) Ajouter dans la DB les montants, les dates
+									+"<td></td>"+						
+									+"<td></td>"+
+									+"<td></td>"+
 								+ "</tr>");
-
-						}	
-						$("#myMobility tr td:nth-child(6)").each(function () {
-							if ($(this).html() !== "Annulee") {
-								$(this).next().append("<button class=\"btnNommer btn btn-info\">Annuler</button>");
-							} else {
-								$(this).parent().addClass("danger");
-							}
-							if ($(this).html() === "En attente") {
-								$(this).next().next().append("<button class=\"btnNommer btn btn-info\">Confirmer</button>");
-							}
-						});
+						}
 					
 					}
 					
@@ -931,7 +931,7 @@ $(function () {
 	                console.log("Connexion echouée");
 	            }
 	        });
-		});
+		}
 	}
 
 	// Managing of the confirmed table
