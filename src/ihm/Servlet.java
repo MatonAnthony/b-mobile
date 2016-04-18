@@ -177,6 +177,9 @@ public class Servlet extends HttpServlet {
         case "academicYears":
           loadAcademicYears(req, resp);
           break;
+        case "selectPayments":
+          loadPayments(req, resp);
+          break;
         default:
           resp.setStatus(HttpStatus.BAD_REQUEST_400);
       }
@@ -189,6 +192,7 @@ public class Servlet extends HttpServlet {
     }
 
   }
+
 
   private void selectProfile(HttpServletRequest req, HttpServletResponse resp) throws IOException {
     UserDto userSelected = userUcc.getUserById((Integer) req.getSession().getAttribute(KEY_ID));
@@ -276,7 +280,7 @@ public class Servlet extends HttpServlet {
   private void selectAllMobility(HttpServletRequest req, HttpServletResponse resp)
       throws IOException {
     // TODO (fany) gerer le choix du departements
-    ArrayList<MobilityDto> mobilities = mobilityUcc.getMobilitiesDepartements();
+    ArrayList<MobilityDto> mobilities = mobilityUcc.getMobilities();
     if (mobilities.size() == 0) {
       resp.setStatus(HttpStatus.ACCEPTED_202);
     } else {
@@ -471,6 +475,7 @@ public class Servlet extends HttpServlet {
    *
    * @param req The request received by the server.
    * @param resp The response sended by the server.
+   * @throws IOException.
    */
   private void addMobility(HttpServletRequest req, HttpServletResponse resp) throws IOException {
     MobilityDto mobility = bizzFactory.getMobilityDto();
@@ -504,6 +509,7 @@ public class Servlet extends HttpServlet {
    *
    * @param req The request received by the server.
    * @param resp The response sended by the server.
+   * @throws IOException.
    */
   private void addPartner(HttpServletRequest req, HttpServletResponse resp) throws IOException {
     PartnerDto partner = bizzFactory.getPartnerDto();
@@ -548,6 +554,42 @@ public class Servlet extends HttpServlet {
       exc.printStackTrace();
     }
     resp.setStatus(HttpStatus.ACCEPTED_202);
+  }
+
+  /**
+   * The method used by the servlet to load the payment of the year specified in the parameter of
+   * the request.
+   * 
+   * @param req The request received by the server.
+   * @param resp The response sended by the server.
+   * @throws IOException.
+   */
+  private void loadPayments(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    String academicYear = req.getParameter("academicYear");
+    ArrayList<MobilityDto> mobilities = mobilityUcc.getFullPayments(academicYear);
+    if (mobilities.size() == 0) {
+      resp.setStatus(HttpStatus.ACCEPTED_202);
+    } else {
+      String jsonMobilities = "[";
+      for (int i = 0; i < mobilities.size(); i++) {
+        jsonMobilities += defaultGenson.serialize(mobilities.get(i));
+
+        jsonMobilities = parseDepartmentDto(jsonMobilities, mobilities.get(i).getDepartementDto());
+        jsonMobilities = parseProgramDto(jsonMobilities, mobilities.get(i).getProgramDto());
+        jsonMobilities = parseCountryDto(jsonMobilities, mobilities.get(i).getCountryDto());
+        jsonMobilities = parseStudentDto(jsonMobilities, mobilities.get(i).getStudentDto());
+
+        if (i != mobilities.size() - 1) {
+          jsonMobilities += ",";
+        } else {
+          jsonMobilities += "]";
+        }
+
+      }
+      resp.getWriter().println(jsonMobilities);
+      resp.setStatus(HttpStatus.ACCEPTED_202);
+    }
+
   }
 
   /**
@@ -643,10 +685,6 @@ public class Servlet extends HttpServlet {
         map.put("message", exception.getMessage());
         break;
       case "class exceptions.NoCountryException":
-        resp.setStatus(HttpStatus.PARTIAL_CONTENT_206);
-        map.put("type", "error");
-        map.put("message", exception.getMessage());
-        break;
       case "class exceptions.NoDepartmentException":
         resp.setStatus(HttpStatus.PARTIAL_CONTENT_206);
         map.put("type", "error");

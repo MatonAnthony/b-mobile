@@ -18,7 +18,7 @@ public interface MobilityUcController {
    * 
    * @return an ArrayList of MobilityDto.
    */
-  ArrayList<MobilityDto> getMobilitiesDepartements();
+  ArrayList<MobilityDto> getMobilities();
 
   /**
    * Return an ArrayList containing all the confirmed mobilities stored in database.
@@ -44,5 +44,13 @@ public interface MobilityUcController {
    * @return an ArrayList with the academic years.
    */
   ArrayList<String> getAcademicYears();
+
+  /**
+   * Return an ArrayList containing all the payments matching with the academicYear.
+   * 
+   * @param the academicYear for the selection of the payment.
+   * @return an ArrayList with the academic years.
+   */
+  ArrayList<MobilityDto> getFullPayments(String academicYear);
 
 }

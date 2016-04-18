@@ -21,7 +21,7 @@ public interface MobilityDao {
    * @return an ArrayList of MobilityDto.
    */
 
-  ArrayList<MobilityDto> getFullMobilitiesDepartements();
+  ArrayList<MobilityDto> getFullMobilities();
 
   /**
    * Return an ArrayList containing all the confirmed mobilities stored in database.
@@ -46,5 +46,13 @@ public interface MobilityDao {
    * @return an ArrayList with the academic years.
    */
   ArrayList<String> getAllAcademicYears();
+
+  /**
+   * Return an ArrayList containing all the payments matching with the academicYear.
+   * 
+   * @param the academicYear for the selection of the payment.
+   * @return an ArrayList with the academic years.
+   */
+  ArrayList<MobilityDto> getFullPayments(String academicYear);
 
 }

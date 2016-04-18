@@ -46,12 +46,12 @@ public class MobilityDaoImpl implements MobilityDao {
 
           + "pro.id, pro.name, pro.description, pro.ver_nr, "
 
-          // + "par.id, par.id_user, par.legal_name, par.business_name, par.full_name,
-          // par.department,
-          // par.type,"
-          // + "par.nb_employees, par.street, par.number, par.mailbox, par.zip, par.city,
-          // par.state,"
-          // + "par.country, par.email, par.website, par.exists, par.ver_nr,"
+  // + "par.id, par.id_user, par.legal_name, par.business_name, par.full_name,
+  // par.department,
+  // par.type,"
+  // + "par.nb_employees, par.street, par.number, par.mailbox, par.zip, par.city,
+  // par.state,"
+  // + "par.country, par.email, par.website, par.exists, par.ver_nr,"
 
           + "co.iso, co.name_en, co.name_fr, co.id_program," + "d.id, d.label, d.ver_nr "
           // + ",c.id, c.reason, c.responsible, c.ver_nr "
@@ -116,7 +116,7 @@ public class MobilityDaoImpl implements MobilityDao {
   }
 
   @Override
-  public ArrayList<MobilityDto> getFullMobilitiesDepartements() {
+  public ArrayList<MobilityDto> getFullMobilities() {
     String queryTemp = queryFull + "ORDER BY m.id ASC";
     PreparedStatement preparedStatement = null;
     try {
@@ -177,6 +177,48 @@ public class MobilityDaoImpl implements MobilityDao {
     }
   }
 
+
+  @Override
+  public ArrayList<String> getAllAcademicYears() {
+    String queryAcademicYears =
+        "SELECT DISTINCT academic_year FROM bmobile.mobilities ORDER BY academic_year DESC";
+    PreparedStatement preparedStatement = null;
+    try {
+      preparedStatement = dalBackendServices.prepare(queryAcademicYears);
+      ArrayList<String> academicYears = new ArrayList<String>();
+      ResultSet resultSet = dalBackendServices.executeQuery(preparedStatement);
+      while (resultSet.next()) {
+        academicYears.add(resultSet.getString(1));
+      }
+      return academicYears;
+
+    } catch (SQLException exc) {
+      exc.printStackTrace();
+      return null;
+    }
+  }
+
+  @Override
+  public ArrayList<MobilityDto> getFullPayments(String academicYear) {
+    String queryPayment = queryFull + "AND m.academic_year = ? ORDER BY m.id ASC";
+    PreparedStatement preparedStatement = null;
+    try {
+      preparedStatement = dalBackendServices.prepare(queryPayment);
+      preparedStatement.setString(1, academicYear);
+      ArrayList<MobilityDto> payments = new ArrayList<MobilityDto>();
+      ResultSet resultSet = dalBackendServices.executeQuery(preparedStatement);
+      while (resultSet.next()) {
+        payments.add(fillFullDto(resultSet));
+      }
+      return payments;
+
+    } catch (SQLException exc) {
+      exc.printStackTrace();
+      return null;
+    }
+  }
+
+
   // ***********************************************//
 
   private MobilityDto fillDto(ResultSet resultSet) throws SQLException {
@@ -227,8 +269,8 @@ public class MobilityDaoImpl implements MobilityDao {
 
     Timestamp registrationDate = resultSet.getTimestamp(36);
     if (null != registrationDate) {
-      mobilitydto.getStudentDto().setRegistrationDate(registrationDate.toLocalDateTime()
-          .toLocalDate());
+      mobilitydto.getStudentDto()
+          .setRegistrationDate(registrationDate.toLocalDateTime().toLocalDate());
     }
     mobilitydto.getStudentDto().setPermissions(resultSet.getString(37));
     Timestamp birthdate = resultSet.getTimestamp(38);
@@ -296,26 +338,5 @@ public class MobilityDaoImpl implements MobilityDao {
      */
     return mobilitydto;
   }
-
-  @Override
-  public ArrayList<String> getAllAcademicYears() {
-    String queryAcademicYears =
-        "SELECT DISTINCT academic_year FROM bmobile.mobilities ORDER BY academic_year DESC";
-    PreparedStatement preparedStatement = null;
-    try {
-      preparedStatement = dalBackendServices.prepare(queryAcademicYears);
-      ArrayList<String> academicYears = new ArrayList<String>();
-      ResultSet resultSet = dalBackendServices.executeQuery(preparedStatement);
-      while (resultSet.next()) {
-        academicYears.add(resultSet.getString(1));
-      }
-      return academicYears;
-
-    } catch (SQLException exc) {
-      exc.printStackTrace();
-      return null;
-    }
-  }
-
 
 }

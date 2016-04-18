@@ -30,8 +30,8 @@ public class MobilityUcControllerImpl implements MobilityUcController {
   }
 
   @Override
-  public ArrayList<MobilityDto> getMobilitiesDepartements() {
-    return mobilityDao.getFullMobilitiesDepartements();
+  public ArrayList<MobilityDto> getMobilities() {
+    return mobilityDao.getFullMobilities();
   }
 
 
@@ -66,6 +66,11 @@ public class MobilityUcControllerImpl implements MobilityUcController {
   @Override
   public ArrayList<String> getAcademicYears() {
     return mobilityDao.getAllAcademicYears();
+  }
+
+  @Override
+  public ArrayList<MobilityDto> getFullPayments(String academicYear) {
+    return mobilityDao.getFullPayments(academicYear);
   }
 
 }
