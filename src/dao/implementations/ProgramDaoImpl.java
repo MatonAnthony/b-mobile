@@ -28,12 +28,8 @@ public class ProgramDaoImpl implements ProgramDao {
 
     try {
       preparedStatement = dalBackendServices.prepare(query);
-      try (ResultSet resultSet = preparedStatement.executeQuery()) {
-        return fillDtoArray(preparedStatement);
-      } catch (SQLException exc2) {
-        exc2.printStackTrace();
-        return null;
-      }
+      return fillDtoArray(dalBackendServices.executeQuery(preparedStatement));
+
     } catch (SQLException exc) {
       exc.printStackTrace();
       return null;
@@ -48,21 +44,17 @@ public class ProgramDaoImpl implements ProgramDao {
     try {
       preparedStatement = dalBackendServices.prepare(query);
       preparedStatement.setString(1, name);
-      try (ResultSet resultSet = preparedStatement.executeQuery()) {
-        return fillDto(preparedStatement);
-      } catch (SQLException exc2) {
-        exc2.printStackTrace();
-        return null;
-      }
+      return fillDto(dalBackendServices.executeQuery(preparedStatement));
+
     } catch (SQLException exc) {
       exc.printStackTrace();
       return null;
     }
   }
 
-  private ProgramDto fillDto(PreparedStatement preparedStatement) {
+  private ProgramDto fillDto(ResultSet resultSet) {
     ProgramDto programDto = factory.getProgramDto();
-    try (ResultSet resultSet = preparedStatement.executeQuery()) {
+    try {
       if (resultSet.next()) {
         programDto.setId(resultSet.getInt(1));
         programDto.setName(resultSet.getString(2));
@@ -80,9 +72,9 @@ public class ProgramDaoImpl implements ProgramDao {
 
   }
 
-  private ArrayList<ProgramDto> fillDtoArray(PreparedStatement preparedStatement) {
+  private ArrayList<ProgramDto> fillDtoArray(ResultSet resultSet) {
     ArrayList<ProgramDto> programs = new ArrayList<ProgramDto>();
-    try (ResultSet resultSet = preparedStatement.executeQuery()) {
+    try {
       while (resultSet.next()) {
         ProgramDto programDto = factory.getProgramDto();
         programDto.setId(resultSet.getInt(1));

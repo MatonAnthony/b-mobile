@@ -38,8 +38,31 @@ import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.DefaultServlet;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jetty.webapp.WebAppContext;
+import utils.ContextManager;
+
+import java.io.IOException;
+import java.util.logging.*;
 
 public class Main {
+
+  public static final Logger LOGGER = Logger.getLogger(Servlet.class.getName());
+
+  static {
+    LOGGER.setUseParentHandlers(false);
+    LOGGER.setLevel(Level.ALL);
+    MyLoggerFormatter formatter = new MyLoggerFormatter();
+    ConsoleHandler handler = new ConsoleHandler();
+    handler.setFormatter(formatter);
+    LOGGER.addHandler(handler);
+    try {
+      Handler fileHandler = new FileHandler(ContextManager.env + ".log", true);
+      fileHandler.setFormatter(formatter);
+      LOGGER.addHandler(fileHandler);
+    } catch (IOException exc) {
+      LOGGER.warning("Impossible to log to file");
+      exc.printStackTrace();
+    }
+  }
 
   /**
    * Le point d'entree de mon application.
@@ -81,8 +104,8 @@ public class Main {
     CancelationUcController cancelationUcController =
         new CancelationUcControllerImpl(dalServices, cancelationDao);
 
-    Servlet servlet = new Servlet(userUcc, bizzFactory, mobilityUcc, countryUcc, departmentUcc,
-        programUcController, partnerUcController, cancelationUcController);
+    Servlet servlet =
+        new Servlet(userUcc, bizzFactory, mobilityUcc, countryUcc, departmentUcc, programUcController, partnerUcController, cancelationUcController);
 
     // Gestion des servlets
     context.addServlet(new ServletHolder(servlet), "/home");
@@ -99,6 +122,7 @@ public class Main {
     server.setHandler(context);
 
     server.start();
+    LOGGER.info(server.getState());
   }
 
 }

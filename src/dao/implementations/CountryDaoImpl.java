@@ -39,8 +39,8 @@ public class CountryDaoImpl implements CountryDao {
 
     try {
       preparedStatement = dalBackendServices.prepare(query);
-      try (ResultSet resultSet = preparedStatement.executeQuery()) {
-        return fillDtoArray(preparedStatement);
+      try (ResultSet resultSet = dalBackendServices.executeQuery(preparedStatement)) {
+        return fillDtoArray(resultSet);
       } catch (SQLException exc2) {
         exc2.printStackTrace();
         throw new SQLException();
@@ -67,8 +67,8 @@ public class CountryDaoImpl implements CountryDao {
     try {
       preparedStatement = dalBackendServices.prepare(query);
       preparedStatement.setString(1, name);
-      try (ResultSet resultSet = preparedStatement.executeQuery()) {
-        return fillDto(preparedStatement);
+      try (ResultSet resultSet = dalBackendServices.executeQuery(preparedStatement)) {
+        return fillDto(resultSet);
       } catch (SQLException exc2) {
         exc2.printStackTrace();
         throw new SQLException();
@@ -79,9 +79,9 @@ public class CountryDaoImpl implements CountryDao {
     }
   }
 
-  private CountryDto fillDto(PreparedStatement preparedStatement) throws NoCountryException {
+  private CountryDto fillDto(ResultSet resultSet) throws NoCountryException {
     CountryDto countryDto = factory.getCountryDto();
-    try (ResultSet resultSet = preparedStatement.executeQuery()) {
+    try {
       if (resultSet.next()) {
         countryDto.setIso(resultSet.getString("iso"));
         countryDto.setNameEn(resultSet.getString("name_en"));
@@ -97,10 +97,10 @@ public class CountryDaoImpl implements CountryDao {
     }
   }
 
-  private ArrayList<CountryDto> fillDtoArray(PreparedStatement preparedStatement)
+  private ArrayList<CountryDto> fillDtoArray(ResultSet resultSet)
       throws NoCountryException {
     ArrayList<CountryDto> countries = new ArrayList<CountryDto>();
-    try (ResultSet resultSet = preparedStatement.executeQuery()) {
+    try {
       while (resultSet.next()) {
         CountryDto countryDto = factory.getCountryDto();
         countryDto.setIso(resultSet.getString("iso"));

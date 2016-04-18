@@ -1,4 +1,3 @@
-
 package dao.implementations;
 
 import bizz.interfaces.BizzFactory;
@@ -35,12 +34,9 @@ public class DepartmentDaoImpl implements DepartmentDao {
 
     try {
       preparedStatement = dalBackendServices.prepare(query);
-      try (ResultSet resultSet = preparedStatement.executeQuery()) {
-        return fillDtoArray(preparedStatement);
-      } catch (SQLException exc2) {
-        exc2.printStackTrace();
-        throw new NoDepartmentException("An SQL Error happened");
-      }
+      ResultSet resultSet = dalBackendServices.executeQuery(preparedStatement);
+      return fillDtoArray(resultSet);
+
     } catch (SQLException exc) {
       exc.printStackTrace();
       throw new NoDepartmentException("An SQL Error happened");
@@ -56,12 +52,9 @@ public class DepartmentDaoImpl implements DepartmentDao {
     try {
       preparedStatement = dalBackendServices.prepare(query);
       preparedStatement.setString(1, id);
-      try (ResultSet resultSet = preparedStatement.executeQuery()) {
-        return fillDto(preparedStatement);
-      } catch (SQLException exc2) {
-        exc2.printStackTrace();
-        throw new NoDepartmentException("An SQL Error happened");
-      }
+      ResultSet resultSet = dalBackendServices.executeQuery(preparedStatement);
+      return fillDto(resultSet);
+
     } catch (SQLException exc) {
       exc.printStackTrace();
       throw new NoDepartmentException("An SQL Error happened");
@@ -77,12 +70,9 @@ public class DepartmentDaoImpl implements DepartmentDao {
     try {
       preparedStatement = dalBackendServices.prepare(query);
       preparedStatement.setString(1, label);
-      try (ResultSet resultSet = preparedStatement.executeQuery()) {
-        return fillDto(preparedStatement);
-      } catch (SQLException exc2) {
-        exc2.printStackTrace();
-        throw new NoDepartmentException("An SQL Error happened");
-      }
+      ResultSet resultSet = dalBackendServices.executeQuery(preparedStatement);
+      return fillDto(resultSet);
+
     } catch (SQLException exc) {
       exc.printStackTrace();
       throw new NoDepartmentException("An SQL Error happened");
@@ -90,9 +80,9 @@ public class DepartmentDaoImpl implements DepartmentDao {
 
   }
 
-  private DepartmentDto fillDto(PreparedStatement preparedStatement) throws NoDepartmentException {
+  private DepartmentDto fillDto(ResultSet resultSet) throws NoDepartmentException {
     DepartmentDto departmentDto = factory.getDepartmentDto();
-    try (ResultSet resultSet = preparedStatement.executeQuery()) {
+    try {
       if (resultSet.next()) {
         departmentDto.setId(resultSet.getString(1));
         departmentDto.setLabel(resultSet.getString(2));
@@ -108,10 +98,9 @@ public class DepartmentDaoImpl implements DepartmentDao {
 
   }
 
-  private ArrayList<DepartmentDto> fillDtoArray(PreparedStatement preparedStatement)
-    throws NoDepartmentException {
+  private ArrayList<DepartmentDto> fillDtoArray(ResultSet resultSet) throws NoDepartmentException {
     ArrayList<DepartmentDto> departments = new ArrayList<DepartmentDto>();
-    try (ResultSet resultSet = preparedStatement.executeQuery()) {
+    try {
       while (resultSet.next()) {
         DepartmentDto departmentDto = factory.getDepartmentDto();
         departmentDto.setId(resultSet.getString(1));

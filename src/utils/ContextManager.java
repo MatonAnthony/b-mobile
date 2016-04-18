@@ -12,6 +12,7 @@ import java.util.Properties;
  */
 public class ContextManager {
 
+  public static final String env;
   private static Properties props;
   private static Properties buildConfig;
 
@@ -25,9 +26,11 @@ public class ContextManager {
       build.close();
       FileInputStream file;
       if (buildConfig.containsKey("status") && buildConfig.containsValue("DEBUG")) {
-        file = new FileInputStream("src/debug.properties");
+        env = "debug";
+        file = new FileInputStream("src/"+env+".properties");
       } else {
-        file = new FileInputStream("src/prod.properties");
+        env = "prod";
+        file = new FileInputStream("src/"+env+".properties");
       }
       props.load(file);
       file.close();

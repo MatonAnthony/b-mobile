@@ -46,11 +46,7 @@ public class PartnerDaoImpl implements PartnerDao {
       preparedStatement.setString(15, partner.getTel());
       preparedStatement.setString(16, partner.getEmail());
       preparedStatement.setString(17, partner.getWebsite());
-      try {
-        preparedStatement.executeUpdate();
-      } catch (Exception exc) {
-        exc.printStackTrace();
-      }
+      dalBackendServices.executeUpdate(preparedStatement);
     } catch (SQLException exc) {
       exc.printStackTrace();
     }

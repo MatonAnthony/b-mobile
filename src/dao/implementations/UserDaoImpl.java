@@ -4,6 +4,7 @@ import bizz.interfaces.BizzFactory;
 import dal.DalBackendServices;
 import dao.interfaces.UserDao;
 import dto.UserDto;
+import ihm.Main;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -17,7 +18,7 @@ public class UserDaoImpl implements UserDao {
 
   private DalBackendServices dalBackendServices;
   private BizzFactory factory;
-  private static final Logger LOGGER = Logger.getLogger(UserDaoImpl.class.getName());
+
 
   public UserDaoImpl(DalBackendServices dalBackendServices, BizzFactory bizzFactory) {
     this.dalBackendServices = dalBackendServices;
@@ -38,14 +39,9 @@ public class UserDaoImpl implements UserDao {
       preparedStatement.setString(4, userdto.getFirstname());
       preparedStatement.setString(5, userdto.getEmail());
       preparedStatement.setString(6, userdto.getPermissions());
-      try {
-        preparedStatement.executeUpdate();
-        return true;
 
-      } catch (Exception exc) {
-        exc.printStackTrace();
-        return false;
-      }
+      dalBackendServices.executeUpdate(preparedStatement);
+      return true;
 
     } catch (SQLException exc) {
       exc.printStackTrace();
@@ -112,7 +108,7 @@ public class UserDaoImpl implements UserDao {
     try {
       preparedStatement = dalBackendServices.prepare(query);
       preparedStatement.setInt(1, user.getId());
-      preparedStatement.executeUpdate();
+      dalBackendServices.executeUpdate(preparedStatement);
     } catch (SQLException exc) {
       exc.printStackTrace();
     }
@@ -124,7 +120,7 @@ public class UserDaoImpl implements UserDao {
         + "street = ?, house_number = ?, mailbox = ?, zip = ?, city = ?, tel = ?, email = ?,"
         + "successfull_year_in_college = ?, bic = ?, account_holder = ?, bank_name = ?"
         + "WHERE id = ?";
-    LOGGER.info(userEdited.getEmail());
+    Main.LOGGER.info(userEdited.getEmail());
     PreparedStatement preparedStatement = null;
     try {
       preparedStatement = dalBackendServices.prepare(query);
@@ -144,7 +140,7 @@ public class UserDaoImpl implements UserDao {
       preparedStatement.setString(14, userEdited.getAccountHolder());
       preparedStatement.setString(15, userEdited.getBankName());
       preparedStatement.setInt(16, userEdited.getId());
-      //preparedStatement.executeUpdate();
+      //dalBackendServices.executeUpdate(preparedStatement);
       // il faut encore ajouter la date de naissance, le pays et l'iban
 
     } catch (SQLException exc) {
@@ -154,7 +150,7 @@ public class UserDaoImpl implements UserDao {
 
   private UserDto fillDto(PreparedStatement preparedStatement) {
     UserDto user = factory.getUserDto();
-    try (ResultSet resultSet = preparedStatement.executeQuery()) {
+    try (ResultSet resultSet = dalBackendServices.executeQuery(preparedStatement)) {
       if (resultSet.next()) {
         completeDto(user, resultSet);
       } else {
@@ -171,7 +167,7 @@ public class UserDaoImpl implements UserDao {
 
   private ArrayList<UserDto> fillDtoArray(PreparedStatement preparedStatement) {
     ArrayList<UserDto> users = new ArrayList<UserDto>();
-    try (ResultSet resultSet = preparedStatement.executeQuery()) {
+    try (ResultSet resultSet = dalBackendServices.executeQuery(preparedStatement)) {
       while (resultSet.next()) {
         UserDto user = factory.getUserDto();
         user = completeDto(user, resultSet);

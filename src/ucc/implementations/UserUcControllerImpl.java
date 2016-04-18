@@ -5,6 +5,7 @@ import dal.DalServices;
 import dao.interfaces.UserDao;
 import dto.UserDto;
 import exceptions.AuthenticationException;
+import ihm.Main;
 import ucc.interfaces.UserUcController;
 
 import java.sql.SQLException;
@@ -16,7 +17,6 @@ public class UserUcControllerImpl implements UserUcController {
 
   private UserDao userDao = null;
   private DalServices dalServices = null;
-  private static final Logger LOGGER = Logger.getLogger(UserUcControllerImpl.class.getName());
 
   /**
    * Constructeur d'un userUcController.
@@ -46,15 +46,15 @@ public class UserUcControllerImpl implements UserUcController {
       user = (UserBizz) userDao.getUserByUserName(username);
     } catch (NoSuchElementException nsee) {
       // L'user est null si aucun utilisateur avec le pseudo entré n'existe
-      LOGGER.warning("\"" + username + "\" : username not exist ");
+      Main.LOGGER.warning("\"" + username + "\" : username not exist ");
       throw new AuthenticationException("L'utilisateur n'existe pas.");
     }
 
     if (user.checkPassword(password)) {
-      LOGGER.info("[" + user.getPermissions() + "] \"" + username + "\" connected");
+      Main.LOGGER.info("[" + user.getPermissions() + "] \"" + username + "\" connected");
       return user;
     } else {
-      LOGGER.warning("\"" + username + "\" : bad password ");
+      Main.LOGGER.warning("\"" + username + "\" : bad password ");
       throw new AuthenticationException("Le mot de passe indiqué est incorrect.");
     }
   }

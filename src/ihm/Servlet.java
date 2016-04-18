@@ -39,7 +39,6 @@ import java.security.SignatureException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
@@ -60,8 +59,6 @@ public class Servlet extends HttpServlet {
   private static final String KEY_USERNAME = "username";
   private static final String KEY_PERMISSIONS = "permissions";
   private static final String KEY_ID = "id";
-
-  private static final Logger LOGGER = Logger.getLogger(Servlet.class.getName());
 
   private transient UserUcController userUcc = null;
   private transient MobilityUcController mobilityUcc = null;
@@ -384,7 +381,7 @@ public class Servlet extends HttpServlet {
   }
 
   private void disconnect(HttpServletRequest req, HttpServletResponse resp) {
-    LOGGER.info("[" + req.getSession().getAttribute(KEY_PERMISSIONS) + "] \""
+    Main.LOGGER.info("[" + req.getSession().getAttribute(KEY_PERMISSIONS) + "] \""
         + req.getSession().getAttribute(KEY_USERNAME) + "\" disconnected.");
     req.getSession().invalidate();
 

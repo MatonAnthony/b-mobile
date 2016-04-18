@@ -1,5 +1,6 @@
 package dal;
 
+import ihm.Main;
 import utils.ContextManager;
 
 import org.apache.commons.dbcp2.ConnectionFactory;
@@ -12,6 +13,7 @@ import org.apache.commons.pool2.impl.GenericObjectPool;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import javax.sql.DataSource;
@@ -30,6 +32,7 @@ public class DalServicesImpl implements DalServices, DalBackendServices {
     String url =
         ContextManager.getProperty("urlDB") + "?user=" + ContextManager.getProperty("userDB")
             + "&password=" + ContextManager.getProperty("passwordDB");
+
     ConnectionFactory connectionFactory = new DriverManagerConnectionFactory(url, null);
     PoolableConnectionFactory poolableConnectionFactory =
         new PoolableConnectionFactory(connectionFactory, null);
@@ -79,6 +82,30 @@ public class DalServicesImpl implements DalServices, DalBackendServices {
     }
     return threadLocal.get();
 
+  }
+
+  @Override
+  public int executeUpdate(PreparedStatement statement) {
+    try {
+      Main.LOGGER.finest(statement.toString());
+      return statement.executeUpdate();
+    } catch (SQLException exc) {
+      Main.LOGGER.severe(exc.getMessage());
+      exc.printStackTrace();
+      return 0;
+    }
+  }
+
+  @Override
+  public ResultSet executeQuery(PreparedStatement statement) {
+    try {
+      Main.LOGGER.finest(statement.toString());
+      return statement.executeQuery();
+    } catch (SQLException exc) {
+      Main.LOGGER.severe(exc.getMessage());
+      exc.printStackTrace();
+      return null;
+    }
   }
 
 }

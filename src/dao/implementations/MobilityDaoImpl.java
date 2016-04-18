@@ -87,12 +87,8 @@ public class MobilityDaoImpl implements MobilityDao {
       preparedStatement.setString(5, mobilityDto.getCountryDto().getIso());
       preparedStatement.setString(6, mobilityDto.getDepartementDto().getId());
       preparedStatement.setInt(7, mobilityDto.getQuadrimester());
-      try {
-        preparedStatement.executeUpdate();
 
-      } catch (Exception exc) {
-        exc.printStackTrace();
-      }
+      dalBackendServices.executeUpdate(preparedStatement);
 
     } catch (SQLException exc) {
       exc.printStackTrace();
@@ -107,15 +103,12 @@ public class MobilityDaoImpl implements MobilityDao {
     try {
       preparedStatement = dalBackendServices.prepare(query);
       ArrayList<MobilityDto> mobilities = new ArrayList<MobilityDto>();
-      try (ResultSet resultSet = preparedStatement.executeQuery()) {
-        while (resultSet.next()) {
-          mobilities.add(fillDto(resultSet));
-        }
-        return mobilities;
-      } catch (SQLException exc2) {
-        exc2.printStackTrace();
-        return null;
+      ResultSet resultSet = dalBackendServices.executeQuery(preparedStatement);
+      while (resultSet.next()) {
+        mobilities.add(fillDto(resultSet));
       }
+      return mobilities;
+
     } catch (SQLException exc) {
       exc.printStackTrace();
       return null;
@@ -129,15 +122,12 @@ public class MobilityDaoImpl implements MobilityDao {
     try {
       preparedStatement = dalBackendServices.prepare(queryTemp);
       ArrayList<MobilityDto> mobilities = new ArrayList<MobilityDto>();
-      try (ResultSet resultSet = preparedStatement.executeQuery()) {
-        while (resultSet.next()) {
-          mobilities.add(fillFullDto(resultSet));
-        }
-        return mobilities;
-      } catch (SQLException exc2) {
-        exc2.printStackTrace();
-        return null;
+      ResultSet resultSet = dalBackendServices.executeQuery(preparedStatement);
+      while (resultSet.next()) {
+        mobilities.add(fillFullDto(resultSet));
       }
+      return mobilities;
+
     } catch (SQLException exc) {
       exc.printStackTrace();
       return null;
@@ -154,15 +144,12 @@ public class MobilityDaoImpl implements MobilityDao {
     try {
       preparedStatement = dalBackendServices.prepare(queryTemp);
       ArrayList<MobilityDto> mobilities = new ArrayList<MobilityDto>();
-      try (ResultSet resultSet = preparedStatement.executeQuery()) {
-        while (resultSet.next()) {
-          mobilities.add(fillFullDto(resultSet));
-        }
-        return mobilities;
-      } catch (SQLException exc2) {
-        exc2.printStackTrace();
-        return null;
+      ResultSet resultSet = dalBackendServices.executeQuery(preparedStatement);
+      while (resultSet.next()) {
+        mobilities.add(fillFullDto(resultSet));
       }
+      return mobilities;
+
     } catch (SQLException exc) {
       exc.printStackTrace();
       return null;
@@ -178,15 +165,12 @@ public class MobilityDaoImpl implements MobilityDao {
     try {
       preparedStatement = dalBackendServices.prepare(queryTemp);
       ArrayList<MobilityDto> mobilities = new ArrayList<MobilityDto>();
-      try (ResultSet resultSet = preparedStatement.executeQuery()) {
-        while (resultSet.next()) {
-          mobilities.add(fillFullDto(resultSet));
-        }
-        return mobilities;
-      } catch (SQLException exc2) {
-        exc2.printStackTrace();
-        return null;
+      ResultSet resultSet = dalBackendServices.executeQuery(preparedStatement);
+      while (resultSet.next()) {
+        mobilities.add(fillFullDto(resultSet));
       }
+      return mobilities;
+
     } catch (SQLException exc) {
       exc.printStackTrace();
       return null;
@@ -243,8 +227,7 @@ public class MobilityDaoImpl implements MobilityDao {
 
     Timestamp registrationDate = resultSet.getTimestamp(36);
     if (null != registrationDate) {
-      mobilitydto.getStudentDto()
-          .setRegistrationDate(registrationDate.toLocalDateTime().toLocalDate());
+      mobilitydto.getStudentDto().setRegistrationDate(registrationDate.toLocalDateTime().toLocalDate());
     }
     mobilitydto.getStudentDto().setPermissions(resultSet.getString(37));
     Timestamp birthdate = resultSet.getTimestamp(38);
@@ -321,15 +304,12 @@ public class MobilityDaoImpl implements MobilityDao {
     try {
       preparedStatement = dalBackendServices.prepare(queryAcademicYears);
       ArrayList<String> academicYears = new ArrayList<String>();
-      try (ResultSet resultSet = preparedStatement.executeQuery()) {
-        while (resultSet.next()) {
-          academicYears.add(resultSet.getString(1));
-        }
-        return academicYears;
-      } catch (SQLException exc2) {
-        exc2.printStackTrace();
-        return null;
+      ResultSet resultSet = dalBackendServices.executeQuery(preparedStatement);
+      while (resultSet.next()) {
+        academicYears.add(resultSet.getString(1));
       }
+      return academicYears;
+
     } catch (SQLException exc) {
       exc.printStackTrace();
       return null;
