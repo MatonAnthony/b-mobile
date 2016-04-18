@@ -3,24 +3,16 @@ package dal;
 import ihm.Main;
 import utils.ContextManager;
 
-import org.apache.commons.dbcp2.ConnectionFactory;
-import org.apache.commons.dbcp2.DriverManagerConnectionFactory;
-import org.apache.commons.dbcp2.PoolableConnection;
-import org.apache.commons.dbcp2.PoolableConnectionFactory;
-import org.apache.commons.dbcp2.PoolingDataSource;
-import org.apache.commons.pool2.ObjectPool;
-import org.apache.commons.pool2.impl.GenericObjectPool;
+import org.apache.commons.dbcp2.BasicDataSource;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import javax.sql.DataSource;
-
 public class DalServicesImpl implements DalServices, DalBackendServices {
 
-  private DataSource dataSource;
+  private BasicDataSource connectionPool;
   private ThreadLocal<Connection> threadLocal;
 
   /**
@@ -28,24 +20,14 @@ public class DalServicesImpl implements DalServices, DalBackendServices {
    */
   public DalServicesImpl() {
     threadLocal = new ThreadLocal<Connection>();
-
-    String url =
-        ContextManager.getProperty("urlDB") + "?user=" + ContextManager.getProperty("userDB")
-            + "&password=" + ContextManager.getProperty("passwordDB");
-
-    ConnectionFactory connectionFactory = new DriverManagerConnectionFactory(url, null);
-    PoolableConnectionFactory poolableConnectionFactory =
-        new PoolableConnectionFactory(connectionFactory, null);
-    ObjectPool<PoolableConnection> connectionPool =
-        new GenericObjectPool<>(poolableConnectionFactory);
-    poolableConnectionFactory.setPool(connectionPool);
-    dataSource = new PoolingDataSource<>(connectionPool);
-    /*
-     * connectionPool.setUsername(ContextManager.getProperty("userDB"));
-     * connectionPool.setPassword(ContextManager.getProperty("passwordDB"));
-     * connectionPool.setDriverClassName("org.postgresql.Driver"); connectionPool.setUrl(url);
-     * connectionPool.setInitialSize(10);
-     */
+    connectionPool = new BasicDataSource();
+    String url = ContextManager.getProperty("urlDB");
+    connectionPool.setUsername(ContextManager.getProperty("userDB"));
+    connectionPool.setPassword(ContextManager.getProperty("passwordDB"));
+    connectionPool.setDriverClassName("org.postgresql.Driver");
+    connectionPool.setUrl(url);
+    connectionPool.setInitialSize(10);
+    connectionPool.setMaxTotal(5);
   }
 
   @Override
@@ -78,7 +60,7 @@ public class DalServicesImpl implements DalServices, DalBackendServices {
   private Connection getConnection() throws SQLException {
 
     if (threadLocal.get() == null) {
-      threadLocal.set(dataSource.getConnection());
+      threadLocal.set(connectionPool.getConnection());
     }
     return threadLocal.get();
 

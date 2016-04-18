@@ -430,7 +430,6 @@ $(function () {
     }
 
     function loadAddMobility() {
-        console.log("loadAddMobility");
         $("#loginPage").css("display", "none");
         $("#navBarStudent").css("display", "block");
         $("#navBarTeacher").css("display", "none");
