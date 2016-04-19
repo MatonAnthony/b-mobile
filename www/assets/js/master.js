@@ -123,6 +123,7 @@ $(function () {
 	    });
 		return false;
 	});
+
     //Disconnect
     function disconnect() {
         $.ajax({
@@ -334,6 +335,58 @@ $(function () {
             },
             error: function (error) {
                 console.log("Problème lors du changement des permissions de l'utilisateur");
+            }
+        });
+        return true;
+    });
+
+    $("#userListTableBody").on("click", ".btnGererInfos", function () {
+        var id = $(this).attr("value");
+        console.log("coucou");
+        $.ajax({
+            method: "POST",
+            url: "/home",
+            data: {
+                action: "selectUserInformationsById",
+                id: id
+            },
+            success: function (resp) {
+                resp = JSON.parse(resp);
+                $("input[name='name']").val(resp['name']);
+                $("input[name='firstname']").val(resp['firstname']);
+                $("input[name='gender']").val(resp['gender']);
+                //  TODO : Gérer la date de naissance
+                // $("input[name='birthdate']").val(resp['birthdate']);
+                $("input[name='citizenship']").val(resp['citizenship']);
+                $("input[name='street']").val(resp['street']);
+                $("input[name='houseNumber']").val(resp['houseNumber']);
+                $("input[name='city']").val(resp['city']);
+                $("input[name='mailbox']").val(resp['mailBox']);
+                $("input[name='zipcode']").val(resp['zip']);
+                $("input[name='tel']").val(resp['tel']);
+                $("input[name='email']").val(resp['email']);
+                $("input[name='successfullYearsInCollege']").val(resp['successfullYearInCollege']);
+                $("input[name='iban']").val(resp["iban"]["value"]);
+                $("input[name='accountHolder']").val(resp['accountHolder']);
+                $("input[name='bankName']").val(resp['bankName']);
+                $("input[name='bic']").val(resp['bic']);
+
+
+                $("#loginPage").css("display", "none");
+                $("#navBarStudent").css("display", "none");
+                $("#navBarTeacher").css("display", "block");
+                $("#profilePage").css("display", "block");
+                $("#studentHomePage").css("display", "none");
+                $("#teacherHomePage").css("display", "none");
+                $("#addPartnerPage").css("display", "none");
+                $("#addMobilityPage").css("display", "none");
+                $("#registerPage").css("display", "none");
+                $("#listPage").css("display", "none");
+                $("#userListPage").css("display", "none");
+                $("#paymentPage").css("display", "none");
+            },
+            error: function (error) {
+                console.log("Problème lors du chargement des infos de l'utilisateur");
             }
         });
         return true;
@@ -692,7 +745,6 @@ $(function () {
 				action: 'selectProfile'
 			},
 			success: function(resp){
-				console.log(resp);
 				resp = JSON.parse(resp);
 				$("input[name='name']").val(resp['name']);
 				$("input[name='firstname']").val(resp['firstname']);

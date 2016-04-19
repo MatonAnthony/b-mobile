@@ -143,10 +143,10 @@ public class Servlet extends HttpServlet {
           disconnect(req, resp);
           break;
         case "selectProfile":
-          selectProfile(req, resp);
+          selectProfile(req, resp, (Integer) req.getSession().getAttribute(KEY_ID));
           break;
         case "updateUser":
-          updateUser(req, resp);
+          updateUser(req, resp, (Integer) req.getSession().getAttribute(KEY_ID));
           break;
         case "selectAllMobility":
           selectAllMobility(req, resp);
@@ -187,6 +187,9 @@ public class Servlet extends HttpServlet {
         case "selectAddMobilityInformations":
           selectAddMobilityInformations(req, resp);
           break;
+        case "selectUserInformationsById":
+          selectProfile(req, resp, Integer.parseInt("" + req.getParameter("id")));
+          break;
         default:
           resp.setStatus(HttpStatus.BAD_REQUEST_400);
       }
@@ -199,7 +202,6 @@ public class Servlet extends HttpServlet {
     }
 
   }
-
 
   private void selectAddMobilityInformations(HttpServletRequest req, HttpServletResponse resp)
       throws SQLException, NoDepartmentException, NoCountryException, IOException {
@@ -217,12 +219,10 @@ public class Servlet extends HttpServlet {
     resp.setStatus(HttpStatus.ACCEPTED_202);
   }
 
-  private void selectProfile(HttpServletRequest req, HttpServletResponse resp)
+  private void selectProfile(HttpServletRequest req, HttpServletResponse resp, int id)
       throws IOException, SQLException {
-    UserDto userSelected =
-          userUcc.getUserById(Integer.parseInt("" + req.getSession().getAttribute(KEY_ID)));
+    UserDto userSelected = userUcc.getUserById(id);
     String json = userGenson.serialize(userSelected);
-    System.out.println(json);
     resp.getWriter().println(json);
     resp.setStatus(HttpStatus.ACCEPTED_202);
   }
@@ -234,9 +234,9 @@ public class Servlet extends HttpServlet {
    * @param resp The response sended by the server.
    * @throws SQLException If there is an error.
    */
-  private void updateUser(HttpServletRequest req, HttpServletResponse resp)
+  private void updateUser(HttpServletRequest req, HttpServletResponse resp, int id)
       throws IOException, SQLException {
-    UserDto userEdited = userUcc.getUserById((Integer) req.getSession().getAttribute(KEY_ID));
+    UserDto userEdited = userUcc.getUserById(id);
     userEdited.setId(Integer.parseInt("" + req.getSession().getAttribute(KEY_ID)));
     userEdited.setName(req.getParameter("name"));
     userEdited.setFirstname(req.getParameter("firstname"));
@@ -436,20 +436,9 @@ public class Servlet extends HttpServlet {
     resp.getWriter().println(dtoToJson(userDtoRecept));
   }
 
-  /**
-   * The method used by the servlet to add a mobility to the DB.
-   *
-   * @param req The request received by the server.
-   * @param resp The response sended by the server.
-   * @throws SQLException If there is an error.
-   * @throws NumberFormatException If there is an error.
-   * @throws IOException If there is an error.
-   */
   private void addMobility(HttpServletRequest req, HttpServletResponse resp)
       throws IOException, NumberFormatException, SQLException {
     MobilityDto mobility = bizzFactory.getMobilityDto();
-    // TODO (Martin) Poser question : aller chercher les Dtos dans la servlet ou dans l'ucc pour
-    // profiter des transactions?
 
     mobility.setStudentDto(
         userUcc.getUserById(Integer.parseInt("" + req.getSession().getAttribute(KEY_ID))));
