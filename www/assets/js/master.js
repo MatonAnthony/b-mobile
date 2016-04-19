@@ -162,7 +162,7 @@ $(function () {
                 name: $("input[name='name']").val(),
                 firstname: $("input[name='firstname']").val(),
                 gender: $("select[name='gender']").val(),
-                // Birthdate on doit toujours se décider
+                birthdate: $("input[name='birthdate']").val(),
                 citizenship: $("input[name='citizenship']").val(),
                 street: $("input[name='street']").val(),
                 houseNumber: $("input[name='houseNumber']").val(),

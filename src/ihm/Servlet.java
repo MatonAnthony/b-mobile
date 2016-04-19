@@ -38,6 +38,7 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SignatureException;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -219,7 +220,7 @@ public class Servlet extends HttpServlet {
   private void selectProfile(HttpServletRequest req, HttpServletResponse resp)
       throws IOException, SQLException {
     UserDto userSelected =
-        userUcc.getUserById(Integer.parseInt("" + req.getSession().getAttribute(KEY_ID)));
+          userUcc.getUserById(Integer.parseInt("" + req.getSession().getAttribute(KEY_ID)));
     String json = userGenson.serialize(userSelected);
     System.out.println(json);
     resp.getWriter().println(json);
@@ -241,6 +242,8 @@ public class Servlet extends HttpServlet {
     userEdited.setFirstname(req.getParameter("firstname"));
     userEdited.setGender(req.getParameter("gender"));
     // ici il faut ajouté la date de naissance et apres modifier le query
+    userEdited.setBirthDate(LocalDate.parse(req.getParameter("birthdate")));
+    System.out.println(req.getParameter("birthdate"));
     userEdited.setCitizenship(req.getParameter("citizenship"));
     userEdited.setStreet(req.getParameter("street"));
     userEdited.setHouseNumber(req.getParameter("houseNumber"));
