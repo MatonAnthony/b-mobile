@@ -31,7 +31,7 @@ jQuery.fn.tableToCSV = function() {
         rows = rows.join("\n");
 
         var csv = title + rows;
-        var uri = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csv);
+        var uri = 'data:text/csv;charset=utf-8,\ufeff' + encodeURIComponent(csv);
         var download_link = document.createElement('a');
         download_link.href = uri;
         var ts = new Date().getTime();
