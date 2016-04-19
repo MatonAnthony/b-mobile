@@ -25,7 +25,7 @@ public interface UserUcController {
    * @param userdto is the user to register.
    * @return a userDto. It is the user added. Null if there was a error."
    * @throws AuthenticationException if an error happen between register and login.
-   * @throws UserAlreadyExistsException
+   * @throws UserAlreadyExistsException if the user already exists in the database.
    */
   UserDto register(UserDto userdto) throws AuthenticationException, UserAlreadyExistsException;
 

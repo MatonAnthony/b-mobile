@@ -56,7 +56,7 @@ public interface UserDao {
   /**
    * Gets the existence of the username.
    * 
-   * @param username
+   * @param username to check in the database.
    * @return true if the username exists in the database, else return false
    */
   boolean userExists(String username);
