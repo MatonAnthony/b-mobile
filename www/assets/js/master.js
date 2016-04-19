@@ -142,6 +142,7 @@ $(function () {
                 $("#addPartnerPage").css("display", "none");
                 $("#userListPage").css("display", "none");
                 $("#listPage").css("display", "none");
+                $("#paymentPage").css("display", "none");
             },
             error: function (e) {
                 console.log(e.message);
@@ -439,6 +440,7 @@ $(function () {
         $("#addMobilityPage").css("display", "block");
         $("#addPartnerPage").css("display", "none");
         $("#listPage").css("display", "none");
+        $("#paymentPage").css("dispay", "none");
         $("#userListPage").css("display", "none");
 
         if ($("#selectProgram1").html() == "") {
@@ -1083,7 +1085,7 @@ $(function () {
 
 
 	// Export to CSV
-	$("#csv").click(function(){
+	$("#CSV").click(function(){
 		$("#list").tableToCSV();
 	})
 });
