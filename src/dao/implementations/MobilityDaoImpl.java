@@ -46,15 +46,16 @@ public class MobilityDaoImpl implements MobilityDao {
 
           + "pro.id, pro.name, pro.description, pro.ver_nr, "
 
-          + "par.id, par.id_user, par.legal_name, par.business_name, par.full_name, par.department,par.type,"
-          + "par.nb_employees, par.street, par.number, par.mailbox, par.zip, par.city,par.state,"
-          + "par.country, par.email, par.website, par.exists, par.ver_nr,"
+          + "par.id, par.id_user, par.legal_name, par.business_name, par.full_name, par.department,"
+          + "par.type, par.nb_employees, par.street, par.number, par.mailbox, par.zip, par.city,"
+          + "par.state,par.country, par.email, par.website, par.exists, par.ver_nr,"
 
           + "co.iso, co.name_en, co.name_fr, co.id_program," + "d.id, d.label, d.ver_nr "
           + ",c.id, c.reason, c.responsible, c.ver_nr "
 
-          + "FROM bmobile.mobilities m LEFT OUTER JOIN bmobile.partners par ON m.id_partner = par.id "
-          + "LEFT OUTER JOIN bmobile.cancelations c ON m.cancelation_reason = c.id, bmobile.users u, bmobile.programs pro, "
+          + "FROM bmobile.mobilities m LEFT OUTER JOIN bmobile.partners par "
+          + "ON m.id_partner = par.id LEFT OUTER JOIN bmobile.cancelations c "
+          + "ON m.cancelation_reason = c.id, bmobile.users u, bmobile.programs pro, "
           + "bmobile.countries co, bmobile.departments d "
 
           + "WHERE (m.id_student = u.id) AND (m.id_program = pro.id) "

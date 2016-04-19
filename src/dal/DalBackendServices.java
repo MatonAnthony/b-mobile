@@ -19,7 +19,7 @@ public interface DalBackendServices {
    *
    * @param statement Prepared statement to execute.
    * @return int The row count for statement
-   * @throws SQLException
+   * @throws SQLException If there is an error.
    */
   int executeUpdate(PreparedStatement statement) throws SQLException;
 

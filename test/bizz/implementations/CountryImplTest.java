@@ -15,7 +15,7 @@ public class CountryImplTest {
   /**
    * Set up the tests
    * 
-   * @throws java.lang.Exception
+   * @throws java.lang.Exception If there is an error.
    */
   @Before
   public void setUp() throws Exception {

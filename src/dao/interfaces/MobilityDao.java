@@ -50,7 +50,7 @@ public interface MobilityDao {
   /**
    * Return an ArrayList containing all the payments matching with the academicYear.
    * 
-   * @param the academicYear for the selection of the payment.
+   * @param academicYear the academicYear for the selection of the payment.
    * @return an ArrayList with the academic years.
    */
   ArrayList<MobilityDto> getFullPayments(String academicYear);

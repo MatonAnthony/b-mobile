@@ -29,6 +29,8 @@ public class DepartmentUcControllerImpl implements DepartmentUcController {
     return departments;
   }
 
+
+  @Override
   public DepartmentDto getDepartementsById(String id) throws NoDepartmentException, SQLException {
     dalServices.openConnection();
     DepartmentDto department = departmentDao.getDepartementById(id);

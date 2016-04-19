@@ -52,6 +52,7 @@ public class DalServicesImpl implements DalServices, DalBackendServices {
     return threadLocal.get().prepareStatement(query);
   }
 
+  @Override
   public void openConnection() throws SQLException {
 
     threadLocal.set(connectionPool.getConnection());
