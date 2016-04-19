@@ -746,11 +746,17 @@ $(function () {
 			},
 			success: function(resp){
 				resp = JSON.parse(resp);
+
+                var b = new Date(""+resp['birthDate']['year']+"-"+resp['birthDate']['month']
+                +"-"+resp['birthDate']['day']);
+                var birthdate = b.getFullYear() + "-" +
+                    (b.getMonth().toString().length == 1 ? "0" + parseInt(b.getMonth() + 1) : parseInt(b.getMonth() + 1)) + "-" +
+                    (b.getDate().toString().length == 1 ? "0" + b.getDate() : b.getDate());
+
 				$("input[name='name']").val(resp['name']);
 				$("input[name='firstname']").val(resp['firstname']);
 				$("input[name='gender']").val(resp['gender']);
-				//	TODO : Gérer la date de naissance
-				// $("input[name='birthdate']").val(resp['birthdate']);
+				$("input[name='birthdate']").val(birthdate);
 				$("input[name='citizenship']").val(resp['citizenship']);
 				$("input[name='street']").val(resp['street']);
 				$("input[name='houseNumber']").val(resp['houseNumber']);

@@ -39,6 +39,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SignatureException;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -241,9 +242,11 @@ public class Servlet extends HttpServlet {
     userEdited.setName(req.getParameter("name"));
     userEdited.setFirstname(req.getParameter("firstname"));
     userEdited.setGender(req.getParameter("gender"));
-    // ici il faut ajouté la date de naissance et apres modifier le query
-    userEdited.setBirthDate(LocalDate.parse(req.getParameter("birthdate")));
-    System.out.println(req.getParameter("birthdate"));
+    try {
+      userEdited.setBirthDate(LocalDate.parse(req.getParameter("birthdate")));
+    }catch(DateTimeParseException exc){
+      createToaster(exc, resp);
+    }
     userEdited.setCitizenship(req.getParameter("citizenship"));
     userEdited.setStreet(req.getParameter("street"));
     userEdited.setHouseNumber(req.getParameter("houseNumber"));
@@ -638,6 +641,11 @@ public class Servlet extends HttpServlet {
         resp.setStatus(HttpStatus.PARTIAL_CONTENT_206);
         map.put("type", "error");
         map.put("message", exception.getMessage());
+        break;
+      case "class java.time.format.DateTimeParseException":
+        resp.setStatus(HttpStatus.EXPECTATION_FAILED_417);
+        map.put("type", "warning");
+        map.put("message", "La date entrée n'est pas correcte");
         break;
       default:
         resp.setStatus(HttpStatus.PARTIAL_CONTENT_206);
