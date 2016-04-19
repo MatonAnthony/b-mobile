@@ -169,7 +169,7 @@ $(function () {
                 mailbox: $("input[name='mailbox']").val(),
                 zipcode: $("input[name='zipcode']").val(),
                 city: $("input[name='city']").val(),
-                country: $("input[name='country']").val(),
+                country: $("select[name='country']").val(),
                 tel: $("input[name='tel']").val(),
                 email: $("input[name='email']").val(),
                 successfullYearsInCollege: $("input[name='successfullYearsInCollege']").val(),
@@ -665,7 +665,7 @@ $(function () {
 		$(".active").removeClass("active");
 		$(".navButton[href='#myInformations']").parent().addClass("active");
 
-        if ($("#profile_country").html() == "" && $("#profile_citizenship").html() == "") {
+        if ($("#profile_country").html() == "") {
             $.ajax({
                 method: "POST",
                 url: "/home",
@@ -676,8 +676,7 @@ $(function () {
                     resp = JSON.parse(resp);
                     var key;
                     for (key in resp) {
-                        $("#profile_citizenship").append("<option>" + resp[key]['nameFr'] + "</option>");
-                        $("#profile_country").append("<option>" + resp[key]['nameFr'] + "</option>");
+                        $("#profile_country").append('<option value='+resp[key]['nameFr']+'>' + resp[key]['nameFr'] + '</option>');
                     }
                 },
                 error: function (error) {

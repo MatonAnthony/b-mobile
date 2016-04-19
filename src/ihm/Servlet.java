@@ -221,6 +221,7 @@ public class Servlet extends HttpServlet {
     UserDto userSelected =
         userUcc.getUserById(Integer.parseInt("" + req.getSession().getAttribute(KEY_ID)));
     String json = userGenson.serialize(userSelected);
+    System.out.println(json);
     resp.getWriter().println(json);
     resp.setStatus(HttpStatus.ACCEPTED_202);
   }
@@ -247,14 +248,15 @@ public class Servlet extends HttpServlet {
     userEdited.setZip(req.getParameter("zipcode"));
     userEdited.setCity(req.getParameter("city"));
     try {
-      // userEdited.setCountryDto(countryUcc.getCountryByNameFr(req.getParameter("country")));
+      userEdited.setCountryDto(countryUcc.getCountryByNameFr(req.getParameter("country")));
+      userEdited.setCountry(userEdited.getCountryDto().getNameFr());
     } catch (Exception exc) {
       createToaster(exc, resp);
     }
     userEdited.setTel(req.getParameter("tel"));
     userEdited.setSuccessfullYearInCollege(
         Integer.parseInt(0 + req.getParameter("successfullYearsInCollege")));
-    // userEdited.setIban(req.getParameter("iban"));
+    userEdited.setIban(req.getParameter("iban"));
     userEdited.setAccountHolder(req.getParameter("accountHolder"));
     userEdited.setBankName(req.getParameter("bankName"));
     userEdited.setBic(req.getParameter("bic"));

@@ -496,4 +496,6 @@ public class UserImplTest {
     UserImpl sister = (UserImpl) puppet.clone();
     assertNotSame(puppet, sister);
   }
+
+
 }

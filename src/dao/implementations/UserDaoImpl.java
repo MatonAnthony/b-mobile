@@ -118,7 +118,8 @@ public class UserDaoImpl implements UserDao {
   public void updateUser(UserDto userEdited) {
     String query = "UPDATE bmobile.users SET name = ?, firstname = ?, gender = ?, citizenship = ?,"
         + "street = ?, house_number = ?, mailbox = ?, zip = ?, city = ?, tel = ?, email = ?,"
-        + "successfull_year_in_college = ?, bic = ?, account_holder = ?, bank_name = ? "
+        + "successfull_year_in_college = ?, bic = ?, account_holder = ?, bank_name = ?, "
+        + "country = ?, iban = ?"
         + "WHERE id = ?";
     PreparedStatement preparedStatement = null;
     try {
@@ -138,7 +139,9 @@ public class UserDaoImpl implements UserDao {
       preparedStatement.setString(13, userEdited.getBic());
       preparedStatement.setString(14, userEdited.getAccountHolder());
       preparedStatement.setString(15, userEdited.getBankName());
-      preparedStatement.setInt(16, userEdited.getId());
+      preparedStatement.setString(16, userEdited.getCountryDto().getIso());
+      preparedStatement.setString(17, userEdited.getIban());
+      preparedStatement.setInt(18, userEdited.getId());
       dalBackendServices.executeUpdate(preparedStatement);
 
 
