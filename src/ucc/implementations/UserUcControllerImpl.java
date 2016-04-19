@@ -11,7 +11,6 @@ import ucc.interfaces.UserUcController;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
-import java.util.logging.Logger;
 
 public class UserUcControllerImpl implements UserUcController {
 
@@ -31,48 +30,40 @@ public class UserUcControllerImpl implements UserUcController {
 
   }
 
-  /**
-   * Gere tout le processus de connexion d'un utilisateur;
-   * 
-   * @param username Le nom d'utilisateur avec lequel la connexion doit être effectuee
-   * @param password Le mot de passe avec lequel la connexion doit être effectuee.
-   * @throws AuthenticationException if the user doesn't exist or if the password is incorrect.
-   */
   @Override
-  public UserDto login(String username, String password) throws AuthenticationException {
+  public UserDto login(String login, String password) throws AuthenticationException, SQLException {
     UserBizz user;
     try {
       // Récupérer les données du DAL
-      user = (UserBizz) userDao.getUserByUserName(username);
+      dalServices.openConnection();
+      user = (UserBizz) userDao.getUserByUserName(login);
     } catch (NoSuchElementException nsee) {
       // L'user est null si aucun utilisateur avec le pseudo entré n'existe
-      Main.LOGGER.warning("\"" + username + "\" : username not exist ");
+      Main.LOGGER.warning("\"" + login + "\" : username not exist ");
+      dalServices.closeConnection();
       throw new AuthenticationException("L'utilisateur n'existe pas.");
     }
 
     if (user.checkPassword(password)) {
-      Main.LOGGER.info("[" + user.getPermissions() + "] \"" + username + "\" connected");
+      Main.LOGGER.info("[" + user.getPermissions() + "] \"" + login + "\" connected");
+      dalServices.closeConnection();
       return user;
     } else {
-      Main.LOGGER.warning("\"" + username + "\" : bad password ");
+      Main.LOGGER.warning("\"" + login + "\" : bad password ");
+      dalServices.closeConnection();
       throw new AuthenticationException("Le mot de passe indiqué est incorrect.");
     }
   }
 
-  /**
-   * The function register new user in the data base.
-   * 
-   * @param userdto is the user to register.
-   * @return a userDto. It is the user added. Null if there was a error."
-   * @throws AuthenticationException if an error happen between register and login.
-   */
-
+  @Override
   public UserDto register(UserDto userdto) throws AuthenticationException {
+
     String password = userdto.getPassword();
     UserBizz userBizz = (UserBizz) userdto;
     userBizz.cryptPassword();
 
     try {
+      dalServices.openConnection();
       dalServices.startTransaction();
       if (userDao.getUserByUserName(userBizz.getPseudo()) != null) {
         return null;
@@ -81,11 +72,13 @@ public class UserUcControllerImpl implements UserUcController {
         return null;
       }
       dalServices.commitTransaction();
+      dalServices.closeConnection();
       userBizz = (UserBizz) login(userBizz.getPseudo(), password);
       return userBizz;
     } catch (SQLException exc) {
       try {
         dalServices.rollbackTransaction();
+        dalServices.closeConnection();
       } catch (SQLException exc2) {
         exc2.printStackTrace();
       }
@@ -95,18 +88,25 @@ public class UserUcControllerImpl implements UserUcController {
   }
 
   @Override
-  public UserDto getUserById(int id) {
-    return userDao.getUserById(id);
+  public UserDto getUserById(int id) throws SQLException {
+    dalServices.openConnection();
+    UserDto user = userDao.getUserById(id);
+    dalServices.closeConnection();
+    return user;
   }
 
   @Override
-  public ArrayList<UserDto> getAllUsers() {
-    return userDao.getAllUsers();
+  public ArrayList<UserDto> getAllUsers() throws SQLException {
+    dalServices.openConnection();
+    ArrayList<UserDto> users = userDao.getAllUsers();
+    dalServices.closeConnection();
+    return users;
   }
 
   @Override
   public void changePermissions(int id) {
     try {
+      dalServices.openConnection();
       dalServices.startTransaction();
       UserDto user = userDao.getUserById(id);
       if (user.getPermissions().equals("STUDENT")) {
@@ -116,9 +116,11 @@ public class UserUcControllerImpl implements UserUcController {
       }
 
       dalServices.commitTransaction();
+      dalServices.closeConnection();
     } catch (Exception exc1) {
       try {
         dalServices.rollbackTransaction();
+        dalServices.closeConnection();
       } catch (SQLException exc2) {
         exc2.printStackTrace();
       }
@@ -128,13 +130,16 @@ public class UserUcControllerImpl implements UserUcController {
   @Override
   public void updateUser(UserDto userEdited) {
     try {
+      dalServices.openConnection();
       dalServices.startTransaction();
       userDao.updateUser(userEdited);
       dalServices.commitTransaction();
+      dalServices.closeConnection();
     } catch (SQLException exc1) {
       exc1.printStackTrace();
       try {
         dalServices.rollbackTransaction();
+        dalServices.closeConnection();
       } catch (SQLException exc2) {
         exc2.printStackTrace();
       }

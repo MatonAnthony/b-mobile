@@ -32,49 +32,41 @@ public class DalServicesImpl implements DalServices, DalBackendServices {
 
   @Override
   public void startTransaction() throws SQLException {
-    getConnection().setAutoCommit(false);
+    threadLocal.get().setAutoCommit(false);
   }
 
   @Override
   public void commitTransaction() throws SQLException {
-    Connection connection = getConnection();
-    connection.commit();
-    connection.setAutoCommit(true);
-    connection.close();
+    threadLocal.get().commit();
+    threadLocal.get().setAutoCommit(true);
   }
 
   @Override
   public void rollbackTransaction() throws SQLException {
-    Connection connection = getConnection();
-    connection.rollback();
-    connection.setAutoCommit(true);
-    connection.close();
+    threadLocal.get().rollback();
+    threadLocal.get().setAutoCommit(true);
   }
 
   @Override
   public PreparedStatement prepare(String query) throws SQLException {
-    return getConnection().prepareStatement(query);
-
+    return threadLocal.get().prepareStatement(query);
   }
 
-  private Connection getConnection() throws SQLException {
+  public void openConnection() throws SQLException {
 
-    if (threadLocal.get() == null) {
-      threadLocal.set(connectionPool.getConnection());
-    }
-    return threadLocal.get();
+    threadLocal.set(connectionPool.getConnection());
 
   }
 
   @Override
-  public int executeUpdate(PreparedStatement statement) {
+  public int executeUpdate(PreparedStatement statement) throws SQLException {
     try {
       Main.LOGGER.finest(statement.toString());
       return statement.executeUpdate();
     } catch (SQLException exc) {
       Main.LOGGER.severe(exc.getMessage());
       exc.printStackTrace();
-      return 0;
+      throw exc;
     }
   }
 
@@ -88,6 +80,19 @@ public class DalServicesImpl implements DalServices, DalBackendServices {
       exc.printStackTrace();
       throw exc;
     }
+  }
+
+
+  @Override
+  public void closeConnection() throws SQLException {
+    Connection connex = threadLocal.get();
+    try {
+      threadLocal.remove();
+      connex.close();
+    } catch (SQLException exc) {
+      exc.printStackTrace();
+    }
+
   }
 
 }

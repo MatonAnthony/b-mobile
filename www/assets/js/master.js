@@ -192,7 +192,6 @@ $(function () {
     $("#addMobilityRow").click(function () {
 
         var nbRow = $("#addMobilityTable").attr("numberOfRows");
-        if (nbRow == 3)return false;
         nbRow++;
         $("#addMobilityTable").attr("numberOfRows", nbRow);
         var value =
@@ -225,6 +224,14 @@ $(function () {
         addProgramsToSelector(nbRow);
         showCountriesByProgram(nbRow, 'Erasmus+');
         return true;
+    });
+
+    $("#delMobilityRow").click(function(){
+        var nbRow = $("#addMobilityTable").attr("numberOfRows");
+        if(nbRow==1) return false;
+        $("#addMobilityTableBody > tr:nth-child("+nbRow+")").remove();
+        nbRow--;
+        $("#addMobilityTable").attr("numberOfRows", nbRow);
     });
 
     $("#addMobilityBtn").click(function () {

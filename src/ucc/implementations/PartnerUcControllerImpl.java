@@ -27,14 +27,18 @@ public class PartnerUcControllerImpl implements PartnerUcController {
 
   @Override
   public void addPartner(PartnerDto partner) {
+    // TODO (Kamil) Throw les exceptions custom a la place de les catch
     try {
+      dalServices.openConnection();
       dalServices.startTransaction();
       partnerDao.createPartner(partner);
       dalServices.commitTransaction();
+      dalServices.closeConnection();
     } catch (SQLException exc1) {
       exc1.printStackTrace();
       try {
         dalServices.rollbackTransaction();
+        dalServices.closeConnection();
       } catch (SQLException exc2) {
         exc2.printStackTrace();
       }

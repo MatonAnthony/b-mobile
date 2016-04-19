@@ -25,37 +25,54 @@ public class MobilityUcControllerImpl implements MobilityUcController {
 
   }
 
-  public ArrayList<MobilityDto> getAllMobilities() {
-    return mobilityDao.getAllMobilities();
-  }
-
   @Override
-  public ArrayList<MobilityDto> getMobilities() {
-    return mobilityDao.getFullMobilities();
-  }
-
-
-  public ArrayList<MobilityDto> getConfirmedMobilities() {
-    ArrayList<MobilityDto> mobilities = mobilityDao.getFullConfirmedMobilities();
+  public ArrayList<MobilityDto> getAllMobilities() throws SQLException {
+    dalServices.openConnection();
+    ArrayList<MobilityDto> mobilities = mobilityDao.getAllMobilities();
+    dalServices.closeConnection();
     return mobilities;
   }
 
   @Override
-  public ArrayList<MobilityDto> getMyMobilities(String user) {
-    return mobilityDao.getFullMyMobilities(user);
+  public ArrayList<MobilityDto> getMobilities() throws SQLException {
+    dalServices.openConnection();
+    ArrayList<MobilityDto> mobilities = mobilityDao.getFullMobilities();
+    dalServices.closeConnection();
+    return mobilities;
+  }
+
+  @Override
+  public ArrayList<MobilityDto> getConfirmedMobilities() throws SQLException {
+    dalServices.openConnection();
+    ArrayList<MobilityDto> mobilities = mobilityDao.getFullConfirmedMobilities();
+    dalServices.closeConnection();
+    return mobilities;
+  }
+
+  @Override
+  public ArrayList<MobilityDto> getMyMobilities(String user) throws SQLException {
+    dalServices.openConnection();
+    ArrayList<MobilityDto> mobilities = mobilityDao.getFullMyMobilities(user);
+    dalServices.closeConnection();
+    return mobilities;
   }
 
   @Override
   public void addMobility(MobilityDto mobility) {
+
+    // TODO (Martin) Throw les exceptions custom plutot que de la catch
     try {
+      dalServices.openConnection();
       dalServices.startTransaction();
       mobilityDao.createMobility(mobility);
 
       dalServices.commitTransaction();
+      dalServices.closeConnection();
     } catch (SQLException exc) {
       exc.printStackTrace();
       try {
         dalServices.rollbackTransaction();
+        dalServices.closeConnection();
       } catch (SQLException exc1) {
         exc1.printStackTrace();
       }
@@ -64,13 +81,19 @@ public class MobilityUcControllerImpl implements MobilityUcController {
   }
 
   @Override
-  public ArrayList<String> getAcademicYears() {
-    return mobilityDao.getAllAcademicYears();
+  public ArrayList<String> getAcademicYears() throws SQLException {
+    dalServices.openConnection();
+    ArrayList<String> academicYears = mobilityDao.getAllAcademicYears();
+    dalServices.closeConnection();
+    return academicYears;
   }
 
   @Override
-  public ArrayList<MobilityDto> getFullPayments(String academicYear) {
-    return mobilityDao.getFullPayments(academicYear);
+  public ArrayList<MobilityDto> getFullPayments(String academicYear) throws SQLException {
+    dalServices.openConnection();
+    ArrayList<MobilityDto> payments = mobilityDao.getFullPayments(academicYear);
+    dalServices.closeConnection();
+    return payments;
   }
 
 }

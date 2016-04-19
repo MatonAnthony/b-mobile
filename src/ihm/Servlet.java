@@ -36,6 +36,7 @@ import java.nio.charset.Charset;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SignatureException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -195,8 +196,10 @@ public class Servlet extends HttpServlet {
   }
 
 
-  private void selectProfile(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-    UserDto userSelected = userUcc.getUserById((Integer) req.getSession().getAttribute(KEY_ID));
+  private void selectProfile(HttpServletRequest req, HttpServletResponse resp)
+      throws IOException, SQLException {
+    UserDto userSelected =
+        userUcc.getUserById(Integer.parseInt("" + req.getSession().getAttribute(KEY_ID)));
     String json = userGenson.serialize(userSelected);
     resp.getWriter().println(json);
     resp.setStatus(HttpStatus.ACCEPTED_202);
@@ -207,8 +210,10 @@ public class Servlet extends HttpServlet {
    *
    * @param req The request received by the server.
    * @param resp The response sended by the server.
+   * @throws SQLException If there is an error.
    */
-  private void updateUser(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+  private void updateUser(HttpServletRequest req, HttpServletResponse resp)
+      throws IOException, SQLException {
     UserDto userEdited = userUcc.getUserById((Integer) req.getSession().getAttribute(KEY_ID));
     userEdited.setId(Integer.parseInt("" + req.getSession().getAttribute(KEY_ID)));
     userEdited.setName(req.getParameter("name"));
@@ -222,7 +227,7 @@ public class Servlet extends HttpServlet {
     userEdited.setZip(req.getParameter("zipcode"));
     userEdited.setCity(req.getParameter("city"));
     try {
-      //userEdited.setCountryDto(countryUcc.getCountryByNameFr(req.getParameter("country")));
+      // userEdited.setCountryDto(countryUcc.getCountryByNameFr(req.getParameter("country")));
     } catch (Exception exc) {
       createToaster(exc, resp);
     }
@@ -242,14 +247,16 @@ public class Servlet extends HttpServlet {
     resp.setStatus(HttpStatus.ACCEPTED_202);
   }
 
-  private void selectUsers(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+  private void selectUsers(HttpServletRequest req, HttpServletResponse resp)
+      throws IOException, SQLException {
     ArrayList<UserDto> users = userUcc.getAllUsers();
     String jsonUsers = userGenson.serialize(users);
     resp.getWriter().println(jsonUsers);
     resp.setStatus(HttpStatus.ACCEPTED_202);
   }
 
-  private void selectPrograms(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+  private void selectPrograms(HttpServletRequest req, HttpServletResponse resp)
+      throws IOException, SQLException {
     ArrayList<ProgramDto> programs = programUcc.getAllPrograms();
     String jsonPrograms = basicGenson.serialize(programs);
     resp.getWriter().println(jsonPrograms);
@@ -257,7 +264,7 @@ public class Servlet extends HttpServlet {
   }
 
   private void selectDepartments(HttpServletRequest req, HttpServletResponse resp)
-      throws IOException {
+      throws IOException, SQLException {
     ArrayList<DepartmentDto> departments = null;
     try {
       departments = departmentUcc.getAllDepartments();
@@ -283,7 +290,7 @@ public class Servlet extends HttpServlet {
   }
 
   private void selectAllMobility(HttpServletRequest req, HttpServletResponse resp)
-      throws IOException {
+      throws IOException, SQLException {
     ArrayList<MobilityDto> mobilities = mobilityUcc.getMobilities();
     String jsonMobilities = null;
     if (mobilities.size() != 0) {
@@ -294,7 +301,7 @@ public class Servlet extends HttpServlet {
   }
 
   private void selectConfirmedMobility(HttpServletRequest req, HttpServletResponse resp)
-      throws IOException {
+      throws IOException, SQLException {
     ArrayList<MobilityDto> mobilities = mobilityUcc.getConfirmedMobilities();
     String jsonMobilities = null;
     if (null != mobilities && mobilities.size() != 0) {
@@ -305,7 +312,7 @@ public class Servlet extends HttpServlet {
   }
 
   private void selectMyMobility(HttpServletRequest req, HttpServletResponse resp)
-      throws IOException {
+      throws IOException, SQLException {
 
     ArrayList<MobilityDto> myMobilities =
         mobilityUcc.getMyMobilities((String) req.getSession().getAttribute(KEY_USERNAME));
@@ -383,7 +390,8 @@ public class Servlet extends HttpServlet {
 
   }
 
-  private void login(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+  private void login(HttpServletRequest req, HttpServletResponse resp)
+      throws IOException, SQLException {
     String username = req.getParameter("username");
     String password = req.getParameter("password");
 
@@ -408,9 +416,12 @@ public class Servlet extends HttpServlet {
    *
    * @param req The request received by the server.
    * @param resp The response sended by the server.
-   * @throws IOException.
+   * @throws SQLException If there is an error.
+   * @throws NumberFormatException If there is an error.
+   * @throws IOException If there is an error.
    */
-  private void addMobility(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+  private void addMobility(HttpServletRequest req, HttpServletResponse resp)
+      throws IOException, NumberFormatException, SQLException {
     MobilityDto mobility = bizzFactory.getMobilityDto();
     // TODO (Martin) Poser question : aller chercher les Dtos dans la servlet ou dans l'ucc pour
     // profiter des transactions?
@@ -442,9 +453,12 @@ public class Servlet extends HttpServlet {
    *
    * @param req The request received by the server.
    * @param resp The response sended by the server.
-   * @throws IOException.
+   * @throws SQLException If there is an error.
+   * @throws NumberFormatException If there is an error.
+   * @throws IOException If there is an error.
    */
-  private void addPartner(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+  private void addPartner(HttpServletRequest req, HttpServletResponse resp)
+      throws IOException, NumberFormatException, SQLException {
     PartnerDto partner = bizzFactory.getPartnerDto();
     partner.setUserDto(
         userUcc.getUserById(Integer.parseInt("" + req.getSession().getAttribute(KEY_ID))));
@@ -477,8 +491,10 @@ public class Servlet extends HttpServlet {
    * 
    * @param req The request received by the server.
    * @param resp The response sended by the server.
+   * @throws SQLException If there is an error.
    */
-  private void loadAcademicYears(HttpServletRequest req, HttpServletResponse resp) {
+  private void loadAcademicYears(HttpServletRequest req, HttpServletResponse resp)
+      throws SQLException {
     ArrayList<String> academicYears = mobilityUcc.getAcademicYears();
     String json = userGenson.serialize(academicYears);
     try {
@@ -495,9 +511,11 @@ public class Servlet extends HttpServlet {
    * 
    * @param req The request received by the server.
    * @param resp The response sended by the server.
-   * @throws IOException.
+   * @throws SQLException If there is an error.
+   * @throws IOException If there is an error.
    */
-  private void loadPayments(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+  private void loadPayments(HttpServletRequest req, HttpServletResponse resp)
+      throws IOException, SQLException {
     String academicYear = req.getParameter("academicYear");
     ArrayList<MobilityDto> mobilities = mobilityUcc.getFullPayments(academicYear);
     String jsonMobilities = null;

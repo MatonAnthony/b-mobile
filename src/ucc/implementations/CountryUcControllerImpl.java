@@ -29,12 +29,18 @@ public class CountryUcControllerImpl implements CountryUcController {
 
   @Override
   public ArrayList<CountryDto> getAllCountries() throws NoCountryException, SQLException {
-    return countryDao.getAll();
+    dalServices.openConnection();
+    ArrayList<CountryDto> countries = countryDao.getAll();
+    dalServices.closeConnection();
+    return countries;
   }
 
   @Override
   public CountryDto getCountryByNameFr(String name) throws NoCountryException, SQLException {
-    return countryDao.getCountryByNameFr(name);
+    dalServices.openConnection();
+    CountryDto country = countryDao.getCountryByNameFr(name);
+    dalServices.closeConnection();
+    return country;
   }
 
 }

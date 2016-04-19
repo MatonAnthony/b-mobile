@@ -7,6 +7,7 @@ import dto.DepartmentDto;
 import exceptions.NoDepartmentException;
 import ucc.interfaces.DepartmentUcController;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class DepartmentUcControllerImpl implements DepartmentUcController {
@@ -21,20 +22,27 @@ public class DepartmentUcControllerImpl implements DepartmentUcController {
 
 
   @Override
-  public ArrayList<DepartmentDto> getAllDepartments() throws NoDepartmentException {
-
+  public ArrayList<DepartmentDto> getAllDepartments() throws NoDepartmentException, SQLException {
+    dalServices.openConnection();
     ArrayList<DepartmentDto> departments = departmentDao.getAllDepartments();
-
+    dalServices.closeConnection();
     return departments;
   }
 
-  public DepartmentDto getDepartementsById(String id) throws NoDepartmentException {
-    return departmentDao.getDepartementById(id);
+  public DepartmentDto getDepartementsById(String id) throws NoDepartmentException, SQLException {
+    dalServices.openConnection();
+    DepartmentDto department = departmentDao.getDepartementById(id);
+    dalServices.closeConnection();
+    return department;
   }
 
   @Override
-  public DepartmentDto getDepartmentByLabel(String label) throws NoDepartmentException {
-    return departmentDao.getDepartmentByLabel(label);
+  public DepartmentDto getDepartmentByLabel(String label)
+      throws NoDepartmentException, SQLException {
+    dalServices.openConnection();
+    DepartmentDto department = departmentDao.getDepartmentByLabel(label);
+    dalServices.closeConnection();
+    return department;
   }
 
 }

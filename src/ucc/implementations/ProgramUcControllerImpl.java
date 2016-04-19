@@ -5,6 +5,7 @@ import dao.interfaces.ProgramDao;
 import dto.ProgramDto;
 import ucc.interfaces.ProgramUcController;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class ProgramUcControllerImpl implements ProgramUcController {
@@ -24,15 +25,19 @@ public class ProgramUcControllerImpl implements ProgramUcController {
   }
 
   @Override
-  public ArrayList<ProgramDto> getAllPrograms() {
+  public ArrayList<ProgramDto> getAllPrograms() throws SQLException {
+    dalServices.openConnection();
     ArrayList<ProgramDto> programs = programDao.getAllProgram();
-
+    dalServices.closeConnection();
     return programs;
   }
 
   @Override
-  public ProgramDto getProgramByName(String name) {
-    return programDao.findByName(name);
+  public ProgramDto getProgramByName(String name) throws SQLException {
+    dalServices.openConnection();
+    ProgramDto program = programDao.findByName(name);
+    dalServices.closeConnection();
+    return program;
   }
 
 }

@@ -2,6 +2,7 @@ package ucc.interfaces;
 
 import dto.MobilityDto;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public interface MobilityUcController {
@@ -10,22 +11,26 @@ public interface MobilityUcController {
    * Return an ArrayList containing all the mobilities
    * 
    * @return an ArrayList of MobilityDto.
+   * 
+   * @throws SQLException If there is a problem.
    */
-  ArrayList<MobilityDto> getAllMobilities();
+  ArrayList<MobilityDto> getAllMobilities() throws SQLException;
 
   /**
    * Return an ArrayList containing all the mobilities of one departements stored in database.
    * 
    * @return an ArrayList of MobilityDto.
+   * @throws SQLException If there is a problem.
    */
-  ArrayList<MobilityDto> getMobilities();
+  ArrayList<MobilityDto> getMobilities() throws SQLException;
 
   /**
    * Return an ArrayList containing all the confirmed mobilities stored in database.
    *
    * @return an ArrayList of MobilityDto.
+   * @throws SQLException If there is a problem.
    */
-  ArrayList<MobilityDto> getConfirmedMobilities();
+  ArrayList<MobilityDto> getConfirmedMobilities() throws SQLException;
 
   /**
    * Return an ArrayList containing all the mobilities of one user stored in database.
@@ -33,24 +38,34 @@ public interface MobilityUcController {
    * @param user pseudo of user who want to see his mobilities
    * 
    * @return an ArrayList of MobilityDto.
+   * 
+   * @throws SQLException If there is a problem.
    */
-  ArrayList<MobilityDto> getMyMobilities(String user);
+  ArrayList<MobilityDto> getMyMobilities(String user) throws SQLException;
 
+  /**
+   * Add a mobility to the database.
+   * 
+   * @param mobility The mobilityDto to add.
+   * @throws SQLException If there is a problem.
+   */
   void addMobility(MobilityDto mobility);
 
   /**
    * Return an ArrayList containing all the academic years stored in database.
    * 
    * @return an ArrayList with the academic years.
+   * @throws SQLException If there is a problem.
    */
-  ArrayList<String> getAcademicYears();
+  ArrayList<String> getAcademicYears() throws SQLException;
 
   /**
    * Return an ArrayList containing all the payments matching with the academicYear.
    * 
-   * @param the academicYear for the selection of the payment.
+   * @param academicYear the academicYear for the selection of the payment.
    * @return an ArrayList with the academic years.
+   * @throws SQLException If there is a problem.
    */
-  ArrayList<MobilityDto> getFullPayments(String academicYear);
+  ArrayList<MobilityDto> getFullPayments(String academicYear) throws SQLException;
 
 }
