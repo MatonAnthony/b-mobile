@@ -84,7 +84,8 @@ $(function () {
                     }
                 },
                 error: function (error) {
-                    console.log("erreur lors de l'enregistrement");
+					error = JSON.parse(error.responseText);
+					printToaster(error.type, error.message);
                 }
             });
         } else {
@@ -1102,14 +1103,12 @@ $(function () {
 	                action: "selectMyMobility",
 	            },
 	            success: function (resp) {
+					$("#myMobility tbody").empty();
+					$("#empty").empty();
 					if (resp === ""){
-						$("#empty").empty();
 						$("#myMobility").after("<p id=\"empty\" class=\"text-center\"><strong> Vous n'avez aucune mobilité actuellement. </strong></p>");
 					}else{
 						resp = JSON.parse(resp);
-						$("#myMobility tbody").empty();
-						$("#empty").empty();
-
 						for (key in resp) {
 
 							$("#myMobility tbody").append(

@@ -5,6 +5,7 @@ import dal.DalServices;
 import dao.interfaces.UserDao;
 import dto.UserDto;
 import exceptions.AuthenticationException;
+import exceptions.UserAlreadyExistsException;
 import ihm.Main;
 import ucc.interfaces.UserUcController;
 
@@ -56,7 +57,8 @@ public class UserUcControllerImpl implements UserUcController {
   }
 
   @Override
-  public UserDto register(UserDto userdto) throws AuthenticationException {
+  public UserDto register(UserDto userdto)
+      throws AuthenticationException, UserAlreadyExistsException {
 
     String password = userdto.getPassword();
     UserBizz userBizz = (UserBizz) userdto;
@@ -65,8 +67,8 @@ public class UserUcControllerImpl implements UserUcController {
     try {
       dalServices.openConnection();
       dalServices.startTransaction();
-      if (userDao.getUserByUserName(userBizz.getPseudo()) != null) {
-        return null;
+      if (userDao.userExists(userdto.getPseudo())) {
+        throw new UserAlreadyExistsException("Un utilisateur existe déjà sous ce nom.");
       }
       if (!userDao.createUser(userBizz)) {
         return null;

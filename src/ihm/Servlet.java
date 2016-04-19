@@ -10,6 +10,7 @@ import dto.UserDto;
 import exceptions.AuthenticationException;
 import exceptions.NoCountryException;
 import exceptions.NoDepartmentException;
+import exceptions.UserAlreadyExistsException;
 import ucc.interfaces.CancelationUcController;
 import ucc.interfaces.CountryUcController;
 import ucc.interfaces.DepartmentUcController;
@@ -387,7 +388,9 @@ public class Servlet extends HttpServlet {
       userDtoRecept = userUcc.register(userdto);
     } catch (AuthenticationException exc) {
       this.createToaster(exc, resp);
-      resp.setStatus(HttpStatus.FORBIDDEN_403);
+      return;
+    } catch (UserAlreadyExistsException exc) {
+      this.createToaster(exc, resp);
       return;
     }
     req.getSession().setAttribute(KEY_ID, userDtoRecept.getId());
@@ -433,7 +436,6 @@ public class Servlet extends HttpServlet {
       userDtoRecept = userUcc.login(username, password);
     } catch (AuthenticationException exc) {
       this.createToaster(exc, resp);
-      resp.setStatus(HttpStatus.UNAUTHORIZED_401);
       return;
     }
     createJwtCookie(resp, userDtoRecept);
@@ -652,6 +654,11 @@ public class Servlet extends HttpServlet {
         resp.setStatus(HttpStatus.EXPECTATION_FAILED_417);
         map.put("type", "warning");
         map.put("message", "La date entrée n'est pas correcte");
+        break;
+      case "class exceptions.UserAlreadyExistsException":
+        resp.setStatus(HttpStatus.NOT_FOUND_404);
+        map.put("type", "error");
+        map.put("message", exception.getMessage());
         break;
       default:
         resp.setStatus(HttpStatus.PARTIAL_CONTENT_206);

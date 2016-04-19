@@ -213,4 +213,16 @@ public class UserDaoImpl implements UserDao {
     user.setVerNr(resultSet.getInt(25));
     return user;
   }
+
+  @Override
+  public boolean userExists(String username) {
+    try {
+      if (getUserByUserName(username) != null) {
+        return true;
+      }
+    } catch (NoSuchElementException exc) {
+      return false;
+    }
+    return false;
+  }
 }

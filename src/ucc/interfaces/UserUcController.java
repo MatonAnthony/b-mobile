@@ -2,6 +2,7 @@ package ucc.interfaces;
 
 import dto.UserDto;
 import exceptions.AuthenticationException;
+import exceptions.UserAlreadyExistsException;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -24,8 +25,9 @@ public interface UserUcController {
    * @param userdto is the user to register.
    * @return a userDto. It is the user added. Null if there was a error."
    * @throws AuthenticationException if an error happen between register and login.
+   * @throws UserAlreadyExistsException
    */
-  UserDto register(UserDto userdto) throws AuthenticationException;
+  UserDto register(UserDto userdto) throws AuthenticationException, UserAlreadyExistsException;
 
   UserDto getUserById(int id) throws SQLException;
 

@@ -52,4 +52,12 @@ public interface UserDao {
    * @param userEdited The user edited
    */
   void updateUser(UserDto userEdited);
+
+  /**
+   * Gets the existence of the username.
+   * 
+   * @param username
+   * @return true if the username exists in the database, else return false
+   */
+  boolean userExists(String username);
 }
