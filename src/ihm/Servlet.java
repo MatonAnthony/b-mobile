@@ -144,10 +144,10 @@ public class Servlet extends HttpServlet {
           disconnect(req, resp);
           break;
         case "selectProfile":
-          selectProfile(req, resp, (Integer) req.getSession().getAttribute(KEY_ID));
+          selectProfile(req, resp, Integer.parseInt("" + req.getSession().getAttribute(KEY_ID)));
           break;
         case "updateUser":
-          updateUser(req, resp, (Integer) req.getSession().getAttribute(KEY_ID));
+          updateUser(req, resp);
           break;
         case "selectAllMobility":
           selectAllMobility(req, resp);
@@ -235,16 +235,21 @@ public class Servlet extends HttpServlet {
    * @param resp The response sended by the server.
    * @throws SQLException If there is an error.
    */
-  private void updateUser(HttpServletRequest req, HttpServletResponse resp, int id)
+  private void updateUser(HttpServletRequest req, HttpServletResponse resp)
       throws IOException, SQLException {
+    int id = Integer.parseInt("" + req.getParameter("idUser"));
+    if (id == -1) {
+      id = Integer.parseInt("" + req.getSession().getAttribute(KEY_ID));
+    }
+
+
     UserDto userEdited = userUcc.getUserById(id);
-    userEdited.setId(Integer.parseInt("" + req.getSession().getAttribute(KEY_ID)));
     userEdited.setName(req.getParameter("name"));
     userEdited.setFirstname(req.getParameter("firstname"));
     userEdited.setGender(req.getParameter("gender"));
     try {
       userEdited.setBirthDate(LocalDate.parse(req.getParameter("birthdate")));
-    }catch(DateTimeParseException exc){
+    } catch (DateTimeParseException exc) {
       createToaster(exc, resp);
     }
     userEdited.setCitizenship(req.getParameter("citizenship"));
@@ -449,6 +454,7 @@ public class Servlet extends HttpServlet {
     mobility.setProgramDto(programUcc.getProgramByName(req.getParameter("program")));
     mobility.setType(req.getParameter("type"));
     mobility.setQuadrimester(Integer.parseInt(req.getParameter("quadrimestre")));
+    mobility.setAcademicYear(req.getParameter("year"));
     try {
       mobility
           .setDepartementDto(departmentUcc.getDepartmentByLabel(req.getParameter("department")));

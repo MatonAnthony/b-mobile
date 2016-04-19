@@ -45,10 +45,10 @@ public class MobilityDaoImpl implements MobilityDao {
           + "u.account_holder, u.bank_name, u.ver_nr, "
 
           + "pro.id, pro.name, pro.description, pro.ver_nr, "
-
           + "par.id, par.id_user, par.legal_name, par.business_name, par.full_name, par.department,"
           + "par.type, par.nb_employees, par.street, par.number, par.mailbox, par.zip, par.city,"
           + "par.state,par.country, par.email, par.website, par.exists, par.ver_nr,"
+
 
           + "co.iso, co.name_en, co.name_fr, co.id_program," + "d.id, d.label, d.ver_nr "
           + ",c.id, c.reason, c.responsible, c.ver_nr "
@@ -69,9 +69,10 @@ public class MobilityDaoImpl implements MobilityDao {
 
   @Override
   public void createMobility(MobilityDto mobilityDto) {
+    // TODO (Martin) Comment gérer l'année académique
     String query = "INSERT INTO bmobile.mobilities VALUES (DEFAULT,?,?,NULL,?,?,?,?,?,'En attente',"
         + "FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,"
-        + "FALSE,FALSE,FALSE,NULL,NULL,0)";
+        + "FALSE,FALSE,FALSE,NULL,?,0)";
     PreparedStatement preparedStatement = null;
     try {
       preparedStatement = dalBackendServices.prepare(query);
@@ -82,6 +83,7 @@ public class MobilityDaoImpl implements MobilityDao {
       preparedStatement.setString(5, mobilityDto.getCountryDto().getIso());
       preparedStatement.setString(6, mobilityDto.getDepartementDto().getId());
       preparedStatement.setInt(7, mobilityDto.getQuadrimester());
+      preparedStatement.setString(8, mobilityDto.getAcademicYear());
 
       dalBackendServices.executeUpdate(preparedStatement);
 

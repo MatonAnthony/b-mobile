@@ -155,6 +155,10 @@ $(function () {
 
     //MyProfile
     $("#profileButton").click(function () {
+    	var idUser = $("#formProfile").attr("idUser");
+    	if(idUser === undefined) {
+    		idUser =-1;
+    	}
         $.ajax({
             method: "POST",
             url: "/home",
@@ -177,7 +181,8 @@ $(function () {
                 iban: $("input[name='iban']").val(),
                 accountHolder: $("input[name='accountHolder']").val(),
                 bankName: $("input[name='bankName']").val(),
-                bic: $("input[name='bic']").val()
+                bic: $("input[name='bic']").val(),
+                idUser: idUser
             },
             success: function (resp) {
                 console.log("profileButton retour OK");
@@ -210,6 +215,9 @@ $(function () {
             '<option value="2">2</option>' +
             '</select>' +
             '</td>' +
+            '<td><select id="selectAccademicYear' + nbRow + '" class="form-control">' +
+            '</select>' +
+            '</td>' +
             '<td><select id="selectDep' + nbRow + '" class="form-control">' +
             '</select>' +
             '</td>' +
@@ -220,6 +228,7 @@ $(function () {
             '</tr>';
 
         $("#addMobilityTableBody").append(value);
+        addAccademicYearsToSelector(nbRow);
         addDepartmentsToSelector(nbRow);
         addCountriesToSelector(nbRow);
         addProgramsToSelector(nbRow);
@@ -248,13 +257,14 @@ $(function () {
                     type: $("input[name='optionsRadios" + i + "']:checked").val(),
                     quadrimestre: $("#selectQuadri" + i).val(),
                     department: $("#selectDep" + i).val(),
-                    country: $("#selectCountry" + i).val()
+                    country: $("#selectCountry" + i).val(),
+                    year: $("#selectAccademicYear" + i).val()
                 },
                 success: function (resp) {
-                    console.log("Ajout de la mobilité dans la DB OK");
+                    printToaster("success", "Demande de mobilité bien ajoutée");
                 },
                 error: function (error) {
-                    console.log("Problème lors de l'ajout de la mobilité dans la db");
+                	printToaster("error", "Problème lors de l'ajout de la mobilité dans la db");
                 }
             });
         }
@@ -317,6 +327,12 @@ $(function () {
         $(selectName).html(programs);
     }
 
+    function addAccademicYearsToSelector(id){
+    	var academicYears = $("#selectAccademicYear1").html();
+    	var selectName = "#selectAccademicYear" + id;
+    	$(selectName).html(academicYears);
+    }
+
     //userList
 
     $("#userListTableBody").on("click", ".btnNommer", function () {
@@ -342,7 +358,26 @@ $(function () {
 
     $("#userListTableBody").on("click", ".btnGererInfos", function () {
         var id = $(this).attr("value");
-        console.log("coucou");
+        if ($("#profile_country").html() == "") {
+            $.ajax({
+                method: "POST",
+                url: "/home",
+                data: {
+                    action: "selectCountries"
+                },
+                success: function (resp) {
+                    resp = JSON.parse(resp);
+                    var key;
+                    for (key in resp) {
+                        $("#profile_country").append('<option value='+resp[key]['nameFr']+'>' + resp[key]['nameFr'] + '</option>');
+                    }
+                },
+                error: function (error) {
+                    console.log("Problème lors de la récuperation de la liste des pays");
+                }
+            });
+        }
+        
         $.ajax({
             method: "POST",
             url: "/home",
@@ -352,11 +387,17 @@ $(function () {
             },
             success: function (resp) {
                 resp = JSON.parse(resp);
+
+                var b = new Date(""+resp['birthDate']['year']+"-"+resp['birthDate']['month']
+                +"-"+resp['birthDate']['day']);
+                var birthdate = b.getFullYear() + "-" +
+                    (b.getMonth().toString().length == 1 ? "0" + parseInt(b.getMonth() + 1) : parseInt(b.getMonth() + 1)) + "-" +
+                    (b.getDate().toString().length == 1 ? "0" + b.getDate() : b.getDate());
+
                 $("input[name='name']").val(resp['name']);
                 $("input[name='firstname']").val(resp['firstname']);
                 $("input[name='gender']").val(resp['gender']);
-                //  TODO : Gérer la date de naissance
-                // $("input[name='birthdate']").val(resp['birthdate']);
+                $("input[name='birthdate']").val(birthdate);
                 $("input[name='citizenship']").val(resp['citizenship']);
                 $("input[name='street']").val(resp['street']);
                 $("input[name='houseNumber']").val(resp['houseNumber']);
@@ -371,6 +412,7 @@ $(function () {
                 $("input[name='bankName']").val(resp['bankName']);
                 $("input[name='bic']").val(resp['bic']);
 
+                $("#formProfile").attr("idUser", id);
 
                 $("#loginPage").css("display", "none");
                 $("#navBarStudent").css("display", "none");
@@ -418,10 +460,10 @@ $(function () {
 
             },
             success: function (resp) {
-                console.log("Ajout de la mobilité dans la DB OK");
+                console.log("Ajout du partenaire dans la DB OK");
             },
             error: function (error) {
-                console.log("Problème lors de l'ajout de la mobilité dans la db");
+                console.log("Problème lors de l'ajout du partenaire dans la db");
             }
         });
 
@@ -502,6 +544,15 @@ $(function () {
         $("#listPage").css("display", "none");
         $("#paymentPage").css("dispay", "none");
         $("#userListPage").css("display", "none");
+		var currentTime = new Date();
+        var startYear = currentTime.getFullYear()-1;
+
+        for(var i = 0; i<4; i++){
+        	var temp = "" + startYear + "-" + (startYear+1);
+        	$("#selectAccademicYear1").append("<option>" + temp +"</option>");
+        	startYear++;
+        }
+
 
         if ($("#selectProgram1").html() == "" || $("#selectCountry1").html() == "" || $("#selectDep").html() == "") {
 	        $.ajax({
@@ -525,7 +576,7 @@ $(function () {
                     }
 	            },
 	            error: function (error) {
-	                console.log("Problème lors de la récuperation de la liste des programmes");
+	                console.log("Problème lors de la récuperation de la liste des programmes, departements ou pays");
 	            }
 	        });
 	    }
@@ -569,7 +620,6 @@ $(function () {
         $(".navButton[href='#2lists']").parent().addClass("active");
         $("#tableConfirmed tbody").empty();
         loadMobility();
-
     }
 	
 	function loadPaymentPage(){
@@ -746,6 +796,7 @@ $(function () {
 			},
 			success: function(resp){
 				resp = JSON.parse(resp);
+				console.log(resp);
 
                 var b = new Date(""+resp['birthDate']['year']+"-"+resp['birthDate']['month']
                 +"-"+resp['birthDate']['day']);

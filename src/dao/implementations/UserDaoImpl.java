@@ -4,7 +4,6 @@ import bizz.interfaces.BizzFactory;
 import dal.DalBackendServices;
 import dao.interfaces.UserDao;
 import dto.UserDto;
-import ihm.Main;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -12,7 +11,6 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
-import java.util.logging.Logger;
 
 public class UserDaoImpl implements UserDao {
 
@@ -119,8 +117,7 @@ public class UserDaoImpl implements UserDao {
     String query = "UPDATE bmobile.users SET name = ?, firstname = ?, gender = ?, citizenship = ?,"
         + "street = ?, house_number = ?, mailbox = ?, zip = ?, city = ?, tel = ?, email = ?,"
         + "successfull_year_in_college = ?, bic = ?, account_holder = ?, bank_name = ?, "
-        + "country = ?, iban = ?, birth_date = ?"
-        + "WHERE id = ?";
+        + "country = ?, iban = ?, birth_date = ?" + "WHERE id = ?";
     PreparedStatement preparedStatement = null;
     try {
       preparedStatement = dalBackendServices.prepare(query);
@@ -141,8 +138,8 @@ public class UserDaoImpl implements UserDao {
       preparedStatement.setString(15, userEdited.getBankName());
       preparedStatement.setString(16, userEdited.getCountryDto().getIso());
       preparedStatement.setString(17, userEdited.getIban());
-      preparedStatement.setTimestamp(18, Timestamp.valueOf(
-        userEdited.getBirthDate().atStartOfDay()));
+      preparedStatement.setTimestamp(18,
+          Timestamp.valueOf(userEdited.getBirthDate().atStartOfDay()));
       preparedStatement.setInt(19, userEdited.getId());
       dalBackendServices.executeUpdate(preparedStatement);
 
