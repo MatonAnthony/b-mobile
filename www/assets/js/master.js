@@ -450,61 +450,29 @@ $(function () {
         $("#paymentPage").css("dispay", "none");
         $("#userListPage").css("display", "none");
 
-        if ($("#selectProgram1").html() == "") {
+        if ($("#selectProgram1").html() == "" || $("#selectCountry1").html() == "" || $("#selectDep").html() == "") {
 	        $.ajax({
 	            method: "POST",
 	            url: "/home",
 	            data: {
-	                action: "selectPrograms"
+	                action: "selectAddMobilityInformations"
 	            },
 	            success: function (resp) {
 	                resp = JSON.parse(resp);
 	                var key;
-	                for (key in resp) {
-	                    $("#selectProgram1").append("<option>" + resp[key]['name'] + "</option>");
+	                for (key in resp['programs']) {
+	                    $("#selectProgram1").append("<option>" + resp['programs'][key]['name'] + "</option>");
 	                }
+                    for (key in resp['countries']) {
+                        $("#selectCountry1").append("<option program=\"" + resp['countries'][key]['idProgram'] + "\">" + resp['countries'][key]['nameFr'] + "</option>");
+                    }
+                     showCountriesByProgram(1, "Erasmus+");
+                     for (key in resp['departments']) {
+                        $("#selectDep1").append("<option>" + resp['departments'][key]['label'] + "</option>");
+                    }
 	            },
 	            error: function (error) {
 	                console.log("Problème lors de la récuperation de la liste des programmes");
-	            }
-	        });
-	    }
-        if ($("#selectCountry1").html() == "") {
-	        $.ajax({
-	            method: "POST",
-	            url: "/home",
-	            data: {
-	                action: "selectCountries"
-	            },
-	            success: function (resp) {
-	                resp = JSON.parse(resp);
-	                var key;
-	                for (key in resp) {
-	                    $("#selectCountry1").append("<option program=\"" + resp[key]['idProgram'] + "\">" + resp[key]['nameFr'] + "</option>");
-	                }
-	                 showCountriesByProgram(1, "Erasmus+");
-	            },
-	            error: function (error) {
-	                console.log("Problème lors de la récuperation de la liste des pays");
-	            }
-	        });
-	    }
-	    if ($("#selectDep1").html() == "") {
-	        $.ajax({
-	            method: "POST",
-	            url: "/home",
-	            data: {
-	                action: "selectDepartments"
-	            },
-	            success: function (resp) {
-	                resp = JSON.parse(resp);
-	                var key;
-	                for (key in resp) {
-	                    $("#selectDep1").append("<option>" + resp[key]['label'] + "</option>");
-	                }
-	            },
-	            error: function (error) {
-	                console.log("Problème lors de la récuperation de la liste des departements");
 	            }
 	        });
 	    }
@@ -888,8 +856,7 @@ $(function () {
 		});
 	}
 
-// Managing of the payment table
-
+    // Managing of the payment table
 	function loadPayment(){
 		$(function (){
 			$.ajax({
@@ -1018,8 +985,6 @@ $(function () {
 	}
 
 	// Managing of the "myMobility" table
-
-
 	function loadMyMobility() {
 	    $(function () {
 	        $.ajax({

@@ -8,6 +8,7 @@ import dto.PartnerDto;
 import dto.ProgramDto;
 import dto.UserDto;
 import exceptions.AuthenticationException;
+import exceptions.NoCountryException;
 import exceptions.NoDepartmentException;
 import ucc.interfaces.CancelationUcController;
 import ucc.interfaces.CountryUcController;
@@ -182,6 +183,9 @@ public class Servlet extends HttpServlet {
         case "selectPayments":
           loadPayments(req, resp);
           break;
+        case "selectAddMobilityInformations":
+          selectAddMobilityInformations(req, resp);
+          break;
         default:
           resp.setStatus(HttpStatus.BAD_REQUEST_400);
       }
@@ -195,6 +199,22 @@ public class Servlet extends HttpServlet {
 
   }
 
+
+  private void selectAddMobilityInformations(HttpServletRequest req, HttpServletResponse resp)
+      throws SQLException, NoDepartmentException, NoCountryException, IOException {
+    ArrayList<ProgramDto> programs = programUcc.getAllPrograms();
+    ArrayList<DepartmentDto> departments = departmentUcc.getAllDepartments();
+    ArrayList<CountryDto> countries = countryUcc.getAllCountries();
+
+    HashMap<String, Object> datas = new HashMap<String, Object>();
+    datas.put("programs", programs);
+    datas.put("departments", departments);
+    datas.put("countries", countries);
+
+    String json = basicGenson.serialize(datas);
+    resp.getWriter().print(json);
+    resp.setStatus(HttpStatus.ACCEPTED_202);
+  }
 
   private void selectProfile(HttpServletRequest req, HttpServletResponse resp)
       throws IOException, SQLException {
