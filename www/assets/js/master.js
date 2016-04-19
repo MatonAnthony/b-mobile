@@ -688,6 +688,27 @@ $(function () {
 		$(".active").removeClass("active");
 		$(".navButton[href='#myInformations']").parent().addClass("active");
 
+        if ($("#profile_country").html() == "" && $("#profile_citizenship").html() == "") {
+            $.ajax({
+                method: "POST",
+                url: "/home",
+                data: {
+                    action: "selectCountries"
+                },
+                success: function (resp) {
+                    resp = JSON.parse(resp);
+                    var key;
+                    for (key in resp) {
+                        $("#profile_citizenship").append("<option>" + resp[key]['nameFr'] + "</option>");
+                        $("#profile_country").append("<option>" + resp[key]['nameFr'] + "</option>");
+                    }
+                },
+                error: function (error) {
+                    console.log("Problème lors de la récuperation de la liste des pays");
+                }
+            });
+        }
+
 		$.ajax({
 			method: 'POST',
 			url: '/home',
@@ -705,12 +726,13 @@ $(function () {
 				$("input[name='citizenship']").val(resp['citizenship']);
 				$("input[name='street']").val(resp['street']);
 				$("input[name='houseNumber']").val(resp['houseNumber']);
-	            $("input[name='mailbox']").val(resp['mailbox']);
+                $("input[name='city']").val(resp['city']);
+	            $("input[name='mailbox']").val(resp['mailBox']);
 				$("input[name='zipcode']").val(resp['zip']);
 				$("input[name='tel']").val(resp['tel']);
 				$("input[name='email']").val(resp['email']);
 				$("input[name='successfullYearsInCollege']").val(resp['successfullYearInCollege']);
-				//$("input[name='iban ']").val(resp["iban"]["value"]);
+				$("input[name='iban']").val(resp["iban"]["value"]);
 				$("input[name='accountHolder']").val(resp['accountHolder']);
 				$("input[name='bankName']").val(resp['bankName']);
 				$("input[name='bic']").val(resp['bic']);

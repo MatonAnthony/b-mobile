@@ -28,7 +28,7 @@ public class UserDaoImpl implements UserDao {
   @Override
   public boolean createUser(UserDto userdto) {
     // TODO(fany) values en fonction de la db
-    String query = "INSERT INTO bmobile.users VALUES (DEFAULT,NULL,?,?,?,?,?,NULL,?,NULL,NULL"
+    String query = "INSERT INTO bmobile.users VALUES (DEFAULT,NULL,?,?,?,?,?,NULL,?,NULL,NULL,NULL"
         + ",NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0)";
     PreparedStatement preparedStatement = null;
     try {
@@ -52,7 +52,7 @@ public class UserDaoImpl implements UserDao {
   @Override
   public UserDto getUserByUserName(String username) throws NoSuchElementException {
     String query = "SELECT id, id_department, pseudo, password, name, firstname, email, "
-        + "registration_date, permissions, birth_date, street, "
+        + "registration_date, permissions, birth_date, street, citizenship, "
         + "house_number, mailbox, zip, city, country, tel, gender, successfull_year_in_college, "
         + "iban, bic, account_holder, bank_name, ver_nr FROM bmobile.users WHERE pseudo=?";
     PreparedStatement preparedStatement = null;
@@ -69,7 +69,7 @@ public class UserDaoImpl implements UserDao {
   @Override
   public UserDto getUserById(int id) throws NoSuchElementException {
     String query = "SELECT id, id_department, pseudo, password, name, firstname, email, "
-        + "registration_date, permissions, birth_date, street, "
+        + "registration_date, permissions, birth_date, citizenship, street, "
         + "house_number, mailbox, zip, city, country, tel, gender, successfull_year_in_college, "
         + "iban, bic, account_holder, bank_name, ver_nr FROM bmobile.users WHERE id=?";
     PreparedStatement preparedStatement = null;
@@ -87,7 +87,7 @@ public class UserDaoImpl implements UserDao {
   @Override
   public ArrayList<UserDto> getAllUsers() {
     String query = "SELECT id, id_department, pseudo, password, name, firstname, email, "
-        + "registration_date, permissions, birth_date, street, "
+        + "registration_date, permissions, birth_date, citizenship, street, "
         + "house_number, mailbox, zip, city, country, tel, gender, successfull_year_in_college, "
         + "iban, bic, account_holder, bank_name, ver_nr FROM bmobile.users ORDER BY id";
     PreparedStatement preparedStatement = null;
@@ -118,9 +118,8 @@ public class UserDaoImpl implements UserDao {
   public void updateUser(UserDto userEdited) {
     String query = "UPDATE bmobile.users SET name = ?, firstname = ?, gender = ?, citizenship = ?,"
         + "street = ?, house_number = ?, mailbox = ?, zip = ?, city = ?, tel = ?, email = ?,"
-        + "successfull_year_in_college = ?, bic = ?, account_holder = ?, bank_name = ?"
+        + "successfull_year_in_college = ?, bic = ?, account_holder = ?, bank_name = ? "
         + "WHERE id = ?";
-    Main.LOGGER.info(userEdited.getEmail());
     PreparedStatement preparedStatement = null;
     try {
       preparedStatement = dalBackendServices.prepare(query);
@@ -140,8 +139,8 @@ public class UserDaoImpl implements UserDao {
       preparedStatement.setString(14, userEdited.getAccountHolder());
       preparedStatement.setString(15, userEdited.getBankName());
       preparedStatement.setInt(16, userEdited.getId());
-      //dalBackendServices.executeUpdate(preparedStatement);
-      // il faut encore ajouter la date de naissance, le pays et l'iban
+      dalBackendServices.executeUpdate(preparedStatement);
+
 
     } catch (SQLException exc) {
       exc.printStackTrace();
@@ -161,8 +160,6 @@ public class UserDaoImpl implements UserDao {
       exc2.printStackTrace();
       return null;
     }
-
-
   }
 
   private ArrayList<UserDto> fillDtoArray(PreparedStatement preparedStatement) {
@@ -178,7 +175,6 @@ public class UserDaoImpl implements UserDao {
       exc2.printStackTrace();
       return null;
     }
-
   }
 
   private UserDto completeDto(UserDto user, ResultSet resultSet) throws SQLException {
@@ -198,20 +194,21 @@ public class UserDaoImpl implements UserDao {
     if (null != birthdate) {
       user.setBirthDate(birthdate.toLocalDateTime().toLocalDate());
     }
-    user.setStreet(resultSet.getString(11));
-    user.setHouseNumber(resultSet.getString(12));
-    user.setMailBox(resultSet.getString(13));
-    user.setZip(resultSet.getString(14));
-    user.setCity(resultSet.getString(15));
-    user.setCountry(resultSet.getString(16));
-    user.setTel(resultSet.getString(17));
-    user.setGender(resultSet.getString(18));
-    user.setSuccessfullYearInCollege(resultSet.getInt(19));
-    user.setIban(resultSet.getString(20));
-    user.setBic(resultSet.getString(21));
-    user.setAccountHolder(resultSet.getString(21));
-    user.setBankName(resultSet.getString(22));
-    user.setVerNr(resultSet.getInt(22));
+    user.setCitizenship(resultSet.getString(11));
+    user.setStreet(resultSet.getString(12));
+    user.setHouseNumber(resultSet.getString(13));
+    user.setMailBox(resultSet.getString(14));
+    user.setZip(resultSet.getString(15));
+    user.setCity(resultSet.getString(16));
+    user.setCountry(resultSet.getString(17));
+    user.setTel(resultSet.getString(18));
+    user.setGender(resultSet.getString(19));
+    user.setSuccessfullYearInCollege(resultSet.getInt(20));
+    user.setIban(resultSet.getString(21));
+    user.setBic(resultSet.getString(22));
+    user.setAccountHolder(resultSet.getString(23));
+    user.setBankName(resultSet.getString(24));
+    user.setVerNr(resultSet.getInt(25));
     return user;
   }
 }

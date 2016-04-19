@@ -208,7 +208,7 @@ public class Servlet extends HttpServlet {
    * @param req The request received by the server.
    * @param resp The response sended by the server.
    */
-  private void updateUser(HttpServletRequest req, HttpServletResponse resp) {
+  private void updateUser(HttpServletRequest req, HttpServletResponse resp) throws IOException {
     UserDto userEdited = userUcc.getUserById((Integer) req.getSession().getAttribute(KEY_ID));
     userEdited.setId(Integer.parseInt("" + req.getSession().getAttribute(KEY_ID)));
     userEdited.setName(req.getParameter("name"));
@@ -221,7 +221,11 @@ public class Servlet extends HttpServlet {
     userEdited.setMailBox(req.getParameter("mailbox"));
     userEdited.setZip(req.getParameter("zipcode"));
     userEdited.setCity(req.getParameter("city"));
-    // userEdited.setCountryDto(countryUcc.getCountryByNameFr(req.getParameter("country")));
+    try {
+      //userEdited.setCountryDto(countryUcc.getCountryByNameFr(req.getParameter("country")));
+    } catch (Exception exc) {
+      createToaster(exc, resp);
+    }
     userEdited.setTel(req.getParameter("tel"));
     userEdited.setSuccessfullYearInCollege(
         Integer.parseInt(0 + req.getParameter("successfullYearsInCollege")));

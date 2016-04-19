@@ -24,13 +24,11 @@
                     <div class="form-group">
                         <!-- TODO : Gérer ce field -->
                         <label>Date de naissance :</label>
-                        <input type="number" max="31" min="1"></input>/
-                        <input type="number" max="12" min="1"></input>/
-                        <input type="number" min="1830"></input>
+                        <input type=date min=1970-01-01>
                     </div>
                     <div class="form-group">
                         <label>Nationalité :</label>
-                        <input class="form-control" name="citizenship">
+                        <select class="form-control" name="citizenship" id="profile_citizenship"></select>
                     </div>
                     <div class="form-group">
                         <label>Rue :</label>
@@ -52,10 +50,9 @@
                         <label>Ville :</label>
                         <input class="form-control" name="city">
                     </div>
-                    <!-- le country doit etre un select qui vient de la DB -->
                     <div class="form-group">
                         <label>Pays :</label>
-                        <input class="form-control" name="country">
+                        <select class="form-control" name="country" id="profile_country"></select>
                     </div>
                     <div class="form-group">
                         <label>Téléphone :</label>
@@ -89,7 +86,6 @@
                         <input class="form-control" name="bic">
                     </div>
                     <button id="profileButton" class="btn btn-info">Envoyer</button>
-                    <button type="reset" class="btn btn-danger">Effacer</button>
                 </form>
             </div>
         </div>
