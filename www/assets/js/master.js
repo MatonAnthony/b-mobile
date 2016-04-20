@@ -89,7 +89,7 @@ $(function () {
                 }
             });
         } else {
-            $("#password_matching").show();
+            printToaster("error", "Les deux mots de passes introduits ne correspondent pas");
         }
         return false;
     });
