@@ -220,6 +220,7 @@ public class UserDaoImpl implements UserDao {
     user.setBankName(resultSet.getString(24));
     user.setVerNr(resultSet.getInt(25));
     try {
+      // TODO : (Antho)Vérifier si c'est bien la bonne façon de faire et éventuellement refactoriser
       CountryDto country = factory.getCountryDto();
       String query = "SELECT * FROM bmobile.countries WHERE iso = ?";
       PreparedStatement preparedStatement = dalBackendServices.prepare(query);
