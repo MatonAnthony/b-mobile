@@ -146,8 +146,9 @@ $(function () {
                 $("#listPage").css("display", "none");
                 $("#paymentPage").css("display", "none");
             },
-            error: function (e) {
-                console.log(e.message);
+            error: function (error) {
+                error = JSON.parse(error.responseText);
+				printToaster(error.type, error.message);
             }
         });
         $(".navButton[href='#confirmedMobility']").parent().addClass("active");
@@ -186,10 +187,11 @@ $(function () {
                 idUser: idUser
             },
             success: function (resp) {
-                console.log("profileButton retour OK");
+                printToaster("success", "Infos modifiées");
             },
-            error: function (resp) {
-                console.log("profileButton retour not ok");
+            error: function (error) {
+                error = JSON.parse(error.responseText);
+				printToaster(error.type, error.message);
             }
         });
         return false;
@@ -265,7 +267,8 @@ $(function () {
                     printToaster("success", "Demande de mobilité bien ajoutée");
                 },
                 error: function (error) {
-                	printToaster("error", "Problème lors de l'ajout de la mobilité dans la db");
+                	error = JSON.parse(error.responseText);
+					printToaster(error.type, error.message);
                 }
             });
         }
@@ -351,7 +354,8 @@ $(function () {
                 $("#tdButtonGererInfos" + id).html("");
             },
             error: function (error) {
-                console.log("Problème lors du changement des permissions de l'utilisateur");
+                error = JSON.parse(error.responseText);
+					printToaster(error.type, error.message);
             }
         });
         return true;
@@ -374,7 +378,8 @@ $(function () {
                     }
                 },
                 error: function (error) {
-                    console.log("Problème lors de la récuperation de la liste des pays");
+                    error = JSON.parse(error.responseText);
+					printToaster(error.type, error.message);
                 }
             });
         }
@@ -407,6 +412,7 @@ $(function () {
                 $("input[name='zipcode']").val(resp['zip']);
                 $("input[name='tel']").val(resp['tel']);
                 $("input[name='email']").val(resp['email']);
+                $("option[value="+resp['country']).attr("selected", "true");
                 $("input[name='successfullYearsInCollege']").val(resp['successfullYearInCollege']);
                 $("input[name='iban']").val(resp["iban"]["value"]);
                 $("input[name='accountHolder']").val(resp['accountHolder']);
@@ -429,7 +435,8 @@ $(function () {
                 $("#paymentPage").css("display", "none");
             },
             error: function (error) {
-                console.log("Problème lors du chargement des infos de l'utilisateur");
+                error = JSON.parse(error.responseText);
+				printToaster(error.type, error.message);
             }
         });
         return true;
@@ -461,10 +468,11 @@ $(function () {
 
             },
             success: function (resp) {
-                console.log("Ajout du partenaire dans la DB OK");
+                printToaster("success", "Partenaire bien ajouté dans la DB");
             },
             error: function (error) {
-                console.log("Problème lors de l'ajout du partenaire dans la db");
+                error = JSON.parse(error.responseText);
+				printToaster(error.type, error.message);
             }
         });
 
@@ -577,7 +585,8 @@ $(function () {
                     }
 	            },
 	            error: function (error) {
-	                console.log("Problème lors de la récuperation de la liste des programmes, departements ou pays");
+	                error = JSON.parse(error.responseText);
+					printToaster(error.type, error.message);
 	            }
 	        });
 	    }
@@ -693,8 +702,8 @@ $(function () {
                 }
             },
             error: function (error) {
-
-                console.log("Problème lors de la récuperation de la liste des utilisateurs");
+					error = JSON.parse(error.responseText);
+					printToaster(error.type, error.message);
             }
         });
         $(".active").removeClass("active");
@@ -731,7 +740,8 @@ $(function () {
 	                }
 	            },
 	            error: function (error) {
-	                console.log("Problème lors de la récuperation de la liste des pays");
+	                error = JSON.parse(error.responseText);
+					printToaster(error.type, error.message);
 	            }
 	        });
 	    }
@@ -784,7 +794,8 @@ $(function () {
                     }
                 },
                 error: function (error) {
-                    console.log("Problème lors de la récuperation de la liste des pays");
+                    error = JSON.parse(error.responseText);
+					printToaster(error.type, error.message);
                 }
             });
         }
@@ -815,6 +826,7 @@ $(function () {
                 $("input[name='citizenship']").val(resp['citizenship']);
                 $("input[name='street']").val(resp['street']);
                 $("input[name='houseNumber']").val(resp['houseNumber']);
+
                 $("input[name='city']").val(resp['city']);
                 $("option[value=" + resp['country']).attr("selected", "true");
                 $("input[name='mailbox']").val(resp['mailBox']);
@@ -832,7 +844,8 @@ $(function () {
                 $("input[name='bic']").val(resp['bic']);
 			},
 			error: function(error){
-				console.log("Pré-remplissage du profil impossible");
+				error = JSON.parse(error.responseText);
+				printToaster(error.type, error.message);
 			}
 		});
 	}
@@ -890,7 +903,8 @@ $(function () {
 					}
 	            },
 	            error: function (error) {
-	                console.log("Connexion echouée");
+	                error = JSON.parse(error.responseText);
+					printToaster(error.type, error.message);
 	            }
 	        });
 	    });
@@ -998,7 +1012,8 @@ $(function () {
 					$('#selectYear').trigger("change");
 				},
 				error: function (error) {
-					console.log("Erreur sur le chargement des années académiques.");
+					error = JSON.parse(error.responseText);
+					printToaster(error.type, error.message);
 				}
 			});
 			$("#selectYear").on("change", function(){ loadPaymentTable($("#selectYear").val()) });
@@ -1043,7 +1058,8 @@ $(function () {
 					
 	            },
 	            error: function (error) {
-	                console.log("Connexion echouée");
+	               	error = JSON.parse(error.responseText);
+					printToaster(error.type, error.message);
 	            }
 	        });
 		}
@@ -1092,7 +1108,8 @@ $(function () {
 	                
 	            },
 	            error: function (error) {
-	                console.log("Connexion echouée");
+	                error = JSON.parse(error.responseText);
+					printToaster(error.type, error.message);
 	            }
 	        });
 
@@ -1146,7 +1163,8 @@ $(function () {
 					
 	            },
 	            error: function (error) {
-	                console.log("Connexion echouée");
+	               	error = JSON.parse(error.responseText);
+					printToaster(error.type, error.message);
 	            }
 	        });
 	    });

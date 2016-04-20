@@ -10,7 +10,9 @@ import dto.UserDto;
 import exceptions.AuthenticationException;
 import exceptions.NoCountryException;
 import exceptions.NoDepartmentException;
+import exceptions.NotEnoughPermissionsException;
 import exceptions.UserAlreadyExistsException;
+import exceptions.UserNotFoundException;
 import ucc.interfaces.CancelationUcController;
 import ucc.interfaces.CountryUcController;
 import ucc.interfaces.DepartmentUcController;
@@ -40,7 +42,6 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SignatureException;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -197,25 +198,24 @@ public class Servlet extends HttpServlet {
       }
 
     } catch (Exception exc) {
-      exc.printStackTrace();
-      resp.setStatus(HttpStatus.INTERNAL_SERVER_ERROR_500);
-      resp.getWriter().println(exc.getMessage());
-      resp.flushBuffer();
+      createToaster(exc, resp);
     }
 
   }
 
   private void selectAddMobilityInformations(HttpServletRequest req, HttpServletResponse resp)
-      throws SQLException, NoDepartmentException, IOException {
+      throws SQLException, NoDepartmentException, IOException, NoCountryException,
+      NotEnoughPermissionsException {
+
+    if (req.getSession().getAttribute(KEY_PERMISSIONS) == null) {
+      throw new NotEnoughPermissionsException(
+          "Vous n'avez pas les droits nécessaires pour faire cela");
+    }
+
     ArrayList<ProgramDto> programs = programUcc.getAllPrograms();
     ArrayList<DepartmentDto> departments = departmentUcc.getAllDepartments();
     ArrayList<CountryDto> countries = null;
-    try {
-      countries = countryUcc.getAllCountries();
-    } catch (NoCountryException exc) {
-      exc.printStackTrace();
-      createToaster(exc, resp);
-    }
+    countries = countryUcc.getAllCountries();
 
     HashMap<String, Object> datas = new HashMap<String, Object>();
     datas.put("programs", programs);
@@ -228,7 +228,13 @@ public class Servlet extends HttpServlet {
   }
 
   private void selectProfile(HttpServletRequest req, HttpServletResponse resp, int id)
-    throws IOException, SQLException, NoCountryException {
+      throws IOException, SQLException, NoCountryException, NotEnoughPermissionsException {
+
+    if (req.getSession().getAttribute(KEY_PERMISSIONS) == null) {
+      throw new NotEnoughPermissionsException(
+          "Vous n'avez pas les droits nécessaires pour faire cela");
+    }
+
     UserDto userSelected = userUcc.getUserById(id);
     String json = userGenson.serialize(userSelected);
     resp.getWriter().println(json);
@@ -241,46 +247,42 @@ public class Servlet extends HttpServlet {
    * @param req The request received by the server.
    * @param resp The response sended by the server.
    * @throws SQLException If there is an error.
+   * @throws NoCountryException If there is an error.
+   * @throws NotEnoughPermissionsException If the user don't have the permissions to perform the
+   *         action
    */
   private void updateUser(HttpServletRequest req, HttpServletResponse resp)
-      throws IOException, SQLException {
+      throws IOException, SQLException, NoCountryException, NotEnoughPermissionsException {
+
+    if (req.getSession().getAttribute(KEY_PERMISSIONS) == null) {
+      throw new NotEnoughPermissionsException(
+          "Vous n'avez pas les droits nécessaires pour faire cela");
+    }
+
     int id = Integer.parseInt("" + req.getParameter("idUser"));
     if (id == -1) {
       id = Integer.parseInt("" + req.getSession().getAttribute(KEY_ID));
     }
+
     UserDto userEdited = null;
-    try {
-      userEdited = userUcc.getUserById(id);
-    } catch (NoCountryException exc) {
-      exc.printStackTrace();
-      createToaster(exc, resp);
-    }
+    userEdited = userUcc.getUserById(id);
     assert userEdited != null;
     userEdited.setId(id);
     userEdited.setName(req.getParameter("name"));
     userEdited.setFirstname(req.getParameter("firstname"));
     userEdited.setGender(req.getParameter("gender"));
-    try {
-      userEdited.setBirthDate(LocalDate.parse(req.getParameter("birthdate")));
-    } catch (DateTimeParseException exc) {
-      createToaster(exc, resp);
-    }
+    userEdited.setBirthDate(LocalDate.parse(req.getParameter("birthdate")));
     userEdited.setCitizenship(req.getParameter("citizenship"));
     userEdited.setStreet(req.getParameter("street"));
     userEdited.setHouseNumber(req.getParameter("houseNumber"));
     userEdited.setMailBox(req.getParameter("mailbox"));
     userEdited.setZip(req.getParameter("zipcode"));
     userEdited.setCity(req.getParameter("city"));
-    try {
-      userEdited.setCountryDto(countryUcc.getCountryByIso(req.getParameter("country")));
-      userEdited.setCountry(userEdited.getCountryDto().getNameFr());
-    } catch (Exception exc) {
-      exc.printStackTrace();
-      createToaster(exc, resp);
-    }
+    userEdited.setCountryDto(countryUcc.getCountryByIso(req.getParameter("country")));
+    userEdited.setCountry(userEdited.getCountryDto().getNameFr());
     userEdited.setTel(req.getParameter("tel"));
     userEdited.setSuccessfullYearInCollege(
-      Integer.parseInt(0 + req.getParameter("successfullYearsInCollege")));
+        Integer.parseInt(0 + req.getParameter("successfullYearsInCollege")));
     userEdited.setIban(req.getParameter("iban"));
     userEdited.setAccountHolder(req.getParameter("accountHolder"));
     userEdited.setBankName(req.getParameter("bankName"));
@@ -289,27 +291,42 @@ public class Servlet extends HttpServlet {
     userUcc.updateUser(userEdited);
   }
 
-  private void changePermissions(HttpServletRequest req, HttpServletResponse resp) {
+  private void changePermissions(HttpServletRequest req, HttpServletResponse resp)
+      throws NotEnoughPermissionsException, NumberFormatException, UserNotFoundException,
+      NoCountryException {
+
+    if (!req.getSession().getAttribute(KEY_PERMISSIONS).equals("TEACHER")) {
+      throw new NotEnoughPermissionsException(
+          "Vous n'avez pas les droits nécessaires pour faire cela");
+    }
+
     userUcc.changePermissions(Integer.parseInt(req.getParameter("id")));
     resp.setStatus(HttpStatus.ACCEPTED_202);
   }
 
   private void selectUsers(HttpServletRequest req, HttpServletResponse resp)
-      throws IOException, SQLException {
-    ArrayList<UserDto> users = null;
-    try {
-      users = userUcc.getAllUsers();
-    } catch (NoCountryException exc) {
-      exc.printStackTrace();
-      createToaster(exc, resp);
+      throws IOException, SQLException, NoCountryException, NotEnoughPermissionsException {
+
+    if (!req.getSession().getAttribute(KEY_PERMISSIONS).equals("TEACHER")) {
+      throw new NotEnoughPermissionsException(
+          "Vous n'avez pas les droits nécessaires pour faire cela");
     }
+
+    ArrayList<UserDto> users = null;
+    users = userUcc.getAllUsers();
     String jsonUsers = userGenson.serialize(users);
     resp.getWriter().println(jsonUsers);
     resp.setStatus(HttpStatus.ACCEPTED_202);
   }
 
   private void selectPrograms(HttpServletRequest req, HttpServletResponse resp)
-      throws IOException, SQLException {
+      throws IOException, SQLException, NotEnoughPermissionsException {
+
+    if (req.getSession().getAttribute(KEY_PERMISSIONS) == null) {
+      throw new NotEnoughPermissionsException(
+          "Vous n'avez pas les droits nécessaires pour faire cela");
+    }
+
     ArrayList<ProgramDto> programs = programUcc.getAllPrograms();
     String jsonPrograms = basicGenson.serialize(programs);
     resp.getWriter().println(jsonPrograms);
@@ -317,33 +334,43 @@ public class Servlet extends HttpServlet {
   }
 
   private void selectDepartments(HttpServletRequest req, HttpServletResponse resp)
-      throws IOException, SQLException {
-    ArrayList<DepartmentDto> departments = null;
-    try {
-      departments = departmentUcc.getAllDepartments();
-    } catch (NoDepartmentException exc) {
-      createToaster(exc, resp);
+      throws IOException, SQLException, NoDepartmentException, NotEnoughPermissionsException {
+
+    if (req.getSession().getAttribute(KEY_PERMISSIONS) == null) {
+      throw new NotEnoughPermissionsException(
+          "Vous n'avez pas les droits nécessaires pour faire cela");
     }
+
+    ArrayList<DepartmentDto> departments = null;
+    departments = departmentUcc.getAllDepartments();
     String jsonDepartments = basicGenson.serialize(departments);
     resp.getWriter().println(jsonDepartments);
     resp.setStatus(HttpStatus.ACCEPTED_202);
   }
 
   private void selectCountries(HttpServletRequest req, HttpServletResponse resp)
-      throws IOException {
-    ArrayList<CountryDto> countries = null;
-    try {
-      countries = countryUcc.getAllCountries();
-    } catch (Exception exc) {
-      createToaster(exc, resp);
+      throws IOException, NoCountryException, SQLException, NotEnoughPermissionsException {
+
+    if (req.getSession().getAttribute(KEY_PERMISSIONS) == null) {
+      throw new NotEnoughPermissionsException(
+          "Vous n'avez pas les droits nécessaires pour faire cela");
     }
+
+    ArrayList<CountryDto> countries = null;
+    countries = countryUcc.getAllCountries();
     String jsonCountries = basicGenson.serialize(countries);
     resp.getWriter().println(jsonCountries);
     resp.setStatus(HttpStatus.ACCEPTED_202);
   }
 
   private void selectAllMobility(HttpServletRequest req, HttpServletResponse resp)
-      throws IOException, SQLException {
+      throws IOException, SQLException, NotEnoughPermissionsException {
+
+    if (!req.getSession().getAttribute(KEY_PERMISSIONS).equals("TEACHER")) {
+      throw new NotEnoughPermissionsException(
+          "Vous n'avez pas les droits nécessaires pour faire cela");
+    }
+
     ArrayList<MobilityDto> mobilities = mobilityUcc.getMobilities();
     String jsonMobilities = null;
     if (mobilities.size() != 0) {
@@ -354,7 +381,13 @@ public class Servlet extends HttpServlet {
   }
 
   private void selectConfirmedMobility(HttpServletRequest req, HttpServletResponse resp)
-      throws IOException, SQLException {
+      throws IOException, SQLException, NotEnoughPermissionsException {
+
+    if (!req.getSession().getAttribute(KEY_PERMISSIONS).equals("TEACHER")) {
+      throw new NotEnoughPermissionsException(
+          "Vous n'avez pas les droits nécessaires pour faire cela");
+    }
+
     ArrayList<MobilityDto> mobilities = mobilityUcc.getConfirmedMobilities();
     String jsonMobilities = null;
     if (null != mobilities && mobilities.size() != 0) {
@@ -365,7 +398,11 @@ public class Servlet extends HttpServlet {
   }
 
   private void selectMyMobility(HttpServletRequest req, HttpServletResponse resp)
-      throws IOException, SQLException {
+      throws IOException, SQLException, NotEnoughPermissionsException {
+    if (req.getSession().getAttribute(KEY_PERMISSIONS) == null) {
+      throw new NotEnoughPermissionsException(
+          "Vous n'avez pas les droits nécessaires pour faire cela");
+    }
 
     ArrayList<MobilityDto> myMobilities =
         mobilityUcc.getMyMobilities((String) req.getSession().getAttribute(KEY_USERNAME));
@@ -377,7 +414,14 @@ public class Servlet extends HttpServlet {
     resp.setStatus(HttpStatus.ACCEPTED_202);
   }
 
-  private void disconnect(HttpServletRequest req, HttpServletResponse resp) {
+  private void disconnect(HttpServletRequest req, HttpServletResponse resp)
+      throws NotEnoughPermissionsException {
+
+    if (req.getSession().getAttribute(KEY_PERMISSIONS) == null) {
+      throw new NotEnoughPermissionsException(
+          "Vous n'avez pas les droits nécessaires pour faire cela");
+    }
+
     Main.LOGGER.info("[" + req.getSession().getAttribute(KEY_PERMISSIONS) + "] \""
         + req.getSession().getAttribute(KEY_USERNAME) + "\" disconnected.");
     req.getSession().invalidate();
@@ -391,7 +435,15 @@ public class Servlet extends HttpServlet {
 
   }
 
-  private void register(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+  private void register(HttpServletRequest req, HttpServletResponse resp)
+      throws IOException, AuthenticationException, NoCountryException, UserAlreadyExistsException,
+      NotEnoughPermissionsException {
+
+    if (req.getSession().getAttribute(KEY_PERMISSIONS) != null) {
+      throw new NotEnoughPermissionsException(
+          "Vous ne pouvez pas faire cela si vous êtes connecté");
+    }
+
     UserDto userdto = bizzFactory.getUserDto();
 
     userdto.setPseudo(req.getParameter("username"));
@@ -403,15 +455,7 @@ public class Servlet extends HttpServlet {
     userdto.setPermissions("STUDENT");
 
     UserDto userDtoRecept = null;
-    try {
-      userDtoRecept = userUcc.register(userdto);
-    } catch (AuthenticationException | UserAlreadyExistsException exc) {
-      this.createToaster(exc, resp);
-      return;
-    } catch (NoCountryException exc) {
-      exc.printStackTrace();
-      this.createToaster(exc, resp);
-    }
+    userDtoRecept = userUcc.register(userdto);
     req.getSession().setAttribute(KEY_ID, userDtoRecept.getId());
     req.getSession().setAttribute(KEY_USERNAME, userDtoRecept.getPseudo());
     req.getSession().setAttribute(KEY_PERMISSIONS, userDtoRecept.getPermissions());
@@ -445,21 +489,19 @@ public class Servlet extends HttpServlet {
 
   }
 
-  private void login(HttpServletRequest req, HttpServletResponse resp)
-      throws IOException, SQLException {
+  private void login(HttpServletRequest req, HttpServletResponse resp) throws IOException,
+      SQLException, AuthenticationException, NoCountryException, NotEnoughPermissionsException {
+
+    if (req.getSession().getAttribute(KEY_PERMISSIONS) != null) {
+      throw new NotEnoughPermissionsException("Vous êtes déjà connecté");
+    }
+
     String username = req.getParameter("username");
     String password = req.getParameter("password");
 
     UserDto userDtoRecept = null;
-    try {
-      userDtoRecept = userUcc.login(username, password);
-    } catch (AuthenticationException exc) {
-      this.createToaster(exc, resp);
-      return;
-    } catch (NoCountryException exc) {
-      exc.printStackTrace();
-      createToaster(exc, resp);
-    }
+    userDtoRecept = userUcc.login(username, password);
+
     createJwtCookie(resp, userDtoRecept);
     req.getSession().setAttribute(KEY_ID, userDtoRecept.getId());
     req.getSession().setAttribute(KEY_USERNAME, userDtoRecept.getPseudo());
@@ -469,27 +511,24 @@ public class Servlet extends HttpServlet {
   }
 
   private void addMobility(HttpServletRequest req, HttpServletResponse resp)
-      throws IOException, NumberFormatException, SQLException {
+      throws IOException, NumberFormatException, SQLException, NoCountryException,
+      NoDepartmentException, NotEnoughPermissionsException {
+
+    if (req.getSession().getAttribute(KEY_PERMISSIONS) == null) {
+      throw new NotEnoughPermissionsException(
+          "Vous n'avez pas les droits nécessaires pour faire cela");
+    }
+
     MobilityDto mobility = bizzFactory.getMobilityDto();
 
-    try {
-      mobility.setStudentDto(
-          userUcc.getUserById(Integer.parseInt("" + req.getSession().getAttribute(KEY_ID))));
-    } catch (NoCountryException exc) {
-      exc.printStackTrace();
-      createToaster(exc, resp);
-    }
+    mobility.setStudentDto(
+        userUcc.getUserById(Integer.parseInt("" + req.getSession().getAttribute(KEY_ID))));
     mobility.setPreferenceOrder(Integer.parseInt(req.getParameter("preferenceOrder")));
     mobility.setProgramDto(programUcc.getProgramByName(req.getParameter("program")));
     mobility.setType(req.getParameter("type"));
     mobility.setQuadrimester(Integer.parseInt(req.getParameter("quadrimestre")));
     mobility.setAcademicYear(req.getParameter("year"));
-    try {
-      mobility
-          .setDepartementDto(departmentUcc.getDepartmentByLabel(req.getParameter("department")));
-    } catch (NoDepartmentException exc) {
-      createToaster(exc, resp);
-    }
+    mobility.setDepartementDto(departmentUcc.getDepartmentByLabel(req.getParameter("department")));
     try {
       mobility.setCountryDto(countryUcc.getCountryByNameFr(req.getParameter("country")));
     } catch (Exception exc) {
@@ -508,24 +547,24 @@ public class Servlet extends HttpServlet {
    * @throws SQLException If there is an error.
    * @throws NumberFormatException If there is an error.
    * @throws IOException If there is an error.
+   * @throws NoCountryException If there is an error.
+   * @throws NotEnoughPermissionsException If the user don't have the permissions to perform the
+   *         action
    */
-  private void addPartner(HttpServletRequest req, HttpServletResponse resp)
-      throws IOException, NumberFormatException, SQLException {
-    PartnerDto partner = bizzFactory.getPartnerDto();
-    try {
-      partner.setUserDto(
-          userUcc.getUserById(Integer.parseInt("" + req.getSession().getAttribute(KEY_ID))));
-    } catch (NoCountryException exc) {
-      exc.printStackTrace();
-      createToaster(exc, resp);
+  private void addPartner(HttpServletRequest req, HttpServletResponse resp) throws IOException,
+      NumberFormatException, SQLException, NoCountryException, NotEnoughPermissionsException {
+
+    if (req.getSession().getAttribute(KEY_PERMISSIONS) == null) {
+      throw new NotEnoughPermissionsException(
+          "Vous n'avez pas les droits nécessaires pour faire cela");
     }
+
+    PartnerDto partner = bizzFactory.getPartnerDto();
+    partner.setUserDto(
+        userUcc.getUserById(Integer.parseInt("" + req.getSession().getAttribute(KEY_ID))));
     partner.setLegalName(req.getParameter("legal_name"));
     partner.setBusiness(req.getParameter("business_name"));
-    try {
-      partner.setCountryDto(countryUcc.getCountryByNameFr(req.getParameter("country")));
-    } catch (Exception exc) {
-      createToaster(exc, resp);
-    }
+    partner.setCountryDto(countryUcc.getCountryByNameFr(req.getParameter("country")));
     partner.setFullName(req.getParameter("full_name"));
     partner.setDepartment(req.getParameter("department"));
     partner.setType(req.getParameter("type"));
@@ -549,16 +588,21 @@ public class Servlet extends HttpServlet {
    * @param req The request received by the server.
    * @param resp The response sended by the server.
    * @throws SQLException If there is an error.
+   * @throws IOException If there is an error.
+   * @throws NotEnoughPermissionsException If the user don't have the permissions to perform the
+   *         action
    */
   private void loadAcademicYears(HttpServletRequest req, HttpServletResponse resp)
-      throws SQLException {
+      throws SQLException, IOException, NotEnoughPermissionsException {
+
+    if (req.getSession().getAttribute(KEY_PERMISSIONS) == null) {
+      throw new NotEnoughPermissionsException(
+          "Vous n'avez pas les droits nécessaires pour faire cela");
+    }
+
     ArrayList<String> academicYears = mobilityUcc.getAcademicYears();
     String json = userGenson.serialize(academicYears);
-    try {
-      resp.getWriter().println(json);
-    } catch (IOException exc) {
-      exc.printStackTrace();
-    }
+    resp.getWriter().println(json);
     resp.setStatus(HttpStatus.ACCEPTED_202);
   }
 
@@ -570,9 +614,17 @@ public class Servlet extends HttpServlet {
    * @param resp The response sended by the server.
    * @throws SQLException If there is an error.
    * @throws IOException If there is an error.
+   * @throws NotEnoughPermissionsException If the user don't have the permissions to perform the
+   *         action
    */
   private void loadPayments(HttpServletRequest req, HttpServletResponse resp)
-      throws IOException, SQLException {
+      throws IOException, SQLException, NotEnoughPermissionsException {
+
+    if (!req.getSession().getAttribute(KEY_PERMISSIONS).equals("TEACHER")) {
+      throw new NotEnoughPermissionsException(
+          "Vous n'avez pas les droits nécessaires pour faire cela");
+    }
+
     String academicYear = req.getParameter("academicYear");
     ArrayList<MobilityDto> mobilities = mobilityUcc.getFullPayments(academicYear);
     String jsonMobilities = null;
@@ -669,7 +721,6 @@ public class Servlet extends HttpServlet {
     Map<String, String> map = new HashMap<String, String>();
 
     // warning, success, error, info
-    System.out.println(exception.getClass().toString());
     switch (exception.getClass().toString()) {
       case "class exceptions.AuthenticationException":
         resp.setStatus(HttpStatus.UNAUTHORIZED_401);
@@ -682,7 +733,7 @@ public class Servlet extends HttpServlet {
         map.put("message", exception.getMessage());
         break;
       case "class exceptions.NoDepartmentException":
-        resp.setStatus(HttpStatus.PARTIAL_CONTENT_206);
+        resp.setStatus(HttpStatus.EXPECTATION_FAILED_417);
         map.put("type", "error");
         map.put("message", exception.getMessage());
         break;
@@ -696,6 +747,16 @@ public class Servlet extends HttpServlet {
         map.put("type", "error");
         map.put("message", exception.getMessage());
         break;
+      case "class exceptions.UserNotFoundException":
+        resp.setStatus(HttpStatus.NOT_FOUND_404);
+        map.put("type", "error");
+        map.put("message", exception.getMessage());
+        break;
+      case "class exceptions.NotEnoughPermissionsException":
+        resp.setStatus(HttpStatus.FORBIDDEN_403);
+        map.put("type", "warning");
+        map.put("message", exception.getMessage());
+        break;
       default:
         resp.setStatus(HttpStatus.PARTIAL_CONTENT_206);
         map.put("type", "info");
@@ -703,7 +764,6 @@ public class Servlet extends HttpServlet {
         break;
     }
     resp.getWriter().println(basicGenson.serialize(map));
-    System.out.println(basicGenson.serialize(map));
     return resp;
   }
 

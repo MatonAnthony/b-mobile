@@ -3,7 +3,6 @@ package dao.implementations;
 import bizz.interfaces.BizzFactory;
 import dal.DalBackendServices;
 import dao.interfaces.UserDao;
-import dto.CountryDto;
 import dto.UserDto;
 import exceptions.NoCountryException;
 
@@ -50,7 +49,8 @@ public class UserDaoImpl implements UserDao {
   }
 
   @Override
-  public UserDto getUserByUserName(String username) throws NoSuchElementException, NoCountryException {
+  public UserDto getUserByUserName(String username)
+      throws NoSuchElementException, NoCountryException {
     String query = "SELECT id, id_department, pseudo, password, name, firstname, email, "
         + "registration_date, permissions, birth_date, street, citizenship, "
         + "house_number, mailbox, zip, city, country, tel, gender, successfull_year_in_college, "
@@ -142,8 +142,8 @@ public class UserDaoImpl implements UserDao {
       preparedStatement.setString(17, userEdited.getIban());
       try {
         preparedStatement.setTimestamp(18,
-          Timestamp.valueOf(userEdited.getBirthDate().atStartOfDay()));
-      }catch(NullPointerException exc){
+            Timestamp.valueOf(userEdited.getBirthDate().atStartOfDay()));
+      } catch (NullPointerException exc) {
         preparedStatement.setTimestamp(18, null);
       }
       preparedStatement.setInt(19, userEdited.getId());
@@ -171,7 +171,7 @@ public class UserDaoImpl implements UserDao {
   }
 
   private ArrayList<UserDto> fillDtoArray(PreparedStatement preparedStatement)
-    throws NoCountryException {
+      throws NoCountryException {
     ArrayList<UserDto> users = new ArrayList<UserDto>();
     try (ResultSet resultSet = dalBackendServices.executeQuery(preparedStatement)) {
       while (resultSet.next()) {
@@ -187,7 +187,7 @@ public class UserDaoImpl implements UserDao {
   }
 
   private UserDto completeDto(UserDto user, ResultSet resultSet)
-    throws SQLException, NoCountryException {
+      throws SQLException, NoCountryException {
     user.setId(resultSet.getInt(1));
     user.setIdDepartment(resultSet.getInt(2));
     user.setPseudo(resultSet.getString(3));
@@ -219,13 +219,15 @@ public class UserDaoImpl implements UserDao {
     user.setAccountHolder(resultSet.getString(23));
     user.setBankName(resultSet.getString(24));
     user.setVerNr(resultSet.getInt(25));
-    try {
-      // TODO : (Antho)Vérifier si c'est bien la bonne façon de faire et éventuellement refactoriser
-      CountryDto country = new CountryDaoImpl(this.dalBackendServices, this.factory)
-        .getCountryByIso(user.getCountry());
-    }catch(SQLException exc){
-      throw new NoCountryException("Le pays n'a pas été trouvé");
-    }
+    /*
+     * try {
+     * 
+     * // TODO : (Antho)Vérifier si c'est bien la bonne façon de faire et éventuellement
+     * refactoriser CountryDto country = new CountryDaoImpl(this.dalBackendServices, this.factory)
+     * .getCountryByIso(user.getCountry());
+     * 
+     * } catch (SQLException exc) { throw new NoCountryException("Le pays n'a pas été trouvé"); }
+     */
 
     return user;
   }

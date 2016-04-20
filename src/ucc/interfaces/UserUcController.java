@@ -4,6 +4,7 @@ import dto.UserDto;
 import exceptions.AuthenticationException;
 import exceptions.NoCountryException;
 import exceptions.UserAlreadyExistsException;
+import exceptions.UserNotFoundException;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -19,7 +20,7 @@ public interface UserUcController {
    * @throws SQLException If there is an Exception.
    */
   UserDto login(String login, String password)
-    throws AuthenticationException, SQLException, NoCountryException;
+      throws AuthenticationException, SQLException, NoCountryException;
 
   /**
    * The function register new user in the data base.
@@ -29,9 +30,8 @@ public interface UserUcController {
    * @throws AuthenticationException if an error happen between register and login.
    * @throws UserAlreadyExistsException if the user already exists in the database.
    */
-  UserDto register(UserDto userdto)
-    throws AuthenticationException, NoCountryException, UserAlreadyExistsException,
-    UserAlreadyExistsException;
+  UserDto register(UserDto userdto) throws AuthenticationException, NoCountryException,
+      UserAlreadyExistsException, UserAlreadyExistsException;
 
   UserDto getUserById(int id) throws SQLException, NoCountryException;
 
@@ -41,8 +41,10 @@ public interface UserUcController {
    * Change the permission of the user of id "id" and set them to TEACHER.
    * 
    * @param id the id of the user to change.
+   * @throws UserNotFoundException If the user is not found
+   * @throws NoCountryException If the country does not exist
    */
-  void changePermissions(int id);
+  void changePermissions(int id) throws UserNotFoundException, NoCountryException;
 
   void updateUser(UserDto userEdited);
 }

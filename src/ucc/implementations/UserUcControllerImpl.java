@@ -7,6 +7,7 @@ import dto.UserDto;
 import exceptions.AuthenticationException;
 import exceptions.NoCountryException;
 import exceptions.UserAlreadyExistsException;
+import exceptions.UserNotFoundException;
 import ihm.Main;
 import ucc.interfaces.UserUcController;
 
@@ -33,8 +34,8 @@ public class UserUcControllerImpl implements UserUcController {
   }
 
   @Override
-  public UserDto login(String login, String password) throws AuthenticationException, SQLException,
-      NoCountryException {
+  public UserDto login(String login, String password)
+      throws AuthenticationException, SQLException, NoCountryException {
     UserBizz user;
     try {
       // Récupérer les données du DAL
@@ -60,8 +61,7 @@ public class UserUcControllerImpl implements UserUcController {
 
   @Override
   public UserDto register(UserDto userdto)
-    throws AuthenticationException, UserAlreadyExistsException,
-    NoCountryException {
+      throws AuthenticationException, UserAlreadyExistsException, NoCountryException {
 
     String password = userdto.getPassword();
     UserBizz userBizz = (UserBizz) userdto;
@@ -109,7 +109,7 @@ public class UserUcControllerImpl implements UserUcController {
   }
 
   @Override
-  public void changePermissions(int id) {
+  public void changePermissions(int id) throws UserNotFoundException, NoCountryException {
     try {
       dalServices.openConnection();
       dalServices.startTransaction();
@@ -117,12 +117,12 @@ public class UserUcControllerImpl implements UserUcController {
       if (user.getPermissions().equals("STUDENT")) {
         userDao.changePermissionsForUserById(user);
       } else {
-        // TODO (Martin) Throw une exeption personnalisée si l'utilisateur n'est pas dans la BDD.
+        throw new UserNotFoundException("Cet utilisateur n'existe pas");
       }
 
       dalServices.commitTransaction();
       dalServices.closeConnection();
-    } catch (Exception exc1) {
+    } catch (SQLException exc1) {
       try {
         dalServices.rollbackTransaction();
         dalServices.closeConnection();
