@@ -6,13 +6,14 @@
                     <div class="form-group">
                         <label class="col-sm-4 control-label">Nom :</label>
                         <div class="col-sm-5">
-                            <input class="form-control" name="name">
+                            <input class="form-control" name="name" pattern="[A-zÀ-ÿ-]*"
+                                   id="profile_name">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-4 control-label">Prénom :</label>
                         <div class="col-sm-5">
-                            <input class="form-control" name="firstname">
+                            <input class="form-control" name="firstname" pattern="[A-zÀ-ÿ-]*">
                         </div>
                     </div>
                     <div class="form-group">
@@ -35,13 +36,13 @@
                     <div class="form-group">
                         <label class="col-sm-4 control-label">Nationalité :</label>
                         <div class="col-sm-5">
-                            <input class="form-control" name="citizenship"></input>
+                            <input class="form-control" name="citizenship" pattern="[A-zÀ-ÿ-]*"/>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-4 control-label">Rue :</label>
                         <div class="col-sm-5">
-                            <input class="form-control" name="street">
+                            <input class="form-control" name="street" pattern="[A-zÀ-ÿ- ]*">
                         </div>
                     </div>
                     <div class="form-group">
@@ -65,7 +66,7 @@
                     <div class="form-group">
                         <label class="col-sm-4 control-label">Ville :</label>
                         <div class="col-sm-5">
-                            <input class="form-control" name="city">
+                            <input class="form-control" name="city" pattern="[A-zÀ-ÿ -]*">
                         </div>
                     </div>
                     <div class="form-group">
@@ -104,19 +105,19 @@
                     <div class="form-group">
                         <label class="col-sm-4 control-label">Titulaire du compte :</label>
                         <div class="col-sm-5">
-                            <input class="form-control" name="accountHolder">
+                            <input class="form-control" name="accountHolder" pattern="[A-zÀ-ÿ- ]*">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-4 control-label">Nom de la banque :</label>
                         <div class="col-sm-5">
-                            <input class="form-control" name="bankName">
+                            <input class="form-control" name="bankName" pattern="[A-zÀ-ÿ- ]*">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-4 control-label">Code BIC :</label>
                         <div class="col-sm-5">
-                            <input class="form-control" name="bic">
+                            <input class="form-control" name="bic" pattern="[A-z]*">
                         </div>
                     </div>
                     <button id="profileButton" class="btn btn-info">Envoyer</button>

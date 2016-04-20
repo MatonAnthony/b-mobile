@@ -16,6 +16,18 @@ $(function () {
     });
 
 
+    // HTML Based form validation :
+    window.onload = function(){
+        $("#profile_name").change(function(){
+            var name = document.getElementById("profile_name")
+            if(name.validity.patternMismatch){
+                console.log("event fired");
+                printToaster("info", "Le nom doit uniquement contenir des lettres et des tirets");
+            }else{
+                $("#profile_name").removeClass(":invalid");
+            }
+        });
+    };
     window.onpopstate = function (event) {
         changePage();
     };
