@@ -840,7 +840,9 @@ $(function () {
                 $("input[name='houseNumber']").val(resp['houseNumber']);
 
                 $("input[name='city']").val(resp['city']);
-                $("option[value=" + resp['country']).attr("selected", "true");
+                console.log(resp['country']);
+                var country = resp['country'];
+                $("#profile_country").val(country);
                 $("input[name='mailbox']").val(resp['mailBox']);
                 $("input[name='zipcode']").val(resp['zip']);
                 $("input[name='tel']").val(resp['tel']);

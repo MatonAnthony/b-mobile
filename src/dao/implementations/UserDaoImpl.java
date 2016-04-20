@@ -3,6 +3,7 @@ package dao.implementations;
 import bizz.interfaces.BizzFactory;
 import dal.DalBackendServices;
 import dao.interfaces.UserDao;
+import dto.CountryDto;
 import dto.UserDto;
 import exceptions.NoCountryException;
 
@@ -18,6 +19,13 @@ public class UserDaoImpl implements UserDao {
   private DalBackendServices dalBackendServices;
   private BizzFactory factory;
 
+  private String getUserQuery = "SELECT u.id, u.id_department, u.pseudo, u.password,"
+    + " u.name, u.firstname, u.email, u.registration_date, u.permissions, u.birth_date, u.street,"
+    + " u.citizenship, u.house_number, u.mailbox, u.zip, u.city, u.country, u.tel, u.gender,"
+    + " u.successfull_year_in_college, u.iban, u.bic, u.account_holder, u.bank_name, u.ver_nr, "
+
+    + "co.iso, co.name_en, co.name_fr, co.id_program "
+    + "FROM bmobile.users u LEFT OUTER JOIN bmobile.countries co ON u.country = co.iso ";
 
   public UserDaoImpl(DalBackendServices dalBackendServices, BizzFactory bizzFactory) {
     this.dalBackendServices = dalBackendServices;
@@ -51,10 +59,7 @@ public class UserDaoImpl implements UserDao {
   @Override
   public UserDto getUserByUserName(String username)
       throws NoSuchElementException, NoCountryException {
-    String query = "SELECT id, id_department, pseudo, password, name, firstname, email, "
-        + "registration_date, permissions, birth_date, street, citizenship, "
-        + "house_number, mailbox, zip, city, country, tel, gender, successfull_year_in_college, "
-        + "iban, bic, account_holder, bank_name, ver_nr FROM bmobile.users WHERE pseudo=?";
+    String query = this.getUserQuery + "WHERE pseudo=?";
     PreparedStatement preparedStatement = null;
     try {
       preparedStatement = dalBackendServices.prepare(query);
@@ -68,10 +73,7 @@ public class UserDaoImpl implements UserDao {
 
   @Override
   public UserDto getUserById(int id) throws NoSuchElementException, NoCountryException {
-    String query = "SELECT id, id_department, pseudo, password, name, firstname, email, "
-        + "registration_date, permissions, birth_date, citizenship, street, "
-        + "house_number, mailbox, zip, city, country, tel, gender, successfull_year_in_college, "
-        + "iban, bic, account_holder, bank_name, ver_nr FROM bmobile.users WHERE id=?";
+    String query = this.getUserQuery + "WHERE id=?";
     PreparedStatement preparedStatement = null;
     try {
       preparedStatement = dalBackendServices.prepare(query);
@@ -86,10 +88,7 @@ public class UserDaoImpl implements UserDao {
 
   @Override
   public ArrayList<UserDto> getAllUsers() throws NoCountryException {
-    String query = "SELECT id, id_department, pseudo, password, name, firstname, email, "
-        + "registration_date, permissions, birth_date, citizenship, street, "
-        + "house_number, mailbox, zip, city, country, tel, gender, successfull_year_in_college, "
-        + "iban, bic, account_holder, bank_name, ver_nr FROM bmobile.users ORDER BY id";
+    String query = this.getUserQuery + "ORDER BY id";
     PreparedStatement preparedStatement = null;
     try {
       preparedStatement = dalBackendServices.prepare(query);
@@ -219,15 +218,13 @@ public class UserDaoImpl implements UserDao {
     user.setAccountHolder(resultSet.getString(23));
     user.setBankName(resultSet.getString(24));
     user.setVerNr(resultSet.getInt(25));
-    /*
-     * try {
-     * 
-     * // TODO : (Antho)Vérifier si c'est bien la bonne façon de faire et éventuellement
-     * refactoriser CountryDto country = new CountryDaoImpl(this.dalBackendServices, this.factory)
-     * .getCountryByIso(user.getCountry());
-     * 
-     * } catch (SQLException exc) { throw new NoCountryException("Le pays n'a pas été trouvé"); }
-     */
+
+    CountryDto countryDto = factory.getCountryDto();
+    countryDto.setIdProgram(resultSet.getInt("id_program"));
+    countryDto.setIso(resultSet.getString("iso"));
+    countryDto.setNameEn(resultSet.getString("name_en"));
+    countryDto.setNameFr(resultSet.getString("name_fr"));
+    user.setCountryDto(countryDto);
 
     return user;
   }
