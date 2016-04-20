@@ -221,18 +221,8 @@ public class UserDaoImpl implements UserDao {
     user.setVerNr(resultSet.getInt(25));
     try {
       // TODO : (Antho)Vérifier si c'est bien la bonne façon de faire et éventuellement refactoriser
-      CountryDto country = factory.getCountryDto();
-      String query = "SELECT * FROM bmobile.countries WHERE iso = ?";
-      PreparedStatement preparedStatement = dalBackendServices.prepare(query);
-      preparedStatement.setString(1, user.getCountry());
-      ResultSet result = dalBackendServices.executeQuery(preparedStatement);
-      while(result.next()){
-        country.setIdProgram(result.getInt("id_program"));
-        country.setNameEn(result.getString("name_en"));
-        country.setNameFr(result.getString("name_fr"));
-        country.setIso(result.getString("iso"));
-        user.setCountryDto(country);
-      }
+      CountryDto country = new CountryDaoImpl(this.dalBackendServices, this.factory)
+        .getCountryByIso(user.getCountry());
     }catch(SQLException exc){
       throw new NoCountryException("Le pays n'a pas été trouvé");
     }
