@@ -677,6 +677,10 @@ public class Servlet extends HttpServlet {
         map.put("message", exception.getMessage());
         break;
       case "class exceptions.NoCountryException":
+        resp.setStatus(HttpStatus.EXPECTATION_FAILED_417);
+        map.put("type", "error");
+        map.put("message", exception.getMessage());
+        break;
       case "class exceptions.NoDepartmentException":
         resp.setStatus(HttpStatus.PARTIAL_CONTENT_206);
         map.put("type", "error");

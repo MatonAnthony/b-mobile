@@ -349,7 +349,7 @@ public class UserImpl implements UserBizz, Cloneable {
    */
   @Override
   public void setIban(String iban) {
-    if (iban == null) {
+    if (iban == null || iban.isEmpty()) {
       this.iban = null;
     } else {
       IBAN staging = IBAN.parse(iban);

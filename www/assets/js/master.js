@@ -809,24 +809,27 @@ $(function () {
                 }
 
                 console.log(resp);
-
-				$("input[name='name']").val(resp['name']);
-				$("input[name='firstname']").val(resp['firstname']);
-				$("input[name='gender']").val(resp['gender']);
-				$("input[name='citizenship']").val(resp['citizenship']);
-				$("input[name='street']").val(resp['street']);
-				$("input[name='houseNumber']").val(resp['houseNumber']);
+                $("input[name='name']").val(resp['name']);
+                $("input[name='firstname']").val(resp['firstname']);
+                $("input[name='gender']").val(resp['gender']);
+                $("input[name='citizenship']").val(resp['citizenship']);
+                $("input[name='street']").val(resp['street']);
+                $("input[name='houseNumber']").val(resp['houseNumber']);
                 $("input[name='city']").val(resp['city']);
-                $("option[value="+resp['country']).attr("selected", "true");
-	            $("input[name='mailbox']").val(resp['mailBox']);
-				$("input[name='zipcode']").val(resp['zip']);
-				$("input[name='tel']").val(resp['tel']);
-				$("input[name='email']").val(resp['email']);
-				$("input[name='successfullYearsInCollege']").val(resp['successfullYearInCollege']);
-				$("input[name='iban']").val(resp["iban"]["value"]);
-				$("input[name='accountHolder']").val(resp['accountHolder']);
-				$("input[name='bankName']").val(resp['bankName']);
-				$("input[name='bic']").val(resp['bic']);
+                $("option[value=" + resp['country']).attr("selected", "true");
+                $("input[name='mailbox']").val(resp['mailBox']);
+                $("input[name='zipcode']").val(resp['zip']);
+                $("input[name='tel']").val(resp['tel']);
+                $("input[name='email']").val(resp['email']);
+                $("input[name='successfullYearsInCollege']").val(resp['successfullYearInCollege']);
+                try {
+                    $("input[name='iban']").val(resp["iban"]["value"]);
+                }catch(err){
+
+                }
+                $("input[name='accountHolder']").val(resp['accountHolder']);
+                $("input[name='bankName']").val(resp['bankName']);
+                $("input[name='bic']").val(resp['bic']);
 			},
 			error: function(error){
 				console.log("Pré-remplissage du profil impossible");

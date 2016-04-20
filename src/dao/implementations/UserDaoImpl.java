@@ -140,8 +140,12 @@ public class UserDaoImpl implements UserDao {
       preparedStatement.setString(15, userEdited.getBankName());
       preparedStatement.setString(16, userEdited.getCountryDto().getIso());
       preparedStatement.setString(17, userEdited.getIban());
-      preparedStatement.setTimestamp(18,
+      try {
+        preparedStatement.setTimestamp(18,
           Timestamp.valueOf(userEdited.getBirthDate().atStartOfDay()));
+      }catch(NullPointerException exc){
+        preparedStatement.setTimestamp(18, null);
+      }
       preparedStatement.setInt(19, userEdited.getId());
       dalBackendServices.executeUpdate(preparedStatement);
 
