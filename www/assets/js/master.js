@@ -378,7 +378,7 @@ $(function () {
                 }
             });
         }
-        
+
         $.ajax({
             method: "POST",
             url: "/home",
@@ -780,7 +780,7 @@ $(function () {
                     resp = JSON.parse(resp);
                     var key;
                     for (key in resp) {
-                        $("#profile_country").append('<option value='+resp[key]['nameFr']+'>' + resp[key]['nameFr'] + '</option>');
+                        $("#profile_country").append('<option value='+resp[key]['iso']+'>' + resp[key]['nameFr'] + '</option>');
                     }
                 },
                 error: function (error) {
@@ -797,22 +797,27 @@ $(function () {
 			},
 			success: function(resp){
 				resp = JSON.parse(resp);
-				console.log(resp);
+                try{
+                    var b = new Date(""+resp['birthDate']['year']+"-"+resp['birthDate']['month']
+                        +"-"+resp['birthDate']['day']);
+                    var birthdate = b.getFullYear() + "-" +
+                        (b.getMonth().toString().length == 1 ? "0" + parseInt(b.getMonth() + 1) : parseInt(b.getMonth() + 1)) + "-" +
+                        (b.getDate().toString().length == 1 ? "0" + b.getDate() : b.getDate());
+                    $("input[name='birthdate']").val(birthdate);
+                }catch(err){
+                    console.log("La date de naissance est nulle");
+                }
 
-                var b = new Date(""+resp['birthDate']['year']+"-"+resp['birthDate']['month']
-                +"-"+resp['birthDate']['day']);
-                var birthdate = b.getFullYear() + "-" +
-                    (b.getMonth().toString().length == 1 ? "0" + parseInt(b.getMonth() + 1) : parseInt(b.getMonth() + 1)) + "-" +
-                    (b.getDate().toString().length == 1 ? "0" + b.getDate() : b.getDate());
+                console.log(resp);
 
 				$("input[name='name']").val(resp['name']);
 				$("input[name='firstname']").val(resp['firstname']);
 				$("input[name='gender']").val(resp['gender']);
-				$("input[name='birthdate']").val(birthdate);
 				$("input[name='citizenship']").val(resp['citizenship']);
 				$("input[name='street']").val(resp['street']);
 				$("input[name='houseNumber']").val(resp['houseNumber']);
                 $("input[name='city']").val(resp['city']);
+                $("option[value="+resp['country']).attr("selected", "true");
 	            $("input[name='mailbox']").val(resp['mailBox']);
 				$("input[name='zipcode']").val(resp['zip']);
 				$("input[name='tel']").val(resp['tel']);

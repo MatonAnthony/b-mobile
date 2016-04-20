@@ -5,6 +5,7 @@ import dal.DalServices;
 import dao.interfaces.UserDao;
 import dto.UserDto;
 import exceptions.AuthenticationException;
+import exceptions.NoCountryException;
 import exceptions.UserAlreadyExistsException;
 import ihm.Main;
 import ucc.interfaces.UserUcController;
@@ -32,7 +33,8 @@ public class UserUcControllerImpl implements UserUcController {
   }
 
   @Override
-  public UserDto login(String login, String password) throws AuthenticationException, SQLException {
+  public UserDto login(String login, String password) throws AuthenticationException, SQLException,
+      NoCountryException {
     UserBizz user;
     try {
       // Récupérer les données du DAL
@@ -58,7 +60,8 @@ public class UserUcControllerImpl implements UserUcController {
 
   @Override
   public UserDto register(UserDto userdto)
-      throws AuthenticationException, UserAlreadyExistsException {
+    throws AuthenticationException, UserAlreadyExistsException,
+    NoCountryException {
 
     String password = userdto.getPassword();
     UserBizz userBizz = (UserBizz) userdto;
@@ -90,7 +93,7 @@ public class UserUcControllerImpl implements UserUcController {
   }
 
   @Override
-  public UserDto getUserById(int id) throws SQLException {
+  public UserDto getUserById(int id) throws SQLException, NoCountryException {
     dalServices.openConnection();
     UserDto user = userDao.getUserById(id);
     dalServices.closeConnection();
@@ -98,7 +101,7 @@ public class UserUcControllerImpl implements UserUcController {
   }
 
   @Override
-  public ArrayList<UserDto> getAllUsers() throws SQLException {
+  public ArrayList<UserDto> getAllUsers() throws SQLException, NoCountryException {
     dalServices.openConnection();
     ArrayList<UserDto> users = userDao.getAllUsers();
     dalServices.closeConnection();

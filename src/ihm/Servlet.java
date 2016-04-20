@@ -206,10 +206,16 @@ public class Servlet extends HttpServlet {
   }
 
   private void selectAddMobilityInformations(HttpServletRequest req, HttpServletResponse resp)
-      throws SQLException, NoDepartmentException, NoCountryException, IOException {
+      throws SQLException, NoDepartmentException, IOException {
     ArrayList<ProgramDto> programs = programUcc.getAllPrograms();
     ArrayList<DepartmentDto> departments = departmentUcc.getAllDepartments();
-    ArrayList<CountryDto> countries = countryUcc.getAllCountries();
+    ArrayList<CountryDto> countries = null;
+    try {
+      countries = countryUcc.getAllCountries();
+    } catch (NoCountryException exc) {
+      exc.printStackTrace();
+      createToaster(exc, resp);
+    }
 
     HashMap<String, Object> datas = new HashMap<String, Object>();
     datas.put("programs", programs);
@@ -222,7 +228,7 @@ public class Servlet extends HttpServlet {
   }
 
   private void selectProfile(HttpServletRequest req, HttpServletResponse resp, int id)
-      throws IOException, SQLException {
+    throws IOException, SQLException, NoCountryException {
     UserDto userSelected = userUcc.getUserById(id);
     String json = userGenson.serialize(userSelected);
     resp.getWriter().println(json);
@@ -242,9 +248,15 @@ public class Servlet extends HttpServlet {
     if (id == -1) {
       id = Integer.parseInt("" + req.getSession().getAttribute(KEY_ID));
     }
-
-
-    UserDto userEdited = userUcc.getUserById(id);
+    UserDto userEdited = null;
+    try {
+      userEdited = userUcc.getUserById(id);
+    } catch (NoCountryException exc) {
+      exc.printStackTrace();
+      createToaster(exc, resp);
+    }
+    assert userEdited != null;
+    userEdited.setId(id);
     userEdited.setName(req.getParameter("name"));
     userEdited.setFirstname(req.getParameter("firstname"));
     userEdited.setGender(req.getParameter("gender"));
@@ -260,14 +272,15 @@ public class Servlet extends HttpServlet {
     userEdited.setZip(req.getParameter("zipcode"));
     userEdited.setCity(req.getParameter("city"));
     try {
-      userEdited.setCountryDto(countryUcc.getCountryByNameFr(req.getParameter("country")));
+      userEdited.setCountryDto(countryUcc.getCountryByIso(req.getParameter("country")));
       userEdited.setCountry(userEdited.getCountryDto().getNameFr());
     } catch (Exception exc) {
+      exc.printStackTrace();
       createToaster(exc, resp);
     }
     userEdited.setTel(req.getParameter("tel"));
     userEdited.setSuccessfullYearInCollege(
-        Integer.parseInt(0 + req.getParameter("successfullYearsInCollege")));
+      Integer.parseInt(0 + req.getParameter("successfullYearsInCollege")));
     userEdited.setIban(req.getParameter("iban"));
     userEdited.setAccountHolder(req.getParameter("accountHolder"));
     userEdited.setBankName(req.getParameter("bankName"));
@@ -283,7 +296,13 @@ public class Servlet extends HttpServlet {
 
   private void selectUsers(HttpServletRequest req, HttpServletResponse resp)
       throws IOException, SQLException {
-    ArrayList<UserDto> users = userUcc.getAllUsers();
+    ArrayList<UserDto> users = null;
+    try {
+      users = userUcc.getAllUsers();
+    } catch (NoCountryException exc) {
+      exc.printStackTrace();
+      createToaster(exc, resp);
+    }
     String jsonUsers = userGenson.serialize(users);
     resp.getWriter().println(jsonUsers);
     resp.setStatus(HttpStatus.ACCEPTED_202);
@@ -386,12 +405,12 @@ public class Servlet extends HttpServlet {
     UserDto userDtoRecept = null;
     try {
       userDtoRecept = userUcc.register(userdto);
-    } catch (AuthenticationException exc) {
+    } catch (AuthenticationException | UserAlreadyExistsException exc) {
       this.createToaster(exc, resp);
       return;
-    } catch (UserAlreadyExistsException exc) {
+    } catch (NoCountryException exc) {
+      exc.printStackTrace();
       this.createToaster(exc, resp);
-      return;
     }
     req.getSession().setAttribute(KEY_ID, userDtoRecept.getId());
     req.getSession().setAttribute(KEY_USERNAME, userDtoRecept.getPseudo());
@@ -437,6 +456,9 @@ public class Servlet extends HttpServlet {
     } catch (AuthenticationException exc) {
       this.createToaster(exc, resp);
       return;
+    } catch (NoCountryException exc) {
+      exc.printStackTrace();
+      createToaster(exc, resp);
     }
     createJwtCookie(resp, userDtoRecept);
     req.getSession().setAttribute(KEY_ID, userDtoRecept.getId());
@@ -450,8 +472,13 @@ public class Servlet extends HttpServlet {
       throws IOException, NumberFormatException, SQLException {
     MobilityDto mobility = bizzFactory.getMobilityDto();
 
-    mobility.setStudentDto(
-        userUcc.getUserById(Integer.parseInt("" + req.getSession().getAttribute(KEY_ID))));
+    try {
+      mobility.setStudentDto(
+          userUcc.getUserById(Integer.parseInt("" + req.getSession().getAttribute(KEY_ID))));
+    } catch (NoCountryException exc) {
+      exc.printStackTrace();
+      createToaster(exc, resp);
+    }
     mobility.setPreferenceOrder(Integer.parseInt(req.getParameter("preferenceOrder")));
     mobility.setProgramDto(programUcc.getProgramByName(req.getParameter("program")));
     mobility.setType(req.getParameter("type"));
@@ -485,8 +512,13 @@ public class Servlet extends HttpServlet {
   private void addPartner(HttpServletRequest req, HttpServletResponse resp)
       throws IOException, NumberFormatException, SQLException {
     PartnerDto partner = bizzFactory.getPartnerDto();
-    partner.setUserDto(
-        userUcc.getUserById(Integer.parseInt("" + req.getSession().getAttribute(KEY_ID))));
+    try {
+      partner.setUserDto(
+          userUcc.getUserById(Integer.parseInt("" + req.getSession().getAttribute(KEY_ID))));
+    } catch (NoCountryException exc) {
+      exc.printStackTrace();
+      createToaster(exc, resp);
+    }
     partner.setLegalName(req.getParameter("legal_name"));
     partner.setBusiness(req.getParameter("business_name"));
     try {

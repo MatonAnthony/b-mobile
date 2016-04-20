@@ -1,6 +1,7 @@
 package dao.interfaces;
 
 import dto.UserDto;
+import exceptions.NoCountryException;
 
 import java.util.ArrayList;
 
@@ -14,7 +15,7 @@ public interface UserDao {
    * @param username username to base our research on.
    * @return null if the user is not registered, an UserDto filled with his data otherwise.
    */
-  UserDto getUserByUserName(String username);
+  UserDto getUserByUserName(String username) throws NoCountryException;
 
   /**
    * To add a user in the data base.
@@ -30,14 +31,14 @@ public interface UserDao {
    * @param id the id
    * @return the user by id
    */
-  UserDto getUserById(int id);
+  UserDto getUserById(int id) throws NoCountryException;
 
   /**
    * Gets all users.
    *
    * @return the all users
    */
-  ArrayList<UserDto> getAllUsers();
+  ArrayList<UserDto> getAllUsers() throws NoCountryException;
 
   /**
    * Change permissions for user by id.

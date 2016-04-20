@@ -3,7 +3,9 @@ package dao.implementations;
 import bizz.interfaces.BizzFactory;
 import dal.DalBackendServices;
 import dao.interfaces.UserDao;
+import dto.CountryDto;
 import dto.UserDto;
+import exceptions.NoCountryException;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -48,7 +50,7 @@ public class UserDaoImpl implements UserDao {
   }
 
   @Override
-  public UserDto getUserByUserName(String username) throws NoSuchElementException {
+  public UserDto getUserByUserName(String username) throws NoSuchElementException, NoCountryException {
     String query = "SELECT id, id_department, pseudo, password, name, firstname, email, "
         + "registration_date, permissions, birth_date, street, citizenship, "
         + "house_number, mailbox, zip, city, country, tel, gender, successfull_year_in_college, "
@@ -65,7 +67,7 @@ public class UserDaoImpl implements UserDao {
   }
 
   @Override
-  public UserDto getUserById(int id) throws NoSuchElementException {
+  public UserDto getUserById(int id) throws NoSuchElementException, NoCountryException {
     String query = "SELECT id, id_department, pseudo, password, name, firstname, email, "
         + "registration_date, permissions, birth_date, citizenship, street, "
         + "house_number, mailbox, zip, city, country, tel, gender, successfull_year_in_college, "
@@ -83,7 +85,7 @@ public class UserDaoImpl implements UserDao {
 
 
   @Override
-  public ArrayList<UserDto> getAllUsers() {
+  public ArrayList<UserDto> getAllUsers() throws NoCountryException {
     String query = "SELECT id, id_department, pseudo, password, name, firstname, email, "
         + "registration_date, permissions, birth_date, citizenship, street, "
         + "house_number, mailbox, zip, city, country, tel, gender, successfull_year_in_college, "
@@ -149,7 +151,7 @@ public class UserDaoImpl implements UserDao {
     }
   }
 
-  private UserDto fillDto(PreparedStatement preparedStatement) {
+  private UserDto fillDto(PreparedStatement preparedStatement) throws NoCountryException {
     UserDto user = factory.getUserDto();
     try (ResultSet resultSet = dalBackendServices.executeQuery(preparedStatement)) {
       if (resultSet.next()) {
@@ -164,7 +166,8 @@ public class UserDaoImpl implements UserDao {
     }
   }
 
-  private ArrayList<UserDto> fillDtoArray(PreparedStatement preparedStatement) {
+  private ArrayList<UserDto> fillDtoArray(PreparedStatement preparedStatement)
+    throws NoCountryException {
     ArrayList<UserDto> users = new ArrayList<UserDto>();
     try (ResultSet resultSet = dalBackendServices.executeQuery(preparedStatement)) {
       while (resultSet.next()) {
@@ -179,7 +182,8 @@ public class UserDaoImpl implements UserDao {
     }
   }
 
-  private UserDto completeDto(UserDto user, ResultSet resultSet) throws SQLException {
+  private UserDto completeDto(UserDto user, ResultSet resultSet)
+    throws SQLException, NoCountryException {
     user.setId(resultSet.getInt(1));
     user.setIdDepartment(resultSet.getInt(2));
     user.setPseudo(resultSet.getString(3));
@@ -211,6 +215,23 @@ public class UserDaoImpl implements UserDao {
     user.setAccountHolder(resultSet.getString(23));
     user.setBankName(resultSet.getString(24));
     user.setVerNr(resultSet.getInt(25));
+    try {
+      CountryDto country = factory.getCountryDto();
+      String query = "SELECT * FROM bmobile.countries WHERE iso = ?";
+      PreparedStatement preparedStatement = dalBackendServices.prepare(query);
+      preparedStatement.setString(1, user.getCountry());
+      ResultSet result = dalBackendServices.executeQuery(preparedStatement);
+      while(result.next()){
+        country.setIdProgram(result.getInt("id_program"));
+        country.setNameEn(result.getString("name_en"));
+        country.setNameFr(result.getString("name_fr"));
+        country.setIso(result.getString("iso"));
+        user.setCountryDto(country);
+      }
+    }catch(SQLException exc){
+      throw new NoCountryException("Le pays n'a pas été trouvé");
+    }
+
     return user;
   }
 
@@ -220,7 +241,7 @@ public class UserDaoImpl implements UserDao {
       if (getUserByUserName(username) != null) {
         return true;
       }
-    } catch (NoSuchElementException exc) {
+    } catch (Exception exc) {
       return false;
     }
     return false;

@@ -2,6 +2,7 @@ package ucc.interfaces;
 
 import dto.UserDto;
 import exceptions.AuthenticationException;
+import exceptions.NoCountryException;
 import exceptions.UserAlreadyExistsException;
 
 import java.sql.SQLException;
@@ -17,7 +18,8 @@ public interface UserUcController {
    * @throws AuthenticationException if the user doesn't exist or if the password is incorrect.
    * @throws SQLException If there is an Exception.
    */
-  UserDto login(String login, String password) throws AuthenticationException, SQLException;
+  UserDto login(String login, String password)
+    throws AuthenticationException, SQLException, NoCountryException;
 
   /**
    * The function register new user in the data base.
@@ -27,11 +29,13 @@ public interface UserUcController {
    * @throws AuthenticationException if an error happen between register and login.
    * @throws UserAlreadyExistsException if the user already exists in the database.
    */
-  UserDto register(UserDto userdto) throws AuthenticationException, UserAlreadyExistsException;
+  UserDto register(UserDto userdto)
+    throws AuthenticationException, NoCountryException, UserAlreadyExistsException,
+    UserAlreadyExistsException;
 
-  UserDto getUserById(int id) throws SQLException;
+  UserDto getUserById(int id) throws SQLException, NoCountryException;
 
-  ArrayList<UserDto> getAllUsers() throws SQLException;
+  ArrayList<UserDto> getAllUsers() throws SQLException, NoCountryException;
 
   /**
    * Change the permission of the user of id "id" and set them to TEACHER.

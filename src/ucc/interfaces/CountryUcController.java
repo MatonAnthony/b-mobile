@@ -26,4 +26,5 @@ public interface CountryUcController {
 
 
 
+  CountryDto getCountryByIso(String iso) throws NoCountryException, SQLException;
 }

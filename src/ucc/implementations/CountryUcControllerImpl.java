@@ -43,4 +43,11 @@ public class CountryUcControllerImpl implements CountryUcController {
     return country;
   }
 
+  @Override
+  public CountryDto getCountryByIso(String iso) throws NoCountryException, SQLException {
+    dalServices.openConnection();
+    CountryDto country = countryDao.getCountryByIso(iso);
+    dalServices.closeConnection();
+    return country;
+  }
 }

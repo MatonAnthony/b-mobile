@@ -116,4 +116,30 @@ public class CountryDaoImpl implements CountryDao {
     }
   }
 
+  /**
+   * Get a Country by his ISO code.
+   *
+   * @param iso ISO Code of the country.
+   * @return Informations relative to the country you asked about.
+   */
+  @Override
+  public CountryDto getCountryByIso(String iso) throws SQLException, NoCountryException {
+    String query =
+      "SELECT iso, name_en, name_fr, id_program FROM bmobile.countries WHERE iso=?";
+    PreparedStatement preparedStatement = null;
+
+    try {
+      preparedStatement = dalBackendServices.prepare(query);
+      preparedStatement.setString(1, iso);
+      try (ResultSet resultSet = dalBackendServices.executeQuery(preparedStatement)) {
+        return fillDto(resultSet);
+      } catch (SQLException exc2) {
+        exc2.printStackTrace();
+        throw new SQLException();
+      }
+    } catch (SQLException exc) {
+      exc.printStackTrace();
+      throw new NoCountryException();
+    }
+  }
 }

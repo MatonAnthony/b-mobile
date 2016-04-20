@@ -22,4 +22,5 @@ public interface CountryDao {
    */
   CountryDto getCountryByNameFr(String name) throws SQLException, NoCountryException;
 
+  CountryDto getCountryByIso(String iso) throws SQLException, NoCountryException;
 }
