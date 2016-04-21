@@ -203,13 +203,13 @@ public class UserDaoImpl implements UserDao {
     if (null != birthdate) {
       user.setBirthDate(birthdate.toLocalDateTime().toLocalDate());
     }
-    user.setCitizenship(resultSet.getString(11));
-    user.setStreet(resultSet.getString(12));
+    user.setCitizenship(resultSet.getString("citizenship"));
+    user.setStreet(resultSet.getString("street"));
     user.setHouseNumber(resultSet.getString(13));
     user.setMailBox(resultSet.getString(14));
     user.setZip(resultSet.getString(15));
     user.setCity(resultSet.getString(16));
-    user.setCountry(resultSet.getString(17));
+    user.setCountry(resultSet.getString("country"));
     user.setTel(resultSet.getString(18));
     user.setGender(resultSet.getString(19));
     user.setSuccessfullYearInCollege(resultSet.getInt(20));
@@ -226,6 +226,7 @@ public class UserDaoImpl implements UserDao {
     countryDto.setNameFr(resultSet.getString("name_fr"));
     user.setCountryDto(countryDto);
 
+    System.out.println(resultSet.getString("street"));
     return user;
   }
 
