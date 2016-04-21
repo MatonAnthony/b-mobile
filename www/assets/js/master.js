@@ -54,9 +54,6 @@ $(function () {
             case "addMobility" :
                 loadAddMobility();
                 break;
-            case "confirmedMobility" :
-                loadConfirmedMobility();
-                break;
             case "addPartner" :
                 loadAddPartner();
                 break;
@@ -150,17 +147,8 @@ $(function () {
                 action: "disconnect"
             },
             success: function (reponse) {
+                $(".page").css("display", "none");
                 $("#loginPage").css("display", "block");
-                $("#navBarStudent").css("display", "none");
-                $("#navBarTeacher").css("display", "none");
-                $("#profilePage").css("display", "none");
-                $("#studentHomePage").css("display", "none");
-                $("#teacherHomePage").css("display", "none");
-                $("#addMobilityPage").css("display", "none");
-                $("#addPartnerPage").css("display", "none");
-                $("#userListPage").css("display", "none");
-                $("#listPage").css("display", "none");
-                $("#paymentPage").css("display", "none");
             },
             error: function (error) {
                 error = JSON.parse(error.responseText);
@@ -437,18 +425,8 @@ $(function () {
 
                 $("#formProfile").attr("idUser", id);
 
-                $("#loginPage").css("display", "none");
-                $("#navBarStudent").css("display", "none");
-                $("#navBarTeacher").css("display", "block");
+                $(".page").css("display", "none");
                 $("#profilePage").css("display", "block");
-                $("#studentHomePage").css("display", "none");
-                $("#teacherHomePage").css("display", "none");
-                $("#addPartnerPage").css("display", "none");
-                $("#addMobilityPage").css("display", "none");
-                $("#registerPage").css("display", "none");
-                $("#listPage").css("display", "none");
-                $("#userListPage").css("display", "none");
-                $("#paymentPage").css("display", "none");
             },
             error: function (error) {
                 error = JSON.parse(error.responseText);
@@ -540,35 +518,18 @@ $(function () {
 
     //Chargement des pages.
     function authStudent() {
-        $("#loginPage").css("display", "none");
+        $(".page").css("display", "none");
         $("#navBarStudent").css("display", "block");
-        $("#navBarTeacher").css("display", "none");
-        $("#profilePage").css("display", "none");
         $("#studentHomePage").css("display", "block");
-        $("#teacherHomePage").css("display", "none");
-        $("#registerPage").css("display", "none");
-        $("#listPage").css("display", "none");
-        $("#addMobilityPage").css("display", "none");
-        $("#addPartnerPage").css("display", "none");
-        $("#userListPage").css("display", "none");
-		$("#paymentPage").css("display", "none");
         loadMyMobility();
         $(".active").removeClass("active");
         $(".navButton[href='#myMobility']").parent().addClass("active");
     }
 
     function loadAddMobility() {
-        $("#loginPage").css("display", "none");
+        $(".page").css("display", "none");
         $("#navBarStudent").css("display", "block");
-        $("#navBarTeacher").css("display", "none");
-        $("#profilePage").css("display", "none");
-        $("#studentHomePage").css("display", "none");
-        $("#teacherHomePage").css("display", "none");
         $("#addMobilityPage").css("display", "block");
-        $("#addPartnerPage").css("display", "none");
-        $("#listPage").css("display", "none");
-        $("#paymentPage").css("dispay", "none");
-        $("#userListPage").css("display", "none");
 		var currentTime = new Date();
         var startYear = currentTime.getFullYear()-1;
 
@@ -611,18 +572,9 @@ $(function () {
     }
 
     function authTeacher() {
-        $("#loginPage").css("display", "none");
-        $("#navBarStudent").css("display", "none");
+        $(".page").css("display", "none");
         $("#navBarTeacher").css("display", "block");
-        $("#profilePage").css("display", "none");
-        $("#studentHomePage").css("display", "none");
         $("#teacherHomePage").css("display", "block");
-        $("#registerPage").css("display", "none");
-        $("#listPage").css("display", "none");
-        $("#addMobilityPage").css("display", "none");
-        $("#addPartnerPage").css("display", "none");
-        $("#userListPage").css("display", "none");
-		$("#paymentPage").css("display", "none");
         loadConfirmedMobility();
         $(".active").removeClass("active");
         $(".navButton[href='#confirmedMobility']").parent().addClass("active");
@@ -630,18 +582,9 @@ $(function () {
 
     function loadList() {
 
-        $("#loginPage").css("display", "none");
-        $("#navBarStudent").css("display", "none");
+        $(".page").css("display", "none");
         $("#navBarTeacher").css("display", "block");
-        $("#profilePage").css("display", "none");
-        $("#studentHomePage").css("display", "none");
-        $("#teacherHomePage").css("display", "none");
-        $("#registerPage").css("display", "none");
-        $("#addMobilityPage").css("display", "none");
-        $("#addPartnerPage").css("display", "none");
         $("#listPage").css("display", "block");
-        $("#userListPage").css("display", "none");
-		$("#paymentPage").css("display", "none");
         $(".active").removeClass("active");
         $(".navButton[href='#2lists']").parent().addClass("active");
         $("#tableConfirmed tbody").empty();
@@ -649,17 +592,8 @@ $(function () {
     }
 	
 	function loadPaymentPage(){
-		$("#loginPage").css("display", "none");
-		$("#navBarStudent").css("display", "none");
+		$(".page").css("display", "none");
 		$("#navBarTeacher").css("display", "block");
-		$("#profilePage").css("display", "none");
-		$("#studentHomePage").css("display", "none");
-		$("#teacherHomePage").css("display", "none");
-		$("#addPartnerPage").css("display", "none");
-		$("#addMobilityPage").css("display", "none");
-		$("#registerPage").css("display", "none");
-		$("#listPage").css("display", "none");
-		$("#userListPage").css("display", "none");
 		$("#paymentPage").css("display", "block");
 		
 		$(".active").removeClass("active");
@@ -670,18 +604,9 @@ $(function () {
 	}
 
     function loadUserList() {
-        $("#loginPage").css("display", "none");
-        $("#navBarStudent").css("display", "none");
+        $(".page").css("display", "none");
         $("#navBarTeacher").css("display", "block");
-        $("#profilePage").css("display", "none");
-        $("#studentHomePage").css("display", "none");
-        $("#teacherHomePage").css("display", "none");
-        $("#registerPage").css("display", "none");
-        $("#addMobilityPage").css("display", "none");
-        $("#addPartnerPage").css("display", "none");
-        $("#listPage").css("display", "none");
         $("#userListPage").css("display", "block");
-		$("#paymentPage").css("display", "none");
         $.ajax({
             method: "POST",
             url: "/home",
@@ -727,17 +652,9 @@ $(function () {
     }
 
 	function loadAddPartner() {
-	    $("#loginPage").css("display", "none");
+	    $(".page").css("display", "none");
 	    $("#navBarStudent").css("display", "block");
-	    $("#navBarTeacher").css("display", "none");
-	    $("#profilePage").css("display", "none");
-	    $("#studentHomePage").css("display", "none");
-	    $("#teacherHomePage").css("display", "none");
-	    $("#addMobilityPage").css("display", "none");
 	    $("#addPartnerPage").css("display", "block");
-	    $("#listPage").css("display", "none");
-	    $("#userListPage").css("display", "none");
-		$("#paymentPage").css("display", "none");
 	    $(".active").removeClass("active");
 	    $(".navButton[href='#addPartner']").parent().addClass("active");
 
@@ -764,33 +681,15 @@ $(function () {
 	}
 
 	function loadRegisterPage() {
-	    $("#loginPage").css("display", "none");
-	    $("#navBarStudent").css("display", "none");
-	    $("#navBarTeacher").css("display", "none");
-	    $("#profilePage").css("display", "none");
-	    $("#studentHomePage").css("display", "none");
-	    $("#teacherHomePage").css("display", "none");
-	    $("#addPartnerPage").css("display", "none");
+	    $(".page").css("display", "none");
 	    $("#registerPage").css("display", "block");
-	    $("#listPage").css("display", "none");
-	    $("#userListPage").css("display", "none");
-		$("#paymentPage").css("display", "none");
 	}
 
 
 	function loadProfilePage() {
-	    $("#loginPage").css("display", "none");
+	    $(".page").css("display", "none");
 	    $("#navBarStudent").css("display", "block");
-	    $("#navBarTeacher").css("display", "none");
 	    $("#profilePage").css("display", "block");
-	    $("#studentHomePage").css("display", "none");
-	    $("#teacherHomePage").css("display", "none");
-	    $("#addPartnerPage").css("display", "none");
-		$("#addMobilityPage").css("display", "none");
-	    $("#registerPage").css("display", "none");
-	    $("#listPage").css("display", "none");
-	    $("#userListPage").css("display", "none");
-		$("#paymentPage").css("display", "none");
 
 		$(".active").removeClass("active");
 		$(".navButton[href='#myInformations']").parent().addClass("active");
@@ -1121,7 +1020,7 @@ $(function () {
 							}
 						});
 					}
-	                
+
 	            },
 	            error: function (error) {
 	                error = JSON.parse(error.responseText);
@@ -1129,7 +1028,7 @@ $(function () {
 	            }
 	        });
 
-	        
+
 
 	    });
 	}
