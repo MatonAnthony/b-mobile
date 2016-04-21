@@ -1,14 +1,14 @@
 -- DATA_PROD.SQL
 --DROP SCHEMA bmobile CASCADE;
 
-TRUNCATE TABLE bmobile.users CASCADE ;
-TRUNCATE TABLE bmobile.partners_departments CASCADE ;
-TRUNCATE TABLE bmobile.cancelations CASCADE ;
-TRUNCATE TABLE bmobile.departments CASCADE ;
-TRUNCATE TABLE bmobile.mobilities CASCADE ;
-TRUNCATE TABLE bmobile.partners CASCADE ;
-TRUNCATE TABLE bmobile.programs CASCADE ;
-TRUNCATE TABLE bmobile.countries CASCADE ;
+--TRUNCATE TABLE bmobile.users CASCADE ;
+--TRUNCATE TABLE bmobile.partners_departments CASCADE ;
+--TRUNCATE TABLE bmobile.cancelations CASCADE ;
+--TRUNCATE TABLE bmobile.departments CASCADE ;
+--TRUNCATE TABLE bmobile.mobilities CASCADE ;
+--TRUNCATE TABLE bmobile.partners CASCADE ;
+--TRUNCATE TABLE bmobile.programs CASCADE ;
+--TRUNCATE TABLE bmobile.countries CASCADE ;
 
 -- GRANTS --
 GRANT ALL ON DATABASE dbkamil_arszagi TO "anthony_maton", "martin_techy", "jonathan_samelson", "fany_bottemanne";
@@ -55,7 +55,7 @@ UPDATE bmobile.countries SET id_program = 1 WHERE iso = 'AT' OR iso = 'DK' OR is
 UPDATE bmobile.countries SET id_program = 2 WHERE iso = 'BE';
 UPDATE bmobile.countries SET id_program = 3 WHERE id_program IS NULL ;
 
-INSERT INTO bmobile.mobilities (id, id_student, id_program, id_partner, type, preference_order, country, id_department, quadrimester, status, canceled, departure_grant_contract, departure_convention_internship_schoolarship, departure_student_convention, departure_erasmus_language_test, departure_doc_aggreement, depart_doc_sent_highschool, software_proeco, software_mobility_tools, software_mobi, return_residence_cert, return_transcript, return_internship_cert, return_final_report, return_erasmus_language_test, return_doc_sent_highschool, cancelation_reason, academic_year, ver_nr) VALUES (1, 3, 1, null, 'SMS', 1, 'AF', 'BIN', 1, 'CONFIRMEE', false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, null, null, 0);
-INSERT INTO bmobile.mobilities (id, id_student, id_program, id_partner, type, preference_order, country, id_department, quadrimester, status, canceled, departure_grant_contract, departure_convention_internship_schoolarship, departure_student_convention, departure_erasmus_language_test, departure_doc_aggreement, depart_doc_sent_highschool, software_proeco, software_mobility_tools, software_mobi, return_residence_cert, return_transcript, return_internship_cert, return_final_report, return_erasmus_language_test, return_doc_sent_highschool, cancelation_reason, academic_year, ver_nr) VALUES (2, 3, 1, null, 'SMS', 1, 'AF', 'BCH', 2, 'EN_ATTENTE', false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, null, null, 0);
-INSERT INTO bmobile.mobilities (id, id_student, id_program, id_partner, type, preference_order, country, id_department, quadrimester, status, canceled, departure_grant_contract, departure_convention_internship_schoolarship, departure_student_convention, departure_erasmus_language_test, departure_doc_aggreement, depart_doc_sent_highschool, software_proeco, software_mobility_tools, software_mobi, return_residence_cert, return_transcript, return_internship_cert, return_final_report, return_erasmus_language_test, return_doc_sent_highschool, cancelation_reason, academic_year, ver_nr) VALUES (3, 3, 1, null, 'SMS', 1, 'AD', 'BCH', 2, 'SUPPRIMEE', false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, null, null, 0);
+INSERT INTO bmobile.mobilities (id, id_student, id_program, id_partner, type, preference_order, country, id_department, quadrimester, status, canceled, departure_grant_contract, departure_convention_internship_schoolarship, departure_student_convention, departure_erasmus_language_test, departure_doc_aggreement, depart_doc_sent_highschool, software_proeco, software_mobility_tools, software_mobi, return_residence_cert, return_transcript, return_internship_cert, return_final_report, return_erasmus_language_test, return_doc_sent_highschool, cancelation_reason, academic_year, ver_nr) VALUES (1, 1, 1, null, 'SMS', 1, 'AF', 'BIN', 1, 'Confirmee', false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, null, null, 0);
+INSERT INTO bmobile.mobilities (id, id_student, id_program, id_partner, type, preference_order, country, id_department, quadrimester, status, canceled, departure_grant_contract, departure_convention_internship_schoolarship, departure_student_convention, departure_erasmus_language_test, departure_doc_aggreement, depart_doc_sent_highschool, software_proeco, software_mobility_tools, software_mobi, return_residence_cert, return_transcript, return_internship_cert, return_final_report, return_erasmus_language_test, return_doc_sent_highschool, cancelation_reason, academic_year, ver_nr) VALUES (2, 1, 1, null, 'SMS', 1, 'AF', 'BCH', 2, 'En attente', false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, null, null, 0);
+INSERT INTO bmobile.mobilities (id, id_student, id_program, id_partner, type, preference_order, country, id_department, quadrimester, status, canceled, departure_grant_contract, departure_convention_internship_schoolarship, departure_student_convention, departure_erasmus_language_test, departure_doc_aggreement, depart_doc_sent_highschool, software_proeco, software_mobility_tools, software_mobi, return_residence_cert, return_transcript, return_internship_cert, return_final_report, return_erasmus_language_test, return_doc_sent_highschool, cancelation_reason, academic_year, ver_nr) VALUES (3, 1, 1, null, 'SMS', 1, 'AD', 'BCH', 2, 'Supprimee', false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, null, null, 0);
 
