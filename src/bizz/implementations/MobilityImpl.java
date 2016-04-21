@@ -668,7 +668,6 @@ public class MobilityImpl implements MobilityBizz, Cloneable {
 
   @Override
   protected Object clone() throws CloneNotSupportedException {
-    // TODO (Jonathan) Auto-generated method stub
     return super.clone();
   }
 

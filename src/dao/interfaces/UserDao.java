@@ -4,6 +4,7 @@ import dto.UserDto;
 import exceptions.NoCountryException;
 
 import java.util.ArrayList;
+import java.util.NoSuchElementException;
 
 /**
  * The interface User dao.
@@ -13,9 +14,10 @@ public interface UserDao {
    * Gets users by his username.
    *
    * @param username username to base our research on.
-   * @return null if the user is not registered, an UserDto filled with his data otherwise.
+   * @return An UserDto filled with his data.
+   * @throw NoSuchElementException if no user is matching with the username.
    */
-  UserDto getUserByUserName(String username) throws NoCountryException;
+  UserDto getUserByUserName(String username) throws NoCountryException, NoSuchElementException;
 
   /**
    * To add a user in the data base.
@@ -29,13 +31,14 @@ public interface UserDao {
    *
    * @param id the id
    * @return the user by id
+   * @throw NoSuchElementException if no user is matching with the username.
    */
-  UserDto getUserById(int id) throws NoCountryException;
+  UserDto getUserById(int id) throws NoCountryException, NoSuchElementException;
 
   /**
    * Gets all users.
    *
-   * @return the all users
+   * @return An ArrayList with all users.
    */
   ArrayList<UserDto> getAllUsers() throws NoCountryException;
 

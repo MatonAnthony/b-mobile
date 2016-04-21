@@ -66,7 +66,8 @@ public class UserDaoImpl implements UserDao {
       return fillDto(preparedStatement);
     } catch (SQLException exc) {
       exc.printStackTrace();
-      return null;
+      throw new UnknowErrorException(
+          "Une erreur inconnue s'est produite lors de la recherche de l'utilisateurs.");
     }
   }
 
@@ -80,7 +81,8 @@ public class UserDaoImpl implements UserDao {
       return fillDto(preparedStatement);
     } catch (SQLException exc) {
       exc.printStackTrace();
-      return null;
+      throw new UnknowErrorException(
+          "Une erreur inconnue s'est produite lors de la recherche de l'utilisateur.");
     }
   }
 
@@ -94,7 +96,8 @@ public class UserDaoImpl implements UserDao {
       return fillDtoArray(preparedStatement);
     } catch (SQLException exc) {
       exc.printStackTrace();
-      return null;
+      throw new UnknowErrorException(
+          "Une erreur inconnue s'est produite lors de la recherche des utilisateurs.");
     }
   }
 
@@ -109,6 +112,8 @@ public class UserDaoImpl implements UserDao {
       dalBackendServices.executeUpdate(preparedStatement);
     } catch (SQLException exc) {
       exc.printStackTrace();
+      throw new UnknowErrorException(
+          "Une erreur inconnue s'est produite lors du changement des permissions.");
     }
   }
 
@@ -150,38 +155,33 @@ public class UserDaoImpl implements UserDao {
 
     } catch (SQLException exc) {
       exc.printStackTrace();
+      throw new UnknowErrorException(
+          "Une erreur inconnue s'est produite lors de la mise à jour de l'utilisateur.");
     }
   }
 
-  private UserDto fillDto(PreparedStatement preparedStatement) throws NoCountryException {
+  private UserDto fillDto(PreparedStatement preparedStatement)
+      throws NoCountryException, SQLException {
     UserDto user = factory.getUserDto();
-    try (ResultSet resultSet = dalBackendServices.executeQuery(preparedStatement)) {
-      if (resultSet.next()) {
-        completeDto(user, resultSet);
-      } else {
-        throw new NoSuchElementException("Cet utilisateur n'existe pas.");
-      }
-      return user;
-    } catch (SQLException exc2) {
-      exc2.printStackTrace();
-      return null;
+    ResultSet resultSet = dalBackendServices.executeQuery(preparedStatement);
+    if (resultSet.next()) {
+      completeDto(user, resultSet);
+    } else {
+      throw new NoSuchElementException("Cet utilisateur n'existe pas.");
     }
+    return user;
   }
 
   private ArrayList<UserDto> fillDtoArray(PreparedStatement preparedStatement)
-      throws NoCountryException {
+      throws NoCountryException, SQLException {
     ArrayList<UserDto> users = new ArrayList<UserDto>();
-    try (ResultSet resultSet = dalBackendServices.executeQuery(preparedStatement)) {
-      while (resultSet.next()) {
-        UserDto user = factory.getUserDto();
-        user = completeDto(user, resultSet);
-        users.add(user);
-      }
-      return users;
-    } catch (SQLException exc2) {
-      exc2.printStackTrace();
-      return null;
+    ResultSet resultSet = dalBackendServices.executeQuery(preparedStatement);
+    while (resultSet.next()) {
+      UserDto user = factory.getUserDto();
+      user = completeDto(user, resultSet);
+      users.add(user);
     }
+    return users;
   }
 
   private UserDto completeDto(UserDto user, ResultSet resultSet)

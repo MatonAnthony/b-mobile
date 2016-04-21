@@ -4,6 +4,7 @@ import bizz.interfaces.BizzFactory;
 import dal.DalBackendServices;
 import dao.interfaces.MobilityDao;
 import dto.MobilityDto;
+import exceptions.UnknowErrorException;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -89,6 +90,8 @@ public class MobilityDaoImpl implements MobilityDao {
 
     } catch (SQLException exc) {
       exc.printStackTrace();
+      throw new UnknowErrorException(
+          "Une erreur inconnue s'est produite lors de la création de la mobilité.");
     }
 
   }
@@ -108,7 +111,8 @@ public class MobilityDaoImpl implements MobilityDao {
 
     } catch (SQLException exc) {
       exc.printStackTrace();
-      return null;
+      throw new UnknowErrorException(
+          "Une erreur inconnue s'est produite lors du chargement des mobilités.");
     }
   }
 
@@ -127,7 +131,8 @@ public class MobilityDaoImpl implements MobilityDao {
 
     } catch (SQLException exc) {
       exc.printStackTrace();
-      return null;
+      throw new UnknowErrorException(
+          "Une erreur inconnue s'est produite lors du chargement des mobilités (complètes).");
     }
   }
 
@@ -149,7 +154,8 @@ public class MobilityDaoImpl implements MobilityDao {
 
     } catch (SQLException exc) {
       exc.printStackTrace();
-      return null;
+      throw new UnknowErrorException(
+          "Une erreur inconnue s'est produite lors du chargement des mobilités confirmées.");
     }
 
   }
@@ -170,7 +176,8 @@ public class MobilityDaoImpl implements MobilityDao {
 
     } catch (SQLException exc) {
       exc.printStackTrace();
-      return null;
+      throw new UnknowErrorException(
+          "Une erreur inconnue s'est produite lors du chargement des mobilités de l'utilisateur (complètes).");
     }
   }
 
@@ -191,7 +198,8 @@ public class MobilityDaoImpl implements MobilityDao {
 
     } catch (SQLException exc) {
       exc.printStackTrace();
-      return null;
+      throw new UnknowErrorException(
+          "Une erreur inconnue s'est produite lors du chargement des années académiques.");
     }
   }
 
@@ -211,7 +219,8 @@ public class MobilityDaoImpl implements MobilityDao {
 
     } catch (SQLException exc) {
       exc.printStackTrace();
-      return null;
+      throw new UnknowErrorException(
+          "Une erreur inconnue s'est produite lors du chargement des paiements.");
     }
   }
 

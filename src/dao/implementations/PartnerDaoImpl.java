@@ -4,6 +4,7 @@ import bizz.interfaces.BizzFactory;
 import dal.DalBackendServices;
 import dao.interfaces.PartnerDao;
 import dto.PartnerDto;
+import exceptions.UnknowErrorException;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -49,6 +50,8 @@ public class PartnerDaoImpl implements PartnerDao {
       dalBackendServices.executeUpdate(preparedStatement);
     } catch (SQLException exc) {
       exc.printStackTrace();
+      throw new UnknowErrorException(
+          "Une erreur inconnue s'est produite lors de la création du partenaire.");
     }
   }
 }

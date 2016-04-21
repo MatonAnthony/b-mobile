@@ -5,6 +5,7 @@ import dal.DalBackendServices;
 import dao.interfaces.DepartmentDao;
 import dto.DepartmentDto;
 import exceptions.NoDepartmentException;
+import exceptions.UnknowErrorException;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -20,7 +21,7 @@ public class DepartmentDaoImpl implements DepartmentDao {
    * Instantiates a new Department dao.
    *
    * @param dalBackendServices the dal backend services
-   * @param factory            the factory
+   * @param factory the factory
    */
   public DepartmentDaoImpl(DalBackendServices dalBackendServices, BizzFactory factory) {
     this.dalBackendServices = dalBackendServices;
@@ -39,7 +40,8 @@ public class DepartmentDaoImpl implements DepartmentDao {
 
     } catch (SQLException exc) {
       exc.printStackTrace();
-      throw new NoDepartmentException("An SQL Error happened");
+      throw new UnknowErrorException(
+          "Une erreur inconnue s'est produite lors du chagement des départements.");
     }
 
   }
@@ -57,7 +59,8 @@ public class DepartmentDaoImpl implements DepartmentDao {
 
     } catch (SQLException exc) {
       exc.printStackTrace();
-      throw new NoDepartmentException("An SQL Error happened");
+      throw new UnknowErrorException(
+          "Une erreur inconnue s'est produite lors du chagement du département.");
     }
 
   }
@@ -75,44 +78,37 @@ public class DepartmentDaoImpl implements DepartmentDao {
 
     } catch (SQLException exc) {
       exc.printStackTrace();
-      throw new NoDepartmentException("An SQL Error happened");
+      throw new UnknowErrorException(
+          "Une erreur inconnue s'est produite lors du chagement du département.");
     }
 
   }
 
-  private DepartmentDto fillDto(ResultSet resultSet) throws NoDepartmentException {
+  private DepartmentDto fillDto(ResultSet resultSet) throws NoDepartmentException, SQLException {
     DepartmentDto departmentDto = factory.getDepartmentDto();
-    try {
-      if (resultSet.next()) {
-        departmentDto.setId(resultSet.getString(1));
-        departmentDto.setLabel(resultSet.getString(2));
-        departmentDto.setVerNr(resultSet.getInt(3));
-      } else {
-        throw new NoDepartmentException("Ce département n'existe pas");
-      }
-      return departmentDto;
-    } catch (SQLException exc2) {
-      throw new NoDepartmentException("Une erreur est survenue");
+    if (resultSet.next()) {
+      departmentDto.setId(resultSet.getString(1));
+      departmentDto.setLabel(resultSet.getString(2));
+      departmentDto.setVerNr(resultSet.getInt(3));
+    } else {
+      throw new NoDepartmentException("Ce département n'existe pas");
     }
+    return departmentDto;
 
 
   }
 
-  private ArrayList<DepartmentDto> fillDtoArray(ResultSet resultSet) throws NoDepartmentException {
+  private ArrayList<DepartmentDto> fillDtoArray(ResultSet resultSet)
+      throws NoDepartmentException, SQLException {
     ArrayList<DepartmentDto> departments = new ArrayList<DepartmentDto>();
-    try {
-      while (resultSet.next()) {
-        DepartmentDto departmentDto = factory.getDepartmentDto();
-        departmentDto.setId(resultSet.getString(1));
-        departmentDto.setLabel(resultSet.getString(2));
-        departmentDto.setVerNr(resultSet.getInt(3));
-        departments.add(departmentDto);
-      }
-      return departments;
-    } catch (SQLException exc2) {
-      exc2.printStackTrace();
-      throw new NoDepartmentException("La liste des départements n'a pu être chargée");
+    while (resultSet.next()) {
+      DepartmentDto departmentDto = factory.getDepartmentDto();
+      departmentDto.setId(resultSet.getString(1));
+      departmentDto.setLabel(resultSet.getString(2));
+      departmentDto.setVerNr(resultSet.getInt(3));
+      departments.add(departmentDto);
     }
+    return departments;
 
 
   }

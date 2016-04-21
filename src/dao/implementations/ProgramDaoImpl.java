@@ -4,6 +4,7 @@ import bizz.interfaces.BizzFactory;
 import dal.DalBackendServices;
 import dao.interfaces.ProgramDao;
 import dto.ProgramDto;
+import exceptions.UnknowErrorException;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -32,7 +33,8 @@ public class ProgramDaoImpl implements ProgramDao {
 
     } catch (SQLException exc) {
       exc.printStackTrace();
-      return null;
+      throw new UnknowErrorException(
+          "Une erreur inconnue s'est produite lors de la recherche des programmes.");
     }
 
   }
@@ -48,46 +50,37 @@ public class ProgramDaoImpl implements ProgramDao {
 
     } catch (SQLException exc) {
       exc.printStackTrace();
-      return null;
+      throw new UnknowErrorException(
+          "Une erreur inconnue s'est produite lors de la recherche du programme.");
     }
   }
 
-  private ProgramDto fillDto(ResultSet resultSet) {
+  private ProgramDto fillDto(ResultSet resultSet) throws SQLException {
     ProgramDto programDto = factory.getProgramDto();
-    try {
-      if (resultSet.next()) {
-        programDto.setId(resultSet.getInt(1));
-        programDto.setName(resultSet.getString(2));
-        programDto.setDescription(resultSet.getString(3));
-        programDto.setVerNr(resultSet.getInt(4));
-      } else {
-        return null;
-      }
-      return programDto;
-    } catch (SQLException exc2) {
-      exc2.printStackTrace();
+    if (resultSet.next()) {
+      programDto.setId(resultSet.getInt(1));
+      programDto.setName(resultSet.getString(2));
+      programDto.setDescription(resultSet.getString(3));
+      programDto.setVerNr(resultSet.getInt(4));
+    } else {
       return null;
     }
+    return programDto;
 
 
   }
 
-  private ArrayList<ProgramDto> fillDtoArray(ResultSet resultSet) {
+  private ArrayList<ProgramDto> fillDtoArray(ResultSet resultSet) throws SQLException {
     ArrayList<ProgramDto> programs = new ArrayList<ProgramDto>();
-    try {
-      while (resultSet.next()) {
-        ProgramDto programDto = factory.getProgramDto();
-        programDto.setId(resultSet.getInt(1));
-        programDto.setName(resultSet.getString(2));
-        programDto.setDescription(resultSet.getString(3));
-        programDto.setVerNr(resultSet.getInt(4));
-        programs.add(programDto);
-      }
-      return programs;
-    } catch (SQLException exc2) {
-      exc2.printStackTrace();
-      return null;
+    while (resultSet.next()) {
+      ProgramDto programDto = factory.getProgramDto();
+      programDto.setId(resultSet.getInt(1));
+      programDto.setName(resultSet.getString(2));
+      programDto.setDescription(resultSet.getString(3));
+      programDto.setVerNr(resultSet.getInt(4));
+      programs.add(programDto);
     }
+    return programs;
   }
 
 }
