@@ -21,9 +21,8 @@ public interface UserDao {
    * To add a user in the data base.
    *
    * @param userdto is the user to add.
-   * @return true if the user is added. False is there was a error.
    */
-  boolean createUser(UserDto userdto);
+  void createUser(UserDto userdto);
 
   /**
    * Gets user by id.

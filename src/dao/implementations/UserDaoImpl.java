@@ -6,6 +6,7 @@ import dao.interfaces.UserDao;
 import dto.CountryDto;
 import dto.UserDto;
 import exceptions.NoCountryException;
+import exceptions.UnknowErrorException;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -20,12 +21,12 @@ public class UserDaoImpl implements UserDao {
   private BizzFactory factory;
 
   private String getUserQuery = "SELECT u.id, u.id_department, u.pseudo, u.password,"
-    + " u.name, u.firstname, u.email, u.registration_date, u.permissions, u.birth_date, u.street,"
-    + " u.citizenship, u.house_number, u.mailbox, u.zip, u.city, u.country, u.tel, u.gender,"
-    + " u.successfull_year_in_college, u.iban, u.bic, u.account_holder, u.bank_name, u.ver_nr, "
+      + " u.name, u.firstname, u.email, u.registration_date, u.permissions, u.birth_date, u.street,"
+      + " u.citizenship, u.house_number, u.mailbox, u.zip, u.city, u.country, u.tel, u.gender,"
+      + " u.successfull_year_in_college, u.iban, u.bic, u.account_holder, u.bank_name, u.ver_nr, "
 
-    + "co.iso, co.name_en, co.name_fr, co.id_program "
-    + "FROM bmobile.users u LEFT OUTER JOIN bmobile.countries co ON u.country = co.iso ";
+      + "co.iso, co.name_en, co.name_fr, co.id_program "
+      + "FROM bmobile.users u LEFT OUTER JOIN bmobile.countries co ON u.country = co.iso ";
 
   public UserDaoImpl(DalBackendServices dalBackendServices, BizzFactory bizzFactory) {
     this.dalBackendServices = dalBackendServices;
@@ -33,7 +34,7 @@ public class UserDaoImpl implements UserDao {
   }
 
   @Override
-  public boolean createUser(UserDto userdto) {
+  public void createUser(UserDto userdto) {
     // TODO(fany) values en fonction de la db
     String query = "INSERT INTO bmobile.users VALUES (DEFAULT,NULL,?,?,?,?,?,NULL,?,NULL,NULL,NULL"
         + ",NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0)";
@@ -48,11 +49,9 @@ public class UserDaoImpl implements UserDao {
       preparedStatement.setString(6, userdto.getPermissions());
 
       dalBackendServices.executeUpdate(preparedStatement);
-      return true;
-
     } catch (SQLException exc) {
       exc.printStackTrace();
-      return false;
+      throw new UnknowErrorException("Une erreur inconnue s'est produite lors de l'inscription.");
     }
   }
 

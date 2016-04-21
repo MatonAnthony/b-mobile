@@ -625,7 +625,7 @@ $(function () {
                             + "<td>" + resp[key]['name'] + "</td>"
                             + "<td>" + resp[key]['firstname'] + "</td>"
                             + '<td id="tdPermissions' + resp[key]['id'] + '">' + resp[key]['permissions'] + '</td>'
-                            + '<td id="tdButtonNommer' + resp[key]['id'] + '"><button value="' + resp[key]['id'] + '" class="btnNommer btn btn-info">Nommer</button></td>'
+                            + '<td id="tdNominate' + resp[key]['id'] + '"><button value="' + resp[key]['id'] + '" class="btnNommer btn btn-info">Nommer</button></td>'
                             + '<td id="tdButtonGererInfos' + resp[key]['id'] + '"><button value="' + resp[key]['id'] + '" class="btnGererInfos btn btn-info">Gérer les informations</button></td>'
                             + "</tr>";
                     } else {
@@ -649,6 +649,7 @@ $(function () {
         });
         $(".active").removeClass("active");
         $(".navButton[href='#userList']").parent().addClass("active");
+        
     }
 
 	function loadAddPartner() {

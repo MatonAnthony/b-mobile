@@ -73,9 +73,7 @@ public class UserUcControllerImpl implements UserUcController {
       if (userDao.userExists(userdto.getPseudo())) {
         throw new UserAlreadyExistsException("Un utilisateur existe déjà sous ce nom.");
       }
-      if (!userDao.createUser(userBizz)) {
-        return null;
-      }
+      userDao.createUser(userBizz);
       dalServices.commitTransaction();
       dalServices.closeConnection();
       userBizz = (UserBizz) login(userBizz.getPseudo(), password);

@@ -196,7 +196,6 @@ public class Servlet extends HttpServlet {
         default:
           resp.setStatus(HttpStatus.BAD_REQUEST_400);
       }
-
     } catch (Exception exc) {
       createToaster(exc, resp);
     }
@@ -754,6 +753,11 @@ public class Servlet extends HttpServlet {
         break;
       case "class exceptions.NotEnoughPermissionsException":
         resp.setStatus(HttpStatus.FORBIDDEN_403);
+        map.put("type", "warning");
+        map.put("message", exception.getMessage());
+        break;
+      case "class exceptions.UnknowErrorException":
+        resp.setStatus(HttpStatus.INTERNAL_SERVER_ERROR_500);
         map.put("type", "warning");
         map.put("message", exception.getMessage());
         break;
