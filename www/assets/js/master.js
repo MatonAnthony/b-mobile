@@ -105,6 +105,10 @@ $(function () {
         }
         return false;
     });
+    $("#backToLogin").click(function(){
+    	$("#loginPage").css("display", "block");
+    	$("#registerPage").css("display", "none");
+    });
 
     $("#registerLink").click(function () {
         loadRegisterPage();
@@ -1011,19 +1015,24 @@ $(function () {
 					action: "academicYears"
 				},
 				success: function (resp) {
-					resp = JSON.parse(resp);
-					$('#selectYear').empty();
-					for(var i= 0; i < resp.length; i++){
-						var option;
-						if (i===0){
-							option = $('<option selected="selected">');
-						}else{
-							option = $('<option>');
+					if (resp === ""){
+						$("#empty").empty();
+						$("#tablePayments").after("<p id=\"empty\" class=\"text-center\"><strong> Il n'y a aucun paiement actuellement. </strong></p>");
+					}else{
+						resp = JSON.parse(resp);
+						$('#selectYear').empty();
+						for(var i= 0; i < resp.length; i++){
+							var option;
+							if (i===0){
+								option = $('<option selected="selected">');
+							}else{
+								option = $('<option>');
+							}
+							$(option).val(resp[i]).text(resp[i]);
+							$('#selectYear').append(option);
 						}
-						$(option).val(resp[i]).text(resp[i]);
-						$('#selectYear').append(option);
+						$('#selectYear').trigger("change");
 					}
-					$('#selectYear').trigger("change");
 				},
 				error: function (error) {
 					error = JSON.parse(error.responseText);
@@ -1042,34 +1051,27 @@ $(function () {
 	                action: "selectPayments"
 	            },
 	            success: function (resp) {
-					if (resp === ""){
-						$("#empty").empty();
-						$("#tablePayments").after("<p id=\"empty\" class=\"text-center\"><strong> Il n'y a aucun payement actuellement. </strong></p>");
-					}else{
-						resp = JSON.parse(resp);
-						$("#tablePayments tbody").empty();
-						$("#empty").empty();
+					resp = JSON.parse(resp);
+					$("#tablePayments tbody").empty();
+					$("#empty").empty();
 
-						for (key in resp) {
+					for (key in resp) {
 
-							$("#tablePayments tbody").append(
-								"<tr>" +
-									"<td>" + resp[key]['id'] + "</td>"+
-									"<td>" + resp[key]['studentDto']['name'] + "</td>" +
-									"<td>" + resp[key]['studentDto']['firstname'] + "</td>" +
-									"<td>" + resp[key]['departmentDto']['label'] + "</td>" +
-									"<td>" + resp[key]['programDto']['name'] + "</td>" +
-									"<td>" + resp[key]['type'] + "</td>" +
-									//+"<td>"+resp[key]['partnerDto']['legal_name']+"</td> +"
-									+"<td></td>"+ // TODO(Jonathan) Ajouter dans la DB les montants, les dates
-									+"<td></td>"+						
-									+"<td></td>"+
-									+"<td></td>"+
-								+ "</tr>");
-						}
-					
+						$("#tablePayments tbody").append(
+							"<tr>" +
+								"<td>" + resp[key]['id'] + "</td>"+
+								"<td>" + resp[key]['studentDto']['name'] + "</td>" +
+								"<td>" + resp[key]['studentDto']['firstname'] + "</td>" +
+								"<td>" + resp[key]['departmentDto']['label'] + "</td>" +
+								"<td>" + resp[key]['programDto']['name'] + "</td>" +
+								"<td>" + resp[key]['type'] + "</td>" +
+								//+"<td>"+resp[key]['partnerDto']['legal_name']+"</td> +"
+								+"<td></td>"+ // TODO(Jonathan) Ajouter dans la DB les montants, les dates
+								+"<td></td>"+						
+								+"<td></td>"+
+								+"<td></td>"+
+							+ "</tr>");
 					}
-					
 	            },
 	            error: function (error) {
 	               	error = JSON.parse(error.responseText);
