@@ -1,6 +1,7 @@
 package dao.interfaces;
 
 import dto.ProgramDto;
+import exceptions.NoProgramException;
 
 import java.util.ArrayList;
 
@@ -21,7 +22,8 @@ public interface ProgramDao {
    *
    * @param name the name
    * @return the program dto
+   * @throws NoProgramException if no program is matching with the name.
    */
-  ProgramDto findByName(String name);
+  ProgramDto findByName(String name) throws NoProgramException;
 
 }

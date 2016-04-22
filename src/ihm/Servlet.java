@@ -10,6 +10,7 @@ import dto.UserDto;
 import exceptions.AuthenticationException;
 import exceptions.NoCountryException;
 import exceptions.NoDepartmentException;
+import exceptions.NoProgramException;
 import exceptions.NotEnoughPermissionsException;
 import exceptions.UserAlreadyExistsException;
 import exceptions.UserNotFoundException;
@@ -511,7 +512,7 @@ public class Servlet extends HttpServlet {
 
   private void addMobility(HttpServletRequest req, HttpServletResponse resp)
       throws IOException, NumberFormatException, SQLException, NoCountryException,
-      NoDepartmentException, NotEnoughPermissionsException {
+      NoDepartmentException, NotEnoughPermissionsException, NoProgramException {
 
     if (req.getSession().getAttribute(KEY_PERMISSIONS) == null) {
       throw new NotEnoughPermissionsException(
@@ -727,10 +728,7 @@ public class Servlet extends HttpServlet {
         map.put("message", exception.getMessage());
         break;
       case "class exceptions.NoCountryException":
-        resp.setStatus(HttpStatus.EXPECTATION_FAILED_417);
-        map.put("type", "error");
-        map.put("message", exception.getMessage());
-        break;
+      case "class exceptions.NoProgramException":
       case "class exceptions.NoDepartmentException":
         resp.setStatus(HttpStatus.EXPECTATION_FAILED_417);
         map.put("type", "error");

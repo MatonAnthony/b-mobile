@@ -29,7 +29,7 @@ public class DepartmentDaoImpl implements DepartmentDao {
   }
 
   @Override
-  public ArrayList<DepartmentDto> getAllDepartments() throws NoDepartmentException {
+  public ArrayList<DepartmentDto> getAllDepartments() {
     String query = "SELECT id, label, ver_nr FROM bmobile.departments";
     PreparedStatement preparedStatement = null;
 
@@ -98,8 +98,7 @@ public class DepartmentDaoImpl implements DepartmentDao {
 
   }
 
-  private ArrayList<DepartmentDto> fillDtoArray(ResultSet resultSet)
-      throws NoDepartmentException, SQLException {
+  private ArrayList<DepartmentDto> fillDtoArray(ResultSet resultSet) throws SQLException {
     ArrayList<DepartmentDto> departments = new ArrayList<DepartmentDto>();
     while (resultSet.next()) {
       DepartmentDto departmentDto = factory.getDepartmentDto();

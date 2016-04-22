@@ -4,6 +4,7 @@ import bizz.interfaces.BizzFactory;
 import dal.DalBackendServices;
 import dao.interfaces.ProgramDao;
 import dto.ProgramDto;
+import exceptions.NoProgramException;
 import exceptions.UnknowErrorException;
 
 import java.sql.PreparedStatement;
@@ -40,7 +41,7 @@ public class ProgramDaoImpl implements ProgramDao {
   }
 
   @Override
-  public ProgramDto findByName(String name) {
+  public ProgramDto findByName(String name) throws NoProgramException {
     String query = "SELECT id, name, description, ver_nr FROM bmobile.programs WHERE name=?";
     PreparedStatement preparedStatement = null;
     try {
@@ -55,7 +56,7 @@ public class ProgramDaoImpl implements ProgramDao {
     }
   }
 
-  private ProgramDto fillDto(ResultSet resultSet) throws SQLException {
+  private ProgramDto fillDto(ResultSet resultSet) throws SQLException, NoProgramException {
     ProgramDto programDto = factory.getProgramDto();
     if (resultSet.next()) {
       programDto.setId(resultSet.getInt(1));
@@ -63,7 +64,7 @@ public class ProgramDaoImpl implements ProgramDao {
       programDto.setDescription(resultSet.getString(3));
       programDto.setVerNr(resultSet.getInt(4));
     } else {
-      return null;
+      throw new NoProgramException("Ce programme n'existe pas.");
     }
     return programDto;
 

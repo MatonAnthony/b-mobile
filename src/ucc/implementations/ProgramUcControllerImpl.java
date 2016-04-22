@@ -3,6 +3,7 @@ package ucc.implementations;
 import dal.DalServices;
 import dao.interfaces.ProgramDao;
 import dto.ProgramDto;
+import exceptions.NoProgramException;
 import ucc.interfaces.ProgramUcController;
 
 import java.sql.SQLException;
@@ -33,7 +34,7 @@ public class ProgramUcControllerImpl implements ProgramUcController {
   }
 
   @Override
-  public ProgramDto getProgramByName(String name) throws SQLException {
+  public ProgramDto getProgramByName(String name) throws NoProgramException, SQLException {
     dalServices.openConnection();
     ProgramDto program = programDao.findByName(name);
     dalServices.closeConnection();

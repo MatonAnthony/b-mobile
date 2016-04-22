@@ -16,13 +16,14 @@ public interface DepartmentDao {
    *
    * @return a list containing all departments.
    */
-  ArrayList<DepartmentDto> getAllDepartments() throws NoDepartmentException, NoDepartmentException;
+  ArrayList<DepartmentDto> getAllDepartments();
 
   /**
    * Gets departement by id.
    *
    * @param id the id
    * @return the departement by id
+   * @throws NoDepartmentException If there is no department matching with the id.
    */
   DepartmentDto getDepartementById(String id) throws NoDepartmentException;
 
@@ -31,6 +32,7 @@ public interface DepartmentDao {
    *
    * @param label the label
    * @return the department by label
+   * @throws NoDepartmentException If there is no department matching with the label.
    */
   DepartmentDto getDepartmentByLabel(String label) throws NoDepartmentException;
 }
