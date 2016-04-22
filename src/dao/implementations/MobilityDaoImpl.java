@@ -71,9 +71,10 @@ public class MobilityDaoImpl implements MobilityDao {
   @Override
   public void createMobility(MobilityDto mobilityDto) {
     // TODO (Martin) Comment gérer l'année académique
-    String query = "INSERT INTO bmobile.mobilities VALUES (DEFAULT,?,?,NULL,?,?,?,?,?,'En attente',"
-        + "FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,"
-        + "FALSE,FALSE,FALSE,NULL,?,0)";
+    String query =
+        "INSERT INTO bmobile.mobilities VALUES (DEFAULT,?,?,NULL,?,?,?,?,?,'En attente',0,NULL,NULL,"
+            + "FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,"
+            + "FALSE,FALSE,FALSE,NULL,?,0)";
     PreparedStatement preparedStatement = null;
     try {
       preparedStatement = dalBackendServices.prepare(query);
