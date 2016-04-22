@@ -13,7 +13,7 @@ public interface CountryUcController {
    * 
    * @return an ArrayList wich contains the countries of the database.
    */
-  ArrayList<CountryDto> getAllCountries() throws NoCountryException, SQLException;
+  ArrayList<CountryDto> getAllCountries() throws SQLException;
 
 
   /**

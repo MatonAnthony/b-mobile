@@ -29,7 +29,7 @@ public class CountryDaoImpl implements CountryDao {
   }
 
   @Override
-  public ArrayList<CountryDto> getAll() throws SQLException, NoCountryException {
+  public ArrayList<CountryDto> getAll() throws SQLException {
     String query =
         "SELECT iso, name_en, name_fr, id_program FROM bmobile.countries ORDER BY name_fr";
     PreparedStatement preparedStatement = null;

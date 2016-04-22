@@ -12,7 +12,7 @@ public interface CountryDao {
    * 
    * @return a list all countries registered in our database.
    */
-  ArrayList<CountryDto> getAll() throws SQLException, NoCountryException;
+  ArrayList<CountryDto> getAll() throws SQLException;
 
   /**
    * Get a Country by his French name.

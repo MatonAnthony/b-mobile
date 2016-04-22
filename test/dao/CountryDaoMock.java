@@ -6,7 +6,6 @@ import dao.interfaces.CountryDao;
 import dto.CountryDto;
 import exceptions.NoCountryException;
 
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -20,7 +19,7 @@ public class CountryDaoMock implements CountryDao {
    * Instantiates a new Country dao.
    *
    * @param dalBackendServices the dal backend services
-   * @param bizzFactory        the bizz factory
+   * @param bizzFactory the bizz factory
    */
   public CountryDaoMock(DalBackendServices dalBackendServices, BizzFactory bizzFactory) {
     this.dalBackendServices = dalBackendServices;
@@ -29,10 +28,11 @@ public class CountryDaoMock implements CountryDao {
 
   /**
    * Return all countries registered in our database.
+   * 
    * @return a list all countries registered in our database.
    */
   @Override
-  public ArrayList<CountryDto> getAll() throws SQLException, NoCountryException {
+  public ArrayList<CountryDto> getAll() throws SQLException {
     ArrayList<CountryDto> countries = new ArrayList<CountryDto>();
     countries.add(factory.getCountryDto());
     countries.add(factory.getCountryDto());
@@ -56,8 +56,7 @@ public class CountryDaoMock implements CountryDao {
     return null;
   }
 
-  private ArrayList<CountryDto> fillDtoArray(ResultSet resultSet)
-    throws NoCountryException {
+  private ArrayList<CountryDto> fillDtoArray(ResultSet resultSet) throws NoCountryException {
     // Todo
     return null;
   }

@@ -22,7 +22,7 @@ public class DepartmentUcControllerImpl implements DepartmentUcController {
 
 
   @Override
-  public ArrayList<DepartmentDto> getAllDepartments() throws NoDepartmentException, SQLException {
+  public ArrayList<DepartmentDto> getAllDepartments() throws SQLException {
     dalServices.openConnection();
     ArrayList<DepartmentDto> departments = departmentDao.getAllDepartments();
     dalServices.closeConnection();

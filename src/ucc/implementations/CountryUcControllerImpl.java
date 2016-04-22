@@ -28,7 +28,7 @@ public class CountryUcControllerImpl implements CountryUcController {
   }
 
   @Override
-  public ArrayList<CountryDto> getAllCountries() throws NoCountryException, SQLException {
+  public ArrayList<CountryDto> getAllCountries() throws SQLException {
     dalServices.openConnection();
     ArrayList<CountryDto> countries = countryDao.getAll();
     dalServices.closeConnection();

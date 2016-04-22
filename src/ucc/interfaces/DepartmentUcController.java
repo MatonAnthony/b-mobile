@@ -15,7 +15,7 @@ public interface DepartmentUcController {
    * @return An arrayList with dto of all the departments.
    * @throws SQLException If there is an exception.
    */
-  public ArrayList<DepartmentDto> getAllDepartments() throws NoDepartmentException, SQLException;
+  public ArrayList<DepartmentDto> getAllDepartments() throws SQLException;
 
   /**
    * Get a department from the database.
