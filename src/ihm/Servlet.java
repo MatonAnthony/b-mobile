@@ -204,8 +204,7 @@ public class Servlet extends HttpServlet {
   }
 
   private void selectAddMobilityInformations(HttpServletRequest req, HttpServletResponse resp)
-      throws SQLException, NoDepartmentException, IOException, NoCountryException,
-      NotEnoughPermissionsException {
+      throws SQLException, NoDepartmentException, IOException, NotEnoughPermissionsException {
 
     if (req.getSession().getAttribute(KEY_PERMISSIONS) == null) {
       throw new NotEnoughPermissionsException(
@@ -228,7 +227,7 @@ public class Servlet extends HttpServlet {
   }
 
   private void selectProfile(HttpServletRequest req, HttpServletResponse resp, int id)
-      throws IOException, SQLException, NoCountryException, NotEnoughPermissionsException {
+      throws IOException, SQLException, NotEnoughPermissionsException {
 
     if (req.getSession().getAttribute(KEY_PERMISSIONS) == null) {
       throw new NotEnoughPermissionsException(
@@ -292,8 +291,7 @@ public class Servlet extends HttpServlet {
   }
 
   private void changePermissions(HttpServletRequest req, HttpServletResponse resp)
-      throws NotEnoughPermissionsException, NumberFormatException, UserNotFoundException,
-      NoCountryException {
+      throws NotEnoughPermissionsException, NumberFormatException, UserNotFoundException {
 
     if (!req.getSession().getAttribute(KEY_PERMISSIONS).equals("TEACHER")) {
       throw new NotEnoughPermissionsException(
@@ -305,7 +303,7 @@ public class Servlet extends HttpServlet {
   }
 
   private void selectUsers(HttpServletRequest req, HttpServletResponse resp)
-      throws IOException, SQLException, NoCountryException, NotEnoughPermissionsException {
+      throws IOException, SQLException, NotEnoughPermissionsException {
 
     if (!req.getSession().getAttribute(KEY_PERMISSIONS).equals("TEACHER")) {
       throw new NotEnoughPermissionsException(
@@ -349,7 +347,7 @@ public class Servlet extends HttpServlet {
   }
 
   private void selectCountries(HttpServletRequest req, HttpServletResponse resp)
-      throws IOException, NoCountryException, SQLException, NotEnoughPermissionsException {
+      throws IOException, SQLException, NotEnoughPermissionsException {
 
     if (req.getSession().getAttribute(KEY_PERMISSIONS) == null) {
       throw new NotEnoughPermissionsException(
@@ -436,7 +434,7 @@ public class Servlet extends HttpServlet {
   }
 
   private void register(HttpServletRequest req, HttpServletResponse resp)
-      throws IOException, AuthenticationException, NoCountryException, UserAlreadyExistsException,
+      throws IOException, AuthenticationException, UserAlreadyExistsException,
       NotEnoughPermissionsException {
 
     if (req.getSession().getAttribute(KEY_PERMISSIONS) != null) {
@@ -490,7 +488,7 @@ public class Servlet extends HttpServlet {
   }
 
   private void login(HttpServletRequest req, HttpServletResponse resp) throws IOException,
-      SQLException, AuthenticationException, NoCountryException, NotEnoughPermissionsException {
+      SQLException, AuthenticationException, NotEnoughPermissionsException {
 
     if (req.getSession().getAttribute(KEY_PERMISSIONS) != null) {
       throw new NotEnoughPermissionsException("Vous êtes déjà connecté");
@@ -529,11 +527,7 @@ public class Servlet extends HttpServlet {
     mobility.setQuadrimester(Integer.parseInt(req.getParameter("quadrimestre")));
     mobility.setAcademicYear(req.getParameter("year"));
     mobility.setDepartementDto(departmentUcc.getDepartmentByLabel(req.getParameter("department")));
-    try {
-      mobility.setCountryDto(countryUcc.getCountryByNameFr(req.getParameter("country")));
-    } catch (Exception exc) {
-      createToaster(exc, resp);
-    }
+    mobility.setCountryDto(countryUcc.getCountryByNameFr(req.getParameter("country")));
 
     mobilityUcc.addMobility(mobility);
 
@@ -740,10 +734,6 @@ public class Servlet extends HttpServlet {
         map.put("message", "La date entrée n'est pas correcte");
         break;
       case "class exceptions.UserAlreadyExistsException":
-        resp.setStatus(HttpStatus.NOT_FOUND_404);
-        map.put("type", "error");
-        map.put("message", exception.getMessage());
-        break;
       case "class exceptions.UserNotFoundException":
         resp.setStatus(HttpStatus.NOT_FOUND_404);
         map.put("type", "error");

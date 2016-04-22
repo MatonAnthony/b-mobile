@@ -17,7 +17,7 @@ public interface UserDao {
    * @return An UserDto filled with his data.
    * @throw NoSuchElementException if no user is matching with the username.
    */
-  UserDto getUserByUserName(String username) throws NoCountryException, NoSuchElementException;
+  UserDto getUserByUserName(String username) throws NoSuchElementException;
 
   /**
    * To add a user in the data base.
@@ -33,14 +33,14 @@ public interface UserDao {
    * @return the user by id
    * @throw NoSuchElementException if no user is matching with the username.
    */
-  UserDto getUserById(int id) throws NoCountryException, NoSuchElementException;
+  UserDto getUserById(int id) throws NoSuchElementException;
 
   /**
    * Gets all users.
    *
    * @return An ArrayList with all users.
    */
-  ArrayList<UserDto> getAllUsers() throws NoCountryException;
+  ArrayList<UserDto> getAllUsers();
 
   /**
    * Change permissions for user by id.

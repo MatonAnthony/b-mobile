@@ -57,7 +57,7 @@ public class UserDaoImpl implements UserDao {
 
   @Override
   public UserDto getUserByUserName(String username)
-      throws NoSuchElementException, NoCountryException {
+      throws NoSuchElementException {
     String query = this.getUserQuery + "WHERE pseudo=?";
     PreparedStatement preparedStatement = null;
     try {
@@ -72,7 +72,7 @@ public class UserDaoImpl implements UserDao {
   }
 
   @Override
-  public UserDto getUserById(int id) throws NoSuchElementException, NoCountryException {
+  public UserDto getUserById(int id) throws NoSuchElementException {
     String query = this.getUserQuery + "WHERE id=?";
     PreparedStatement preparedStatement = null;
     try {
@@ -88,7 +88,7 @@ public class UserDaoImpl implements UserDao {
 
 
   @Override
-  public ArrayList<UserDto> getAllUsers() throws NoCountryException {
+  public ArrayList<UserDto> getAllUsers() {
     String query = this.getUserQuery + "ORDER BY id";
     PreparedStatement preparedStatement = null;
     try {
@@ -161,7 +161,7 @@ public class UserDaoImpl implements UserDao {
   }
 
   private UserDto fillDto(PreparedStatement preparedStatement)
-      throws NoCountryException, SQLException {
+      throws SQLException {
     UserDto user = factory.getUserDto();
     ResultSet resultSet = dalBackendServices.executeQuery(preparedStatement);
     if (resultSet.next()) {
@@ -173,7 +173,7 @@ public class UserDaoImpl implements UserDao {
   }
 
   private ArrayList<UserDto> fillDtoArray(PreparedStatement preparedStatement)
-      throws NoCountryException, SQLException {
+      throws SQLException {
     ArrayList<UserDto> users = new ArrayList<UserDto>();
     ResultSet resultSet = dalBackendServices.executeQuery(preparedStatement);
     while (resultSet.next()) {
@@ -185,7 +185,7 @@ public class UserDaoImpl implements UserDao {
   }
 
   private UserDto completeDto(UserDto user, ResultSet resultSet)
-      throws SQLException, NoCountryException {
+      throws SQLException {
     user.setId(resultSet.getInt(1));
     user.setIdDepartment(resultSet.getInt(2));
     user.setPseudo(resultSet.getString(3));

@@ -51,12 +51,12 @@ public class CountryDaoMock implements CountryDao {
     return null;
   }
 
-  private CountryDto fillDto(ResultSet resultSet) throws NoCountryException {
+  private CountryDto fillDto(ResultSet resultSet) throws NoCountryException{
     // Todo
     return null;
   }
 
-  private ArrayList<CountryDto> fillDtoArray(ResultSet resultSet) throws NoCountryException {
+  private ArrayList<CountryDto> fillDtoArray(ResultSet resultSet) {
     // Todo
     return null;
   }

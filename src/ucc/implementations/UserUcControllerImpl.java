@@ -35,7 +35,7 @@ public class UserUcControllerImpl implements UserUcController {
 
   @Override
   public UserDto login(String login, String password)
-      throws AuthenticationException, SQLException, NoCountryException {
+      throws AuthenticationException, SQLException {
     UserBizz user;
     try {
       // Récupérer les données du DAL
@@ -61,7 +61,7 @@ public class UserUcControllerImpl implements UserUcController {
 
   @Override
   public UserDto register(UserDto userdto)
-      throws AuthenticationException, UserAlreadyExistsException, NoCountryException {
+      throws AuthenticationException, UserAlreadyExistsException {
 
     String password = userdto.getPassword();
     UserBizz userBizz = (UserBizz) userdto;
@@ -91,7 +91,7 @@ public class UserUcControllerImpl implements UserUcController {
   }
 
   @Override
-  public UserDto getUserById(int id) throws SQLException, NoCountryException {
+  public UserDto getUserById(int id) throws SQLException {
     dalServices.openConnection();
     UserDto user = userDao.getUserById(id);
     dalServices.closeConnection();
@@ -99,7 +99,7 @@ public class UserUcControllerImpl implements UserUcController {
   }
 
   @Override
-  public ArrayList<UserDto> getAllUsers() throws SQLException, NoCountryException {
+  public ArrayList<UserDto> getAllUsers() throws SQLException {
     dalServices.openConnection();
     ArrayList<UserDto> users = userDao.getAllUsers();
     dalServices.closeConnection();
@@ -107,7 +107,7 @@ public class UserUcControllerImpl implements UserUcController {
   }
 
   @Override
-  public void changePermissions(int id) throws UserNotFoundException, NoCountryException {
+  public void changePermissions(int id) throws UserNotFoundException {
     try {
       dalServices.openConnection();
       dalServices.startTransaction();
