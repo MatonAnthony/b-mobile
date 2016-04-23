@@ -1087,7 +1087,7 @@ $(function () {
 					}else{
 						resp = JSON.parse(resp);
 						for (key in resp) {
-
+							
 							$("#myMobility tbody").append(
 								"<tr>" +
 								"<td>" + resp[key]['preferenceOrder'] + "</td>" +
@@ -1096,7 +1096,8 @@ $(function () {
 								"<td>" + resp[key]['countryDto']['nameFr'] + "</td>" +
 								"<td>" + resp[key]['quadrimester'] + "</td>" +
 								"<td>" + resp[key]['status'] + "</td>"+
-								"<td value='"+ resp[key]['id'] +"'></td><td></td>"
+								"<td value='"+ resp[key]['id'] +"'></td>"+
+								"<td value='"+ resp[key]['partnerDto'] +"' id='"+ resp[key]['id'] +"'></td>"+
 								+ "</tr>");
 
 						}	
@@ -1106,7 +1107,7 @@ $(function () {
 							} else {
 								$(this).parent().addClass("danger");
 							}
-							if ($(this).html() === "En attente") {
+							if ($(this).html() === "En attente"&& $(this).parent().attr("value") === undefined) {
 								$(this).next().next().append("<button class=\"btnConfirm btn btn-info\">Confirmer</button>");
 							}
 						});
@@ -1122,7 +1123,11 @@ $(function () {
 	    });
 		$("#myMobility").on("click", ".btnCancel", function () {
 			var id = $(this).parent().attr("value");
-			loadCancelMobility();
+			loadCancelMobility(id);
+		});
+		$("#myMobility").on("click", ".btnConfirm", function () {
+			var id = $(this).parent().attr("id");
+			loadConfirmMobility(id);
 		});
 	}
 	
@@ -1137,6 +1142,11 @@ $(function () {
 		$(".page").css("display", "none");
 		$("#cancelMobilityPage").css("display","block");
 		oldNavBar.css("display","block");
+	}
+	
+	function loadConfirmMobility(id){
+		//TODO(Jonathan pour Kamil)
+		
 	}
 	
 	function loadDetailsMobility(id){
