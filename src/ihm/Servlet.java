@@ -270,7 +270,11 @@ public class Servlet extends HttpServlet {
     userEdited.setName(req.getParameter("name"));
     userEdited.setFirstname(req.getParameter("firstname"));
     userEdited.setGender(req.getParameter("gender"));
-    userEdited.setBirthDate(LocalDate.parse(req.getParameter("birthdate")));
+    try {
+      userEdited.setBirthDate(LocalDate.parse(req.getParameter("birthdate")));
+    }catch(IllegalArgumentException exc){
+      createToaster(exc, resp);
+    }
     userEdited.setCitizenship(req.getParameter("citizenship"));
     userEdited.setStreet(req.getParameter("street"));
     userEdited.setHouseNumber(req.getParameter("houseNumber"));
@@ -748,6 +752,10 @@ public class Servlet extends HttpServlet {
         map.put("type", "warning");
         map.put("message", exception.getMessage());
         break;
+      case "class java.lang.IllegalArgumentException":
+        resp.setStatus(HttpStatus.EXPECTATION_FAILED_417);
+        map.put("type", "warning");
+        map.put("message", exception.getMessage());
       default:
         resp.setStatus(HttpStatus.PARTIAL_CONTENT_206);
         map.put("type", "info");

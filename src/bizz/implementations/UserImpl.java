@@ -508,7 +508,7 @@ public class UserImpl implements UserBizz, Cloneable {
   public void setBirthDate(LocalDate birthDate) {
 
     if (birthDate.isAfter(LocalDate.now())) {
-      throw new IllegalArgumentException();
+      throw new IllegalArgumentException("La date de naissance ne peut-être dans le futur.");
     }
 
     this.birthDate = birthDate;
