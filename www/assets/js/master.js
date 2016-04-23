@@ -806,18 +806,20 @@ $(function () {
 									if (resp[key]['partnerDto']['legalName'] !== null)
 										data += "<td>"+resp[key]['partnerDto']['legalName']+"</td>";
 									else data += "<td></td>";
-									data +=	"<td>" + resp[key]['status'] + "</td><td></td><td></td></tr>";
+									data +=	"<td>" + resp[key]['status'] + 
+									"</td><td value='"+ resp[key]['id'] +"'></td>"+
+									"<td></td></tr>";
 							$("#list tbody").append(data);
 						}
 						
 						$("#list tr td:nth-child(10)").each(function(){
 							if ($(this).html() !== "Annulee") {
-								$(this).next().append("<button class=\"btnNommer btn btn-info\">Annuler</button>");
+								$(this).next().append("<button class=\"btnCancel btn btn-info\">Annuler</button>");
 							} else {
 								$(this).parent().addClass("danger");
 							}
 							if ($(this).html() === "En attente"){
-								$(this).next().next().append("<button class=\"btnNommer btn btn-info\">Confirmer</button>");
+								$(this).next().next().append("<button class=\"btnConfirm btn btn-info\">Confirmer</button>");
 							}
 						});
 						
@@ -829,13 +831,9 @@ $(function () {
 	            }
 	        });
 	    });
-		$("#list").on("click", "tr", function (){
-			var id = $(this).attr("value");
-			console.log("id :"+id);
-			//TODO(Jonathan pour Martin) AJAX de changement de page vers details
-			$(".page").css("display", "none");
-			$("#mobilityDetail").css("display","block");
-			$("#navBarTeacher").css("display","block");
+		$("#list").on("click", ".btnCancel", function () {
+			var id = $(this).parent().attr("value");
+			loadCancelMobility();
 		});
 	}
 
@@ -967,8 +965,7 @@ $(function () {
 					$("#empty").empty();
 
 					for (key in resp) {
-						console.log(resp[key]);
-						var data = "<tr class='clickable'>" +
+						var data = "<tr class='clickable' value='"+ resp[key]['id'] + "'>" +
 										"<td>" + resp[key]['id'] + "</td>"+
 										"<td>" + resp[key]['studentDto']['name'] + "</td>" +
 										"<td>" + resp[key]['studentDto']['firstname'] + "</td>" +
@@ -1013,6 +1010,10 @@ $(function () {
 	            }
 	        });
 		}
+		$("#tablePayments").on("click", "tr", function (){
+			var id = $(this).attr("value");
+			loadDetailsMobility(id);
+		});
 	}
 
 	// Managing of the confirmed table
@@ -1037,7 +1038,7 @@ $(function () {
 						for (key in resp) {
 
 							$("#tableConfirmed tbody").append(
-								"<tr>" +
+								"<tr class='clickable' value='"+ resp[key]['id'] + "'>" +
 								"<td>" + resp[key]['departmentDto']['label'] + "</td>" +
 								"<td>" + resp[key]['programDto']['name'] + "</td>" +
 								"<td>" + resp[key]['type'] + "</td>" +
@@ -1062,10 +1063,11 @@ $(function () {
 					printToaster(error.type, error.message);
 	            }
 	        });
-
-
-
 	    });
+		$("#tablePayments").on("click", "tr", function (){
+			var id = $(this).attr("value");
+			loadDetailsMobility(id);
+		});
 	}
 
 	// Managing of the "myMobility" table
@@ -1094,18 +1096,18 @@ $(function () {
 								"<td>" + resp[key]['countryDto']['nameFr'] + "</td>" +
 								"<td>" + resp[key]['quadrimester'] + "</td>" +
 								"<td>" + resp[key]['status'] + "</td>"+
-								"<td></td><td></td>"
+								"<td value='"+ resp[key]['id'] +"'></td><td></td>"
 								+ "</tr>");
 
 						}	
 						$("#myMobility tr td:nth-child(6)").each(function () {
 							if ($(this).html() !== "Annulee") {
-								$(this).next().append("<button class=\"btnNommer btn btn-info\">Annuler</button>");
+								$(this).next().append("<button class=\"btnCancel btn btn-info\">Annuler</button>");
 							} else {
 								$(this).parent().addClass("danger");
 							}
 							if ($(this).html() === "En attente") {
-								$(this).next().next().append("<button class=\"btnNommer btn btn-info\">Confirmer</button>");
+								$(this).next().next().append("<button class=\"btnConfirm btn btn-info\">Confirmer</button>");
 							}
 						});
 					
@@ -1118,6 +1120,30 @@ $(function () {
 	            }
 	        });
 	    });
+		$("#myMobility").on("click", ".btnCancel", function () {
+			var id = $(this).parent().attr("value");
+			loadCancelMobility();
+		});
+	}
+	
+	
+	function loadCancelMobility(id){
+		var oldNavBar;
+		if($("#navBarTeacher").css("display") === "block"){
+			oldNavBar = $("#navBarTeacher");
+		}else{
+			oldNavBar = $("#navBarStudent");
+		}
+		$(".page").css("display", "none");
+		$("#cancelMobilityPage").css("display","block");
+		oldNavBar.css("display","block");
+	}
+	
+	function loadDetailsMobility(id){
+		//TODO(Jonathan pour Martin) AJAX de changement de page vers details
+		$(".page").css("display", "none");
+		$("#mobilityDetail").css("display","block");
+		$("#navBarTeacher").css("display","block");
 	}
 
 	function printToaster(type, message){
