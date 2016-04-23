@@ -22,11 +22,23 @@ $(function () {
             var name = document.getElementById("profile_name")
             if(name.validity.patternMismatch){
                 console.log("event fired");
+                printToaster("info", "Le prénom doit uniquement contenir des lettres et des tirets");
+            }else{
+                $("#profile_name").removeClass(":invalid");
+            }
+        });
+
+        $("#profile_firstname").change(function(){
+            var name = document.getElementById("profile_firstname")
+            if(name.validity.patternMismatch){
+                console.log("event fired");
                 printToaster("info", "Le nom doit uniquement contenir des lettres et des tirets");
             }else{
                 $("#profile_name").removeClass(":invalid");
             }
         });
+
+        // TODO Finish pattern validation for "Modify profile" UC
     };
     
     window.onpopstate = function (event) {
