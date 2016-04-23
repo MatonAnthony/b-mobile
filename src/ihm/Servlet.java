@@ -713,7 +713,6 @@ public class Servlet extends HttpServlet {
       throws IOException {
 
     Map<String, String> map = new HashMap<String, String>();
-
     // warning, success, error, info
     switch (exception.getClass().toString()) {
       case "class exceptions.AuthenticationException":

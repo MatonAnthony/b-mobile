@@ -28,6 +28,7 @@ $(function () {
             }
         });
     };
+    
     window.onpopstate = function (event) {
         changePage();
     };
@@ -35,7 +36,7 @@ $(function () {
     function changePage() {
         var state = history.state;
         if (null === state){
-            disconnect();
+            //disconnect();
             return true;
         }
         switch (state['page']) {
@@ -102,6 +103,7 @@ $(function () {
         }
         return false;
     });
+
     $("#backToLogin").click(function(){
     	$("#loginPage").css("display", "block");
     	$("#registerPage").css("display", "none");
@@ -110,6 +112,7 @@ $(function () {
     $("#registerLink").click(function () {
         loadRegisterPage();
     });
+
 	//Connect
 	$("#connectButton").click(function(){
 		 $.ajax({
@@ -476,41 +479,43 @@ $(function () {
 
     //navBar
     $(".navButton").click(function () {
+    	var isFirefox = typeof InstallTrigger !== 'undefined';
+
         switch ($(this).attr("href")) {
             case "#myMobility":
-                //authStudent();
+            	if(isFirefox) authStudent();
                 history.pushState({page: "myMobility"}, "Mes mobilités", "/home#myMobility");
                 break;
             case "#confirmedMobility":
-                //authTeacher();
+                if(isFirefox)  authTeacher();
                 history.pushState({page: "confirmedMobility"}, "Mobilites Confirmées", "/home#confirmedMobility");
                 break;
             case "#addMobility" :
-                //loadAddMobility();
+                if(isFirefox) loadAddMobility();
                 history.pushState({page: "addMobility"}, "Ajouter une mobilité", "/home#addMobility");
                 break;
             case "#disconnect" :
-                //disconnect();
+                if(isFirefox) disconnect();
                 history.pushState({page: "index"}, "Page d'accueil", "/home#disconnect");
                 break;
             case "#list":
-                //loadList();
+                if(isFirefox) loadList();
                 history.pushState({page: "list"}, "Liste des demandes", "/home#list");
                 break;
             case "#userList":
-                //loadUserList();
+                if(isFirefox) loadUserList();
                 history.pushState({page: "userList"}, "Liste des utilisateurs", "/home#userList");
                 break;
             case "#addPartner":
-                //loadAddPartner();
+                if(isFirefox) loadAddPartner();
                 history.pushState({page: "addPartner"}, "Ajouter un partenaire", "/home#addPartner");
                 break;
             case "#myInformations":
-                //loadProfilePage();
+                if(isFirefox) loadProfilePage();
                 history.pushState({page: "myInformations"}, "Modifier mes informations", "/home#myInformations");
                 break;
 			case "#payment" :
-				//loadPaymentPage();
+				if(isFirefox) loadPaymentPage();
 				history.pushState({page: "payment"}, "Liste des paiements", "/home#payment");
 				break;
         }
@@ -1103,7 +1108,6 @@ $(function () {
 		}
 
 	}
-
 
 	// Export to CSV
 	$("#CSV").click(function(){
