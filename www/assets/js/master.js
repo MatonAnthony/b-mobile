@@ -793,11 +793,8 @@ $(function () {
 						$("#empty").empty();
 
 						for (key in resp) {
-
-							$("#list tbody").append(
-								"<tr class=\"clickable\">"+ 
-									//"onclick=\"document.location = '/home#confirmedMobility';\">"+//&id="+resp[key]['id']+"';\">" +
-								//TODO (jonathan) ajouter le liens vers les détails
+							var data =
+								"<tr class=\"clickable\" value='"+ resp[key]['id'] + "'>"+ 
 								"<td>" + resp[key]['id'] + "</td>" +
 									"<td>" + resp[key]['studentDto']['name'] + "</td>" +
 									"<td>" + resp[key]['studentDto']['firstname'] + "</td>" +
@@ -805,12 +802,12 @@ $(function () {
 									"<td>" + resp[key]['preferenceOrder'] + "</td>" +
 									"<td>" + resp[key]['programDto']['name'] + "</td>" +
 									"<td>" + resp[key]['type'] + "</td>" +
-									"<td>" + resp[key]['quadrimester'] + "</td>" +
-									//+"<td>"+resp[key]['partnerDto']['legal_name']+"</td> +"
-									"<td></td>"+
-									"<td>" + resp[key]['status'] + "</td>"+							
-									"<td></td><td></td>"
-								+ "</tr>");
+									"<td>" + resp[key]['quadrimester'] + "</td>";
+									if (resp[key]['partnerDto']['legalName'] !== null)
+										data += "<td>"+resp[key]['partnerDto']['legalName']+"</td>";
+									else data += "<td></td>";
+									data +=	"<td>" + resp[key]['status'] + "</td><td></td><td></td></tr>";
+							$("#list tbody").append(data);
 						}
 						
 						$("#list tr td:nth-child(10)").each(function(){
@@ -832,6 +829,14 @@ $(function () {
 	            }
 	        });
 	    });
+		$("#list").on("click", "tr", function (){
+			var id = $(this).attr("value");
+			console.log("id :"+id);
+			//TODO(Jonathan pour Martin) AJAX de changement de page vers details
+			$(".page").css("display", "none");
+			$("#mobilityDetail").css("display","block");
+			$("#navBarTeacher").css("display","block");
+		});
 	}
 
 	// Managing of filter buttons
@@ -962,21 +967,44 @@ $(function () {
 					$("#empty").empty();
 
 					for (key in resp) {
-
-						$("#tablePayments tbody").append(
-							"<tr>" +
-								"<td>" + resp[key]['id'] + "</td>"+
-								"<td>" + resp[key]['studentDto']['name'] + "</td>" +
-								"<td>" + resp[key]['studentDto']['firstname'] + "</td>" +
-								"<td>" + resp[key]['departmentDto']['label'] + "</td>" +
-								"<td>" + resp[key]['programDto']['name'] + "</td>" +
-								"<td>" + resp[key]['type'] + "</td>" +
-								//+"<td>"+resp[key]['partnerDto']['legal_name']+"</td> +"
-								+"<td></td>"+ // TODO(Jonathan) Ajouter dans la DB les montants, les dates
-								+"<td></td>"+						
-								+"<td></td>"+
-								+"<td></td>"+
-							+ "</tr>");
+						console.log(resp[key]);
+						var data = "<tr class='clickable'>" +
+										"<td>" + resp[key]['id'] + "</td>"+
+										"<td>" + resp[key]['studentDto']['name'] + "</td>" +
+										"<td>" + resp[key]['studentDto']['firstname'] + "</td>" +
+										"<td>" + resp[key]['departmentDto']['label'] + "</td>" +
+										"<td>" + resp[key]['programDto']['name'] + "</td>" +
+										"<td>" + resp[key]['type'] + "</td>";
+						if (resp[key]['partnerDto']['legalName'] !== null)
+							data += "<td>"+resp[key]['partnerDto']['legalName']+"</td>";
+						else data += "<td></td>";
+							data += "<td>"+resp[key]['amount']+"</td>";	
+							
+						if (resp[key]['paymentDate1'] !== null){
+							var day = resp[key]['paymentDate1']['dayOfMonth'];
+							var month = resp[key]['paymentDate1']['monthValue'];
+							if (month>=1 && month <=9)
+								month = "0"+month;
+							if (day >= 1 && day <= 9)
+								day = "0"+day;
+							data += "<td>"+day+"/"+month+"/"+resp[key]['paymentDate1']['year']+"</td>";
+						}
+						else data += "<td></td>";
+						
+						if (resp[key]['paymentDate2'] !== null){
+							var day = resp[key]['paymentDate2']['dayOfMonth'];
+							var month = resp[key]['paymentDate2']['monthValue'];
+							if (month>=1 && month <=9)
+								month = "0"+month;
+							if (day >= 1 && day <= 9)
+								day = "0"+day;
+							data += "<td>"+day+"/"+month+"/"+resp[key]['paymentDate2']['year']+"</td>";
+						}
+						else data +="<td></td>";
+						
+						data += "</tr>"
+						
+						$("#tablePayments tbody").append(data);
 					}
 	            },
 	            error: function (error) {

@@ -8,6 +8,8 @@ import dto.PartnerDto;
 import dto.ProgramDto;
 import dto.UserDto;
 
+import java.time.LocalDate;
+
 public class MobilityImpl implements MobilityBizz, Cloneable {
   private int id;
   private int idStudent;
@@ -44,6 +46,9 @@ public class MobilityImpl implements MobilityBizz, Cloneable {
   private CancelationDto cancelationDto;
   private String academicYear;
   private int verNr;
+  private double amount;
+  private LocalDate paymentDate1;
+  private LocalDate paymentDate2;
 
   /**
    * Gets the id .
@@ -892,6 +897,30 @@ public class MobilityImpl implements MobilityBizz, Cloneable {
       return false;
     }
     return true;
+  }
+
+  public LocalDate getPaymentDate1() {
+    return paymentDate1;
+  }
+
+  public void setPaymentDate1(LocalDate paymentDate1) {
+    this.paymentDate1 = paymentDate1;
+  }
+
+  public double getAmount() {
+    return amount;
+  }
+
+  public void setAmount(double amount) {
+    this.amount = amount;
+  }
+
+  public LocalDate getPaymentDate2() {
+    return paymentDate2;
+  }
+
+  public void setPaymentDate2(LocalDate paymentDate2) {
+    this.paymentDate2 = paymentDate2;
   }
 
 

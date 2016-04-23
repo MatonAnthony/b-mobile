@@ -30,3 +30,7 @@ main{
     display: block;
     margin-top: 0;
 }
+
+#list{
+	margin-top: 50px;
+}

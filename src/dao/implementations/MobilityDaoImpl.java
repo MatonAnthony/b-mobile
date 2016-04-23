@@ -26,7 +26,8 @@ public class MobilityDaoImpl implements MobilityDao {
           + " depart_doc_sent_highschool, software_proeco, software_mobility_tools,"
           + " software_mobi, return_residence_cert, return_transcript, return_internship_cert,"
           + " return_final_report, return_erasmus_language_test, return_doc_sent_highschool, "
-          + "cancelation_reason, academic_year, ver_nr " + "FROM bmobile.mobilities";
+          + "cancelation_reason, academic_year, ver_nr, amount, first_payment_date, second_payment_date "
+          + "FROM bmobile.mobilities";
 
   // query for select mobilities full
   private String queryFull =
@@ -38,7 +39,7 @@ public class MobilityDaoImpl implements MobilityDao {
           + " m.software_mobility_tools, m.software_mobi, m.return_residence_cert, "
           + "m.return_transcript, m.return_internship_cert, m.return_final_report, "
           + "m.return_erasmus_language_test, m.return_doc_sent_highschool, m.cancelation_reason, "
-          + "m.academic_year, m.ver_nr, "
+          + "m.academic_year, m.ver_nr, amount, first_payment_date, second_payment_date,  "
 
           + "u.id, u.id_department, u.pseudo, u.name, u.firstname, u.email, u.registration_date,"
           + " u.permissions, u.birth_date, u.street, u.house_number, u.mailbox, u.zip, u.city, "
@@ -259,6 +260,15 @@ public class MobilityDaoImpl implements MobilityDao {
     mobilitydto.setCancelationReason(resultSet.getInt(27));
     mobilitydto.setAcademicYear(resultSet.getString(28));
     mobilitydto.setVerNr(resultSet.getInt(29));
+    mobilitydto.setAmount(resultSet.getDouble(30));
+    Timestamp paymentDate1 = resultSet.getTimestamp(31);
+    if (null != paymentDate1) {
+      mobilitydto.setPaymentDate1(paymentDate1.toLocalDateTime().toLocalDate());
+    }
+    Timestamp paymentDate2 = resultSet.getTimestamp(32);
+    if (null != paymentDate2) {
+      mobilitydto.setPaymentDate2(paymentDate2.toLocalDateTime().toLocalDate());
+    }
     return mobilitydto;
   }
 
@@ -266,82 +276,82 @@ public class MobilityDaoImpl implements MobilityDao {
 
     MobilityDto mobilitydto = fillDto(resultSet);
     mobilitydto.setStudentDto(factory.getUserDto());
-    mobilitydto.getStudentDto().setId(resultSet.getInt(30));
-    mobilitydto.getStudentDto().setIdDepartment(resultSet.getInt(31));
-    mobilitydto.getStudentDto().setPseudo(resultSet.getString(32));
+    mobilitydto.getStudentDto().setId(resultSet.getInt(33));
+    mobilitydto.getStudentDto().setIdDepartment(resultSet.getInt(34));
+    mobilitydto.getStudentDto().setPseudo(resultSet.getString(35));
     // mobilitydto.getStudentDto().setPassword(resultSet.getString(33));
-    mobilitydto.getStudentDto().setName(resultSet.getString(33));
-    mobilitydto.getStudentDto().setFirstname(resultSet.getString(34));
-    mobilitydto.getStudentDto().setEmail(resultSet.getString(35));
+    mobilitydto.getStudentDto().setName(resultSet.getString(36));
+    mobilitydto.getStudentDto().setFirstname(resultSet.getString(37));
+    mobilitydto.getStudentDto().setEmail(resultSet.getString(38));
 
-    Timestamp registrationDate = resultSet.getTimestamp(36);
+    Timestamp registrationDate = resultSet.getTimestamp(39);
     if (null != registrationDate) {
       mobilitydto.getStudentDto()
           .setRegistrationDate(registrationDate.toLocalDateTime().toLocalDate());
     }
-    mobilitydto.getStudentDto().setPermissions(resultSet.getString(37));
-    Timestamp birthdate = resultSet.getTimestamp(38);
+    mobilitydto.getStudentDto().setPermissions(resultSet.getString(40));
+    Timestamp birthdate = resultSet.getTimestamp(41);
     if (null != birthdate) {
       mobilitydto.getStudentDto().setBirthDate(birthdate.toLocalDateTime().toLocalDate());
     }
-    mobilitydto.getStudentDto().setStreet(resultSet.getString(39));
-    mobilitydto.getStudentDto().setHouseNumber(resultSet.getString(40));
-    mobilitydto.getStudentDto().setMailBox(resultSet.getString(41));
-    mobilitydto.getStudentDto().setZip(resultSet.getString(42));
-    mobilitydto.getStudentDto().setCity(resultSet.getString(43));
-    mobilitydto.getStudentDto().setCountry(resultSet.getString(44));
-    mobilitydto.getStudentDto().setTel(resultSet.getString(45));
-    mobilitydto.getStudentDto().setGender(resultSet.getString(46));
-    mobilitydto.getStudentDto().setSuccessfullYearInCollege(resultSet.getInt(47));
-    mobilitydto.getStudentDto().setIban(resultSet.getString(48));
-    mobilitydto.getStudentDto().setBic(resultSet.getString(49));
-    mobilitydto.getStudentDto().setAccountHolder(resultSet.getString(50));
-    mobilitydto.getStudentDto().setBankName(resultSet.getString(51));
-    mobilitydto.getStudentDto().setVerNr(resultSet.getInt(52));
+    mobilitydto.getStudentDto().setStreet(resultSet.getString(42));
+    mobilitydto.getStudentDto().setHouseNumber(resultSet.getString(43));
+    mobilitydto.getStudentDto().setMailBox(resultSet.getString(44));
+    mobilitydto.getStudentDto().setZip(resultSet.getString(45));
+    mobilitydto.getStudentDto().setCity(resultSet.getString(46));
+    mobilitydto.getStudentDto().setCountry(resultSet.getString(47));
+    mobilitydto.getStudentDto().setTel(resultSet.getString(48));
+    mobilitydto.getStudentDto().setGender(resultSet.getString(49));
+    mobilitydto.getStudentDto().setSuccessfullYearInCollege(resultSet.getInt(50));
+    mobilitydto.getStudentDto().setIban(resultSet.getString(51));
+    mobilitydto.getStudentDto().setBic(resultSet.getString(52));
+    mobilitydto.getStudentDto().setAccountHolder(resultSet.getString(53));
+    mobilitydto.getStudentDto().setBankName(resultSet.getString(54));
+    mobilitydto.getStudentDto().setVerNr(resultSet.getInt(55));
 
     mobilitydto.setProgramDto(factory.getProgramDto());
-    mobilitydto.getProgramDto().setId(resultSet.getInt(53));
-    mobilitydto.getProgramDto().setName(resultSet.getString(54));
-    mobilitydto.getProgramDto().setDescription(resultSet.getString(55));
-    mobilitydto.getProgramDto().setVerNr(resultSet.getInt(56));
+    mobilitydto.getProgramDto().setId(resultSet.getInt(56));
+    mobilitydto.getProgramDto().setName(resultSet.getString(57));
+    mobilitydto.getProgramDto().setDescription(resultSet.getString(58));
+    mobilitydto.getProgramDto().setVerNr(resultSet.getInt(59));
 
     mobilitydto.setPartnerDto(factory.getPartnerDto());
-    mobilitydto.getPartnerDto().setId(resultSet.getInt(57));
-    mobilitydto.getPartnerDto().setIdUser(resultSet.getInt(58));
-    mobilitydto.getPartnerDto().setLegalName(resultSet.getString(59));
-    mobilitydto.getPartnerDto().setBusiness(resultSet.getString(60));
-    mobilitydto.getPartnerDto().setFullName(resultSet.getString(61));
-    mobilitydto.getPartnerDto().setDepartment(resultSet.getString(62));
-    mobilitydto.getPartnerDto().setType(resultSet.getString(63));
-    mobilitydto.getPartnerDto().setNbEmployees(resultSet.getInt(64));
-    mobilitydto.getPartnerDto().setStreet(resultSet.getString(65));
-    mobilitydto.getPartnerDto().setNumber(resultSet.getString(66));
-    mobilitydto.getPartnerDto().setMailbox(resultSet.getString(67));
-    mobilitydto.getPartnerDto().setZip(resultSet.getString(68));
-    mobilitydto.getPartnerDto().setCity(resultSet.getString(69));
-    mobilitydto.getPartnerDto().setState(resultSet.getString(70));
-    mobilitydto.getPartnerDto().setCountry(resultSet.getString(71));
-    mobilitydto.getPartnerDto().setEmail(resultSet.getString(72));
-    mobilitydto.getPartnerDto().setWebsite(resultSet.getString(73));
-    mobilitydto.getPartnerDto().setExists(resultSet.getBoolean(74));
-    mobilitydto.getPartnerDto().setVerNr(resultSet.getInt(75));
+    mobilitydto.getPartnerDto().setId(resultSet.getInt(60));
+    mobilitydto.getPartnerDto().setIdUser(resultSet.getInt(61));
+    mobilitydto.getPartnerDto().setLegalName(resultSet.getString(62));
+    mobilitydto.getPartnerDto().setBusiness(resultSet.getString(63));
+    mobilitydto.getPartnerDto().setFullName(resultSet.getString(64));
+    mobilitydto.getPartnerDto().setDepartment(resultSet.getString(65));
+    mobilitydto.getPartnerDto().setType(resultSet.getString(66));
+    mobilitydto.getPartnerDto().setNbEmployees(resultSet.getInt(67));
+    mobilitydto.getPartnerDto().setStreet(resultSet.getString(68));
+    mobilitydto.getPartnerDto().setNumber(resultSet.getString(69));
+    mobilitydto.getPartnerDto().setMailbox(resultSet.getString(70));
+    mobilitydto.getPartnerDto().setZip(resultSet.getString(71));
+    mobilitydto.getPartnerDto().setCity(resultSet.getString(72));
+    mobilitydto.getPartnerDto().setState(resultSet.getString(73));
+    mobilitydto.getPartnerDto().setCountry(resultSet.getString(74));
+    mobilitydto.getPartnerDto().setEmail(resultSet.getString(75));
+    mobilitydto.getPartnerDto().setWebsite(resultSet.getString(76));
+    mobilitydto.getPartnerDto().setExists(resultSet.getBoolean(77));
+    mobilitydto.getPartnerDto().setVerNr(resultSet.getInt(78));
 
     mobilitydto.setCountryDto(factory.getCountryDto());
-    mobilitydto.getCountryDto().setIso(resultSet.getString(76));
-    mobilitydto.getCountryDto().setNameEn(resultSet.getString(77));
-    mobilitydto.getCountryDto().setNameFr(resultSet.getString(78));
-    mobilitydto.getCountryDto().setIdProgram(resultSet.getInt(79));
+    mobilitydto.getCountryDto().setIso(resultSet.getString(79));
+    mobilitydto.getCountryDto().setNameEn(resultSet.getString(80));
+    mobilitydto.getCountryDto().setNameFr(resultSet.getString(81));
+    mobilitydto.getCountryDto().setIdProgram(resultSet.getInt(82));
 
     mobilitydto.setDepartementDto(factory.getDepartmentDto());
-    mobilitydto.getDepartementDto().setId(resultSet.getString(80));
-    mobilitydto.getDepartementDto().setLabel(resultSet.getString(81));
-    mobilitydto.getDepartementDto().setVerNr(resultSet.getInt(82));
+    mobilitydto.getDepartementDto().setId(resultSet.getString(83));
+    mobilitydto.getDepartementDto().setLabel(resultSet.getString(84));
+    mobilitydto.getDepartementDto().setVerNr(resultSet.getInt(85));
 
     mobilitydto.setCancelationDto(factory.getCancelationDto());
-    mobilitydto.getCancelationDto().setId(resultSet.getInt(83));
-    mobilitydto.getCancelationDto().setReason(resultSet.getString(84));
-    mobilitydto.getCancelationDto().setResponsible(resultSet.getString(85));
-    mobilitydto.getCancelationDto().setVerNr(resultSet.getInt(86));
+    mobilitydto.getCancelationDto().setId(resultSet.getInt(86));
+    mobilitydto.getCancelationDto().setReason(resultSet.getString(87));
+    mobilitydto.getCancelationDto().setResponsible(resultSet.getString(88));
+    mobilitydto.getCancelationDto().setVerNr(resultSet.getInt(89));
 
     return mobilitydto;
   }
