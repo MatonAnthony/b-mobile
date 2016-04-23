@@ -198,6 +198,9 @@ public class Servlet extends HttpServlet {
         case "loadCancelationsReasons":
           loadCancelationReasons(req, resp);
           break;
+        case "selectPartnersForConfirm":
+          selectPartnersForConfirm(req, resp);
+          break;
         default:
           resp.setStatus(HttpStatus.BAD_REQUEST_400);
       }
@@ -206,8 +209,6 @@ public class Servlet extends HttpServlet {
     }
 
   }
-
-
 
   private void selectAddMobilityInformations(HttpServletRequest req, HttpServletResponse resp)
       throws SQLException, NoDepartmentException, IOException, NotEnoughPermissionsException {
@@ -402,6 +403,25 @@ public class Servlet extends HttpServlet {
       jsonMobilities = basicGenson.serialize(mobilities);
       resp.getWriter().println(jsonMobilities);
     }
+    resp.setStatus(HttpStatus.ACCEPTED_202);
+
+
+  } private void selectPartnersForConfirm(HttpServletRequest req, HttpServletResponse resp)
+      throws IOException, SQLException, NotEnoughPermissionsException {
+
+    if (!req.getSession().getAttribute(KEY_PERMISSIONS).equals("STUDENT")) {
+      throw new NotEnoughPermissionsException(
+          "Vous n'avez pas les droits nécessaires pour faire cela");
+    }
+
+    ArrayList<PartnerDto> partners = partnerUcc
+        .getPartnerMin(Integer.parseInt("" + req.getSession().getAttribute(KEY_ID)));
+    String jsonPartners = null;
+    if (partners.size() != 0) {
+      jsonPartners = basicGenson.serialize(partners);
+      resp.getWriter().println(jsonPartners);
+    }
+
     resp.setStatus(HttpStatus.ACCEPTED_202);
   }
 
@@ -642,7 +662,7 @@ public class Servlet extends HttpServlet {
 
   /**
    * The method used by the servlet to load the cancelationsReasons.
-   * 
+   *
    * @param req The request received by the server.
    * @param resp The response sended by the server.
    * @throws IOException IOException If there is an error to write the response.

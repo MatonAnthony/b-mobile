@@ -7,7 +7,9 @@ import dto.PartnerDto;
 import exceptions.UnknowErrorException;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class PartnerDaoImpl implements PartnerDao {
 
@@ -19,11 +21,7 @@ public class PartnerDaoImpl implements PartnerDao {
     this.factory = bizzFactory;
   }
 
-  /**
-   * Add partner to DB.
-   *
-   * @param partner DTO partner
-   */
+  @Override
   public void createPartner(PartnerDto partner) {
     String query = "INSERT INTO bmobile.partners VALUES "
         + "(DEFAULT,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,NULL,0)";
@@ -50,8 +48,34 @@ public class PartnerDaoImpl implements PartnerDao {
       dalBackendServices.executeUpdate(preparedStatement);
     } catch (SQLException exc) {
       exc.printStackTrace();
-      throw new UnknowErrorException(
-          "Une erreur inconnue s'est produite lors de la création du partenaire.");
+      throw new UnknowErrorException("Une erreur inconnue s'est produite lors de la création du partenaire.");
     }
   }
+
+  @Override
+  public ArrayList<PartnerDto> getPartnersMin(int userId) {
+    String query =
+        "SELECT p.id, p.legal_name FROM bmobile.partners p WHERE p.id_user = ?";
+    PreparedStatement preparedStatement = null;
+    ArrayList<PartnerDto> partners = null;
+    try {
+      preparedStatement = dalBackendServices.prepare(query);
+      preparedStatement.setInt(1, userId);
+      partners = new ArrayList<PartnerDto>();
+      ResultSet resultSet = dalBackendServices.executeQuery(preparedStatement);
+
+      while (resultSet.next()){
+        PartnerDto partnerDto = factory.getPartnerDto();
+        partnerDto.setId(resultSet.getInt(1));
+        partnerDto.setLegalName(resultSet.getString(2));
+        partners.add(partnerDto);
+      }
+    } catch (SQLException exc) {
+      exc.printStackTrace();
+    }
+
+    return partners;
+  }
+
+
 }

@@ -6,6 +6,7 @@ import dto.PartnerDto;
 import ucc.interfaces.PartnerUcController;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class PartnerUcControllerImpl implements PartnerUcController {
 
@@ -26,7 +27,7 @@ public class PartnerUcControllerImpl implements PartnerUcController {
   }
 
   @Override
-  public void addPartner(PartnerDto partner) {
+  public void addPartner(PartnerDto partner) throws SQLException{
     // TODO (Kamil) Throw les exceptions custom a la place de les catch
     try {
       dalServices.openConnection();
@@ -43,5 +44,14 @@ public class PartnerUcControllerImpl implements PartnerUcController {
         exc2.printStackTrace();
       }
     }
+  }
+
+  @Override
+  public ArrayList<PartnerDto> getPartnerMin(int userId) throws SQLException {
+    dalServices.openConnection();
+    ArrayList<PartnerDto> partners = partnerDao.getPartnersMin(userId);
+    dalServices.closeConnection();
+
+    return partners;
   }
 }

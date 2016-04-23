@@ -1091,6 +1091,7 @@ $(function () {
 						$("#myMobility").after("<p id=\"empty\" class=\"text-center\"><strong> Vous n'avez aucune mobilité actuellement. </strong></p>");
 					}else{
 						resp = JSON.parse(resp);
+                        console.log(resp);
 						for (key in resp) {
 							
 							$("#myMobility tbody").append(
@@ -1113,7 +1114,7 @@ $(function () {
 								$(this).parent().addClass("danger");
 							}
 							if ($(this).html() === "En attente"&& $(this).parent().attr("value") === undefined) {
-								$(this).next().next().append("<button class=\"btnConfirm btn btn-info\">Confirmer</button>");
+								$(this).next().next().append("<button type=\"button\" class=\"btn btn-info\" id=\"btnConfirm\" data-toggle=\"modal\" data-target=\"#modalConfirmMobility\">Confirmer</button>");
 							}
 						});
 					
@@ -1130,8 +1131,8 @@ $(function () {
 			var id = $(this).parent().attr("value");
 			loadCancelMobility(id);
 		});
-		$("#myMobility").on("click", ".btnConfirm", function () {
-			var id = $(this).parent().attr("id");
+		$("#myMobility").on("click", "#btnConfirm", function () {
+            var id = $(this).parent().attr("id");
 			loadConfirmMobility(id);
 		});
 	}
@@ -1179,8 +1180,31 @@ $(function () {
 	}
 	
 	function loadConfirmMobility(id){
-		//TODO(Jonathan pour Kamil)
-		
+        $(function () {
+            $.ajax({
+                method: "POST",
+                url: "/home",
+                data: {
+                    action: "selectPartnersForConfirm",
+                },
+                success: function (resp) {
+                    $("#modalConfirmMobility section").empty();
+                    resp = JSON.parse(resp);
+                    for (key in resp) {
+                        $("#modalConfirmMobility section").append(
+                        "<p>" + resp[key]['legalName'] + "</p>");
+
+                    }
+                },
+                error: function (error) {
+                    error = JSON.parse(error.responseText);
+                    printToaster(error.type, error.message);
+                    console.log("err");
+                }
+            });
+        });
+
+
 	}
 	
 	function loadDetailsMobility(id){
