@@ -499,16 +499,16 @@ public interface MobilityDto {
   public void setCancelationDto(CancelationDto cancelationDto);
 
   /**
-   * Gets the first payment date
+   * Gets the first payment date.
    *
-   * @return the first payment date
+   * @return the first payment date.
    */
   public LocalDate getPaymentDate1();
 
   /**
-   * Sets the first payment date
+   * Sets the first payment date.
    *
-   * @param the first payment date
+   * @param paymentDate1 the first payment date.
    */
   public void setPaymentDate1(LocalDate paymentDate1);
 
@@ -522,21 +522,21 @@ public interface MobilityDto {
   /**
    * Sets the amount of the payment.
    *
-   * @param the amount of the payment.
+   * @param amount the amount of the payment.
    */
   public void setAmount(double amount);
 
   /**
-   * Gets the second payment date
+   * Gets the second payment date.
    *
-   * @return the second payment date
+   * @return the second payment date.
    */
   public LocalDate getPaymentDate2();
 
   /**
-   * Sets the second payment date
+   * Sets the second payment date.
    *
-   * @param the second payment date
+   * @param paymentDate2 the second payment date.
    */
   public void setPaymentDate2(LocalDate paymentDate2);
 

@@ -831,10 +831,16 @@ $(function () {
 	            }
 	        });
 	    });
-		$("#list").on("click", ".btnCancel", function () {
+		$("#list").on("click", "tr", function (){
+			var id = $(this).attr("value");
+			loadDetailsMobility(id);
+		});
+		$("#list").on("click", ".btnCancel", function (e) {
+			e.stopPropagation();
 			var id = $(this).parent().attr("value");
 			loadCancelMobility();
 		});
+		
 	}
 
 	// Managing of filter buttons
@@ -1045,8 +1051,7 @@ $(function () {
 								"<td>" + resp[key]['countryDto']['nameFr'] + "</td>" +
 								"<td>" + resp[key]['studentDto']['name'] + "</td>" +
 								"<td>" + resp[key]['studentDto']['firstname'] + "</td>" +
-								"<td>" + resp[key]['status'] + "</td>"+
-								"<td></td>"
+								"<td>" + resp[key]['status'] + "</td>"
 								+ "</tr>");
 
 						}
@@ -1064,7 +1069,7 @@ $(function () {
 	            }
 	        });
 	    });
-		$("#tablePayments").on("click", "tr", function (){
+		$("#tableConfirmed").on("click", "tr", function (){
 			var id = $(this).attr("value");
 			loadDetailsMobility(id);
 		});
@@ -1142,6 +1147,35 @@ $(function () {
 		$(".page").css("display", "none");
 		$("#cancelMobilityPage").css("display","block");
 		oldNavBar.css("display","block");
+		
+		$(function (){
+			$.ajax({
+				method: "POST",
+				url: "/home",
+				data: {
+					action: "loadCancelationsReasons"
+				},
+				success: function (resp) {
+					resp = JSON.parse(resp);
+					$('#listReasons').empty();
+					for(var i= 0; i < resp.length; i++){
+						var option;
+						if (i===0){
+							option = $('<option selected="selected">');
+						}else{
+							option = $('<option>');
+						}
+						$(option).val(resp[i]['reason']).text(resp[i]['reason']);
+						$('#listReasons').append(option);
+					}
+					$('#listReasons').trigger("change");
+				},
+				error: function (error) {
+					error = JSON.parse(error.responseText);
+					printToaster(error.type, error.message);
+				}
+			});
+		});
 	}
 	
 	function loadConfirmMobility(id){

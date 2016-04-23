@@ -782,6 +782,7 @@ public class Servlet extends HttpServlet {
         resp.setStatus(HttpStatus.EXPECTATION_FAILED_417);
         map.put("type", "warning");
         map.put("message", exception.getMessage());
+        break;
       default:
         resp.setStatus(HttpStatus.PARTIAL_CONTENT_206);
         map.put("type", "info");
