@@ -7,7 +7,6 @@ $(function () {
 			action: "authenticate"
 		},
 		success: function (resp) {
-			resp = JSON.parse(resp);
             changePage();
         },
         error: function (error) {
@@ -35,6 +34,7 @@ $(function () {
     
     function changePage() {
         var state = history.state;
+
         if (null === state){
             //disconnect();
             return true;
@@ -480,46 +480,46 @@ $(function () {
 
     //navBar
     $(".navButton").click(function () {
-    	var isFirefox = typeof InstallTrigger !== 'undefined';
 
         switch ($(this).attr("href")) {
             case "#myMobility":
-            	if(isFirefox) authStudent();
+                  authStudent();  
                 history.pushState({page: "myMobility"}, "Mes mobilités", "/home#myMobility");
                 break;
             case "#confirmedMobility":
-                if(isFirefox)  authTeacher();
+                authTeacher();
                 history.pushState({page: "confirmedMobility"}, "Mobilites Confirmées", "/home#confirmedMobility");
                 break;
             case "#addMobility" :
-                if(isFirefox) loadAddMobility();
-                history.pushState({page: "addMobility"}, "Ajouter une mobilité", "/home#addMobility");
+                loadAddMobility();
+                history.pushState({page:"addMobility"}, "Ajouter une mobilité", "/home#addMobility");
                 break;
             case "#disconnect" :
-                if(isFirefox) disconnect();
+                disconnect();  
                 history.pushState({page: "index"}, "Page d'accueil", "/home#disconnect");
                 break;
             case "#list":
-                if(isFirefox) loadList();
+                loadList();
                 history.pushState({page: "list"}, "Liste des demandes", "/home#list");
                 break;
             case "#userList":
-                if(isFirefox) loadUserList();
+                loadUserList();
                 history.pushState({page: "userList"}, "Liste des utilisateurs", "/home#userList");
                 break;
             case "#addPartner":
-                if(isFirefox) loadAddPartner();
+                loadAddPartner();
                 history.pushState({page: "addPartner"}, "Ajouter un partenaire", "/home#addPartner");
                 break;
             case "#myInformations":
-                if(isFirefox) loadProfilePage();
+                loadProfilePage();
                 history.pushState({page: "myInformations"}, "Modifier mes informations", "/home#myInformations");
                 break;
 			case "#payment" :
-				if(isFirefox) loadPaymentPage();
+                loadPaymentPage();
 				history.pushState({page: "payment"}, "Liste des paiements", "/home#payment");
 				break;
         }
+        return false;
     });
 
     //Chargement des pages.

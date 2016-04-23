@@ -272,7 +272,7 @@ public class Servlet extends HttpServlet {
     userEdited.setGender(req.getParameter("gender"));
     try {
       userEdited.setBirthDate(LocalDate.parse(req.getParameter("birthdate")));
-    }catch(IllegalArgumentException exc){
+    } catch (IllegalArgumentException exc) {
       createToaster(exc, resp);
     }
     userEdited.setCitizenship(req.getParameter("citizenship"));
@@ -437,9 +437,8 @@ public class Servlet extends HttpServlet {
 
   }
 
-  private void register(HttpServletRequest req, HttpServletResponse resp)
-      throws IOException, AuthenticationException, UserAlreadyExistsException,
-      NotEnoughPermissionsException {
+  private void register(HttpServletRequest req, HttpServletResponse resp) throws IOException,
+      AuthenticationException, UserAlreadyExistsException, NotEnoughPermissionsException {
 
     if (req.getSession().getAttribute(KEY_PERMISSIONS) != null) {
       throw new NotEnoughPermissionsException(
@@ -491,8 +490,8 @@ public class Servlet extends HttpServlet {
 
   }
 
-  private void login(HttpServletRequest req, HttpServletResponse resp) throws IOException,
-      SQLException, AuthenticationException, NotEnoughPermissionsException {
+  private void login(HttpServletRequest req, HttpServletResponse resp)
+      throws IOException, SQLException, AuthenticationException, NotEnoughPermissionsException {
 
     if (req.getSession().getAttribute(KEY_PERMISSIONS) != null) {
       throw new NotEnoughPermissionsException("Vous êtes déjà connecté");
