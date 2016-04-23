@@ -22,23 +22,11 @@ $(function () {
             var name = document.getElementById("profile_name")
             if(name.validity.patternMismatch){
                 console.log("event fired");
-                printToaster("info", "Le prénom doit uniquement contenir des lettres et des tirets");
+                printToaster("info", "Le nom peut uniquement contenir des lettres et des tirets");
             }else{
                 $("#profile_name").removeClass(":invalid");
             }
         });
-
-        $("#profile_firstname").change(function(){
-            var name = document.getElementById("profile_firstname")
-            if(name.validity.patternMismatch){
-                console.log("event fired");
-                printToaster("info", "Le nom doit uniquement contenir des lettres et des tirets");
-            }else{
-                $("#profile_name").removeClass(":invalid");
-            }
-        });
-
-        // TODO Finish pattern validation for "Modify profile" UC
     };
     
     window.onpopstate = function (event) {
@@ -206,7 +194,7 @@ $(function () {
                 idUser: idUser
             },
             success: function (resp) {
-                printToaster("success", "Infos modifiées");
+                printToaster("success", "Vos informations ont bien été modifiées.");
             },
             error: function (error) {
                 error = JSON.parse(error.responseText);
@@ -283,7 +271,7 @@ $(function () {
                     year: $("#selectAccademicYear" + i).val()
                 },
                 success: function (resp) {
-                    printToaster("success", "Demande de mobilité bien ajoutée");
+                    printToaster("success", "La/Les demande(s) ont bien été ajoutée(s).");
                 },
                 error: function (error) {
                 	error = JSON.parse(error.responseText);
@@ -371,10 +359,11 @@ $(function () {
                 $("#tdPermissions" + id).html("TEACHER");
                 $("#tdButtonNommer" + id).html("");
                 $("#tdButtonGererInfos" + id).html("");
+				printToaster("success","L'utilisateur a bien été promu.");
             },
             error: function (error) {
                 error = JSON.parse(error.responseText);
-					printToaster(error.type, error.message);
+				printToaster(error.type, error.message);
             }
         });
         return true;
@@ -477,7 +466,7 @@ $(function () {
 
             },
             success: function (resp) {
-                printToaster("success", "Partenaire bien ajouté dans la DB");
+                printToaster("success", "Le partenaire a bien été ajouté.");
             },
             error: function (error) {
                 error = JSON.parse(error.responseText);
@@ -642,7 +631,7 @@ $(function () {
                             + "<td>" + resp[key]['name'] + "</td>"
                             + "<td>" + resp[key]['firstname'] + "</td>"
                             + '<td id="tdPermissions' + resp[key]['id'] + '">' + resp[key]['permissions'] + '</td>'
-                            + '<td id="tdNominate' + resp[key]['id'] + '"><button value="' + resp[key]['id'] + '" class="btnNommer btn btn-info">Nommer</button></td>'
+                            + '<td id="tdButtonNommer' + resp[key]['id'] + '"><button value="' + resp[key]['id'] + '" class="btnNommer btn btn-info">Nommer</button></td>'
                             + '<td id="tdButtonGererInfos' + resp[key]['id'] + '"><button value="' + resp[key]['id'] + '" class="btnGererInfos btn btn-info">Gérer les informations</button></td>'
                             + "</tr>";
                     } else {
