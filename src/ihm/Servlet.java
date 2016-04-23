@@ -1,6 +1,7 @@
 package ihm;
 
 import bizz.interfaces.BizzFactory;
+import dto.CancelationDto;
 import dto.CountryDto;
 import dto.DepartmentDto;
 import dto.MobilityDto;
@@ -194,6 +195,9 @@ public class Servlet extends HttpServlet {
         case "selectUserInformationsById":
           selectProfile(req, resp, Integer.parseInt("" + req.getParameter("id")));
           break;
+        case "loadCancelationsReasons":
+          loadCancelationReasons(req, resp);
+          break;
         default:
           resp.setStatus(HttpStatus.BAD_REQUEST_400);
       }
@@ -202,6 +206,8 @@ public class Servlet extends HttpServlet {
     }
 
   }
+
+
 
   private void selectAddMobilityInformations(HttpServletRequest req, HttpServletResponse resp)
       throws SQLException, NoDepartmentException, IOException, NotEnoughPermissionsException {
@@ -629,6 +635,27 @@ public class Servlet extends HttpServlet {
       resp.setStatus(HttpStatus.ACCEPTED_202);
     } else {
       jsonMobilities = basicGenson.serialize(mobilities);
+    }
+    resp.getWriter().println(jsonMobilities);
+    resp.setStatus(HttpStatus.ACCEPTED_202);
+  }
+
+  /**
+   * The method used by the servlet to load the cancelationsReasons.
+   * 
+   * @param req The request received by the server.
+   * @param resp The response sended by the server.
+   * @throws IOException IOException If there is an error to write the response.
+   * @throws SQLException If there is an error with the database.
+   */
+  private void loadCancelationReasons(HttpServletRequest req, HttpServletResponse resp)
+      throws IOException, SQLException {
+    ArrayList<CancelationDto> cancelations = cancelationUcc.getCancelationsReasons();
+    String jsonMobilities = null;
+    if (cancelations.size() == 0) {
+      resp.setStatus(HttpStatus.ACCEPTED_202);
+    } else {
+      jsonMobilities = basicGenson.serialize(cancelations);
     }
     resp.getWriter().println(jsonMobilities);
     resp.setStatus(HttpStatus.ACCEPTED_202);

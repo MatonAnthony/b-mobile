@@ -2,7 +2,11 @@ package ucc.implementations;
 
 import dal.DalServices;
 import dao.interfaces.CancelationDao;
+import dto.CancelationDto;
 import ucc.interfaces.CancelationUcController;
+
+import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class CancelationUcControllerImpl implements CancelationUcController {
 
@@ -20,6 +24,14 @@ public class CancelationUcControllerImpl implements CancelationUcController {
     this.cancelationDao = cancelationDao;
     this.dalServices = dalServices;
 
+  }
+
+  @Override
+  public ArrayList<CancelationDto> getCancelationsReasons() throws SQLException {
+    dalServices.openConnection();
+    ArrayList<CancelationDto> cancelations = cancelationDao.getAllReasonsOfTeacher();
+    dalServices.closeConnection();
+    return cancelations;
   }
 
 }
