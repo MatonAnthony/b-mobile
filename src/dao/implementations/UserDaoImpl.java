@@ -12,6 +12,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
 
@@ -36,7 +38,7 @@ public class UserDaoImpl implements UserDao {
   @Override
   public void createUser(UserDto userdto) {
     // TODO(fany) values en fonction de la db
-    String query = "INSERT INTO bmobile.users VALUES (DEFAULT,NULL,?,?,?,?,?,NULL,?,NULL,NULL,NULL"
+    String query = "INSERT INTO bmobile.users VALUES (DEFAULT,NULL,?,?,?,?,?,?,?,NULL,NULL,NULL"
         + ",NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0)";
     PreparedStatement preparedStatement = null;
     try {
@@ -46,6 +48,7 @@ public class UserDaoImpl implements UserDao {
       preparedStatement.setString(3, userdto.getName());
       preparedStatement.setString(4, userdto.getFirstname());
       preparedStatement.setString(5, userdto.getEmail());
+      preparedStatement.setTimestamp(6, Timestamp.valueOf(LocalDateTime.now()));
       preparedStatement.setString(6, userdto.getPermissions());
 
       dalBackendServices.executeUpdate(preparedStatement);
