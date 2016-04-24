@@ -15,7 +15,7 @@ public class MobilityUcControllerImpl implements MobilityUcController {
 
   /**
    * Create a new Use Case Controller for mobilities.
-   * 
+   *
    * @param dalServices The dalServices used by the Use case controller.
    * @param mobilityDao The dao used by the Use case controller.
    */
@@ -94,6 +94,14 @@ public class MobilityUcControllerImpl implements MobilityUcController {
     ArrayList<MobilityDto> payments = mobilityDao.getFullPayments(academicYear);
     dalServices.closeConnection();
     return payments;
+  }
+
+  @Override
+  public MobilityDto getMobilityById(int id) throws SQLException {
+    dalServices.openConnection();
+    MobilityDto mobility = mobilityDao.getMobilityById(id);
+    dalServices.closeConnection();
+    return mobility;
   }
 
 }

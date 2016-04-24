@@ -8,22 +8,19 @@ $(function () {
 		},
 		success: function (resp) {
 			resp = JSON.parse(resp);
-            if(null != history.state){
-            	changePage();
-            }else if(resp['permissions'] === "STUDENT"){
-                authStudent();
-            }else{
-                authTeacher();
-            }
+            changePage();
         },
         error: function (error) {
             console.log("Authentification echouée");
         }
     });
 
+    /*
+    TODO : Fix the code
     $("#logo").click(function(){
        document.location.href="home";
     });
+    */
 
     // HTML Based form validation :
     window.onload = function(){
@@ -1176,8 +1173,7 @@ $(function () {
 						$("#myMobility").after("<p id=\"empty\" class=\"text-center\"><strong> Vous n'avez aucune mobilité actuellement. </strong></p>");
 					}else{
 						resp = JSON.parse(resp);
-                        console.log(resp);
-						for (key in resp) {
+                        for (key in resp) {
 
 							$("#myMobility tbody").append(
 								"<tr>" +
@@ -1271,15 +1267,28 @@ $(function () {
                 url: "/home",
                 data: {
                     action: "selectPartnersForConfirm",
+                    idMobility: id,
                 },
                 success: function (resp) {
-                    $("#modalConfirmMobility section").empty();
                     resp = JSON.parse(resp);
-                    for (key in resp) {
-                        $("#modalConfirmMobility section").append(
-                        "<p>" + resp[key]['legalName'] + "</p>");
-
+                    console.log(resp);
+                    $("#confirmMobilityPartner select").empty();
+                    for (key in resp['partners']) {
+                        $("#confirmMobilityPartner select").append(
+                            "<option>" + resp['partners'][key]['legalName'] + "</option>"
+                        );
                     }
+
+                    $('#confirmMbolityInfo').empty();
+                    $('#confirmMbolityInfo').append(
+                        "<b>Département: </b>" + resp['mobility']['departmentDto']['label'] + "</br>" +
+                        "<b>Type: </b> " + resp['mobility']['programDto']['name'] +
+                        " <i>(" + resp['mobility']['type'] +")</i></br>" +
+                        "<b>Lieu: </b>" + resp['mobility']['countryDto']['nameFr'] + "</br>" +
+                        "<b>Quadrimestre: </b>" + resp['mobility']['quadrimester']
+
+                    );
+
                 },
                 error: function (error) {
                     error = JSON.parse(error.responseText);
@@ -1287,9 +1296,8 @@ $(function () {
                     console.log("err");
                 }
             });
+
         });
-
-
 	}
 
 	function loadDetailsMobility(id){

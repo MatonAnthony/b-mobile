@@ -17,7 +17,7 @@ public interface MobilityDao {
 
   /**
    * Return an ArrayList containing all the mobilities of one departements stored in database.
-   * 
+   *
    * @return an ArrayList of MobilityDto.
    */
 
@@ -32,9 +32,8 @@ public interface MobilityDao {
 
   /**
    * Return an ArrayList containing all the mobilities of one user stored in database.
-   * 
+   *
    * @param user Pseudo of user who want to see his mobilities
-   * 
    * @return an ArrayList of MobilityDto.
    */
 
@@ -42,17 +41,25 @@ public interface MobilityDao {
 
   /**
    * Return an ArrayList containing all the academic years stored in database.
-   * 
+   *
    * @return an ArrayList with the academic years.
    */
   ArrayList<String> getAllAcademicYears();
 
   /**
    * Return an ArrayList containing all the payments matching with the academicYear.
-   * 
+   *
    * @param academicYear the academicYear for the selection of the payment.
    * @return an ArrayList with the academic years.
    */
   ArrayList<MobilityDto> getFullPayments(String academicYear);
+
+  /**
+   * Return basic information of Mobility DTO based on an id.
+   *
+   * @param id Nr Id of mobility.
+   * @return Mobility DTO.
+   */
+  MobilityDto getMobilityById(int id);
 
 }

@@ -413,13 +413,20 @@ public class Servlet extends HttpServlet {
       throw new NotEnoughPermissionsException(
           "Vous n'avez pas les droits nécessaires pour faire cela");
     }
-
+    int idMobility = Integer.parseInt(0 + req.getParameter("idMobility"));
+    MobilityDto mobilityDto = mobilityUcc.getMobilityById(idMobility);
     ArrayList<PartnerDto> partners = partnerUcc
         .getPartnerMin(Integer.parseInt("" + req.getSession().getAttribute(KEY_ID)));
-    String jsonPartners = null;
-    if (partners.size() != 0) {
-      jsonPartners = basicGenson.serialize(partners);
-      resp.getWriter().println(jsonPartners);
+
+    HashMap<String, Object> hashMap = new HashMap<String, Object>();
+    hashMap.put("partners", partners);
+    hashMap.put("mobility", mobilityDto);
+
+    String json;
+
+    if (hashMap.size() != 0) {
+      json = basicGenson.serialize(hashMap);
+      resp.getWriter().println(json);
     }
 
     resp.setStatus(HttpStatus.ACCEPTED_202);

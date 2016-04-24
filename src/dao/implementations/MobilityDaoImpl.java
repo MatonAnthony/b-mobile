@@ -92,8 +92,7 @@ public class MobilityDaoImpl implements MobilityDao {
 
     } catch (SQLException exc) {
       exc.printStackTrace();
-      throw new UnknowErrorException(
-          "Une erreur inconnue s'est produite lors de la création de la mobilité.");
+      throw new UnknowErrorException("Une erreur inconnue s'est produite lors de la création de la mobilité.");
     }
 
   }
@@ -113,8 +112,7 @@ public class MobilityDaoImpl implements MobilityDao {
 
     } catch (SQLException exc) {
       exc.printStackTrace();
-      throw new UnknowErrorException(
-          "Une erreur inconnue s'est produite lors du chargement des mobilités.");
+      throw new UnknowErrorException("Une erreur inconnue s'est produite lors du chargement des mobilités.");
     }
   }
 
@@ -133,8 +131,7 @@ public class MobilityDaoImpl implements MobilityDao {
 
     } catch (SQLException exc) {
       exc.printStackTrace();
-      throw new UnknowErrorException(
-          "Une erreur inconnue s'est produite lors du chargement des mobilités (complètes).");
+      throw new UnknowErrorException("Une erreur inconnue s'est produite lors du chargement des mobilités (complètes).");
     }
   }
 
@@ -156,8 +153,7 @@ public class MobilityDaoImpl implements MobilityDao {
 
     } catch (SQLException exc) {
       exc.printStackTrace();
-      throw new UnknowErrorException(
-          "Une erreur inconnue s'est produite lors du chargement des mobilités confirmées.");
+      throw new UnknowErrorException("Une erreur inconnue s'est produite lors du chargement des mobilités confirmées.");
     }
 
   }
@@ -178,8 +174,7 @@ public class MobilityDaoImpl implements MobilityDao {
 
     } catch (SQLException exc) {
       exc.printStackTrace();
-      throw new UnknowErrorException(
-          "Une erreur inconnue s'est produite lors du chargement des mobilités de l'utilisateur (complètes).");
+      throw new UnknowErrorException("Une erreur inconnue s'est produite lors du chargement des mobilités de l'utilisateur (complètes).");
     }
   }
 
@@ -200,8 +195,7 @@ public class MobilityDaoImpl implements MobilityDao {
 
     } catch (SQLException exc) {
       exc.printStackTrace();
-      throw new UnknowErrorException(
-          "Une erreur inconnue s'est produite lors du chargement des années académiques.");
+      throw new UnknowErrorException("Une erreur inconnue s'est produite lors du chargement des années académiques.");
     }
   }
 
@@ -221,9 +215,28 @@ public class MobilityDaoImpl implements MobilityDao {
 
     } catch (SQLException exc) {
       exc.printStackTrace();
-      throw new UnknowErrorException(
-          "Une erreur inconnue s'est produite lors du chargement des paiements.");
+      throw new UnknowErrorException("Une erreur inconnue s'est produite lors du chargement des paiements.");
     }
+  }
+
+  @Override
+  public MobilityDto getMobilityById(int id) {
+    String queryById = queryFull + " AND m.id = ?";
+    PreparedStatement preparedStatement;
+    MobilityDto mobilityDto = null;
+    try {
+      preparedStatement = dalBackendServices.prepare(queryById);
+      preparedStatement.setInt(1, id);
+      ResultSet resultSet = dalBackendServices.executeQuery(preparedStatement);
+      while (resultSet.next()) {
+        mobilityDto = fillFullDto(resultSet);
+      }
+
+    } catch (SQLException exc) {
+      exc.printStackTrace();
+      throw new UnknowErrorException("Une erreur inconnue s'est produite lors du chargement des paiements.");
+    }
+    return mobilityDto;
   }
 
 
@@ -286,8 +299,7 @@ public class MobilityDaoImpl implements MobilityDao {
 
     Timestamp registrationDate = resultSet.getTimestamp(39);
     if (null != registrationDate) {
-      mobilitydto.getStudentDto()
-          .setRegistrationDate(registrationDate.toLocalDateTime().toLocalDate());
+      mobilitydto.getStudentDto().setRegistrationDate(registrationDate.toLocalDateTime().toLocalDate());
     }
     mobilitydto.getStudentDto().setPermissions(resultSet.getString(40));
     Timestamp birthdate = resultSet.getTimestamp(41);
