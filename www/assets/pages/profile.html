@@ -37,7 +37,7 @@
                     <div class="form-group">
                         <label class="col-sm-4 control-label">Nationalité :</label>
                         <div class="col-sm-5">
-                            <input class="form-control" name="citizenship" pattern="[A-zÀ-ÿ-]*"
+                            <input class="form-control" name="citizenship" pattern="[A-zÀ-ÿ- ]*"
                             id="profile_citizenship"/>
                         </div>
                     </div>
@@ -82,7 +82,8 @@
                     <div class="form-group">
                         <label class="col-sm-4 control-label">Téléphone :</label>
                         <div class="col-sm-5">
-                            <input type="tel" class="form-control" name="tel" id="profile_tel">
+                            <input type="tel" class="form-control" name="tel" id="profile_tel"
+                                   pattern="[0-9 ]*">
                         </div>
                     </div>
                     <div class="form-group">
@@ -95,7 +96,7 @@
                         <label class="col-sm-4 control-label">Nombre d'années d'études réussies dans l'enseignement supérieur
                             :</label>
                         <div class="col-sm-5">
-                            <input type="test" class="form-control"
+                            <input type="number" class="form-control"
                                 name="successfullYearsInCollege" id="profile_successfullYearsInCollege">
                         </div>
                     </div>
@@ -116,7 +117,7 @@
                     <div class="form-group">
                         <label class="col-sm-4 control-label">Nom de la banque :</label>
                         <div class="col-sm-5">
-                            <input class="form-control" name="bankName" pattern="[A-zÀ-ÿ- ]*"
+                            <input class="form-control" name="bankName" pattern="[A-zÀ-ÿ-. ]*"
                             id="profile_bankName">
                         </div>
                     </div>

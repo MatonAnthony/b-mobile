@@ -7,6 +7,7 @@ $(function () {
 			action: "authenticate"
 		},
 		success: function (resp) {
+			resp = JSON.parse(resp);
             changePage();
         },
         error: function (error) {
@@ -17,6 +18,7 @@ $(function () {
 
     // HTML Based form validation :
     window.onload = function(){
+        // Validation for "Edit profile"
         $("#profile_name").change(function(){
             var name = document.getElementById("profile_name")
             if(name.validity.patternMismatch){
@@ -24,6 +26,80 @@ $(function () {
                 printToaster("info", "Le nom peut uniquement contenir des lettres et des tirets");
             }else{
                 $("#profile_name").removeClass(":invalid");
+            }
+        });
+
+        $("#profile_firstname").change(function(){
+            var firstname = document.getElementById("profile_firstname")
+            if(firstname.validity.patternMismatch){
+                console.log("event fired");
+                printToaster("info", "Le nom doit uniquement contenir des lettres et des tirets");
+            }else{
+                $("#profile_name").removeClass(":invalid");
+            }
+        });
+
+        $("#profile_citizenship").change(function(){
+            var citizenship = document.getElementById("profile_citizenship");
+            if(citizenship.validity.patternMismatch){
+                printToaster("info", "La nationalité ne peut contenir que des lettres, tirets et espaces");
+            }
+        });
+
+        $("#profile_street").change(function(){
+            var street = document.getElementById("profile_street");
+            if(street.validity.patternMismatch){
+                printToaster("info", "La rue ne peut contenir que des lettres, tirets et espaces");
+            }
+        });
+
+        $("#profile_city").change(function(){
+            var city = document.getElementById("profile_city");
+            if(city.validity.patternMismatch){
+                printToaster("info", "La ville ne peut contenir que des lettres, tirets et espaces");
+            }
+        });
+
+        $("#profile_tel").change(function(){
+            var tel = document.getElementById("profile_tel");
+            if(tel.validity.patternMismatch){
+                printToaster("info", "Le numéro de téléphone doit être valide et de la forme : " +
+                    "0032 470 00 00 00");
+            }
+        });
+
+        $("#profile_email").change(function(){
+           var email = document.getElementById("profile_email");
+            if(email.validity.typeMismatch){
+                printToaster("info", "E-mail invalide");
+            }
+        });
+
+        $("#profile_successfullYearsInCollege").change(function(){
+            var sucessfullYearsInCollege = document.getElementById("profile_successfullYearsInCollege");
+            if(sucessfullYearsInCollege.validity.typeMismatch){
+                printToaster("info", "Veuillez entrer un nombre d'années !");
+            }
+        });
+
+        $("#profile_accountHolder").change(function(){
+            var accountHolder = document.getElementById("profile_accountHolder");
+            if(accountHolder.validity.patternMismatch){
+                printToaster("info", "Veuillez entrer un prénom et un nom cohérent !");
+            }
+        });
+
+        $("#profile_bankName").change(function(){
+            var bankName = document.getElementById("profile_bankName");
+            if(bankName.validity.patternMismatch){
+                printToaster("info", "Veuillez entrer un nom de banque cohérent !");
+            }
+        });
+
+        $("#profile_bic").change(function(){
+            var bic = document.getElementById("profile_bic");
+            if(bic.validity.patternMismatch) {
+                printToaster("info", "Le BIC ne peut être composé que de lettres.");
             }
         });
     };
@@ -483,7 +559,7 @@ $(function () {
 
         switch ($(this).attr("href")) {
             case "#myMobility":
-                  authStudent();  
+                  authStudent();
                 history.pushState({page: "myMobility"}, "Mes mobilités", "/home#myMobility");
                 break;
             case "#confirmedMobility":
@@ -495,7 +571,7 @@ $(function () {
                 history.pushState({page:"addMobility"}, "Ajouter une mobilité", "/home#addMobility");
                 break;
             case "#disconnect" :
-                disconnect();  
+                disconnect();
                 history.pushState({page: "index"}, "Page d'accueil", "/home#disconnect");
                 break;
             case "#list":
@@ -794,7 +870,7 @@ $(function () {
 
 						for (key in resp) {
 							var data =
-								"<tr class=\"clickable\" value='"+ resp[key]['id'] + "'>"+ 
+								"<tr class=\"clickable\" value='"+ resp[key]['id'] + "'>"+
 								"<td>" + resp[key]['id'] + "</td>" +
 									"<td>" + resp[key]['studentDto']['name'] + "</td>" +
 									"<td>" + resp[key]['studentDto']['firstname'] + "</td>" +
@@ -806,7 +882,7 @@ $(function () {
 									if (resp[key]['partnerDto']['legalName'] !== null)
 										data += "<td>"+resp[key]['partnerDto']['legalName']+"</td>";
 									else data += "<td></td>";
-									data +=	"<td>" + resp[key]['status'] + 
+									data +=	"<td>" + resp[key]['status'] +
 									"</td><td value='"+ resp[key]['id'] +"'></td>"+
 									"<td></td></tr>";
 							$("#list tbody").append(data);
@@ -840,7 +916,7 @@ $(function () {
 			var id = $(this).parent().attr("value");
 			loadCancelMobility();
 		});
-		
+
 	}
 
 	// Managing of filter buttons
@@ -981,8 +1057,8 @@ $(function () {
 						if (resp[key]['partnerDto']['legalName'] !== null)
 							data += "<td>"+resp[key]['partnerDto']['legalName']+"</td>";
 						else data += "<td></td>";
-							data += "<td>"+resp[key]['amount']+"</td>";	
-							
+							data += "<td>"+resp[key]['amount']+"</td>";
+
 						if (resp[key]['paymentDate1'] !== null){
 							var day = resp[key]['paymentDate1']['dayOfMonth'];
 							var month = resp[key]['paymentDate1']['monthValue'];
@@ -993,7 +1069,7 @@ $(function () {
 							data += "<td>"+day+"/"+month+"/"+resp[key]['paymentDate1']['year']+"</td>";
 						}
 						else data += "<td></td>";
-						
+
 						if (resp[key]['paymentDate2'] !== null){
 							var day = resp[key]['paymentDate2']['dayOfMonth'];
 							var month = resp[key]['paymentDate2']['monthValue'];
@@ -1004,9 +1080,9 @@ $(function () {
 							data += "<td>"+day+"/"+month+"/"+resp[key]['paymentDate2']['year']+"</td>";
 						}
 						else data +="<td></td>";
-						
+
 						data += "</tr>"
-						
+
 						$("#tablePayments tbody").append(data);
 					}
 	            },
@@ -1093,7 +1169,7 @@ $(function () {
 						resp = JSON.parse(resp);
                         console.log(resp);
 						for (key in resp) {
-							
+
 							$("#myMobility tbody").append(
 								"<tr>" +
 								"<td>" + resp[key]['preferenceOrder'] + "</td>" +
@@ -1136,8 +1212,8 @@ $(function () {
 			loadConfirmMobility(id);
 		});
 	}
-	
-	
+
+
 	function loadCancelMobility(id){
 		var oldNavBar;
 		if($("#navBarTeacher").css("display") === "block"){
@@ -1148,7 +1224,7 @@ $(function () {
 		$(".page").css("display", "none");
 		$("#cancelMobilityPage").css("display","block");
 		oldNavBar.css("display","block");
-		
+
 		$(function (){
 			$.ajax({
 				method: "POST",
@@ -1178,7 +1254,7 @@ $(function () {
 			});
 		});
 	}
-	
+
 	function loadConfirmMobility(id){
         $(function () {
             $.ajax({
@@ -1206,7 +1282,7 @@ $(function () {
 
 
 	}
-	
+
 	function loadDetailsMobility(id){
 		//TODO(Jonathan pour Martin) AJAX de changement de page vers details
 		$(".page").css("display", "none");
