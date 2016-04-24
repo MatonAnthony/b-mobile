@@ -96,6 +96,7 @@ public class MobilityUcControllerImpl implements MobilityUcController {
     return payments;
   }
 
+
   @Override
   public MobilityDto getMobilityById(int id) throws SQLException {
     dalServices.openConnection();

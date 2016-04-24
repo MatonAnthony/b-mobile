@@ -1,7 +1,43 @@
 <section id="mobilityDetail" class="page" style="display:none">
+	<h3 class="col-md-offset-1">Modifier une mobilité</h3>
+	</br>
+	<div class="col-md-5 col-md-offset-1">
+		<p id="detailMobiliteIntitule"></p>
+		<p id="detailMobilitePartenaire"></p>
+		<p id="detailMobiliteEtat"></p>
+	</div>
+	<div class="col-md-6">
+		<form class="form-horizontal">
+			<button class="btn btn-info col-md-offset-2">Documents</button></br>
+			<div class="form-group">
+				<input type="checkBox" id="envoiPaiement1"/> <label for="envoiPaiement1" class="control-label">Demande de paiement n°1 </label></br>
+				<input type="checkBox" id="envoiPaiement2"/> <label for="envoiPaiement2" class="control-label">Demande de paiement n°2 </label></br>
+				<label>Données encodées sur : </label></br>
+				<input class="col-md-1" type="checkBox" id="encodageProEco"> Pro Eco</input></br>
+				<input class="col-md-1" type="checkBox" id="encodageMobilityTool"/> MobilityTool</input></br>
+				<input class="col-md-1" type="checkBox" id="encodageMobi"/> Mobi</input>
+			</div>
+		</form>
+	</div>
 
-<h3>Modifier une mobilité</h3>
-
-
+	<div class="col-md-6 col-md-offset-1">
+	<h4>Informations de l'étudiant : </h2>
+	<p>
+		Nom : <var id="detailMobiliteNom"></var></br>
+		Prenom : <var id="detailMobilitePrenom"></var></br>
+		Sexe : <var id="detailMobiliteSexe"></var></br>
+		</br>
+		Date de naissance: <var id="detailMobiliteDateNaissance"></var></br>
+		Nationalité : <var id="detailMobiliteNationalite"></var></br>
+		Adresse : <var id="detailMobiliteAdresse"></var></br>
+		Tel : <var id="detailMobiliteTel"></var></br>
+		</br>
+		Département : <var id="detailMobiliteDepartement"></var></br>
+		E-mail : <var id="detailMobiliteMail"></var></br>
+	</p>
+	</div>
+	<div class="col-md-4">
+		<button class="btn btn-info">Annuler la demande</button>
+	</div>
 
 </section>

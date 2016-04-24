@@ -8,19 +8,22 @@ $(function () {
 		},
 		success: function (resp) {
 			resp = JSON.parse(resp);
-            changePage();
+             if(null != history.state){
+            	changePage();
+            }else if(resp['permissions'] === "STUDENT"){
+                authStudent();
+            }else{
+                authTeacher();
+            }
         },
         error: function (error) {
             console.log("Authentification echouée");
         }
     });
 
-    /*
-    TODO : Fix the code
     $("#logo").click(function(){
        document.location.href="home";
     });
-    */
 
     // HTML Based form validation :
     window.onload = function(){
@@ -1174,7 +1177,6 @@ $(function () {
 					}else{
 						resp = JSON.parse(resp);
                         for (key in resp) {
-
 							$("#myMobility tbody").append(
 								"<tr>" +
 								"<td>" + resp[key]['preferenceOrder'] + "</td>" +
@@ -1300,11 +1302,66 @@ $(function () {
         });
 	}
 
-	function loadDetailsMobility(id){
-		//TODO(Jonathan pour Martin) AJAX de changement de page vers details
+	function loadDetailsMobility(idStudent){
 		$(".page").css("display", "none");
 		$("#mobilityDetail").css("display","block");
 		$("#navBarTeacher").css("display","block");
+
+		$.ajax({
+            url: "/home",
+            type: 'POST',
+            data: {
+                action: "selectMobility",
+                id:idStudent
+            },
+            success: function (resp) {
+            	resp = JSON.parse(resp);
+            	console.log(resp);
+            	var city;
+            	if(resp['partnerDto']['city'] === null){
+            		city = undefined;
+            	}else{
+            		city = resp['partnerDto']['city'];
+            	}
+            	var intitule = "" +resp['programDto']['name'] + " " + resp['type'] 
+            		+  " à " + city + " durant le quadri " + resp['quadrimester'];
+            	$("#detailMobiliteIntitule").html(intitule);
+            	$("#detailMobilitePartenaire").html("Partenaire : " + resp['partnerDto']['fullName']);
+            	$("#detailMobiliteEtat").html("Etat : " + resp['status']);
+            	if(resp['paymentDate1'] != null){
+            		$("#envoiPaiement1").attr("checked", true);
+            	}
+            	if(resp['paymentDate2'] != null){
+            		$("#envoiPaiement2").attr("checked", true);
+            	}
+            	if(resp['softwareProeco']){
+            		$("#encodageProEco").attr("checked", true);
+            	}
+            	if(resp['softwareMobilityTools']){
+            		$("#encodageMobilityTool").attr("checked", true);
+            	}
+            	if(resp['softwareMobi']){
+            		$("#encodageMobi").attr("checked", true);
+            	}
+
+            	$("#detailMobiliteNom").html(resp['studentDto']['name']);
+            	$("#detailMobilitePrenom").html(resp['studentDto']['firstname']);
+            	$("#detailMobiliteSexe").html(resp['studentDto']['gender']);
+            	$("#detailMobiliteDateNaissance").html(resp['studentDto']['birthDate']['dayOfMonth'] + "/" 
+            		+ resp['studentDto']['birthDate']['monthValue'] + "/" + resp['studentDto']['birthDate']['year']);
+            	$("#detailMobiliteNationalite").html(resp['studentDto']['citizenship']);
+            	$("#detailMobiliteAdresse").html(resp['studentDto']['street'] + " " + resp['studentDto']['houseNumber']
+            		+ ", " + resp['studentDto']['zip'] + " " + resp['studentDto']['city']);
+            	$("#detailMobiliteTel").html(resp['studentDto']['tel']);
+            	$("#detailMobiliteDepartement").html(resp['departmentDto']['label']);
+            	$("#detailMobiliteMail").html(resp['studentDto']['email']);
+
+            },
+            error: function (error) {
+                error = JSON.parse(error.responseText);
+				printToaster(error.type, error.message);
+            }
+        });
 	}
 
 	function printToaster(type, message){
