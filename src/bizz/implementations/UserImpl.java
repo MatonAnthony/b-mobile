@@ -8,7 +8,6 @@ import nl.garvelink.iban.IBAN;
 import org.mindrot.jbcrypt.BCrypt;
 
 import java.time.LocalDate;
-import java.util.regex.Pattern;
 
 public class UserImpl implements UserBizz, Cloneable {
 
@@ -195,10 +194,6 @@ public class UserImpl implements UserBizz, Cloneable {
     if (name == null) {
       throw new IllegalArgumentException();
     }
-    if (!Pattern.matches("[A-zÀ-ÿ- ]*", name)) {
-      throw new IllegalArgumentException("Le nom doit être composé uniquement "
-        + "de caractères alphabétiques, tirets et espaces");
-    }
     this.name = name;
   }
 
@@ -225,10 +220,6 @@ public class UserImpl implements UserBizz, Cloneable {
     if (firstname == null) {
       throw new IllegalArgumentException();
     }
-    if (!Pattern.matches("[A-zÀ-ÿ- ]*", firstname)) {
-      throw new IllegalArgumentException("Le prénom doit être composé uniquement "
-        + "de caractères alphabétiques, tirets et espaces");
-    }
     this.firstname = firstname;
   }
 
@@ -254,11 +245,6 @@ public class UserImpl implements UserBizz, Cloneable {
   public void setEmail(String email) {
     if (email == null) {
       throw new IllegalArgumentException();
-    }
-    String pattern = "^[\\w!#$%&’*+/=?`{|}~^-]+(?:\\.[\\w!#$%&’*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]"
-      + "+\\.)+[a-zA-Z]{2,6}$";
-    if(!Pattern.matches(pattern, email)) {
-      throw new IllegalArgumentException("Addresse email invalide");
     }
     this.email = email;
   }
@@ -287,10 +273,6 @@ public class UserImpl implements UserBizz, Cloneable {
     /*
      * if (tel == null) { throw new IllegalArgumentException(); }
      */
-    if(!Pattern.matches("[0-9]*", tel)) {
-      throw new IllegalArgumentException("Le numéro de téléphone ne peut contenir que"
-        + "des chiffres");
-    }
     this.tel = tel;
   }
 
@@ -423,10 +405,6 @@ public class UserImpl implements UserBizz, Cloneable {
     /*
      * if (accountHolder == null) { throw new IllegalArgumentException(); }
      */
-    if(!Pattern.matches("[A-zÀ-ÿ- ]*", accountHolder)) {
-      throw new IllegalArgumentException("Le titulaire de compte bancaire peut uniquement être "
-        + "composé de caractères alphabétiques, tirets ou espaces");
-    }
     this.accountHolder = accountHolder;
   }
 
@@ -450,10 +428,6 @@ public class UserImpl implements UserBizz, Cloneable {
     /*
      * if (bankName == null) { throw new IllegalArgumentException(); }
      */
-    if(!Pattern.matches("[A-zÀ-ÿ- ]*", bankName)) {
-      throw new IllegalArgumentException("Le nom de la banque peut uniquement être"
-        + "composé de caractères alphabétiques, tirets ou espaces");
-    }
     this.bankName = bankName;
   }
 
@@ -555,10 +529,6 @@ public class UserImpl implements UserBizz, Cloneable {
    * @param citizenship new citizenship.
    */
   public void setCitizenship(String citizenship) {
-    if(!Pattern.matches("[A-zÀ-ÿ- ]*", citizenship)) {
-      throw new IllegalArgumentException("La nationalité peut uniquement être"
-        + "composé de caractères alphabétiques, tirets ou espaces");
-    }
     this.citizenship = citizenship;
   }
 
