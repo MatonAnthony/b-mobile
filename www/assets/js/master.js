@@ -149,6 +149,9 @@ $(function () {
 			case "payment" :
 				loadPaymentPage();
 				break;
+			case "partner" :
+				loadInfoPartner("1");
+				break;
             default:
                 disconnect();
                 break;
@@ -1301,6 +1304,42 @@ $(function () {
             });
 
         });
+	}
+	function loadInfoPartner(id){
+		(".page").css("display", "none");
+		$("#partnerPage").css("display","block");
+		$("#navBarTeacher").css("display","block");
+		console.log("je passe");
+		$(function (){
+			$.ajax({
+				method: "POST",
+				url: "/home",
+				data: {
+					action: "selectInfoPartner",
+					id: id
+				},
+				success: function (resp) {
+					resp = JSON.parse(resp);
+					console.log(resp);
+					$('#legalName').val(resp['legalName']);
+				},
+				error: function (error) {
+					error = JSON.parse(error.responseText);
+					printToaster(error.type, error.message);
+				}
+			});
+		});
+		
+		/*if(){
+			$("#setPartner").css("display","none");
+		}else{
+			$("#setPartner").css("display","block");
+		}
+		
+		$("#setPartner").on("click",function(){
+			
+		});*/
+		
 	}
 
 	function loadDetailsMobility(idStudent){

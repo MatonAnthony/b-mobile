@@ -26,4 +26,6 @@ public interface PartnerUcController {
    */
   ArrayList<PartnerDto> getPartnerMin(int userId) throws SQLException;
 
+
+  PartnerDto getPartnerById(int id) throws SQLException;
 }

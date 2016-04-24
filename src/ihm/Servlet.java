@@ -201,6 +201,9 @@ public class Servlet extends HttpServlet {
         case "selectMobility":
           selectMobility(req, resp);
           break;
+        case "selectInfoPartner":
+          selectPartnerById(req, resp);
+          break;
         default:
           resp.setStatus(HttpStatus.BAD_REQUEST_400);
       }
@@ -418,7 +421,6 @@ public class Servlet extends HttpServlet {
       resp.getWriter().println(jsonMobilities);
     }
     resp.setStatus(HttpStatus.ACCEPTED_202);
-
   }
 
 
@@ -446,6 +448,22 @@ public class Servlet extends HttpServlet {
     }
 
     resp.setStatus(HttpStatus.ACCEPTED_202);
+  }
+
+  private void selectPartnerById(HttpServletRequest req, HttpServletResponse resp)
+      throws NotEnoughPermissionsException, IOException, SQLException {
+
+    if (!req.getSession().getAttribute(KEY_PERMISSIONS).equals("STUDENT")) {
+      throw new NotEnoughPermissionsException(
+          "Vous n'avez pas les droits nécessaires pour faire cela");
+    }
+
+    PartnerDto partner = partnerUcc.getPartnerById(Integer.parseInt(req.getParameter("id")));
+
+    String jsonPartner = basicGenson.serialize(partner);
+    resp.getWriter().println(jsonPartner);
+    resp.setStatus(HttpStatus.ACCEPTED_202);
+
   }
 
   private void selectMyMobility(HttpServletRequest req, HttpServletResponse resp)

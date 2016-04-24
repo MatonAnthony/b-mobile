@@ -27,7 +27,7 @@ public class PartnerUcControllerImpl implements PartnerUcController {
   }
 
   @Override
-  public void addPartner(PartnerDto partner) throws SQLException{
+  public void addPartner(PartnerDto partner) throws SQLException {
     // TODO (Kamil) Throw les exceptions custom a la place de les catch
     try {
       dalServices.openConnection();
@@ -53,5 +53,13 @@ public class PartnerUcControllerImpl implements PartnerUcController {
     dalServices.closeConnection();
 
     return partners;
+  }
+
+  @Override
+  public PartnerDto getPartnerById(int id) throws SQLException {
+    dalServices.openConnection();
+    PartnerDto partner = partnerDao.getPartnerById(id);
+    dalServices.closeConnection();
+    return partner;
   }
 }

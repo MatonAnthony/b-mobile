@@ -20,4 +20,12 @@ public interface PartnerDao {
    * @return An ArrayList with all partners.
    */
   ArrayList<PartnerDto> getPartnersMin(int userId);
+
+  /**
+   * Get a partner.
+   *
+   * @param id Id of partner.
+   * @return A partnerDto.
+   */
+  PartnerDto getPartnerById(int id);
 }
