@@ -49,7 +49,7 @@ public class UserDaoImpl implements UserDao {
       preparedStatement.setString(4, userdto.getFirstname());
       preparedStatement.setString(5, userdto.getEmail());
       preparedStatement.setTimestamp(6, Timestamp.valueOf(LocalDateTime.now()));
-      preparedStatement.setString(6, userdto.getPermissions());
+      preparedStatement.setString(7, userdto.getPermissions());
 
       dalBackendServices.executeUpdate(preparedStatement);
     } catch (SQLException exc) {
