@@ -15,14 +15,12 @@ public interface PartnerUcController {
    */
   void addPartner(PartnerDto partner) throws SQLException;
 
-  ;
-
   /**
    * Return ArrayList containing partners for of one user stored in database
    *
    * @param userId Id of user who want to see his partner encoded.
    * @return an ArrayList of partnerDto.
-   * @throws if there is a problem.
+   * @throws SQLException if there is a problem.
    */
   ArrayList<PartnerDto> getPartnerMin(int userId) throws SQLException;
 

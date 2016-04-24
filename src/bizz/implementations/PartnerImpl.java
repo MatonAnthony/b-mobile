@@ -206,87 +206,183 @@ public class PartnerImpl implements PartnerBizz {
     this.verNr = verNr;
   }
 
+
+
   @Override
-  public boolean equals(Object o) {
-    if (this == o)
+  public boolean equals(Object obj) {
+    if (this == obj) {
       return true;
-    if (o == null || getClass() != o.getClass())
+    }
+    if (obj == null) {
       return false;
-
-    PartnerImpl partner = (PartnerImpl) o;
-
-    if (id != partner.id)
+    }
+    if (getClass() != obj.getClass()) {
       return false;
-    if (idUser != partner.idUser)
+    }
+    PartnerImpl other = (PartnerImpl) obj;
+    if (businessName == null) {
+      if (other.businessName != null) {
+        return false;
+      }
+    } else if (!businessName.equals(other.businessName)) {
       return false;
-    if (nbEmployees != partner.nbEmployees)
+    }
+    if (city == null) {
+      if (other.city != null) {
+        return false;
+      }
+    } else if (!city.equals(other.city)) {
       return false;
-    if (exists != partner.exists)
+    }
+    if (country == null) {
+      if (other.country != null) {
+        return false;
+      }
+    } else if (!country.equals(other.country)) {
       return false;
-    if (verNr != partner.verNr)
+    }
+    if (countryDto == null) {
+      if (other.countryDto != null) {
+        return false;
+      }
+    } else if (!countryDto.equals(other.countryDto)) {
       return false;
-    if (userDto != null ? !userDto.equals(partner.userDto) : partner.userDto != null)
+    }
+    if (department == null) {
+      if (other.department != null) {
+        return false;
+      }
+    } else if (!department.equals(other.department)) {
       return false;
-    if (legalName != null ? !legalName.equals(partner.legalName) : partner.legalName != null)
+    }
+    if (email == null) {
+      if (other.email != null) {
+        return false;
+      }
+    } else if (!email.equals(other.email)) {
       return false;
-    if (businessName != null ?
-        !businessName.equals(partner.businessName) :
-        partner.businessName != null)
+    }
+    if (exists != other.exists) {
       return false;
-    if (fullName != null ? !fullName.equals(partner.fullName) : partner.fullName != null)
+    }
+    if (fullName == null) {
+      if (other.fullName != null) {
+        return false;
+      }
+    } else if (!fullName.equals(other.fullName)) {
       return false;
-    if (department != null ? !department.equals(partner.department) : partner.department != null)
+    }
+    if (id != other.id) {
       return false;
-    if (type != null ? !type.equals(partner.type) : partner.type != null)
+    }
+    if (idUser != other.idUser) {
       return false;
-    if (street != null ? !street.equals(partner.street) : partner.street != null)
+    }
+    if (legalName == null) {
+      if (other.legalName != null) {
+        return false;
+      }
+    } else if (!legalName.equals(other.legalName)) {
       return false;
-    if (number != null ? !number.equals(partner.number) : partner.number != null)
+    }
+    if (mailbox == null) {
+      if (other.mailbox != null) {
+        return false;
+      }
+    } else if (!mailbox.equals(other.mailbox)) {
       return false;
-    if (mailbox != null ? !mailbox.equals(partner.mailbox) : partner.mailbox != null)
+    }
+    if (nbEmployees != other.nbEmployees) {
       return false;
-    if (zip != null ? !zip.equals(partner.zip) : partner.zip != null)
+    }
+    if (number == null) {
+      if (other.number != null) {
+        return false;
+      }
+    } else if (!number.equals(other.number)) {
       return false;
-    if (city != null ? !city.equals(partner.city) : partner.city != null)
+    }
+    if (state == null) {
+      if (other.state != null) {
+        return false;
+      }
+    } else if (!state.equals(other.state)) {
       return false;
-    if (state != null ? !state.equals(partner.state) : partner.state != null)
+    }
+    if (street == null) {
+      if (other.street != null) {
+        return false;
+      }
+    } else if (!street.equals(other.street)) {
       return false;
-    if (tel != null ? !tel.equals(partner.tel) : partner.tel != null)
+    }
+    if (tel == null) {
+      if (other.tel != null) {
+        return false;
+      }
+    } else if (!tel.equals(other.tel)) {
       return false;
-    if (country != null ? !country.equals(partner.country) : partner.country != null)
+    }
+    if (type == null) {
+      if (other.type != null) {
+        return false;
+      }
+    } else if (!type.equals(other.type)) {
       return false;
-    if (countryDto != null ? !countryDto.equals(partner.countryDto) : partner.countryDto != null)
+    }
+    if (userDto == null) {
+      if (other.userDto != null) {
+        return false;
+      }
+    } else if (!userDto.equals(other.userDto)) {
       return false;
-    if (email != null ? !email.equals(partner.email) : partner.email != null)
+    }
+    if (verNr != other.verNr) {
       return false;
-    return website != null ? website.equals(partner.website) : partner.website == null;
-
+    }
+    if (website == null) {
+      if (other.website != null) {
+        return false;
+      }
+    } else if (!website.equals(other.website)) {
+      return false;
+    }
+    if (zip == null) {
+      if (other.zip != null) {
+        return false;
+      }
+    } else if (!zip.equals(other.zip)) {
+      return false;
+    }
+    return true;
   }
 
   @Override
   public int hashCode() {
-    int result = id;
-    result = 31 * result + idUser;
-    result = 31 * result + (userDto != null ? userDto.hashCode() : 0);
-    result = 31 * result + (legalName != null ? legalName.hashCode() : 0);
-    result = 31 * result + (businessName != null ? businessName.hashCode() : 0);
-    result = 31 * result + (fullName != null ? fullName.hashCode() : 0);
-    result = 31 * result + (department != null ? department.hashCode() : 0);
-    result = 31 * result + (type != null ? type.hashCode() : 0);
-    result = 31 * result + nbEmployees;
-    result = 31 * result + (street != null ? street.hashCode() : 0);
-    result = 31 * result + (number != null ? number.hashCode() : 0);
-    result = 31 * result + (mailbox != null ? mailbox.hashCode() : 0);
-    result = 31 * result + (zip != null ? zip.hashCode() : 0);
-    result = 31 * result + (city != null ? city.hashCode() : 0);
-    result = 31 * result + (state != null ? state.hashCode() : 0);
-    result = 31 * result + (tel != null ? tel.hashCode() : 0);
-    result = 31 * result + (country != null ? country.hashCode() : 0);
-    result = 31 * result + (countryDto != null ? countryDto.hashCode() : 0);
-    result = 31 * result + (email != null ? email.hashCode() : 0);
-    result = 31 * result + (website != null ? website.hashCode() : 0);
-    result = 31 * result + (exists ? 1 : 0);
-    result = 31 * result + verNr;
+    final int prime = 31;
+    int result = 1;
+    result = prime * result + ((businessName == null) ? 0 : businessName.hashCode());
+    result = prime * result + ((city == null) ? 0 : city.hashCode());
+    result = prime * result + ((country == null) ? 0 : country.hashCode());
+    result = prime * result + ((countryDto == null) ? 0 : countryDto.hashCode());
+    result = prime * result + ((department == null) ? 0 : department.hashCode());
+    result = prime * result + ((email == null) ? 0 : email.hashCode());
+    result = prime * result + (exists ? 1231 : 1237);
+    result = prime * result + ((fullName == null) ? 0 : fullName.hashCode());
+    result = prime * result + id;
+    result = prime * result + idUser;
+    result = prime * result + ((legalName == null) ? 0 : legalName.hashCode());
+    result = prime * result + ((mailbox == null) ? 0 : mailbox.hashCode());
+    result = prime * result + nbEmployees;
+    result = prime * result + ((number == null) ? 0 : number.hashCode());
+    result = prime * result + ((state == null) ? 0 : state.hashCode());
+    result = prime * result + ((street == null) ? 0 : street.hashCode());
+    result = prime * result + ((tel == null) ? 0 : tel.hashCode());
+    result = prime * result + ((type == null) ? 0 : type.hashCode());
+    result = prime * result + ((userDto == null) ? 0 : userDto.hashCode());
+    result = prime * result + verNr;
+    result = prime * result + ((website == null) ? 0 : website.hashCode());
+    result = prime * result + ((zip == null) ? 0 : zip.hashCode());
     return result;
   }
 }

@@ -15,6 +15,8 @@ $(function () {
             }else{
                 authTeacher();
             }
+
+            console.log("Authentification OK");
         },
         error: function (error) {
             console.log("Authentification echouée");
@@ -1368,20 +1370,35 @@ $(function () {
             	$("#detailMobiliteIntitule").html(intitule);
             	$("#detailMobilitePartenaire").html("Partenaire : " + resp['partnerDto']['fullName']);
             	$("#detailMobiliteEtat").html("Etat : " + resp['status']);
+            	
             	if(resp['paymentDate1'] != null){
-            		$("#envoiPaiement1").attr("checked", true);
+            		$("#envoiPaiement1").prop("checked", true);
+            	}else{
+            		$("#envoiPaiement1").prop("checked", false);
             	}
+
             	if(resp['paymentDate2'] != null){
-            		$("#envoiPaiement2").attr("checked", true);
+            		$("#envoiPaiement2").prop("checked", true);
+            	}else{
+            		$("#envoiPaiement2").prop("checked", false);
             	}
+
             	if(resp['softwareProeco']){
-            		$("#encodageProEco").attr("checked", true);
+            		$("#encodageProEco").prop("checked", true);
+            	}else{
+            		$("#encodageProEco").prop("checked", false);
             	}
+
             	if(resp['softwareMobilityTools']){
-            		$("#encodageMobilityTool").attr("checked", true);
+            		$("#encodageMobilityTool").prop("checked", true);
+            	}else{
+            		$("#encodageMobilityTool").prop("checked", false);
             	}
+
             	if(resp['softwareMobi']){
-            		$("#encodageMobi").attr("checked", true);
+            		$("#encodageMobi").prop("checked", true);
+            	}else{
+            		$("#encodageMobi").prop("checked", false);
             	}
 
             	$("#detailMobiliteNom").html(resp['studentDto']['name']);

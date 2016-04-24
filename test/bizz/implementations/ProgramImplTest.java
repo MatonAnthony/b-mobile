@@ -1,9 +1,10 @@
 package bizz.implementations;
 
+import static org.junit.Assert.assertEquals;
+
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
 
 /**
  * Created by anthony on 17/04/16.

@@ -59,9 +59,7 @@ public class PartnerDaoImpl implements PartnerDao {
 
   @Override
   public ArrayList<PartnerDto> getPartnersMin(int userId) {
-
     String query = "SELECT id, legal_name FROM bmobile.partners WHERE id_user = ?";
-
     PreparedStatement preparedStatement = null;
     ArrayList<PartnerDto> partners = null;
     try {
