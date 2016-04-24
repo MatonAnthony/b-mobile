@@ -15,9 +15,12 @@ $(function () {
         }
     });
 
+    /*
+    TODO : Fix the code
     $("#logo").click(function(){
        document.location.href="home";
     });
+    */
 
     // HTML Based form validation :
     window.onload = function(){
