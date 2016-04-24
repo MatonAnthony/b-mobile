@@ -5,14 +5,12 @@ import dal.DalBackendServices;
 import dao.interfaces.UserDao;
 import dto.CountryDto;
 import dto.UserDto;
-import exceptions.NoCountryException;
 import exceptions.UnknowErrorException;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
@@ -59,8 +57,7 @@ public class UserDaoImpl implements UserDao {
   }
 
   @Override
-  public UserDto getUserByUserName(String username)
-      throws NoSuchElementException {
+  public UserDto getUserByUserName(String username) throws NoSuchElementException {
     String query = this.getUserQuery + "WHERE pseudo=?";
     PreparedStatement preparedStatement = null;
     try {
@@ -163,8 +160,7 @@ public class UserDaoImpl implements UserDao {
     }
   }
 
-  private UserDto fillDto(PreparedStatement preparedStatement)
-      throws SQLException {
+  private UserDto fillDto(PreparedStatement preparedStatement) throws SQLException {
     UserDto user = factory.getUserDto();
     ResultSet resultSet = dalBackendServices.executeQuery(preparedStatement);
     if (resultSet.next()) {
@@ -175,8 +171,7 @@ public class UserDaoImpl implements UserDao {
     return user;
   }
 
-  private ArrayList<UserDto> fillDtoArray(PreparedStatement preparedStatement)
-      throws SQLException {
+  private ArrayList<UserDto> fillDtoArray(PreparedStatement preparedStatement) throws SQLException {
     ArrayList<UserDto> users = new ArrayList<UserDto>();
     ResultSet resultSet = dalBackendServices.executeQuery(preparedStatement);
     while (resultSet.next()) {
@@ -187,8 +182,7 @@ public class UserDaoImpl implements UserDao {
     return users;
   }
 
-  private UserDto completeDto(UserDto user, ResultSet resultSet)
-      throws SQLException {
+  private UserDto completeDto(UserDto user, ResultSet resultSet) throws SQLException {
     user.setId(resultSet.getInt(1));
     user.setIdDepartment(resultSet.getInt(2));
     user.setPseudo(resultSet.getString(3));
@@ -235,12 +229,29 @@ public class UserDaoImpl implements UserDao {
   @Override
   public boolean userExists(String username) {
     try {
-      if (getUserByUserName(username) != null) {
-        return true;
-      }
-    } catch (Exception exc) {
+      getUserByUserName(username);
+      return true;
+    } catch (NoSuchElementException exc) {
       return false;
     }
-    return false;
+  }
+
+  @Override
+  public int countUser() {
+    String queryCount = "SELECT count(u.id) FROM bmobile.users u";
+    PreparedStatement preparedStatement = null;
+    try {
+      preparedStatement = dalBackendServices.prepare(queryCount);
+      ResultSet resultSet = dalBackendServices.executeQuery(preparedStatement);
+      if (resultSet.next()) {
+        return resultSet.getInt(1);
+      } else {
+        return -1;
+      }
+    } catch (SQLException exc) {
+      exc.printStackTrace();
+      throw new UnknowErrorException(
+          "Une erreur inconnue s'est produite lors de la recherche du nombre d'utilisateur.");
+    }
   }
 }

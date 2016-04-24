@@ -198,9 +198,6 @@ public class Servlet extends HttpServlet {
         case "loadCancelationsReasons":
           loadCancelationReasons(req, resp);
           break;
-        case "selectPartnersForConfirm":
-          selectPartnersForConfirm(req, resp);
-          break;
         case "selectMobility":
           selectMobility(req, resp);
           break;
@@ -422,8 +419,8 @@ public class Servlet extends HttpServlet {
     }
     resp.setStatus(HttpStatus.ACCEPTED_202);
 
-
   }
+
 
   private void selectPartnersForConfirm(HttpServletRequest req, HttpServletResponse resp)
       throws IOException, SQLException, NotEnoughPermissionsException {
@@ -504,8 +501,6 @@ public class Servlet extends HttpServlet {
     userdto.setName(req.getParameter("name"));
     userdto.setFirstname(req.getParameter("firstname"));
     userdto.setEmail(req.getParameter("email"));
-    // TODO (Martin) gérer si c'est la première inscription
-    userdto.setPermissions("STUDENT");
 
     UserDto userDtoRecept = null;
     userDtoRecept = userUcc.register(userdto);
@@ -688,7 +683,7 @@ public class Servlet extends HttpServlet {
 
   /**
    * The method used by the servlet to load the cancelationsReasons.
-   *
+   * 
    * @param req The request received by the server.
    * @param resp The response sended by the server.
    * @throws IOException IOException If there is an error to write the response.

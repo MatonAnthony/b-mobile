@@ -190,8 +190,8 @@ $(function () {
     });
 
     $("#backToLogin").click(function(){
-    	$("#loginPage").css("display", "block");
-    	$("#registerPage").css("display", "none");
+    	$(".page").css("display", "none");
+        $("#loginPage").css("display", "block");
     });
 
     $("#registerLink").click(function () {
@@ -775,6 +775,7 @@ $(function () {
 	function loadRegisterPage() {
 	    $(".page").css("display", "none");
 	    $("#registerPage").css("display", "block");
+		$(".form-control").val("");
 	}
 
 

@@ -1,7 +1,6 @@
 package dao.interfaces;
 
 import dto.UserDto;
-import exceptions.NoCountryException;
 
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
@@ -60,7 +59,14 @@ public interface UserDao {
    * Gets the existence of the username.
    * 
    * @param username to check in the database.
-   * @return true if the username exists in the database, else return false
+   * @return true if the username exists in the database, else return false.
    */
   boolean userExists(String username);
+
+  /**
+   * Gets the number of user in the database.
+   * 
+   * @return the number of user present in the database. returns -1 if there is an error.
+   */
+  int countUser();
 }
