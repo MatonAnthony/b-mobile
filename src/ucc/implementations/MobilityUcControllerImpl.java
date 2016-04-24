@@ -105,4 +105,25 @@ public class MobilityUcControllerImpl implements MobilityUcController {
     return mobility;
   }
 
+  @Override
+  public void confirmPartner(MobilityDto mobilityDto) {
+    try {
+      dalServices.openConnection();
+      dalServices.startTransaction();
+      mobilityDao.confirmPartner(mobilityDto);
+      dalServices.commitTransaction();
+      dalServices.closeConnection();
+    } catch (SQLException exc) {
+      exc.printStackTrace();
+      try {
+        dalServices.rollbackTransaction();
+        dalServices.closeConnection();
+      } catch (SQLException exc1) {
+        exc1.printStackTrace();
+      }
+    }
+
+
+  }
+
 }

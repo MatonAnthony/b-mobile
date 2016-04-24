@@ -59,7 +59,10 @@ public class PartnerDaoImpl implements PartnerDao {
 
   @Override
   public ArrayList<PartnerDto> getPartnersMin(int userId) {
-    String query = "SELECT id, legal_name FROM bmobile.partners WHERE id_user = ?";
+    //language=PostgreSQL
+    String query = "SELECT p.id, p.legal_name FROM bmobile.partners p "
+        + "LEFT JOIN bmobile.mobilities m ON p.id = m.id_partner "
+        + "WHERE m.id_partner IS NULL AND p.id_user = ?";
     PreparedStatement preparedStatement = null;
     ArrayList<PartnerDto> partners = null;
     try {

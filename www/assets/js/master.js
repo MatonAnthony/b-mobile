@@ -686,12 +686,12 @@ $(function () {
         $("#tableConfirmed tbody").empty();
         loadMobility();
     }
-	
+
 	function loadPaymentPage(){
 		$(".page").css("display", "none");
 		$("#navBarTeacher").css("display", "block");
 		$("#paymentPage").css("display", "block");
-		
+
 		$(".active").removeClass("active");
 		$(".navButton[href='#2lists']").parent().addClass("active");
 		//$(".navButton[href='#payment']").parent().addClass("active");
@@ -745,7 +745,7 @@ $(function () {
         });
         $(".active").removeClass("active");
         $(".navButton[href='#userList']").parent().addClass("active");
-        
+
     }
 
 	function loadAddPartner() {
@@ -1219,10 +1219,12 @@ $(function () {
 		$("#myMobility").on("click", ".btnCancel", function () {
 			var id = $(this).parent().attr("value");
 			loadCancelMobility(id);
+
 		});
 		$("#myMobility").on("click", "#btnConfirm", function () {
             var id = $(this).parent().attr("id");
 			loadConfirmMobility(id);
+
 		});
 	}
 
@@ -1279,11 +1281,18 @@ $(function () {
                 },
                 success: function (resp) {
                     resp = JSON.parse(resp);
-                    console.log(resp);
+
                     $("#confirmMobilityPartner select").empty();
+                    if (jQuery.isEmptyObject(resp['partners'])){
+                        $("#confirmMobility ").hide();
+                        $("#confirmMobilityPartner").empty();
+                        $("#confirmMobilityPartner").append("<h5>PAS DE PARTENAIRE DISPONIBLE</h5>");
+
+                    }
                     for (key in resp['partners']) {
                         $("#confirmMobilityPartner select").append(
-                            "<option>" + resp['partners'][key]['legalName'] + "</option>"
+                            "<option class=\"confirmClass\"id=" + resp['partners'][key]['id'] + ">" +
+                            resp['partners'][key]['legalName'] + "</option>"
                         );
                     }
 
@@ -1306,43 +1315,77 @@ $(function () {
             });
 
         });
+        $("#modalConfirmMobility").on("click", "#confirmMobility", function () {
+
+            var idMobility = id;
+            var idPartner = $('#confirmMobilityPartner option:selected').attr('id');
+            confirmMobility(idMobility, idPartner);
+            $("#modalConfirmMobility").off();
+        });
 	}
-	function loadInfoPartner(id){
-		(".page").css("display", "none");
-		$("#partnerPage").css("display","block");
-		$("#navBarTeacher").css("display","block");
-		console.log("je passe");
-		$(function (){
-			$.ajax({
-				method: "POST",
-				url: "/home",
-				data: {
-					action: "selectInfoPartner",
-					id: id
-				},
-				success: function (resp) {
-					resp = JSON.parse(resp);
-					console.log(resp);
-					$('#legalName').val(resp['legalName']);
-				},
-				error: function (error) {
-					error = JSON.parse(error.responseText);
-					printToaster(error.type, error.message);
-				}
-			});
-		});
-		
-		/*if(){
-			$("#setPartner").css("display","none");
-		}else{
-			$("#setPartner").css("display","block");
-		}
-		
-		$("#setPartner").on("click",function(){
-			
-		});*/
-		
-	}
+
+    function confirmMobility(idMobility, idPartner) {
+        $(function () {
+            $.ajax({
+                method: "POST",
+                url: "/home",
+                data: {
+                    action: "confirmPartnerInMobility",
+                    idMobility: idMobility,
+                    idPartner: idPartner,
+                },
+                success: function (resp) {
+                    $("#modalConfirmMobility").modal("hide");
+                    printToaster("success", "Le partenaire à bien été confirmé");
+                    //TODO (Kamil) Faire en sorte de recharger la page pour que le bouton Confirmer disparait.
+
+                },
+                error: function (error) {
+                    error = JSON.parse(error.responseText);
+                    printToaster(error.type, error.message);
+                    console.log("err");
+                }
+            });
+
+        });
+    }
+
+    function loadInfoPartner(id){
+        (".page").css("display", "none");
+        $("#partnerPage").css("display","block");
+        $("#navBarTeacher").css("display","block");
+        console.log("je passe");
+        $(function (){
+            $.ajax({
+                method: "POST",
+                url: "/home",
+                data: {
+                    action: "selectInfoPartner",
+                    id: id
+                },
+                success: function (resp) {
+                    resp = JSON.parse(resp);
+                    console.log(resp);
+                    $('#legalName').val(resp['legalName']);
+                },
+                error: function (error) {
+                    error = JSON.parse(error.responseText);
+                    printToaster(error.type, error.message);
+                }
+            });
+        });
+
+        /*if(){
+         $("#setPartner").css("display","none");
+         }else{
+         $("#setPartner").css("display","block");
+         }
+
+         $("#setPartner").on("click",function(){
+
+         });*/
+
+    }
 
 	function loadDetailsMobility(idStudent){
 		$(".page").css("display", "none");

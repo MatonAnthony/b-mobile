@@ -74,4 +74,10 @@ public interface MobilityUcController {
    */
   MobilityDto getMobilityById(int id) throws SQLException;
 
+  /**
+   * Update mobility for confirm partner.
+   * 
+   * @param mobilityDto mobility DTO.
+   */
+  void confirmPartner(MobilityDto mobilityDto);
 }

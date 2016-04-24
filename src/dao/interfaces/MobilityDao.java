@@ -62,4 +62,10 @@ public interface MobilityDao {
    */
   MobilityDto getMobilityById(int id);
 
+  /**
+   * Update mobility to join whith the partner id.
+   * 
+   * @param mobilityDto mobility DTO.
+   */
+  void confirmPartner(MobilityDto mobilityDto);
 }

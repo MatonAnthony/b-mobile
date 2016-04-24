@@ -203,6 +203,12 @@ public class Servlet extends HttpServlet {
         case "selectInfoPartner":
           selectPartnerById(req, resp);
           break;
+        case "selectPartnersForConfirm":
+          selectPartnersForConfirm(req, resp);
+          break;
+        case "confirmPartnerInMobility":
+          confirmPartnerInMobility(req, resp);
+          break;
         default:
           resp.setStatus(HttpStatus.BAD_REQUEST_400);
       }
@@ -432,8 +438,8 @@ public class Servlet extends HttpServlet {
     }
     int idMobility = Integer.parseInt(0 + req.getParameter("idMobility"));
     MobilityDto mobilityDto = mobilityUcc.getMobilityById(idMobility);
-    ArrayList<PartnerDto> partners =
-        partnerUcc.getPartnerMin(Integer.parseInt("" + req.getSession().getAttribute(KEY_ID)));
+    ArrayList<PartnerDto> partners = partnerUcc
+        .getPartnerMin(Integer.parseInt("" + req.getSession().getAttribute(KEY_ID)));
 
     HashMap<String, Object> hashMap = new HashMap<String, Object>();
     hashMap.put("partners", partners);
@@ -445,6 +451,23 @@ public class Servlet extends HttpServlet {
       json = basicGenson.serialize(hashMap);
       resp.getWriter().println(json);
     }
+
+    resp.setStatus(HttpStatus.ACCEPTED_202);
+  }
+
+  private void confirmPartnerInMobility(HttpServletRequest req, HttpServletResponse resp)
+      throws IOException, SQLException, NotEnoughPermissionsException {
+    if (req.getSession().getAttribute(KEY_PERMISSIONS) == null) {
+      throw new NotEnoughPermissionsException(
+          "Vous n'avez pas les droits nécessaires pour faire cela");
+    }
+
+    MobilityDto mobilityDto = bizzFactory.getMobilityDto();
+    mobilityDto.setId(Integer.parseInt("" + req.getParameter("idMobility")));
+    mobilityDto.setIdPartner(Integer.parseInt("" + req.getParameter("idPartner")));
+    mobilityDto.setStatus("Créée");
+
+    mobilityUcc.confirmPartner(mobilityDto);
 
     resp.setStatus(HttpStatus.ACCEPTED_202);
   }
