@@ -8,19 +8,22 @@ $(function () {
 		},
 		success: function (resp) {
 			resp = JSON.parse(resp);
-            changePage();
+            if(null != history.state){
+            	changePage();
+            }else if(resp['permissions'] === "STUDENT"){
+                authStudent();
+            }else{
+                authTeacher();
+            }
         },
         error: function (error) {
             console.log("Authentification echouée");
         }
     });
 
-    /*
-    TODO : Fix the code
     $("#logo").click(function(){
        document.location.href="home";
     });
-    */
 
     // HTML Based form validation :
     window.onload = function(){
