@@ -198,6 +198,11 @@ public class PartnerImpl implements PartnerBizz {
     this.exists = exists;
   }
 
+
+  public boolean getExists() {
+    return exists;
+  }
+
   public int getVerNr() {
     return verNr;
   }

@@ -17,9 +17,10 @@ public interface PartnerDao {
    * Get all partners created by one user.
    *
    * @param userId Id of user.
+   * @param permission Type of permission (Teacher or Student).
    * @return An ArrayList with all partners.
    */
-  ArrayList<PartnerDto> getPartnersMin(int userId);
+  ArrayList<PartnerDto> getPartnersMin(int userId,  String permission);
 
   /**
    * Get a partner.

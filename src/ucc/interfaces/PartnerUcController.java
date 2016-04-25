@@ -19,10 +19,11 @@ public interface PartnerUcController {
    * Return ArrayList containing partners for of one user stored in database
    *
    * @param userId Id of user who want to see his partner encoded.
+   * @param permission Type of permission (Teacher or Student).
    * @return an ArrayList of partnerDto.
    * @throws SQLException if there is a problem.
    */
-  ArrayList<PartnerDto> getPartnerMin(int userId) throws SQLException;
+  ArrayList<PartnerDto> getPartnerMin(int userId, String permission) throws SQLException;
 
 
   PartnerDto getPartnerById(int id) throws SQLException;

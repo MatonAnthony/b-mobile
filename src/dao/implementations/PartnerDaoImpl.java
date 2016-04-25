@@ -1,5 +1,6 @@
 package dao.implementations;
 
+import bizz.enumeration.Permissions;
 import bizz.interfaces.BizzFactory;
 import dal.DalBackendServices;
 import dao.interfaces.PartnerDao;
@@ -28,7 +29,7 @@ public class PartnerDaoImpl implements PartnerDao {
   @Override
   public void createPartner(PartnerDto partner) {
     String query = "INSERT INTO bmobile.partners VALUES "
-        + "(DEFAULT,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,NULL,0)";
+        + "(DEFAULT,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
     PreparedStatement preparedStatement = null;
     try {
       preparedStatement = dalBackendServices.prepare(query);
@@ -49,6 +50,8 @@ public class PartnerDaoImpl implements PartnerDao {
       preparedStatement.setString(15, partner.getTel());
       preparedStatement.setString(16, partner.getEmail());
       preparedStatement.setString(17, partner.getWebsite());
+      preparedStatement.setBoolean(18, partner.getExists());
+      preparedStatement.setInt(19, partner.getVerNr());
       dalBackendServices.executeUpdate(preparedStatement);
     } catch (SQLException exc) {
       exc.printStackTrace();
@@ -58,16 +61,25 @@ public class PartnerDaoImpl implements PartnerDao {
   }
 
   @Override
-  public ArrayList<PartnerDto> getPartnersMin(int userId) {
+  public ArrayList<PartnerDto> getPartnersMin(int userId, String permission) {
+
     //language=PostgreSQL
     String query = "SELECT p.id, p.legal_name FROM bmobile.partners p "
         + "LEFT JOIN bmobile.mobilities m ON p.id = m.id_partner "
-        + "WHERE m.id_partner IS NULL AND p.id_user = ?";
+        + "WHERE m.id_partner IS NULL AND p.id_user = ? AND p.exists = ?";
     PreparedStatement preparedStatement = null;
     ArrayList<PartnerDto> partners = null;
     try {
       preparedStatement = dalBackendServices.prepare(query);
       preparedStatement.setInt(1, userId);
+
+      if (permission.equals("STUDENT")) {
+        preparedStatement.setBoolean(2, false);
+      }
+      if (permission.equals("TEACHER")) {
+        preparedStatement.setBoolean(2, true);
+      }
+
       partners = new ArrayList<PartnerDto>();
       ResultSet resultSet = dalBackendServices.executeQuery(preparedStatement);
 

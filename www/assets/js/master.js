@@ -253,7 +253,7 @@ $(function () {
     }
 
     //MyProfile
-    $("#profileButton").click(function () {
+    $("#formProfile").on("click.profileButton", "#profileButton", function () {
     	var idUser = $("#formProfile").attr("idUser");
     	if(idUser === undefined) {
     		idUser =-1;
@@ -291,6 +291,7 @@ $(function () {
 				printToaster(error.type, error.message);
             }
         });
+        $("#formProfile").off("click.profileButton").on("click.profileButton", "#profileButton");
         return false;
     });
 
@@ -436,7 +437,7 @@ $(function () {
 
     //userList
 
-    $("#userListTableBody").on("click", ".btnNommer", function () {
+    $("#userListTableBody").on("click.btnNommer", ".btnNommer", function () {
         var id = $(this).attr("value");
         $.ajax({
             method: "POST",
@@ -456,6 +457,7 @@ $(function () {
 				printToaster(error.type, error.message);
             }
         });
+        $("#userListTableBody").off("click.btnNommer").on("click.btnNommer", ".btnNommer");
         return true;
     });
 
@@ -922,7 +924,7 @@ $(function () {
 								$(this).parent().addClass("danger");
 							}
 							if ($(this).html() === "En attente"){
-								$(this).next().next().append("<button class=\"btnConfirm btn btn-info\">Confirmer</button>");
+								$(this).next().next().append("<button id=\"profBtnConfirm\" class=\"btn btn-info\">Confirmer</button>");
 							}
 						});
 						
@@ -943,6 +945,11 @@ $(function () {
 			var id = $(this).parent().attr("value");
 			loadCancelMobility(id);
 		});
+        /*$("#list").on("click", "#profBtnConfirm", function (e) {
+            e.stopPropagation();
+            var id = $(this).parent().attr("value");
+            loadConfirmMobility(id);
+        });*/
 
 	}
 
@@ -1228,13 +1235,15 @@ $(function () {
 	            }
 	        });
 	    });
-		$("#myMobility").on("click", ".btnCancel", function () {
+		$("#myMobility").on("click.btnCancel", ".btnCancel", function () {
 			var id = $(this).parent().attr("value");
+            $("#myMobility").off("click.btnCancel");
 			loadCancelMobility(id);
 
 		});
-		$("#myMobility").on("click", "#btnConfirm", function () {
+		$("#myMobility").on("click.btnConfirm", "#btnConfirm", function () {
             var id = $(this).parent().attr("id");
+            $("#myMobility").off("click.btnConfirm").on("click.btnCancel");
 			loadConfirmMobility(id);
 
 		});
@@ -1377,40 +1386,37 @@ $(function () {
             });
 
         });
-        $("#modalConfirmMobility").on("click", "#confirmMobility", function () {
+        $("#modalConfirmMobility").on("click.confirmMobility", "#confirmMobility", function () {
 
             var idMobility = id;
             var idPartner = $('#confirmMobilityPartner option:selected').attr('id');
-            confirmMobility(idMobility, idPartner);
-            $("#modalConfirmMobility").off();
+            $(function () {
+                $.ajax({
+                    method: "POST",
+                    url: "/home",
+                    data: {
+                        action: "confirmPartnerInMobility",
+                        idMobility: idMobility,
+                        idPartner: idPartner,
+                    },
+                    success: function (resp) {
+                        $("#modalConfirmMobility").modal("hide");
+                        authStudent();
+                        printToaster("success", "Le partenaire à bien été confirmé");
+
+                    },
+                    error: function (error) {
+                        error = JSON.parse(error.responseText);
+                        printToaster(error.type, error.message);
+                        console.log("err");
+                    }
+                });
+
+            });
+            $("#modalConfirmMobility").off("click.confirmMobility").on("click.confirmMobility");
         });
 	}
 
-    function confirmMobility(idMobility, idPartner) {
-        $(function () {
-            $.ajax({
-                method: "POST",
-                url: "/home",
-                data: {
-                    action: "confirmPartnerInMobility",
-                    idMobility: idMobility,
-                    idPartner: idPartner,
-                },
-                success: function (resp) {
-                    $("#modalConfirmMobility").modal("hide");
-                    printToaster("success", "Le partenaire à bien été confirmé");
-                    //TODO (Kamil) Faire en sorte de recharger la page pour que le bouton Confirmer disparait.
-
-                },
-                error: function (error) {
-                    error = JSON.parse(error.responseText);
-                    printToaster(error.type, error.message);
-                    console.log("err");
-                }
-            });
-
-        });
-    }
 
     function loadInfoPartner(id){
         (".page").css("display", "none");

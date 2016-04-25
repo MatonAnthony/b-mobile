@@ -300,6 +300,11 @@ public interface PartnerDto {
   public void setExists(boolean exists);
 
   /**
+   * Gets exists.
+   *
+   */
+  public boolean getExists();
+  /**
    * Gets ver nr.
    *
    * @return the ver nr

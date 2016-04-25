@@ -47,9 +47,9 @@ public class PartnerUcControllerImpl implements PartnerUcController {
   }
 
   @Override
-  public ArrayList<PartnerDto> getPartnerMin(int userId) throws SQLException {
+  public ArrayList<PartnerDto> getPartnerMin(int userId, String permission) throws SQLException {
     dalServices.openConnection();
-    ArrayList<PartnerDto> partners = partnerDao.getPartnersMin(userId);
+    ArrayList<PartnerDto> partners = partnerDao.getPartnersMin(userId, permission);
     dalServices.closeConnection();
 
     return partners;

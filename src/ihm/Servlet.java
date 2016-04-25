@@ -435,14 +435,15 @@ public class Servlet extends HttpServlet {
   private void selectPartnersForConfirm(HttpServletRequest req, HttpServletResponse resp)
       throws IOException, SQLException, NotEnoughPermissionsException {
 
-    if (!req.getSession().getAttribute(KEY_PERMISSIONS).equals("STUDENT")) {
+    /*if (!req.getSession().getAttribute(KEY_PERMISSIONS).equals("STUDENT")) {
       throw new NotEnoughPermissionsException(
           "Vous n'avez pas les droits nécessaires pour faire cela");
-    }
+    }*/
     int idMobility = Integer.parseInt(0 + req.getParameter("idMobility"));
     MobilityDto mobilityDto = mobilityUcc.getMobilityById(idMobility);
-    ArrayList<PartnerDto> partners =
-        partnerUcc.getPartnerMin(Integer.parseInt("" + req.getSession().getAttribute(KEY_ID)));
+    ArrayList<PartnerDto> partners = partnerUcc
+        .getPartnerMin(Integer.parseInt("" + req.getSession().getAttribute(KEY_ID)),
+            (String) req.getSession().getAttribute(KEY_PERMISSIONS));
 
     HashMap<String, Object> hashMap = new HashMap<String, Object>();
     hashMap.put("partners", partners);
@@ -679,6 +680,14 @@ public class Servlet extends HttpServlet {
     partner.setTel(req.getParameter("tel"));
     partner.setEmail(req.getParameter("email"));
     partner.setWebsite(req.getParameter("website"));
+    if (req.getSession().getAttribute(KEY_PERMISSIONS).equals("STUDENT")) {
+      partner.setExists(false);
+    }
+    if (req.getSession().getAttribute(KEY_PERMISSIONS).equals("TEACHER")) {
+      partner.setExists(true);
+    }
+    partner.setVerNr(0);
+
 
     partnerUcc.addPartner(partner);
   }
