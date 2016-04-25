@@ -491,35 +491,47 @@ $(function () {
             },
             success: function (resp) {
                 resp = JSON.parse(resp);
+                try{
+                    var b = new Date(""+resp['birthDate']['year']+"-"+resp['birthDate']['month']
+                        +"-"+resp['birthDate']['day']);
+                    var birthdate = b.getFullYear() + "-" +
+                        (b.getMonth().toString().length == 1 ? "0" + parseInt(b.getMonth() + 1) : parseInt(b.getMonth() + 1)) + "-" +
+                        (b.getDate().toString().length == 1 ? "0" + b.getDate() : b.getDate());
+                    $("input[name='birthdate']").val(birthdate);
+                }catch(err){
+                    console.log("La date de naissance est nulle");
+                }
 
-                var b = new Date(""+resp['birthDate']['year']+"-"+resp['birthDate']['month']
-                +"-"+resp['birthDate']['day']);
-                var birthdate = b.getFullYear() + "-" +
-                    (b.getMonth().toString().length == 1 ? "0" + parseInt(b.getMonth() + 1) : parseInt(b.getMonth() + 1)) + "-" +
-                    (b.getDate().toString().length == 1 ? "0" + b.getDate() : b.getDate());
-
+                console.log(resp);
                 $("input[name='name']").val(resp['name']);
                 $("input[name='firstname']").val(resp['firstname']);
                 $("input[name='gender']").val(resp['gender']);
-                $("input[name='birthdate']").val(birthdate);
                 $("input[name='citizenship']").val(resp['citizenship']);
                 $("input[name='street']").val(resp['street']);
                 $("input[name='houseNumber']").val(resp['houseNumber']);
+
                 $("input[name='city']").val(resp['city']);
+                console.log(resp['country']);
+                var country = resp['country'];
+                $("#profile_country").val(country);
                 $("input[name='mailbox']").val(resp['mailBox']);
                 $("input[name='zipcode']").val(resp['zip']);
                 $("input[name='tel']").val(resp['tel']);
                 $("input[name='email']").val(resp['email']);
-                $("option[value="+resp['country']).attr("selected", "true");
                 $("input[name='successfullYearsInCollege']").val(resp['successfullYearInCollege']);
-                $("input[name='iban']").val(resp["iban"]["value"]);
+                try {
+                    $("input[name='iban']").val(resp["iban"]["value"]);
+                }catch(err){
+
+                }
                 $("input[name='accountHolder']").val(resp['accountHolder']);
                 $("input[name='bankName']").val(resp['bankName']);
                 $("input[name='bic']").val(resp['bic']);
-
+                
                 $("#formProfile").attr("idUser", id);
 
                 $(".page").css("display", "none");
+                $("#navBarTeacher").css("display","block");
                 $("#profilePage").css("display", "block");
             },
             error: function (error) {

@@ -30,6 +30,7 @@ public class CancelationDaoImpl implements CancelationDao {
     this.factory = bizzFactory;
   }
 
+  @Override
   public ArrayList<CancelationDto> getAllReasonsOfTeacher() {
     String queryTemp = query + "WHERE c.responsible = 'TEACHER'";
     PreparedStatement preparedStatement = null;
