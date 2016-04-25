@@ -63,6 +63,14 @@ public interface MobilityDao {
   MobilityDto getMobilityById(int id);
 
   /**
+   * Cancels the mobility matching with the id.
+   * 
+   * @param idMobility the id of the mobility.
+   * @param idCancelation the id of the cancellation.
+   */
+  void cancelMobility(int idMobility, int idCancelation);
+
+  /**
    * Update mobility to join whith the partner id.
    * 
    * @param mobilityDto mobility DTO.

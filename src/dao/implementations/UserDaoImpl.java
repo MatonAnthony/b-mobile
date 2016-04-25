@@ -119,7 +119,8 @@ public class UserDaoImpl implements UserDao {
 
   @Override
   public void updateUser(UserDto userEdited) {
-    //language=PostgreSQL
+    // TODO (Jonathan) Rajouter la gestion de l'optimistic lock.
+    // language=PostgreSQL
     String query = "UPDATE bmobile.users SET name = ?, firstname = ?, gender = ?, citizenship = ?,"
         + "street = ?, house_number = ?, mailbox = ?, zip = ?, city = ?, tel = ?, email = ?,"
         + "successfull_year_in_college = ?, bic = ?, account_holder = ?, bank_name = ?, "

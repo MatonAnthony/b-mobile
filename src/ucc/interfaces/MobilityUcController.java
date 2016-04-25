@@ -68,11 +68,20 @@ public interface MobilityUcController {
   /**
    * Return basic information of Mobility DTO based on an id.
    *
-   * @param id Nr Id of mobility.
+   * @param id Id of the mobility.
    * @return Mobility DTO.
-   * @throws SQLException Th there is a problem.
+   * @throws SQLException there is a problem.
    */
   MobilityDto getMobilityById(int id) throws SQLException;
+
+  /**
+   * Cancels the mobility matching with the id.
+   * 
+   * @param idMobility the id of the mobility.
+   * @param idCancelation the id of the cancellation.
+   * @throws SQLException if an error occurred with the database.
+   */
+  void cancelMobility(int idMobility, int idCancelation) throws SQLException;
 
   /**
    * Update mobility for confirm partner.

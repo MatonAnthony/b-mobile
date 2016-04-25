@@ -106,6 +106,15 @@ public class MobilityUcControllerImpl implements MobilityUcController {
   }
 
   @Override
+  public void cancelMobility(int idMobility, int idCancelation) throws SQLException {
+    dalServices.openConnection();
+    dalServices.startTransaction();
+    mobilityDao.cancelMobility(idMobility, idCancelation);
+    dalServices.commitTransaction();
+    dalServices.closeConnection();
+  }
+
+  @Override
   public void confirmPartner(MobilityDto mobilityDto) {
     try {
       dalServices.openConnection();

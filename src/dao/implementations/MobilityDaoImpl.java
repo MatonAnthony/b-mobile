@@ -254,10 +254,28 @@ public class MobilityDaoImpl implements MobilityDao {
   }
 
   @Override
+  public void cancelMobility(int idMobility, int idCancelation) {
+    // TODO (Jonathan) Gérer le ver_nr !!
+    String queryUpdate =
+        "UPDATE bmobile.mobilities SET cancelation_reason=?, canceled=TRUE, status='Annulee' WHERE id=?";
+    PreparedStatement preparedStatement = null;
+    try {
+      preparedStatement = dalBackendServices.prepare(queryUpdate);
+      preparedStatement.setInt(1, idCancelation);
+      preparedStatement.setInt(2, idMobility);
+      dalBackendServices.executeUpdate(preparedStatement);
+    } catch (SQLException exc) {
+      exc.printStackTrace();
+      throw new UnknowErrorException(
+          "Une erreur inconnue s'est produite lors de l'annulation de la mobilité.");
+    }
+  }
+
+  @Override
   public void confirmPartner(MobilityDto mobilityDto) {
     // language=PostgreSQL
     String query = "UPDATE bmobile.mobilities SET id_partner = ?, status = ? "
-        + "WHERE id = ? AND id_partner ISNULL ";
+        + "WHERE id = ? AND id_partner IS NULL ";
 
     PreparedStatement preparedStatement = null;
 
@@ -273,6 +291,7 @@ public class MobilityDaoImpl implements MobilityDao {
       throw new UnknowErrorException(
           "Une erreur inconnue s'est produite lors de la mise à jour de l'utilisateur.");
     }
+
   }
 
 
@@ -408,7 +427,5 @@ public class MobilityDaoImpl implements MobilityDao {
 
     return mobilitydto;
   }
-
-
 
 }

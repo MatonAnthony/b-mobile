@@ -16,8 +16,10 @@ public class CancelationDaoImpl implements CancelationDao {
   private DalBackendServices dalBackendServices;
   private BizzFactory factory;
 
-  private String query =
+  private String querySelect =
       "SELECT c.id, c.reason, c.responsible, c.ver_nr FROM bmobile.cancelations c ";
+  private String queryInsert =
+      "INSERT INTO bmobile.cancelations VALUES (DEFAULT, ?, ?, 0) RETURNING id";
 
   /**
    * Instantiates a new Cancelation dao.
@@ -32,7 +34,7 @@ public class CancelationDaoImpl implements CancelationDao {
 
   @Override
   public ArrayList<CancelationDto> getAllReasonsOfTeacher() {
-    String queryTemp = query + "WHERE c.responsible = 'TEACHER'";
+    String queryTemp = querySelect + "WHERE c.responsible = 'TEACHER'";
     PreparedStatement preparedStatement = null;
     try {
       preparedStatement = dalBackendServices.prepare(queryTemp);
@@ -49,6 +51,25 @@ public class CancelationDaoImpl implements CancelationDao {
           "Une erreur inconnue s'est produite lors du chargement des raisons d'annulation.");
     }
 
+  }
+
+  @Override
+  public int insertCancelation(CancelationDto cancelationDto) {
+    PreparedStatement preparedStatement = null;
+    try {
+      preparedStatement = dalBackendServices.prepare(queryInsert);
+      preparedStatement.setString(1, cancelationDto.getReason());
+      preparedStatement.setString(2, cancelationDto.getResponsible());
+      ResultSet resultSet = dalBackendServices.executeQuery(preparedStatement);
+      if (resultSet.next()) {
+        return resultSet.getInt(1);
+      }
+    } catch (SQLException exc) {
+      exc.printStackTrace();
+      throw new UnknowErrorException(
+          "Une erreur inconnue s'est produite lors de l'insertion de l'annulation.");
+    }
+    return -1;
   }
 
   private CancelationDto fillDto(ResultSet resultSet) throws SQLException {

@@ -941,7 +941,7 @@ $(function () {
 		$("#list").on("click", ".btnCancel", function (e) {
 			e.stopPropagation();
 			var id = $(this).parent().attr("value");
-			loadCancelMobility();
+			loadCancelMobility(id);
 		});
 
 	}
@@ -1242,44 +1242,94 @@ $(function () {
 
 
 	function loadCancelMobility(id){
+		$("#textReason").val("");
 		var oldNavBar;
+		var teacher=false;
 		if($("#navBarTeacher").css("display") === "block"){
+			teacher=true;
 			oldNavBar = $("#navBarTeacher");
+			$(function (){
+				$.ajax({
+					method: "POST",
+					url: "/home",
+					data: {
+						action: "loadCancelationsReasons"
+					},
+					success: function (resp) {
+						resp = JSON.parse(resp);
+						$('#listReasons').empty();
+						$('#listReasons').append("<option value='other' selected=\"selected\">--Autre--</option>");
+						for(var i= 0; i < resp.length; i++){
+							var option = $('<option>');
+							$(option).val(resp[i]['id']).text(resp[i]['reason']);
+							$('#listReasons').append(option);
+						}
+						$('#listReasons').trigger("change");
+					},
+					error: function (error) {
+						error = JSON.parse(error.responseText);
+						printToaster(error.type, error.message);
+					}
+				});
+			});
+			$("#onlyTeacherReasons").css("display","block");
 		}else{
 			oldNavBar = $("#navBarStudent");
+			$("#onlyTeacherReasons").css("display","none");
 		}
+		//Managing of the display
 		$(".page").css("display", "none");
 		$("#cancelMobilityPage").css("display","block");
 		oldNavBar.css("display","block");
 
-		$(function (){
-			$.ajax({
-				method: "POST",
-				url: "/home",
-				data: {
-					action: "loadCancelationsReasons"
-				},
-				success: function (resp) {
-					resp = JSON.parse(resp);
-					$('#listReasons').empty();
-					for(var i= 0; i < resp.length; i++){
-						var option;
-						if (i===0){
-							option = $('<option selected="selected">');
-						}else{
-							option = $('<option>');
-						}
-						$(option).val(resp[i]['reason']).text(resp[i]['reason']);
-						$('#listReasons').append(option);
-					}
-					$('#listReasons').trigger("change");
-				},
-				error: function (error) {
-					error = JSON.parse(error.responseText);
-					printToaster(error.type, error.message);
+		$("#sendCancelation").on("click", function (){
+			var reasonValue;
+			var idReason=0;
+			if (teacher && $('#listReasons').val() === "other"){
+				if ($("#textReason").val() === ""){
+					printToaster("error","Vous devez entrez une raison pour l'annulation de la mobilité !");
+					return;
 				}
-			});
+				reasonValue = $("#textReason").val();
+			}else if (teacher){
+				if ($("#listReasons").val() !== "other" && $("#textReason").val() !== ""){
+					printToaster("error","Vous devez soit sélectionner une raison prédéfinie soit entrer un texte!");
+					return;
+				}
+				idReason = $('#listReasons').val();
+			}else{ // Student
+				if($("#textReason").val() === ""){
+					printToaster("error","Vous devez entrez une raison pour l'annulation de la mobilité !");
+					return;
+				}
+				reasonValue = $("#textReason").val();
+			}
+			$.ajax({
+                method: "POST",
+                url: "/home",
+                data: {
+                    action: "cancelMobility",
+                    idMobility: id,
+					reasonValue: reasonValue,
+					idReason: idReason
+                },
+                success: function (resp) {
+					$(".page").css("display", "none");
+					if (teacher){
+						loadList();
+					}else{
+						authStudent();
+					}
+					printToaster("success","La mobilité a bien été annulée.")
+                },
+                error: function (error) {
+                    error = JSON.parse(error.responseText);
+                    printToaster(error.type, error.message);
+                }
+            });
 		});
+
+		
 	}
 
 	function loadConfirmMobility(id){

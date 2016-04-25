@@ -27,11 +27,21 @@ public class CancelationUcControllerImpl implements CancelationUcController {
   }
 
   @Override
-  public ArrayList<CancelationDto> getCancelationsReasons() throws SQLException {
+  public ArrayList<CancelationDto> getAllReasonsOfTeacher() throws SQLException {
     dalServices.openConnection();
     ArrayList<CancelationDto> cancelations = cancelationDao.getAllReasonsOfTeacher();
     dalServices.closeConnection();
     return cancelations;
+  }
+
+  @Override
+  public int insertCancelation(CancelationDto cancelationDto) throws SQLException {
+    dalServices.openConnection();
+    dalServices.startTransaction();
+    int cancelationId = cancelationDao.insertCancelation(cancelationDto);
+    dalServices.commitTransaction();
+    dalServices.closeConnection();
+    return cancelationId;
   }
 
 }

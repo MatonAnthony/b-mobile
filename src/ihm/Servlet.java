@@ -203,6 +203,9 @@ public class Servlet extends HttpServlet {
         case "selectInfoPartner":
           selectPartnerById(req, resp);
           break;
+        case "cancelMobility":
+          cancelMobility(req, resp);
+          break;
         case "selectPartnersForConfirm":
           selectPartnersForConfirm(req, resp);
           break;
@@ -438,8 +441,8 @@ public class Servlet extends HttpServlet {
     }
     int idMobility = Integer.parseInt(0 + req.getParameter("idMobility"));
     MobilityDto mobilityDto = mobilityUcc.getMobilityById(idMobility);
-    ArrayList<PartnerDto> partners = partnerUcc
-        .getPartnerMin(Integer.parseInt("" + req.getSession().getAttribute(KEY_ID)));
+    ArrayList<PartnerDto> partners =
+        partnerUcc.getPartnerMin(Integer.parseInt("" + req.getSession().getAttribute(KEY_ID)));
 
     HashMap<String, Object> hashMap = new HashMap<String, Object>();
     hashMap.put("partners", partners);
@@ -502,6 +505,20 @@ public class Servlet extends HttpServlet {
       jsonMobilities = basicGenson.serialize(myMobilities);
       resp.getWriter().println(jsonMobilities);
     }
+    resp.setStatus(HttpStatus.ACCEPTED_202);
+  }
+
+  private void cancelMobility(HttpServletRequest req, HttpServletResponse resp)
+      throws NotEnoughPermissionsException, SQLException {
+
+    int idCancelation = Integer.parseInt(req.getParameter("idReason"));
+    if (req.getParameter("reasonValue") != null) { // If user entered a reason by textarea.
+      CancelationDto cancelationDto = bizzFactory.getCancelationDto();
+      cancelationDto.setResponsible((String) req.getSession().getAttribute(KEY_PERMISSIONS));
+      cancelationDto.setReason(req.getParameter("reasonValue"));
+      idCancelation = cancelationUcc.insertCancelation(cancelationDto);
+    }
+    mobilityUcc.cancelMobility(Integer.parseInt(req.getParameter("idMobility")), idCancelation);
     resp.setStatus(HttpStatus.ACCEPTED_202);
   }
 
@@ -731,7 +748,7 @@ public class Servlet extends HttpServlet {
    */
   private void loadCancelationReasons(HttpServletRequest req, HttpServletResponse resp)
       throws IOException, SQLException {
-    ArrayList<CancelationDto> cancelations = cancelationUcc.getCancelationsReasons();
+    ArrayList<CancelationDto> cancelations = cancelationUcc.getAllReasonsOfTeacher();
     String jsonMobilities = null;
     if (cancelations.size() == 0) {
       resp.setStatus(HttpStatus.ACCEPTED_202);
