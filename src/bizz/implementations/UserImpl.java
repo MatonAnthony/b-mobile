@@ -8,6 +8,7 @@ import nl.garvelink.iban.IBAN;
 import org.mindrot.jbcrypt.BCrypt;
 
 import java.time.LocalDate;
+import java.util.regex.Pattern;
 
 public class UserImpl implements UserBizz, Cloneable {
 
@@ -192,7 +193,9 @@ public class UserImpl implements UserBizz, Cloneable {
   @Override
   public void setName(String name) {
     if (name == null) {
-      throw new IllegalArgumentException();
+      this.name = name;
+    } else if(!Pattern.matches("[A-zÀ-ÿ- ]*", name)) {
+      throw new IllegalArgumentException("Nom invalide");
     }
     this.name = name;
   }
@@ -217,8 +220,10 @@ public class UserImpl implements UserBizz, Cloneable {
    */
   @Override
   public void setFirstname(String firstname) {
-    if (firstname == null) {
-      throw new IllegalArgumentException();
+    if (firstname == null){
+      this.firstname = firstname;
+    } else if(!Pattern.matches("[A-zÀ-ÿ- ]*", firstname)){
+      throw new IllegalArgumentException("Prénom invalide");
     }
     this.firstname = firstname;
   }
@@ -243,8 +248,11 @@ public class UserImpl implements UserBizz, Cloneable {
    */
   @Override
   public void setEmail(String email) {
-    if (email == null) {
-      throw new IllegalArgumentException();
+    if(email == null){
+      this.email = email;
+    } else if (!Pattern.matches("^[\\w!#$%&’*+/=?`{|}~^-]+(?:\\.[\\w!#$%&’*+/=?`{|}~^-]+)"
+      + "*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$", email)) {
+      throw new IllegalArgumentException("Email invalide");
     }
     this.email = email;
   }
@@ -273,6 +281,11 @@ public class UserImpl implements UserBizz, Cloneable {
     /*
      * if (tel == null) { throw new IllegalArgumentException(); }
      */
+    if(tel == null){
+      this.tel = tel;
+    }else if(!Pattern.matches("[0-9]*", tel)) {
+      throw new IllegalArgumentException("Numéro de téléphone invalide");
+    }
     this.tel = tel;
   }
 
@@ -405,6 +418,11 @@ public class UserImpl implements UserBizz, Cloneable {
     /*
      * if (accountHolder == null) { throw new IllegalArgumentException(); }
      */
+    if(accountHolder == null){
+      this.accountHolder = accountHolder;
+    }else if (!Pattern.matches("[A-zÀ-ÿ- ]*", accountHolder)) {
+      throw new IllegalArgumentException("Nom du titulaire invalide");
+    }
     this.accountHolder = accountHolder;
   }
 
@@ -428,6 +446,11 @@ public class UserImpl implements UserBizz, Cloneable {
     /*
      * if (bankName == null) { throw new IllegalArgumentException(); }
      */
+    if(bankName == null){
+      this.bankName = bankName;
+    } else if (!Pattern.matches("[A-zÀ-ÿ- ]*", bankName)) {
+      throw new IllegalArgumentException("Nom de la banque invalide");
+    }
     this.bankName = bankName;
   }
 
@@ -529,6 +552,11 @@ public class UserImpl implements UserBizz, Cloneable {
    * @param citizenship new citizenship.
    */
   public void setCitizenship(String citizenship) {
+    if(citizenship == null){
+      this.citizenship = citizenship;
+    } else if (!Pattern.matches("[A-zÀ-ÿ- ]*", citizenship)) {
+      throw new IllegalArgumentException("Nationalité invalide");
+    }
     this.citizenship = citizenship;
   }
 

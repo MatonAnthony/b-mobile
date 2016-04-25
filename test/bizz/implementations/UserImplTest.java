@@ -112,7 +112,6 @@ public class UserImplTest {
   /*
    * Try to set the name at null
    */
-  @Test(expected = IllegalArgumentException.class)
   public void testSetName() {
     puppet.setName(null);
   }
@@ -138,7 +137,6 @@ public class UserImplTest {
   /*
    * Test setFirstname with null
    */
-  @Test(expected = IllegalArgumentException.class)
   public void testSetFirstname() {
     puppet.setFirstname(null);
   }
@@ -164,7 +162,6 @@ public class UserImplTest {
   /*
    * Test setEmail with null
    */
-  @Test(expected = IllegalArgumentException.class)
   public void testSetEmail() {
     puppet.setEmail(null);
   }
