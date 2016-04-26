@@ -47,8 +47,8 @@ public class MobilityImpl implements MobilityBizz, Cloneable {
   private String academicYear;
   private int verNr;
   private double amount;
-  private LocalDate paymentDate1;
-  private LocalDate paymentDate2;
+  private boolean paymentDate1;
+  private boolean paymentDate2;
 
   /**
    * Gets the id .
@@ -899,11 +899,11 @@ public class MobilityImpl implements MobilityBizz, Cloneable {
     return true;
   }
 
-  public LocalDate getPaymentDate1() {
+  public boolean getPaymentDate1() {
     return paymentDate1;
   }
 
-  public void setPaymentDate1(LocalDate paymentDate1) {
+  public void setPaymentDate1(boolean paymentDate1) {
     this.paymentDate1 = paymentDate1;
   }
 
@@ -915,11 +915,11 @@ public class MobilityImpl implements MobilityBizz, Cloneable {
     this.amount = amount;
   }
 
-  public LocalDate getPaymentDate2() {
+  public boolean getPaymentDate2() {
     return paymentDate2;
   }
 
-  public void setPaymentDate2(LocalDate paymentDate2) {
+  public void setPaymentDate2(boolean paymentDate2) {
     this.paymentDate2 = paymentDate2;
   }
 

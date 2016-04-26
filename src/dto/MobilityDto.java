@@ -503,14 +503,14 @@ public interface MobilityDto {
    *
    * @return the first payment date.
    */
-  public LocalDate getPaymentDate1();
+  public boolean getPaymentDate1();
 
   /**
    * Sets the first payment date.
    *
    * @param paymentDate1 the first payment date.
    */
-  public void setPaymentDate1(LocalDate paymentDate1);
+  public void setPaymentDate1(boolean paymentDate1);
 
   /**
    * Gets the amount of the payment.
@@ -531,13 +531,13 @@ public interface MobilityDto {
    *
    * @return the second payment date.
    */
-  public LocalDate getPaymentDate2();
+  public boolean getPaymentDate2();
 
   /**
    * Sets the second payment date.
    *
    * @param paymentDate2 the second payment date.
    */
-  public void setPaymentDate2(LocalDate paymentDate2);
+  public void setPaymentDate2(boolean paymentDate2);
 
 }

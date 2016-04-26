@@ -78,7 +78,7 @@ public class MobilityDaoImpl implements MobilityDao {
     // language=PostgreSQL
     String query =
         "INSERT INTO bmobile.mobilities VALUES (DEFAULT,?,?,NULL,?,?,?,?,?,'En attente',0,"
-            + "NULL,NULL,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,"
+            + "FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,"
             + "FALSE,FALSE,FALSE,FALSE,FALSE,NULL,?,0)";
     PreparedStatement preparedStatement = null;
     try {
@@ -330,14 +330,9 @@ public class MobilityDaoImpl implements MobilityDao {
     mobilitydto.setAcademicYear(resultSet.getString(28));
     mobilitydto.setVerNr(resultSet.getInt(29));
     mobilitydto.setAmount(resultSet.getDouble(30));
-    Timestamp paymentDate1 = resultSet.getTimestamp(31);
-    if (null != paymentDate1) {
-      mobilitydto.setPaymentDate1(paymentDate1.toLocalDateTime().toLocalDate());
-    }
-    Timestamp paymentDate2 = resultSet.getTimestamp(32);
-    if (null != paymentDate2) {
-      mobilitydto.setPaymentDate2(paymentDate2.toLocalDateTime().toLocalDate());
-    }
+    mobilitydto.setPaymentDate1(resultSet.getBoolean(31));
+    mobilitydto.setPaymentDate2(resultSet.getBoolean(32));
+
     return mobilitydto;
   }
 
