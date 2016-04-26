@@ -8,10 +8,7 @@ import dto.PartnerDto;
 import dto.UserDto;
 import exceptions.UnknowErrorException;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Timestamp;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
 
@@ -34,21 +31,99 @@ public class PartnerDaoImpl implements PartnerDao {
       preparedStatement = dalBackendServices.prepare(query);
       preparedStatement.setInt(1, partner.getUserDto().getId());
       preparedStatement.setString(2, partner.getLegalName());
-      preparedStatement.setString(3, partner.getBusiness());
-      preparedStatement.setString(4, partner.getFullName());
-      preparedStatement.setString(5, partner.getDepartment());
-      preparedStatement.setString(6, partner.getType());
+
+      if (partner.getBusiness() == null || partner.getBusiness().equals("")) {
+        preparedStatement.setNull(3, Types.INTEGER);
+      } else {
+        preparedStatement.setString(3, partner.getBusiness());
+      }
+
+      if (partner.getFullName() == null || partner.getFullName().equals("")) {
+        preparedStatement.setNull(4, Types.INTEGER);
+      } else {
+        preparedStatement.setString(4, partner.getFullName());
+      }
+
+      if (partner.getFullName() == null || partner.getFullName().equals("")) {
+        preparedStatement.setNull(4, Types.INTEGER);
+      } else {
+        preparedStatement.setString(4, partner.getFullName());
+      }
+
+      if (partner.getDepartment() == null || partner.getDepartment().equals("")) {
+        preparedStatement.setNull(5, Types.INTEGER);
+      } else {
+        preparedStatement.setString(5, partner.getDepartment());
+      }
+
+      if (partner.getType() == null || partner.getType().equals("")) {
+        preparedStatement.setNull(6, Types.INTEGER);
+      } else {
+        preparedStatement.setString(6, partner.getType());
+      }
+
       preparedStatement.setInt(7, partner.getNbEmployees());
-      preparedStatement.setString(8, partner.getStreet());
-      preparedStatement.setString(9, partner.getNumber());
-      preparedStatement.setString(10, partner.getMailbox());
-      preparedStatement.setString(11, partner.getZip());
-      preparedStatement.setString(12, partner.getCity());
-      preparedStatement.setString(13, partner.getState());
-      preparedStatement.setString(14, partner.getCountryDto().getIso());
-      preparedStatement.setString(15, partner.getTel());
-      preparedStatement.setString(16, partner.getEmail());
-      preparedStatement.setString(17, partner.getWebsite());
+
+      if (partner.getStreet() == null || partner.getStreet().equals("")) {
+        preparedStatement.setNull(8, Types.INTEGER);
+      } else {
+        preparedStatement.setString(8, partner.getStreet());
+      }
+
+      if (partner.getNumber() == null || partner.getNumber().equals("")) {
+        preparedStatement.setNull(9, Types.INTEGER);
+      } else {
+        preparedStatement.setString(9, partner.getNumber());
+      }
+
+      if (partner.getMailbox() == null || partner.getMailbox().equals("")) {
+        preparedStatement.setNull(10, Types.INTEGER);
+      } else {
+        preparedStatement.setString(10, partner.getMailbox());
+      }
+
+      if (partner.getZip() == null || partner.getZip().equals("")) {
+        preparedStatement.setNull(11, Types.INTEGER);
+      } else {
+        preparedStatement.setString(11, partner.getZip());
+      }
+
+      if (partner.getCity() == null || partner.getCity().equals("")) {
+        preparedStatement.setNull(12, Types.INTEGER);
+      } else {
+        preparedStatement.setString(12, partner.getCity());
+      }
+
+      if (partner.getState() == null || partner.getState().equals("")) {
+        preparedStatement.setNull(13, Types.INTEGER);
+      } else {
+        preparedStatement.setString(13, partner.getState());
+      }
+
+      if (partner.getCountryDto().getIso() == null || partner.getCountryDto().getIso().equals("")) {
+        preparedStatement.setNull(14, Types.INTEGER);
+      } else {
+        preparedStatement.setString(14, partner.getCountryDto().getIso());
+      }
+
+      if (partner.getTel() == null || partner.getTel().equals("")) {
+        preparedStatement.setNull(15, Types.INTEGER);
+      } else {
+        preparedStatement.setString(15, partner.getTel());
+      }
+
+      if (partner.getEmail() == null || partner.getEmail().equals("")) {
+        preparedStatement.setNull(16, Types.INTEGER);
+      } else {
+        preparedStatement.setString(16, partner.getEmail());
+      }
+
+      if (partner.getWebsite() == null || partner.getWebsite().equals("")) {
+        preparedStatement.setNull(17, Types.INTEGER);
+      } else {
+        preparedStatement.setString(17, partner.getWebsite());
+      }
+
       preparedStatement.setBoolean(18, partner.isExists());
       preparedStatement.setInt(19, partner.getVerNr());
       dalBackendServices.executeUpdate(preparedStatement);
