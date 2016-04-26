@@ -1437,7 +1437,7 @@ $(function () {
 
 
     function loadInfoPartner(id){
-        (".page").css("display", "none");
+    	$(".page").css("display", "none");
         $("#partnerPage").css("display","block");
         $("#navBarTeacher").css("display","block");
         $(function (){
@@ -1450,8 +1450,22 @@ $(function () {
                 },
                 success: function (resp) {
                     resp = JSON.parse(resp);
-                    console.log(resp);
-                    $('#legalName').val(resp['legalName']);
+
+                    $('#legalName').html(resp['legalName']);
+                    $('#BusinesName').html(resp['business']);
+                    $('#FullName').html(resp['fullName']);
+                    $('#departmentPartner').html(resp['department']);
+                    $('#typePartner').html(resp['type']);
+                    $('#employee').html(resp['nbEmployees']);
+                    $('#streetPartner').html(resp['street']);
+                    $('#countryPartner').html(resp['countryDto']['nameFr']);
+                    $('#areaPartner').html(resp['state']);
+                    $('#postalPartner').html(resp['number']);
+                    $('#cityPartner').html(resp['city']);
+                    $('#PhonePartner').html(resp['tel']);
+                    $('#mailPartner').html(resp['email']);
+                    $('#webPartner').html(resp['website']);
+                    $('#userPartner').html(resp['userDto']['name'] + " " + resp['userDto']['firstname']);
                 },
                 error: function (error) {
                     error = JSON.parse(error.responseText);
@@ -1460,15 +1474,17 @@ $(function () {
             });
         });
 
-        /*if(){
-         $("#setPartner").css("display","none");
-         }else{
+        if($("#navBarTeacher").css("display") === "block"){
          $("#setPartner").css("display","block");
+         }else{
+         $("#setPartner").css("display","none");
          }
 
          $("#setPartner").on("click",function(){
-
-         });*/
+        	$(".page").css("display", "none");
+     		$("#addPartnerPage").css("display","block");
+     		$("#navBarTeacher").css("display","block");
+         });
 
     }
 
@@ -1492,7 +1508,6 @@ $(function () {
             	}else{
             		city = resp['partnerDto']['city'];
             	}
-
                 $("#detailMobiliteIdMobilite").html(resp['id']);
                 $("#detailMobiliteNrVersion").html(resp['verNr']);
             	var intitule = "" +resp['programDto']['name'] + " " + resp['type'] 
@@ -1549,6 +1564,13 @@ $(function () {
 				printToaster(error.type, error.message);
             }
         });
+		
+		//link info partner
+		//TODO (fany) faire le lien vers info partneraire
+		/*$("#detailMobilitePartenaire").on("click",function(){
+			loadInfoPartner();
+		});*/
+		
 	}
 
 	function printToaster(type, message){

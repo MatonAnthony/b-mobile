@@ -503,7 +503,7 @@ public class Servlet extends HttpServlet {
   private void selectPartnerById(HttpServletRequest req, HttpServletResponse resp)
       throws NotEnoughPermissionsException, IOException, SQLException {
 
-    if (!req.getSession().getAttribute(KEY_PERMISSIONS).equals("STUDENT")) {
+    if (req.getSession().getAttribute(KEY_PERMISSIONS).equals("STUDENT")) {
       throw new NotEnoughPermissionsException(
           "Vous n'avez pas les droits nécessaires pour faire cela");
     }
