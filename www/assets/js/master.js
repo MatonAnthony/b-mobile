@@ -1093,27 +1093,13 @@ $(function () {
 						else data += "<td></td>";
 							data += "<td>"+resp[key]['amount']+"</td>";
 
-						if (resp[key]['paymentDate1'] !== null){
-							var day = resp[key]['paymentDate1']['dayOfMonth'];
-							var month = resp[key]['paymentDate1']['monthValue'];
-							if (month>=1 && month <=9)
-								month = "0"+month;
-							if (day >= 1 && day <= 9)
-								day = "0"+day;
-							data += "<td>"+day+"/"+month+"/"+resp[key]['paymentDate1']['year']+"</td>";
-						}
-						else data += "<td></td>";
+						if (resp[key]['paymentDate1']){
+							data += "<td>Demandé</td>"
+						}else data += "<td>Non demandé</td>";
 
-						if (resp[key]['paymentDate2'] !== null){
-							var day = resp[key]['paymentDate2']['dayOfMonth'];
-							var month = resp[key]['paymentDate2']['monthValue'];
-							if (month>=1 && month <=9)
-								month = "0"+month;
-							if (day >= 1 && day <= 9)
-								day = "0"+day;
-							data += "<td>"+day+"/"+month+"/"+resp[key]['paymentDate2']['year']+"</td>";
-						}
-						else data +="<td></td>";
+						if (resp[key]['paymentDate2']){
+							data += "<td>Demandé</td>"
+						}else data += "<td>Non demandé</td>";
 
 						data += "</tr>"
 
