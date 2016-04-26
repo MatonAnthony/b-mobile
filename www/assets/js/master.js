@@ -1117,7 +1117,7 @@ $(function () {
 					$("#empty").empty();
 
 					for (key in resp) {
-						var data = "<tr class='clickable' value='"+ resp[key]['id'] + "'>" +
+						var data = "<tr value='"+ resp[key]['id'] + "'>" +
 										"<td>" + resp[key]['id'] + "</td>"+
 										"<td>" + resp[key]['studentDto']['name'] + "</td>" +
 										"<td>" + resp[key]['studentDto']['firstname'] + "</td>" +
@@ -1177,7 +1177,7 @@ $(function () {
 						for (key in resp) {
 
 							$("#tableConfirmed tbody").append(
-								"<tr class='clickable' value='"+ resp[key]['id'] + "'>" +
+								"<tr value='"+ resp[key]['id'] + "'>" +
 								"<td>" + resp[key]['departmentDto']['label'] + "</td>" +
 								"<td>" + resp[key]['programDto']['name'] + "</td>" +
 								"<td>" + resp[key]['type'] + "</td>" +
