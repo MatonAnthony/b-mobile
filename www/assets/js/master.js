@@ -919,7 +919,7 @@ $(function () {
 						
 						$("#list tr td:nth-child(10)").each(function(){
 							if ($(this).html() !== "Annulee") {
-								$(this).next().append("<button class=\"btnCancel btn btn-info\">Annuler</button>");
+                                $(this).next().append("<button type=\"button\" class=\"btnCancel btn btn-info\" data-toggle=\"modal\" data-target=\"#modalCancelMobility\">Annuler</button>");
 							} else {
 								$(this).parent().addClass("danger");
 							}
@@ -941,7 +941,7 @@ $(function () {
 			loadDetailsMobility(id);
 		});
 		$("#list").on("click", ".btnCancel", function (e) {
-			e.stopPropagation();
+			//e.stopPropagation();
 			var id = $(this).parent().attr("value");
 			loadCancelMobility(id);
 		});
@@ -1203,7 +1203,7 @@ $(function () {
 						}	
 						$("#myMobility tr td:nth-child(6)").each(function () {
 							if ($(this).html() !== "Annulee") {
-								$(this).next().append("<button class=\"btnCancel btn btn-info\">Annuler</button>");
+								$(this).next().append("<button type=\"button\" class=\"btn btn-info\" id=\"btnCancelStudent\" data-toggle=\"modal\" data-target=\"#modalCancelMobility\">Annuler</button>");
 							} else {
 								$(this).parent().addClass("danger");
 							}
@@ -1221,7 +1221,7 @@ $(function () {
 	            }
 	        });
 	    });
-		$("#myMobility").on("click.btnCancel", ".btnCancel", function () {
+		$("#myMobility").on("click.btnCancel", "#btnCancelStudent", function () {
 			var id = $(this).parent().attr("value");
             $("#myMobility").off("click.btnCancel");
 			loadCancelMobility(id);
@@ -1272,10 +1272,6 @@ $(function () {
 			oldNavBar = $("#navBarStudent");
 			$("#onlyTeacherReasons").css("display","none");
 		}
-		//Managing of the display
-		$(".page").css("display", "none");
-		$("#cancelMobilityPage").css("display","block");
-		oldNavBar.css("display","block");
 
 		$("#sendCancelation").on("click", function (){
 			var reasonValue;
@@ -1310,10 +1306,11 @@ $(function () {
                 },
                 success: function (resp) {
 					$(".page").css("display", "none");
+                    $("#modalCancelMobility").modal("hide");
 					if (teacher){
 						loadList();
 					}else{
-						authStudent();
+                        authStudent();
 					}
 					printToaster("success","La mobilité a bien été annulée.")
                 },
