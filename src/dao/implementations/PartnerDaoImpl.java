@@ -49,7 +49,7 @@ public class PartnerDaoImpl implements PartnerDao {
       preparedStatement.setString(15, partner.getTel());
       preparedStatement.setString(16, partner.getEmail());
       preparedStatement.setString(17, partner.getWebsite());
-      preparedStatement.setBoolean(18, partner.getExists());
+      preparedStatement.setBoolean(18, partner.isExists());
       preparedStatement.setInt(19, partner.getVerNr());
       dalBackendServices.executeUpdate(preparedStatement);
     } catch (SQLException exc) {

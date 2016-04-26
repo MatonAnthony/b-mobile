@@ -4,6 +4,8 @@ import bizz.interfaces.PartnerBizz;
 import dto.CountryDto;
 import dto.UserDto;
 
+import java.util.regex.Pattern;
+
 public class PartnerImpl implements PartnerBizz {
 
   private int id;
@@ -59,6 +61,11 @@ public class PartnerImpl implements PartnerBizz {
   }
 
   public void setLegalName(String legalName) {
+    if(legalName == null) {
+      this.legalName = null;
+    } else if (!Pattern.matches("[A-zÀ-ÿ-. ]*", legalName)) {
+      throw new IllegalArgumentException("Le nom légal doit être cohérent");
+    }
     this.legalName = legalName;
   }
 
@@ -67,6 +74,11 @@ public class PartnerImpl implements PartnerBizz {
   }
 
   public void setBusiness(String business) {
+    if(business == null) {
+      this.businessName = null;
+    } else if (!Pattern.matches("[A-zÀ-ÿ-. ]*", business)) {
+      throw new IllegalArgumentException("Le nom du business doit être cohérent");
+    }
     this.businessName = business;
   }
 
@@ -75,6 +87,11 @@ public class PartnerImpl implements PartnerBizz {
   }
 
   public void setFullName(String fullName) {
+    if(fullName == null) {
+      this.fullName = null;
+    } else if (!Pattern.matches("[A-zÀ-ÿ-. ]*", fullName)) {
+      throw new IllegalArgumentException("Le nom complet doit être cohérent");
+    }
     this.fullName = fullName;
   }
 
@@ -91,6 +108,7 @@ public class PartnerImpl implements PartnerBizz {
   }
 
   public void setType(String type) {
+    // TODO Check validation with Martin
     this.type = type;
   }
 
@@ -107,6 +125,11 @@ public class PartnerImpl implements PartnerBizz {
   }
 
   public void setStreet(String street) {
+    if(street == null) {
+      this.street = null;
+    } else if (!Pattern.matches("[A-zÀ-ÿ-. 0-9]*", street)) {
+      throw new IllegalArgumentException("Le nom de la rue doit-être cohérent");
+    }
     this.street = street;
   }
 
@@ -115,6 +138,7 @@ public class PartnerImpl implements PartnerBizz {
   }
 
   public void setNumber(String number) {
+    // TODO : Pourquoi est-ce un string ?
     this.number = number;
   }
 
@@ -139,6 +163,12 @@ public class PartnerImpl implements PartnerBizz {
   }
 
   public void setCity(String city) {
+    if(city == null) {
+      this.city = null;
+    } else if (!Pattern.matches("[A-zÀ-ÿ-. ]*", city)) {
+      throw new IllegalArgumentException("Le nom de la ville ne peut contenir de chiffres ou de"
+        + "caractères spéciaux.");
+    }
     this.city = city;
   }
 
@@ -179,6 +209,12 @@ public class PartnerImpl implements PartnerBizz {
   }
 
   public void setEmail(String email) {
+    if(email == null) {
+      this.email = email;
+    } else if (!Pattern.matches("^[\\w!#$%&’*+/=?`{|}~^-]+(?:\\.[\\w!#$%&’*+/=?`{|}~^-]+)"
+      + "*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$", email)) {
+      throw new IllegalArgumentException("Email invalide");
+    }
     this.email = email;
   }
 
@@ -187,6 +223,12 @@ public class PartnerImpl implements PartnerBizz {
   }
 
   public void setWebsite(String website) {
+    if(website == null) {
+      this.website = website;
+    } else if (!Pattern.matches("/^(([^:/?#]+):)?(//([^/?#]*))?([^?#]*)(\\?([^#]*))?(#(.*))?/",
+      website)) {
+      throw new IllegalArgumentException("Format de l'adresse du site internet invalide");
+    }
     this.website = website;
   }
 
@@ -196,11 +238,6 @@ public class PartnerImpl implements PartnerBizz {
 
   public void setExists(boolean exists) {
     this.exists = exists;
-  }
-
-
-  public boolean getExists() {
-    return exists;
   }
 
   public int getVerNr() {
