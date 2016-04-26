@@ -365,8 +365,7 @@ public class UserImpl implements UserBizz, Cloneable {
     if (iban == null || iban.isEmpty()) {
       this.iban = null;
     } else {
-      IBAN staging = IBAN.parse(iban);
-      this.iban = staging;
+      this.iban = IBAN.parse(iban);
     }
   }
 
