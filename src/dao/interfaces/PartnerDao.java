@@ -20,7 +20,7 @@ public interface PartnerDao {
    * @param permission Type of permission (Teacher or Student).
    * @return An ArrayList with all partners.
    */
-  ArrayList<PartnerDto> getPartnersMin(int userId,  String permission);
+  ArrayList<PartnerDto> getPartnersMin(int userId, String permission);
 
   /**
    * Get a partner.
@@ -29,4 +29,11 @@ public interface PartnerDao {
    * @return A partnerDto.
    */
   PartnerDto getPartnerById(int id);
+
+  /**
+   * Get all the partners of the database.
+   * 
+   * @return An ArrayList of PartnerDto
+   */
+  ArrayList<PartnerDto> getAllPartners();
 }

@@ -126,6 +126,7 @@ public class UserDaoImpl implements UserDao {
         + "successfull_year_in_college = ?, bic = ?, account_holder = ?, bank_name = ?, "
         + "country = ?, iban = ?, birth_date = ?" + "WHERE id = ?";
     PreparedStatement preparedStatement = null;
+    System.out.println(userEdited.getCitizenship());
     try {
       preparedStatement = dalBackendServices.prepare(query);
       preparedStatement.setString(1, userEdited.getName());
@@ -224,7 +225,6 @@ public class UserDaoImpl implements UserDao {
     countryDto.setNameFr(resultSet.getString("name_fr"));
     user.setCountryDto(countryDto);
 
-    System.out.println(resultSet.getString("street"));
     return user;
   }
 

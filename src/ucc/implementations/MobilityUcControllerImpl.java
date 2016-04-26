@@ -64,6 +64,7 @@ public class MobilityUcControllerImpl implements MobilityUcController {
     try {
       dalServices.openConnection();
       dalServices.startTransaction();
+      System.out.println("UCC");
       mobilityDao.createMobility(mobility);
 
       dalServices.commitTransaction();
@@ -132,6 +133,30 @@ public class MobilityUcControllerImpl implements MobilityUcController {
       }
     }
 
+
+  }
+
+  @Override
+  public void updateMobilityDetails(MobilityDto mobility) {
+    try {
+      dalServices.openConnection();
+      dalServices.startTransaction();
+      mobilityDao.updateMobilityDetails(mobility);
+      dalServices.commitTransaction();
+    } catch (SQLException exc) {
+      exc.printStackTrace();
+      try {
+        dalServices.rollbackTransaction();
+      } catch (SQLException exc1) {
+        exc1.printStackTrace();
+      }
+    } finally {
+      try {
+        dalServices.closeConnection();
+      } catch (SQLException exc) {
+        exc.printStackTrace();
+      }
+    }
 
   }
 

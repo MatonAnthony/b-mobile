@@ -27,4 +27,12 @@ public interface PartnerUcController {
 
 
   PartnerDto getPartnerById(int id) throws SQLException;
+
+  /**
+   * Return an ArrayList containing all the partners.
+   * 
+   * @return an ArrayList of PartnerDto
+   * @throws SQLException if an error occurred with the database.
+   */
+  ArrayList<PartnerDto> getAllPartners() throws SQLException;
 }

@@ -89,4 +89,11 @@ public interface MobilityUcController {
    * @param mobilityDto mobility DTO.
    */
   void confirmPartner(MobilityDto mobilityDto);
+
+  /**
+   * Update the details for a mobility.
+   * 
+   * @param mobility the mobilityDto with the informations.
+   */
+  void updateMobilityDetails(MobilityDto mobility);
 }

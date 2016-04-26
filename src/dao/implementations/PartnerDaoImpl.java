@@ -1,6 +1,5 @@
 package dao.implementations;
 
-import bizz.enumeration.Permissions;
 import bizz.interfaces.BizzFactory;
 import dal.DalBackendServices;
 import dao.interfaces.PartnerDao;
@@ -28,8 +27,8 @@ public class PartnerDaoImpl implements PartnerDao {
 
   @Override
   public void createPartner(PartnerDto partner) {
-    String query = "INSERT INTO bmobile.partners VALUES "
-        + "(DEFAULT,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+    String query =
+        "INSERT INTO bmobile.partners VALUES " + "(DEFAULT,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
     PreparedStatement preparedStatement = null;
     try {
       preparedStatement = dalBackendServices.prepare(query);
@@ -63,7 +62,7 @@ public class PartnerDaoImpl implements PartnerDao {
   @Override
   public ArrayList<PartnerDto> getPartnersMin(int userId, String permission) {
 
-    //language=PostgreSQL
+    // language=PostgreSQL
     String query = "SELECT p.id, p.legal_name FROM bmobile.partners p "
         + "LEFT JOIN bmobile.mobilities m ON p.id = m.id_partner "
         + "WHERE m.id_partner IS NULL AND p.id_user = ? AND p.exists = ?";
@@ -97,23 +96,45 @@ public class PartnerDaoImpl implements PartnerDao {
   }
 
   @Override
+  public ArrayList<PartnerDto> getAllPartners() {
+    String query =
+        "SELECT p.id, p.id_user, p.legal_name, p.business_name, p.full_name, p.department, "
+            + "p.type, p.nb_employees, p.street, p.number, p.mailbox, p.zip, p.city, p.state, "
+            + "p.country, p.tel, p.email, p.website, p.exists, p.ver_nr FROM bmobile.partners p";
+    ArrayList<PartnerDto> partners = null;
+    PreparedStatement preparedStatement = null;
+    try {
+      preparedStatement = dalBackendServices.prepare(query);
+
+      partners = fillDtoArray(preparedStatement);
+
+    } catch (SQLException exc) {
+      exc.printStackTrace();
+    }
+
+    return partners;
+
+  }
+
+
+  @Override
   public PartnerDto getPartnerById(int id) {
     String query = "SELECT par.id, par.id_user, par.legal_name, par.business_name,"
         + " par.full_name, par.department,par.type, par.nb_employees, par.street,"
         + " par.number, par.mailbox, par.zip, par.city, par.state, par.country, par.email,"
-        + " par.website, par.exists, par.tel par.ver_nr,"
+        + " par.website, par.exists, par.tel, par.ver_nr,"
         + " u.id, u.id_department, u.pseudo, u.password, u.name, u.firstname, u.email, "
         + " u.registration_date, u.permissions, u.birth_date, u.street, u.citizenship,"
         + " u.house_number, u.mailbox, u.zip, u.city, u.country, u.tel, u.gender,"
         + " u.successfull_year_in_college, u.iban, u.bic, u.account_holder, u.bank_name, u.ver_nr,"
         + " co.iso, co.name_en, co.name_fr, co.id_program"
         + " FROM bmobile.partners par LEFT OUTER JOIN bmobile.users u ON par.id_user = u.id,"
-        + " bmobile.countries co par WHERE par.country = co.id par.id = ?";
+        + " bmobile.countries co WHERE par.country = co.iso AND par.id = ?";
     PreparedStatement preparedStatement = null;
     try {
       preparedStatement = dalBackendServices.prepare(query);
       preparedStatement.setInt(1, id);
-      return fillDto(preparedStatement);
+      return fillDtoFull(preparedStatement);
     } catch (SQLException exc) {
       exc.printStackTrace();
       throw new UnknowErrorException(
@@ -121,18 +142,63 @@ public class PartnerDaoImpl implements PartnerDao {
     }
   }
 
-  private PartnerDto fillDto(PreparedStatement preparedStatement) throws SQLException {
+  /**
+   * Execute a preparedStatement an return an ArrayList of PartnerDto.
+   * 
+   * @param preparedStatement The PreparedStatement to execute.
+   * @return An ArrayList of PartnerDto
+   * @throws SQLException If an error occured in the database.
+   */
+  private ArrayList<PartnerDto> fillDtoArray(PreparedStatement preparedStatement)
+      throws SQLException {
+    ArrayList<PartnerDto> partners = new ArrayList<PartnerDto>();
+    ResultSet rs = dalBackendServices.executeQuery(preparedStatement);
+    while (rs.next()) {
+      PartnerDto partner = completeDto(rs);
+      partners.add(partner);
+    }
+    return partners;
+  }
+
+
+  private PartnerDto fillDtoFull(PreparedStatement preparedStatement) throws SQLException {
     PartnerDto partner = factory.getPartnerDto();
     ResultSet resultSet = dalBackendServices.executeQuery(preparedStatement);
     if (resultSet.next()) {
-      completeDto(partner, resultSet);
+      completeDtoFull(partner, resultSet);
     } else {
       throw new NoSuchElementException("Ce partenaire n'existe pas.");
     }
     return partner;
   }
 
-  private PartnerDto completeDto(PartnerDto partner, ResultSet resultSet) throws SQLException {
+
+  private PartnerDto completeDto(ResultSet resultSet) throws SQLException {
+    PartnerDto partner = factory.getPartnerDto();
+    partner.setId(resultSet.getInt(1));
+    partner.setIdUser(resultSet.getInt(2));
+    partner.setLegalName(resultSet.getString(3));
+    partner.setBusiness(resultSet.getString(4));
+    partner.setFullName(resultSet.getString(5));
+    partner.setDepartment(resultSet.getString(6));
+    partner.setType(resultSet.getString(7));
+    partner.setNbEmployees(resultSet.getInt(8));
+    partner.setStreet(resultSet.getString(9));
+    partner.setNumber(resultSet.getString(10));
+    partner.setMailbox(resultSet.getString(11));
+    partner.setZip(resultSet.getString(12));
+    partner.setCity(resultSet.getString(13));
+    partner.setState(resultSet.getString(14));
+    partner.setCountry(resultSet.getString(15));
+    partner.setTel(resultSet.getString(16));
+    partner.setEmail(resultSet.getString(17));
+    partner.setWebsite(resultSet.getString(18));
+    partner.setExists(resultSet.getBoolean(19));
+    partner.setVerNr(resultSet.getInt(20));
+    return partner;
+  }
+
+  private PartnerDto completeDtoFull(PartnerDto partner, ResultSet resultSet) throws SQLException {
     partner.setId(resultSet.getInt(1));
     partner.setIdUser(resultSet.getInt(2));
     partner.setLegalName(resultSet.getString(3));

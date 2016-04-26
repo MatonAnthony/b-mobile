@@ -2,6 +2,8 @@
 	<h3 class="col-md-offset-1">Modifier une mobilité</h3>
 	</br>
 	<div class="col-md-5 col-md-offset-1">
+		<input id="detailMobiliteIdMobilite" type="hidden"></input>
+		<input id="detailMobiliteNrVersion" type="hidden"></input>
 		<p id="detailMobiliteIntitule"></p>
 		<p id="detailMobilitePartenaire"></p>
 		<p id="detailMobiliteEtat"></p>
@@ -37,7 +39,11 @@
 	</p>
 	</div>
 	<div class="col-md-4">
-		<button class="btn btn-info">Annuler la demande</button>
+		<button class="btn btn-info" id="detailMobiliteCancel">Annuler la demande</button>
+	</div>
+
+	<div class="col-md-4">
+		<button id="detailMobiliteModify" class="btn btn-info">Modifier</button>
 	</div>
 
 </section>

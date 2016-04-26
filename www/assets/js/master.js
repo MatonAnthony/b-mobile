@@ -115,7 +115,8 @@ $(function () {
         });
     };
     
-    window.onpopstate = function (event) {
+    window.onpopstate = function(event) {
+
         changePage();
     };
     
@@ -199,7 +200,7 @@ $(function () {
         $("#loginPage").css("display", "block");
     });
 
-    $("#registerLink").click(function () {
+    $("#registerLink").click(function() {
         loadRegisterPage();
     });
 
@@ -322,7 +323,10 @@ $(function () {
             '<td><select id="selectDep' + nbRow + '" class="form-control">' +
             '</select>' +
             '</td>' +
-            '<td><select id="selectCountry' + nbRow + '" class="form-control">' +
+            '<td><select id="selectCountry' + nbRow + '" class="form-control countrySelector">' +
+            '</select>' +
+            '</td>' +
+            '<td><select id="selectPartner' + nbRow + '" class="form-control">' +
             '</select>' +
             '</td>' +
             '</form>' +
@@ -333,7 +337,9 @@ $(function () {
         addDepartmentsToSelector(nbRow);
         addCountriesToSelector(nbRow);
         addProgramsToSelector(nbRow);
+        addPartnersToSelector(nbRow);
         showCountriesByProgram(nbRow, 'Erasmus+');
+        showPartnerByCountry(nbRow, 'DE');
         return true;
     });
 
@@ -359,7 +365,8 @@ $(function () {
                     quadrimestre: $("#selectQuadri" + i).val(),
                     department: $("#selectDep" + i).val(),
                     country: $("#selectCountry" + i).val(),
-                    year: $("#selectAccademicYear" + i).val()
+                    year: $("#selectAccademicYear" + i).val(),
+                    partner:$("#selectPartner" + i +" >option:selected").attr("data-partnerId")
                 },
                 success: function (resp) {
                     printToaster("success", "La/Les demande(s) ont bien été ajoutée(s).");
@@ -374,13 +381,19 @@ $(function () {
     });
 
     $(document).on("change", ".programSelector", function(){
-    	showCountriesByProgram($(this).context['id'].charAt(13), this.value);
+        var row = $(this).context['id'].charAt(13);
+    	showCountriesByProgram(row, this.value);
+        $("#selectCountry" + row).trigger("change");
+    });
+
+    $(document).on("change", ".countrySelector", function(){
+        var row = $(this).context['id'].charAt(13);
+        showPartnerByCountry(row , $("#selectCountry"+ row + " option:selected").attr("data-countryiso"));
     });
 
     function showCountriesByProgram(row, programSelected){
-
     	$("#selectCountry" + row + ">option").each(function(){
-    		var program = $(this).attr("program");
+    		var program = $(this).attr("data-program");
     		switch(programSelected){
     			case 'Erabel' :
     				if(program != 2){
@@ -411,6 +424,21 @@ $(function () {
     	});
     }
 
+    function showPartnerByCountry(row, countrySelected){
+
+        $("#selectPartner" + row + ">option").each(function(){
+            var countryIso = $(this).attr("data-country");
+            if(countryIso === countrySelected){
+                $(this).css("display", "block");
+            }else{
+                $(this).css("display", "none");
+            }
+            $(this).parent().val("Aucun partenaire");
+        });
+        $("#selectPartner"+row+" option:first-child").css("display", "block");
+
+    }
+
     function addDepartmentsToSelector(id) {
         var departments = $("#selectDep1").html();
         var selectName = "#selectDep" + id;
@@ -427,6 +455,12 @@ $(function () {
         var programs = $("#selectProgram1").html();
         var selectName = "#selectProgram" + id;
         $(selectName).html(programs);
+    }
+
+    function addPartnersToSelector(id) {
+        var partners = $("#selectPartner1").html();
+        var selectName = "#selectPartner" + id;
+        $(selectName).html(partners);
     }
 
     function addAccademicYearsToSelector(id){
@@ -504,7 +538,6 @@ $(function () {
                     console.log("La date de naissance est nulle");
                 }
 
-                console.log(resp);
                 $("input[name='name']").val(resp['name']);
                 $("input[name='firstname']").val(resp['firstname']);
                 $("input[name='gender']").val(resp['gender']);
@@ -513,7 +546,6 @@ $(function () {
                 $("input[name='houseNumber']").val(resp['houseNumber']);
 
                 $("input[name='city']").val(resp['city']);
-                console.log(resp['country']);
                 var country = resp['country'];
                 $("#profile_country").val(country);
                 $("input[name='mailbox']").val(resp['mailBox']);
@@ -664,12 +696,16 @@ $(function () {
 	                    $("#selectProgram1").append("<option>" + resp['programs'][key]['name'] + "</option>");
 	                }
                     for (key in resp['countries']) {
-                        $("#selectCountry1").append("<option program=\"" + resp['countries'][key]['idProgram'] + "\">" + resp['countries'][key]['nameFr'] + "</option>");
+                        $("#selectCountry1").append("<option data-countryIso=\"" + resp['countries'][key]['iso'] + "\" data-program=\"" + resp['countries'][key]['idProgram'] + "\">" + resp['countries'][key]['nameFr'] + "</option>");
                     }
-                     showCountriesByProgram(1, "Erasmus+");
-                     for (key in resp['departments']) {
+                    showCountriesByProgram(1, "Erasmus+");
+                    for (key in resp['departments']) {
                         $("#selectDep1").append("<option>" + resp['departments'][key]['label'] + "</option>");
                     }
+                    for (key in resp['partners']) {
+                        $("#selectPartner1").append("<option data-country=\"" + resp['partners'][key]['country'] + "\" data-partnerId=\"" + resp['partners'][key]['id'] + "\">" + resp['partners'][key]['legalName'] + "</option>");
+                    }
+                    showPartnerByCountry(1, "DE");
 	            },
 	            error: function (error) {
 	                error = JSON.parse(error.responseText);
@@ -846,7 +882,6 @@ $(function () {
                     console.log("La date de naissance est nulle");
                 }
 
-                console.log(resp);
                 $("input[name='name']").val(resp['name']);
                 $("input[name='firstname']").val(resp['firstname']);
                 $("input[name='gender']").val(resp['gender']);
@@ -855,7 +890,6 @@ $(function () {
                 $("input[name='houseNumber']").val(resp['houseNumber']);
 
                 $("input[name='city']").val(resp['city']);
-                console.log(resp['country']);
                 var country = resp['country'];
                 $("#profile_country").val(country);
                 $("input[name='mailbox']").val(resp['mailBox']);
@@ -1452,13 +1486,15 @@ $(function () {
             },
             success: function (resp) {
             	resp = JSON.parse(resp);
-            	console.log(resp);
             	var city;
             	if(resp['partnerDto']['city'] === null){
             		city = undefined;
             	}else{
             		city = resp['partnerDto']['city'];
             	}
+
+                $("#detailMobiliteIdMobilite").html(resp['id']);
+                $("#detailMobiliteNrVersion").html(resp['verNr']);
             	var intitule = "" +resp['programDto']['name'] + " " + resp['type'] 
             		+  " à " + city + " durant le quadri " + resp['quadrimester'];
             	$("#detailMobiliteIntitule").html(intitule);

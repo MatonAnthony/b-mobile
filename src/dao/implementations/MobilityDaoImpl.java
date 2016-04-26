@@ -10,6 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.sql.Types;
 import java.util.ArrayList;
 
 public class MobilityDaoImpl implements MobilityDao {
@@ -74,23 +75,29 @@ public class MobilityDaoImpl implements MobilityDao {
 
   @Override
   public void createMobility(MobilityDto mobilityDto) {
-    // TODO (Martin) Comment gérer l'année académique
+    System.out.println("insertion dans la DB");
     // language=PostgreSQL
-    String query =
-        "INSERT INTO bmobile.mobilities VALUES (DEFAULT,?,?,NULL,?,?,?,?,?,'En attente',0,"
-            + "FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,"
-            + "FALSE,FALSE,FALSE,FALSE,FALSE,NULL,?,0)";
+    String query = "INSERT INTO bmobile.mobilities VALUES (DEFAULT,?,?,?,?,?,?,?,?,'En attente',0,"
+        + "FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,"
+        + "FALSE,FALSE,FALSE,FALSE,FALSE,NULL,?,0)";
     PreparedStatement preparedStatement = null;
     try {
       preparedStatement = dalBackendServices.prepare(query);
       preparedStatement.setInt(1, mobilityDto.getStudentDto().getId());
       preparedStatement.setInt(2, mobilityDto.getProgramDto().getId());
-      preparedStatement.setString(3, mobilityDto.getType());
-      preparedStatement.setInt(4, mobilityDto.getPreferenceOrder());
-      preparedStatement.setString(5, mobilityDto.getCountryDto().getIso());
-      preparedStatement.setString(6, mobilityDto.getDepartementDto().getId());
-      preparedStatement.setInt(7, mobilityDto.getQuadrimester());
-      preparedStatement.setString(8, mobilityDto.getAcademicYear());
+
+      if (mobilityDto.getPartnerDto() == null) {
+        preparedStatement.setNull(3, Types.INTEGER);
+      } else {
+        preparedStatement.setInt(3, mobilityDto.getPartnerDto().getId());
+      }
+
+      preparedStatement.setString(4, mobilityDto.getType());
+      preparedStatement.setInt(5, mobilityDto.getPreferenceOrder());
+      preparedStatement.setString(6, mobilityDto.getCountryDto().getIso());
+      preparedStatement.setString(7, mobilityDto.getDepartementDto().getId());
+      preparedStatement.setInt(8, mobilityDto.getQuadrimester());
+      preparedStatement.setString(9, mobilityDto.getAcademicYear());
 
       dalBackendServices.executeUpdate(preparedStatement);
 
@@ -292,6 +299,27 @@ public class MobilityDaoImpl implements MobilityDao {
           "Une erreur inconnue s'est produite lors de la mise à jour de l'utilisateur.");
     }
 
+  }
+
+  @Override
+  public void updateMobilityDetails(MobilityDto mobility) {
+    String query = "UPDATE bmobile.mobilities SET software_proeco=?, software_mobility_tools=?, "
+        + "software_mobi= ? WHERE id = ? AND ver_nr=?";
+
+    PreparedStatement preparedStatement = null;
+    try {
+      preparedStatement = dalBackendServices.prepare(query);
+      preparedStatement.setBoolean(1, mobility.isSoftwareProeco());
+      preparedStatement.setBoolean(2, mobility.isSoftwareMobilityTools());
+      preparedStatement.setBoolean(3, mobility.isSoftwareMobi());
+
+
+      preparedStatement.setInt(4, mobility.getId());
+      preparedStatement.setInt(5, mobility.getVerNr());
+    } catch (SQLException exc) {
+      exc.printStackTrace();
+      throw new UnknowErrorException();
+    }
   }
 
 

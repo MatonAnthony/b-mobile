@@ -62,4 +62,13 @@ public class PartnerUcControllerImpl implements PartnerUcController {
     dalServices.closeConnection();
     return partner;
   }
+
+  @Override
+  public ArrayList<PartnerDto> getAllPartners() throws SQLException {
+    dalServices.openConnection();
+    ArrayList<PartnerDto> partner = partnerDao.getAllPartners();
+    dalServices.closeConnection();
+    return partner;
+
+  }
 }

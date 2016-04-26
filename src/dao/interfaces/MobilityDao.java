@@ -76,4 +76,11 @@ public interface MobilityDao {
    * @param mobilityDto mobility DTO.
    */
   void confirmPartner(MobilityDto mobilityDto);
+
+  /**
+   * Update the mobility details in the Database whith the informations in the dto.
+   * 
+   * @param mobility the dto with the informations.
+   */
+  void updateMobilityDetails(MobilityDto mobility);
 }

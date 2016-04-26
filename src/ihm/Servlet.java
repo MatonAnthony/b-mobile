@@ -212,12 +212,34 @@ public class Servlet extends HttpServlet {
         case "confirmPartnerInMobility":
           confirmPartnerInMobility(req, resp);
           break;
+        case "updateMobilityDetail":
+          updateMobilityDetail(req, resp);
+          break;
         default:
           resp.setStatus(HttpStatus.BAD_REQUEST_400);
       }
     } catch (Exception exc) {
       createToaster(exc, resp);
     }
+
+  }
+
+
+  private void updateMobilityDetail(HttpServletRequest req, HttpServletResponse resp)
+      throws NotEnoughPermissionsException {
+    if (!req.getSession().getAttribute(KEY_PERMISSIONS).equals("TEACHER")) {
+      throw new NotEnoughPermissionsException(
+          "Vous n'avez pas les droits nécessaires pour faire cela");
+    }
+    MobilityDto mobility = bizzFactory.getMobilityDto();
+    mobility.setId(Integer.parseInt("" + req.getAttribute("id")));
+    mobility.setSoftwareProeco((boolean) req.getAttribute("proEco"));
+    mobility.setSoftwareMobilityTools((boolean) req.getAttribute("mobilityTool"));
+    mobility.setSoftwareMobi((boolean) req.getAttribute("mobi"));
+
+    mobility.setVerNr(Integer.parseInt("" + req.getAttribute("nrVersion")));
+
+    mobilityUcc.updateMobilityDetails(mobility);
 
   }
 
@@ -245,13 +267,14 @@ public class Servlet extends HttpServlet {
 
     ArrayList<ProgramDto> programs = programUcc.getAllPrograms();
     ArrayList<DepartmentDto> departments = departmentUcc.getAllDepartments();
-    ArrayList<CountryDto> countries = null;
-    countries = countryUcc.getAllCountries();
+    ArrayList<CountryDto> countries = countryUcc.getAllCountries();
+    ArrayList<PartnerDto> partners = partnerUcc.getAllPartners();
 
     HashMap<String, Object> datas = new HashMap<String, Object>();
     datas.put("programs", programs);
     datas.put("departments", departments);
     datas.put("countries", countries);
+    datas.put("partners", partners);
 
     String json = basicGenson.serialize(datas);
     resp.getWriter().print(json);
@@ -308,6 +331,7 @@ public class Servlet extends HttpServlet {
       createToaster(exc, resp);
     }
     userEdited.setCitizenship(req.getParameter("citizenship"));
+    userEdited.setCitizenship(null);
     userEdited.setStreet(req.getParameter("street"));
     userEdited.setHouseNumber(req.getParameter("houseNumber"));
     userEdited.setMailBox(req.getParameter("mailbox"));
@@ -435,14 +459,14 @@ public class Servlet extends HttpServlet {
   private void selectPartnersForConfirm(HttpServletRequest req, HttpServletResponse resp)
       throws IOException, SQLException, NotEnoughPermissionsException {
 
-    /*if (!req.getSession().getAttribute(KEY_PERMISSIONS).equals("STUDENT")) {
-      throw new NotEnoughPermissionsException(
-          "Vous n'avez pas les droits nécessaires pour faire cela");
-    }*/
+    /*
+     * if (!req.getSession().getAttribute(KEY_PERMISSIONS).equals("STUDENT")) { throw new
+     * NotEnoughPermissionsException( "Vous n'avez pas les droits nécessaires pour faire cela"); }
+     */
     int idMobility = Integer.parseInt(0 + req.getParameter("idMobility"));
     MobilityDto mobilityDto = mobilityUcc.getMobilityById(idMobility);
-    ArrayList<PartnerDto> partners = partnerUcc
-        .getPartnerMin(Integer.parseInt("" + req.getSession().getAttribute(KEY_ID)),
+    ArrayList<PartnerDto> partners =
+        partnerUcc.getPartnerMin(Integer.parseInt("" + req.getSession().getAttribute(KEY_ID)),
             (String) req.getSession().getAttribute(KEY_PERMISSIONS));
 
     HashMap<String, Object> hashMap = new HashMap<String, Object>();
@@ -636,7 +660,12 @@ public class Servlet extends HttpServlet {
     mobility.setAcademicYear(req.getParameter("year"));
     mobility.setDepartementDto(departmentUcc.getDepartmentByLabel(req.getParameter("department")));
     mobility.setCountryDto(countryUcc.getCountryByNameFr(req.getParameter("country")));
-
+    System.out.println("avant le if");
+    if (Integer.parseInt("" + req.getParameter("partner")) != -1) {
+      mobility.setPartnerDto(
+          partnerUcc.getPartnerById(Integer.parseInt("" + req.getParameter("partner"))));
+    }
+    System.out.println("après le if");
     mobilityUcc.addMobility(mobility);
 
   }
@@ -848,7 +877,7 @@ public class Servlet extends HttpServlet {
 
   private HttpServletResponse createToaster(Exception exception, HttpServletResponse resp)
       throws IOException {
-
+    exception.printStackTrace();
     Map<String, String> map = new HashMap<String, String>();
     // warning, success, error, info
     switch (exception.getClass().toString()) {
