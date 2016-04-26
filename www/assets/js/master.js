@@ -899,7 +899,7 @@ $(function () {
 
 						for (key in resp) {
 							var data =
-								"<tr class=\"clickable\" value='"+ resp[key]['id'] + "'>"+
+								"<tr>"+
 								"<td>" + resp[key]['id'] + "</td>" +
 									"<td>" + resp[key]['studentDto']['name'] + "</td>" +
 									"<td>" + resp[key]['studentDto']['firstname'] + "</td>" +
@@ -913,20 +913,22 @@ $(function () {
 									else data += "<td></td>";
 									data +=	"<td>" + resp[key]['status'] +
 									"</td><td value='"+ resp[key]['id'] +"'></td>"+
-									"<td></td></tr>";
+									"<td></td><td></td>" +
+								"</tr>";
 							$("#list tbody").append(data);
 						}
 						
 						$("#list tr td:nth-child(10)").each(function(){
 							if ($(this).html() !== "Annulee") {
-                                $(this).next().append("<button type=\"button\" class=\"btnCancel btn btn-info\" data-toggle=\"modal\" data-target=\"#modalCancelMobility\">Annuler</button>");
+                                $(this).next().append("<button type=\"button\" class=\"btnCancel btn btn-danger\" data-toggle=\"modal\" data-target=\"#modalCancelMobility\">Annuler</button>");
 							} else {
 								$(this).parent().addClass("danger");
 							}
 							if ($(this).html() === "En attente"){
-								$(this).next().next().append("<button id=\"profBtnConfirm\" class=\"btn btn-info\">Confirmer</button>");
+								$(this).next().next().append("<button id=\"profBtnConfirm\" class=\"btn btn-success\">Confirmer</button>");
 							}
 						});
+						$("#list tr td:last-child").append("<button id=\"profBtnModif\" class=\"btnModif btn btn-info\" value='"+ resp[key]['id'] +"'>Modifier</button>");
 						
 					}
 	            },
@@ -936,7 +938,7 @@ $(function () {
 	            }
 	        });
 	    });
-		$("#list").on("click", "tr", function (){
+		$("#list").on("click", ".btnModif", function (){
 			var id = $(this).attr("value");
 			loadDetailsMobility(id);
 		});
@@ -1101,9 +1103,10 @@ $(function () {
 							data += "<td>Demandé</td>"
 						}else data += "<td>Non demandé</td>";
 
-						data += "</tr>"
+						data += "<td></td></tr>"
 
 						$("#tablePayments tbody").append(data);
+						$("#tablePayments tr td:last-child").append("<button class=\"btnModif btn btn-info\" value='"+ resp[key]['id'] +"'>Modifier</button>");
 					}
 	            },
 	            error: function (error) {
@@ -1112,7 +1115,7 @@ $(function () {
 	            }
 	        });
 		}
-		$("#tablePayments").on("click", "tr", function (){
+		$("#tablePayments").on("click", ".btnModif", function (){
 			var id = $(this).attr("value");
 			loadDetailsMobility(id);
 		});
@@ -1147,7 +1150,7 @@ $(function () {
 								"<td>" + resp[key]['countryDto']['nameFr'] + "</td>" +
 								"<td>" + resp[key]['studentDto']['name'] + "</td>" +
 								"<td>" + resp[key]['studentDto']['firstname'] + "</td>" +
-								"<td>" + resp[key]['status'] + "</td>"
+								"<td>" + resp[key]['status'] + "</td><td></td>"
 								+ "</tr>");
 
 						}
@@ -1156,6 +1159,7 @@ $(function () {
 								$(this).parent().addClass("danger");
 							}
 						});
+						$("#tableConfirmed tr td:last-child").append("<button class=\"btnModif btn btn-info\" value='"+ resp[key]['id'] +"'>Modifier</button>");
 					}
 
 	            },
@@ -1165,7 +1169,7 @@ $(function () {
 	            }
 	        });
 	    });
-		$("#tableConfirmed").on("click", "tr", function (){
+		$("#tableConfirmed").on("click", ".btnModif", function (){
 			var id = $(this).attr("value");
 			loadDetailsMobility(id);
 		});
@@ -1238,11 +1242,9 @@ $(function () {
 
 	function loadCancelMobility(id){
 		$("#textReason").val("");
-		var oldNavBar;
 		var teacher=false;
 		if($("#navBarTeacher").css("display") === "block"){
 			teacher=true;
-			oldNavBar = $("#navBarTeacher");
 			$(function (){
 				$.ajax({
 					method: "POST",
@@ -1269,7 +1271,6 @@ $(function () {
 			});
 			$("#onlyTeacherReasons").css("display","block");
 		}else{
-			oldNavBar = $("#navBarStudent");
 			$("#onlyTeacherReasons").css("display","none");
 		}
 
@@ -1405,7 +1406,6 @@ $(function () {
         (".page").css("display", "none");
         $("#partnerPage").css("display","block");
         $("#navBarTeacher").css("display","block");
-        console.log("je passe");
         $(function (){
             $.ajax({
                 method: "POST",
