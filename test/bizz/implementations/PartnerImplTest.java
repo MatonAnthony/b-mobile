@@ -31,8 +31,8 @@ public class PartnerImplTest {
     puppet.setTel("0");
     puppet.setCountry("country");
     puppet.setCountryDto(null); // TODO with Mock
-    puppet.setEmail("email");
-    puppet.setWebsite("website");
+    puppet.setEmail("email@email.be");
+    puppet.setWebsite("http://www.web.com");
     puppet.setExists(false);
     puppet.setVerNr(0);
   }
@@ -235,7 +235,7 @@ public class PartnerImplTest {
 
   @Test
   public void testGetEmail() throws Exception {
-    assertEquals(puppet.getEmail(), "email");
+    assertEquals(puppet.getEmail(), "email@email.be");
   }
 
   @Test
@@ -246,7 +246,7 @@ public class PartnerImplTest {
 
   @Test
   public void testGetWebsite() throws Exception {
-    assertEquals(puppet.getWebsite(), "website");
+    assertEquals(puppet.getWebsite(), "http://www.web.com");
   }
 
   @Test

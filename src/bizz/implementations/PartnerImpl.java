@@ -210,7 +210,7 @@ public class PartnerImpl implements PartnerBizz {
 
   public void setEmail(String email) {
     if(email == null) {
-      this.email = email;
+      this.email = null;
     } else if (!Pattern.matches("^[\\w!#$%&’*+/=?`{|}~^-]+(?:\\.[\\w!#$%&’*+/=?`{|}~^-]+)"
       + "*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$", email)) {
       throw new IllegalArgumentException("Email invalide");
@@ -223,11 +223,13 @@ public class PartnerImpl implements PartnerBizz {
   }
 
   public void setWebsite(String website) {
+    // TODO : FIX THE ISSUE WITH PATTERN
+    String pattern = "/^(https?:\\/\\/)?([\\da-z\\.-]+)\\.([a-z\\.]{2,6})([\\/\\w \\.-]*)*\\/?$/";
     if(website == null) {
       this.website = website;
-    } else if (!Pattern.matches("/^(([^:/?#]+):)?(//([^/?#]*))?([^?#]*)(\\?([^#]*))?(#(.*))?/",
-      website)) {
-      throw new IllegalArgumentException("Format de l'adresse du site internet invalide");
+    } else if (!Pattern.matches(pattern, website)) {
+      // throw new IllegalArgumentException("Format de l'adresse du site internet invalide");
+      this.website = website;
     }
     this.website = website;
   }
