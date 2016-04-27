@@ -5,9 +5,13 @@ import static org.junit.Assert.assertEquals;
 
 import bizz.implementations.BizzFactoryImpl;
 import bizz.interfaces.BizzFactory;
+import dal.DalServices;
+import dal.DalServicesImpl;
 import dao.CountryDaoMock;
 import dto.CountryDto;
 import exceptions.NoCountryException;
+import ucc.implementations.CountryUcControllerImpl;
+import ucc.interfaces.CountryUcController;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -19,7 +23,8 @@ public class CountryUcControllerImplTest {
 
   private CountryDaoMock countryDao;
   private ArrayList<CountryDto> listPays;
-  CountryDto countryDto;
+  private CountryDto countryDto;
+  private CountryUcController countryUcController;
 
   @Before
   public void setUp() throws Exception {
@@ -40,31 +45,33 @@ public class CountryUcControllerImplTest {
     listPays.add(countryDto2);
 
     countryDao = new CountryDaoMock(listPays);
+    DalServices dalServices = new DalServicesImpl();
+    countryUcController = new CountryUcControllerImpl(dalServices, countryDao);
   }
 
   @Test
   public void testGetAllCountries() throws SQLException {
-    assertEquals(listPays, countryDao.getAll());
+    assertEquals(listPays, countryUcController.getAllCountries());
   }
 
   @Test
-  public void testGetCountryByNameFr() throws NoCountryException {
-    assertEquals(countryDto, countryDao.getCountryByNameFr(countryDto.getNameFr()));
+  public void testGetCountryByNameFr() throws NoCountryException, SQLException {
+    assertEquals(countryDto, countryUcController.getCountryByNameFr(countryDto.getNameFr()));
   }
 
   @Test(expected = NoCountryException.class)
-  public void testGetCountryByNameFr2() throws NoCountryException {
-    countryDao.getCountryByNameFr("Luxembourg");
+  public void testGetCountryByNameFr2() throws NoCountryException, SQLException {
+    countryUcController.getCountryByNameFr("Luxembourg");
   }
 
   @Test
-  public void testGetCountryByIso() throws NoCountryException {
-    assertEquals(countryDto, countryDao.getCountryByIso(countryDto.getIso()));
+  public void testGetCountryByIso() throws NoCountryException, SQLException {
+    assertEquals(countryDto, countryUcController.getCountryByIso(countryDto.getIso()));
   }
 
   @Test(expected = NoCountryException.class)
-  public void testGetCountryByIso2() throws NoCountryException {
-    countryDao.getCountryByIso("GT");
+  public void testGetCountryByIso2() throws NoCountryException, SQLException {
+    countryUcController.getCountryByIso("GT");
   }
 
 

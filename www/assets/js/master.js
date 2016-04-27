@@ -977,7 +977,6 @@ $(function () {
 			loadDetailsMobility(id);
 		});
 		$("#list").on("click", ".btnCancel", function (e) {
-			//e.stopPropagation();
 			var id = $(this).parent().attr("value");
 			loadCancelMobility(id);
 		});
