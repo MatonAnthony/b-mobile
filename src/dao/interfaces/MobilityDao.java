@@ -66,9 +66,10 @@ public interface MobilityDao {
    * Cancels the mobility matching with the id.
    * 
    * @param idMobility the id of the mobility.
+   * @param verNr The version number before cancelation.
    * @param idCancelation the id of the cancellation.
    */
-  void cancelMobility(int idMobility, int idCancelation);
+  void cancelMobility(int idMobility, int idCancelation, int verNr);
 
   /**
    * Update mobility to join whith the partner id.

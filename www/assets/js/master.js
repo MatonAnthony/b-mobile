@@ -1327,6 +1327,7 @@ $(function () {
 						$("#partnerP").html("Aucun partenaire actuellement.")
 					}
 					$("#stateP").html("Etat de la mobilité : "+resp['status']);
+					$("#sendCancelation").val(resp['verNr']);
                 },
                 error: function (error) {
                     error = JSON.parse(error.responseText);
@@ -1364,7 +1365,8 @@ $(function () {
                     action: "cancelMobility",
                     idMobility: id,
 					reasonValue: reasonValue,
-					idReason: idReason
+					idReason: idReason,
+					verNr:$(this).val()
                 },
                 success: function (resp) {
 					$(".page").css("display", "none");

@@ -261,15 +261,18 @@ public class MobilityDaoImpl implements MobilityDao {
   }
 
   @Override
-  public void cancelMobility(int idMobility, int idCancelation) {
+  public void cancelMobility(int idMobility, int idCancelation, int verNr) {
     // TODO (Jonathan) Gérer le ver_nr !!
     String queryUpdate =
-        "UPDATE bmobile.mobilities SET cancelation_reason=?, canceled=TRUE, status='Annulee' WHERE id=?";
+        "UPDATE bmobile.mobilities SET cancelation_reason=?, canceled=TRUE, status='Annulee', ver_nr=? WHERE id=? AND ver_nr=?";
     PreparedStatement preparedStatement = null;
     try {
       preparedStatement = dalBackendServices.prepare(queryUpdate);
       preparedStatement.setInt(1, idCancelation);
-      preparedStatement.setInt(2, idMobility);
+      preparedStatement.setInt(2, verNr + 1);
+      preparedStatement.setInt(3, idMobility);
+      preparedStatement.setInt(4, verNr);
+
       dalBackendServices.executeUpdate(preparedStatement);
     } catch (SQLException exc) {
       exc.printStackTrace();

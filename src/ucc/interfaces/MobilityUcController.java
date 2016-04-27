@@ -79,9 +79,10 @@ public interface MobilityUcController {
    * 
    * @param idMobility the id of the mobility.
    * @param idCancelation the id of the cancellation.
+   * @param verNr The version number before cancelation.
    * @throws SQLException if an error occurred with the database.
    */
-  void cancelMobility(int idMobility, int idCancelation) throws SQLException;
+  void cancelMobility(int idMobility, int idCancelation, int verNr) throws SQLException;
 
   /**
    * Update mobility for confirm partner.

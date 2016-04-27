@@ -245,10 +245,6 @@ public class Servlet extends HttpServlet {
 
   private void selectMobility(HttpServletRequest req, HttpServletResponse resp)
       throws NotEnoughPermissionsException, SQLException, IOException {
-    if (!req.getSession().getAttribute(KEY_PERMISSIONS).equals("TEACHER")) {
-      throw new NotEnoughPermissionsException(
-          "Vous n'avez pas les droits nécessaires pour faire cela");
-    }
     int id = Integer.parseInt(req.getParameter("id"));
     MobilityDto mobilityDto = mobilityUcc.getMobilityById(id);
     String json = basicGenson.serialize(mobilityDto);
@@ -543,7 +539,9 @@ public class Servlet extends HttpServlet {
       cancelationDto.setReason(req.getParameter("reasonValue"));
       idCancelation = cancelationUcc.insertCancelation(cancelationDto);
     }
-    mobilityUcc.cancelMobility(Integer.parseInt(req.getParameter("idMobility")), idCancelation);
+    int verNr = Integer.parseInt(req.getParameter("verNr"));
+    mobilityUcc.cancelMobility(Integer.parseInt(req.getParameter("idMobility")), idCancelation,
+        verNr);
     resp.setStatus(HttpStatus.ACCEPTED_202);
   }
 
