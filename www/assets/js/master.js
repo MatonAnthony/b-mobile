@@ -1254,12 +1254,12 @@ $(function () {
 						}	
 						$("#myMobility tr td:nth-child(6)").each(function () {
 							if ($(this).html() !== "Annulee") {
-								$(this).next().append("<button type=\"button\" class=\"btn btn-sm btn-info\" id=\"btnCancelStudent\" data-toggle=\"modal\" data-target=\"#modalCancelMobility\">Annuler</button>");
+								$(this).next().append("<button type=\"button\" class=\"btn btn-sm btn-info btnCancelStudent\" data-toggle=\"modal\" data-target=\"#modalCancelMobility\">Annuler</button>");
 							} else {
 								$(this).parent().addClass("danger");
 							}
 							if ($(this).html() === "En attente"&& $(this).parent().attr("value") === undefined) {
-								$(this).next().next().append("<button type=\"button\" class=\"btn btn-sm btn-info\" id=\"btnConfirm\" data-toggle=\"modal\" data-target=\"#modalConfirmMobility\">Confirmer</button>");
+								$(this).next().next().append("<button type=\"button\" class=\"btn btn-sm btn-info btnConfirm\" data-toggle=\"modal\" data-target=\"#modalConfirmMobility\">Confirmer</button>");
 							}
 						});
 					
@@ -1275,14 +1275,14 @@ $(function () {
 		
 	}
 
-    $("#myMobility").on("click.btnCancel", "#btnCancelStudent", function () {
-        var id = $(this).parent().attr("value");
+    $("#myMobility").on("click", ".btnCancelStudent", function (evt) {
+        var id = $(evt.currentTarget).parent().attr("value");
         $("#myMobility").off("click.btnCancel");
         loadCancelMobility(id);
 
     });
-    $("#myMobility").on("click.btnConfirm", "#btnConfirm", function () {
-        var id = $(this).parent().attr("id");
+    $("#myMobility").on("click", ".btnConfirm", function (evt) {
+        var id = $(evt.currentTarget).parent().attr("id");
         $("#myMobility").off("click.btnConfirm").on("click.btnCancel");
         loadConfirmMobility(id);
 
@@ -1335,7 +1335,7 @@ $(function () {
                 	resp = JSON.parse(resp);
 					console.log(resp);
 					$("#destinationP").html(resp['programDto']['name'] + " " + resp['type'] +
-											" à " + resp['countryDto']['nameFr'] + " durant le " +
+											" (" + resp['countryDto']['nameFr'] + ") durant le " +
 											resp['quadrimester'] + "e quadrimestre.");
 					if (resp['partnerDto']['legalName'] !== null){
 						$("#partnerP").html("Partenaire : "+resp['partnerDto']['legalName']);
