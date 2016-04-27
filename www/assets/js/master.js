@@ -960,9 +960,10 @@ $(function () {
 							}
 							if ($(this).html() === "En attente"){
 								$(this).next().next().append("<button id=\"profBtnConfirm\" class=\"btn btn-sm btn-success\">Confirmer</button>");
+							}else{								
+								$(this).next().next().next().append("<button id=\"profBtnModif\" class=\"btnModif btn btn-sm btn-info\" >Détails</button>");
 							}
 						});
-						$("#list tr td:last-child").append("<button id=\"profBtnModif\" class=\"btnModif btn btn-sm btn-info\" >Modifier</button>");
 						
 					}
 	            },
@@ -1114,9 +1115,14 @@ $(function () {
 					resp = JSON.parse(resp);
 					$("#tablePayments tbody").empty();
 					$("#empty").empty();
-
+					var danger = "";
 					for (key in resp) {
-						var data = "<tr value='"+ resp[key]['id'] + "'>" +
+						danger="";
+						if (resp[key]['status'] === "Annulee"){
+							console.log(resp[key]['id']);
+							danger = "class='danger'";
+						}
+						var data = "<tr value='"+ resp[key]['id'] + "'"+danger+">" +
 										"<td>" + resp[key]['id'] + "</td>"+
 										"<td>" + resp[key]['studentDto']['name'] + "</td>" +
 										"<td>" + resp[key]['studentDto']['firstname'] + "</td>" +
@@ -1135,11 +1141,15 @@ $(function () {
 						if (resp[key]['paymentDate2']){
 							data += "<td>Demandé</td>"
 						}else data += "<td>Non demandé</td>";
-
-						data += "<td></td></tr>"
+							
+						if (resp[key]['status'] !== "En attente"){
+							data+="<td><button class=\"btnModif btn btn-sm btn-info\">Détails</button></td>";
+						}else{
+							data+="<td></td>";
+						}
+						data += "</tr>"
 
 						$("#tablePayments tbody").append(data);
-						$("#tablePayments tr td:last-child").append("<button class=\"btnModif btn btn-sm btn-info\">Modifier</button>");
 					}
 	            },
 	            error: function (error) {
@@ -1193,8 +1203,8 @@ $(function () {
 							if ($(this).html() === "Annulee") {
 								$(this).parent().addClass("danger");
 							}
+							$(this).append("<button class=\"btnModif btn btn-sm btn-info\">Détails</button>");								
 						});
-						$("#tableConfirmed tr td:last-child").append("<button class=\"btnModif btn btn-sm btn-info\">Modifier</button>");
 					}
 
 	            },
