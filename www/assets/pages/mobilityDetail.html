@@ -7,10 +7,10 @@
 		<p id="detailMobiliteIntitule"></p>
 		<a><p id="detailMobilitePartenaire"></p></a>
 		<p id="detailMobiliteEtat"></p>
+		<button id="btnDocumentsDetailMobility" class="btn btn-info" data-toggle="modal" data-target="#detailMobiliteDocumentsModal">Documents</button></br>
 	</div>
 	<div class="col-md-6">
 		<form class="form-horizontal">
-			<button class="btn btn-info col-md-offset-2">Documents</button></br>
 			<div class="form-group">
 				<input type="checkBox" id="envoiPaiement1"/> <label for="envoiPaiement1" class="control-label">Demande de paiement n°1 </label></br>
 				<input type="checkBox" id="envoiPaiement2"/> <label for="envoiPaiement2" class="control-label">Demande de paiement n°2 </label></br>
@@ -38,12 +38,101 @@
 		E-mail : <var id="detailMobiliteMail"></var></br>
 	</p>
 	</div>
-	<div class="col-md-4">
-		<button class="btn btn-info" id="detailMobiliteCancel">Annuler la demande</button>
+
+	<div class="col-md-5">
+		</br>
+		<button class="btn btn-danger" id="detailMobiliteCancel">Annuler la demande</button>
+		<button id="detailMobiliteModify" class="btn btn-success">Modifier la demande</button>
 	</div>
 
-	<div class="col-md-4">
-		<button id="detailMobiliteModify" class="btn btn-info">Modifier</button>
+	<div class="modal fade" id="detailMobiliteDocumentsModal" tabindex="-1" role="dialog" aria-labelledby="DocumentsModal">
+	  <div class="modal-dialog modal-lg" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	        <h4 class="modal-title" id="myModalLabel">Documents de la mobilité</h4>
+	      </div>
+	      <div class="modal-body">
+	        <!--Placer le contenu du modal ici-->
+	        <div class="col-md-6">
+	        	<h4>Avant le départ</h4>
+	        	<table class="table">
+	        		<thead>
+	        			<tr>
+	        				<th>Document</th>
+	        				<th></th>
+	        			</tr>
+	        		</thead>
+	        		<tbody>
+	        			<tr>
+	        				<td>Contrat de bourse</td>
+	        				<td><input type="checkBox" id="detailMobiliteContratBourse"></input></td>
+	        			</tr>
+	        			<tr>
+	        				<td>Convention de stage/d'études</td>
+	        				<td><input type="checkBox" id="detailMobiliteConventionStage"></input></td>
+	        			</tr>
+	        			<tr>
+	        				<td>Charte de l'étudiant</td>
+	        				<td><input type="checkBox" id="detailMobiliteCharteEtudiant"></input></td>
+	        			</tr>
+	        			<tr>
+	        				<td>Document d'engagement</td>
+	        				<td><input type="checkBox" id="detailMobiliteEngagement"></input></td>
+	        			</tr>
+	        			<tr>
+	        				<td>Preuve du passage des tests linguistiques</td>
+	        				<td><input type="checkBox" id="detailMobiliteTestLangueDepart"></input></td>
+	        			</tr>
+	        			<tr>
+	        				<td>Document haute école envoyé</td>
+	        				<td><input type="checkBox" id="detailMobiliteDocumentHauteEcoleDepart"></input></td>
+	        			</tr>
+	        		</tbody>
+	        	</table>
+	      </div>
+	      <div class="col-md-6">
+	        	<h4>Au retour</h4>
+	        	<table class="table">
+	        		<thead>
+	        			<tr>
+	        				<th>Document</th>
+	        				<th></th>
+	        			</tr>
+	        		</thead>
+	        		<tbody>
+	        			<tr>
+	        				<td>Attestation de séjour</td>
+	        				<td><input type="checkBox" id="detailMobiliteAttestationSejour"></input></td>
+	        			</tr>
+	        			<tr>
+	        				<td>Relevé de notes</td>
+	        				<td><input type="checkBox" id="detailMobiliteReleveNote"></input></td>
+	        			</tr>
+	        			<tr>
+	        				<td>Certificat de stage</td>
+	        				<td><input type="checkBox" id="detailMobiliteCertificatStage"></input></td>
+	        			</tr>
+	        			<tr>
+	        				<td>Rapport final</td>
+	        				<td><input type="checkBox" id="detailMobiliteRapportFinal"></input></td>
+	        			</tr>
+	        			<tr>
+	        				<td>Preuve du passage des tests linguistiques</td>
+	        				<td><input type="checkBox" id="detailMobiliteTestLangueRetour"></input></td>
+	        			</tr>
+	        			<tr>
+	        				<td>Document haute école envoyé</td>
+	        				<td><input type="checkBox" id="detailMobiliteDocumentHauteEcoleRetour"></input></td>
+	        			</tr>
+	        		</tbody>
+	        	</table>
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-default" data-dismiss="modal">Valider</button>
+	      </div>
+	    </div>
+	  </div>
 	</div>
 
 </section>

@@ -304,20 +304,46 @@ public class MobilityDaoImpl implements MobilityDao {
   }
 
   @Override
-  public void updateMobilityDetails(MobilityDto mobility) {
-    String query = "UPDATE bmobile.mobilities SET software_proeco=?, software_mobility_tools=?, "
-        + "software_mobi= ? WHERE id = ? AND ver_nr=?";
+  public int updateMobilityDetails(MobilityDto mobility) {
+    String query = "UPDATE bmobile.mobilities SET status=?, amount=?, first_payment_date=?, "
+        + "second_payment_date=?, departure_grant_contract=?, "
+        + "departure_convention_internship_schoolarship=?, departure_student_convention=?, "
+        + "departure_erasmus_language_test=?, departure_doc_aggreement=?,"
+        + "depart_doc_sent_highschool=?, software_proeco=?, software_mobility_tools=?, "
+        + "software_mobi= ?, return_residence_cert=?, return_transcript=?, "
+        + "return_internship_cert=?,return_final_report=?, return_erasmus_language_test=?,"
+        + "return_doc_sent_highschool=?, ver_nr=? WHERE id = ? AND ver_nr=?";
 
     PreparedStatement preparedStatement = null;
     try {
       preparedStatement = dalBackendServices.prepare(query);
-      preparedStatement.setBoolean(1, mobility.isSoftwareProeco());
-      preparedStatement.setBoolean(2, mobility.isSoftwareMobilityTools());
-      preparedStatement.setBoolean(3, mobility.isSoftwareMobi());
+      preparedStatement.setString(1, mobility.getStatus());
+      preparedStatement.setDouble(2, mobility.getAmount());
+      preparedStatement.setBoolean(3, mobility.getPaymentDate1());
+      preparedStatement.setBoolean(4, mobility.getPaymentDate2());
+      preparedStatement.setBoolean(5, mobility.isDepartureGrantContract());
+      preparedStatement.setBoolean(6, mobility.isDepartureConventionInternshipSchoolarship());
+      preparedStatement.setBoolean(7, mobility.isDepartureStudentConvention());
+      preparedStatement.setBoolean(8, mobility.isDepartureErasmusLanguageTest());
+      preparedStatement.setBoolean(9, mobility.isDepartureDocAggreement());
+      preparedStatement.setBoolean(10, mobility.isDepartDocSentHighschool());
+      preparedStatement.setBoolean(11, mobility.isSoftwareProeco());
+      preparedStatement.setBoolean(12, mobility.isSoftwareMobilityTools());
+      preparedStatement.setBoolean(13, mobility.isSoftwareMobi());
+      preparedStatement.setBoolean(14, mobility.isReturnResidenceCert());
+      preparedStatement.setBoolean(15, mobility.isReturnTranscript());
+      preparedStatement.setBoolean(16, mobility.isReturnInternshipCert());
+      preparedStatement.setBoolean(17, mobility.isReturnFinalReport());
+      preparedStatement.setBoolean(18, mobility.isReturnErasmusLanguageTest());
+      preparedStatement.setBoolean(19, mobility.isReturnDocSentHighschool());
+      preparedStatement.setInt(20, mobility.getVerNr() + 1);
+
+      preparedStatement.setInt(21, mobility.getId());
+      preparedStatement.setInt(22, mobility.getVerNr());
+
+      return dalBackendServices.executeUpdate(preparedStatement);
 
 
-      preparedStatement.setInt(4, mobility.getId());
-      preparedStatement.setInt(5, mobility.getVerNr());
     } catch (SQLException exc) {
       exc.printStackTrace();
       throw new UnknowErrorException();

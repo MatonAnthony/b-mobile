@@ -82,6 +82,7 @@ public interface MobilityDao {
    * Update the mobility details in the Database whith the informations in the dto.
    * 
    * @param mobility the dto with the informations.
+   * @return the number of rows modified
    */
-  void updateMobilityDetails(MobilityDto mobility);
+  int updateMobilityDetails(MobilityDto mobility);
 }

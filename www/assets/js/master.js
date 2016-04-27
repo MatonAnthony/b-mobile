@@ -491,7 +491,6 @@ $(function () {
 				printToaster(error.type, error.message);
             }
         });
-        $("#userListTableBody").off("click.btnNommer").on("click.btnNommer", ".btnNommer");
         return true;
     });
 
@@ -979,15 +978,15 @@ $(function () {
             var id = $(evt.currentTarget).parent().parent().attr("value");
             loadDetailsMobility(id);
         });
-        $("#list").on("click", ".btnCancel", function (evt) {
-            var id = $(evt.currentTarget).parent().parent().attr("value");
-            loadCancelMobility(id);
-        });
-        /*$("#list").on("click", "#profBtnConfirm", function (e) {
-            e.stopPropagation();
-            var id = $(this).parent().attr("value");
-            loadConfirmMobility(id);
-        });*/
+    $("#list").on("click", ".btnCancel", function (evt) {
+        var id = $(evt.currentTarget).parent().parent().attr("value");
+        loadCancelMobility(id);
+    });
+    /*$("#list").on("click", "#profBtnConfirm", function (e) {
+        e.stopPropagation();
+        var id = $(this).parent().attr("value");
+        loadConfirmMobility(id);
+    });*/
 
 	// Managing of filter buttons
 
@@ -1546,27 +1545,29 @@ $(function () {
             },
             success: function (resp) {
             	resp = JSON.parse(resp);
+                console.log(resp);
             	var city;
             	if(resp['partnerDto']['city'] === null){
-            		city = undefined;
+            		city = "Non enregistré";
             	}else{
             		city = resp['partnerDto']['city'];
             	}
-                $("#detailMobiliteIdMobilite").html(resp['id']);
-                $("#detailMobiliteNrVersion").html(resp['verNr']);
+                $("#detailMobiliteIdMobilite").attr("data-id", resp['id']);
+                $("#detailMobiliteNrVersion").attr("data-nrVer",resp['verNr']);
             	var intitule = "" +resp['programDto']['name'] + " " + resp['type'] 
             		+  " à " + city + " durant le quadri " + resp['quadrimester'];
             	$("#detailMobiliteIntitule").html(intitule);
-            	$("#detailMobilitePartenaire").html("Partenaire : " + resp['partnerDto']['fullName']);
+            	$("#detailMobilitePartenaire").html("Partenaire : " + resp['partnerDto']['legalName']);
             	$("#detailMobiliteEtat").html("Etat : " + resp['status']);
             	
-            	if(resp['paymentDate1'] != null){
+                //infos des checkboxs
+            	if(resp['paymentDate1']){
             		$("#envoiPaiement1").prop("checked", true);
             	}else{
             		$("#envoiPaiement1").prop("checked", false);
             	}
 
-            	if(resp['paymentDate2'] != null){
+            	if(resp['paymentDate2']){
             		$("#envoiPaiement2").prop("checked", true);
             	}else{
             		$("#envoiPaiement2").prop("checked", false);
@@ -1590,17 +1591,130 @@ $(function () {
             		$("#encodageMobi").prop("checked", false);
             	}
 
+                //Modal documents
+                //depart
+                if(resp['departureConventionInternshipSchoolarship']){
+                    $("#detailMobiliteConventionStage").prop("checked", true);
+                }else{
+                    $("#detailMobiliteConventionStage").prop("checked", false);
+                }
+
+                if(resp['departDocSentHighschool']){
+                    $("#detailMobiliteDocumentHauteEcoleDepart").prop("checked", true);
+                }else{
+                    $("#detailMobiliteDocumentHauteEcoleDepart").prop("checked", false);
+                }
+                
+                if(resp['departureDocAggreement']){
+                    $("#detailMobiliteEngagement").prop("checked", true);
+                }else{
+                    $("#detailMobiliteEngagement").prop("checked", false);
+                }
+               
+                if(resp['departureErasmusLanguageTest']){
+                    $("#detailMobiliteTestLangueDepart").prop("checked", true);
+                }else{
+                    $("#detailMobiliteTestLangueDepart").prop("checked", false);
+                }
+                
+                if(resp['departureGrantContract']){
+                    $("#detailMobiliteContratBourse").prop("checked", true);
+                }else{
+                    $("#detailMobiliteContratBourse").prop("checked", false);
+                }
+                
+                if(resp['departureStudentConvention']){
+                    $("#detailMobiliteCharteEtudiant").prop("checked", true);
+                }else{
+                    $("#detailMobiliteCharteEtudiant").prop("checked", false);
+                }
+                
+
+                //retour
+                if(resp['returnDocSentHighschool']){
+                    $("#detailMobiliteDocumentHauteEcoleRetour").prop("checked", true);
+                }else{
+                    $("#detailMobiliteDocumentHauteEcoleRetour").prop("checked", false);
+                }
+               
+                if(resp['returnErasmusLanguagetest']){
+                    $("#detailMobiliteTestLangueRetour").prop("checked", true);
+                }else{
+                    $("#detailMobiliteTestLangueRetour").prop("checked", false);
+                }
+               
+                if(resp['returnFinalReport']){
+                    $("#detailMobiliteRapportFinal").prop("checked", true);
+                }else{
+                    $("#detailMobiliteRapportFinal").prop("checked", false);
+                }
+               
+                if(resp['returnInternshipCert']){
+                    $("#detailMobiliteCertificatStage").prop("checked", true);
+                }else{
+                    $("#detailMobiliteCertificatStage").prop("checked", false);
+                }
+               
+                if(resp['returnResidenceCert']){
+                    $("#detailMobiliteAttestationSejour").prop("checked", true);
+                }else{
+                    $("#detailMobiliteAttestationSejour").prop("checked", false);
+                }
+               
+                if(resp['returnTranscript']){
+                    $("#detailMobiliteReleveNote").prop("checked", true);
+                }else{
+                    $("#detailMobiliteReleveNote").prop("checked", false);
+                }
+
+
+                //Infos de l'étudiant
             	$("#detailMobiliteNom").html(resp['studentDto']['name']);
             	$("#detailMobilitePrenom").html(resp['studentDto']['firstname']);
-            	$("#detailMobiliteSexe").html(resp['studentDto']['gender']);
-            	$("#detailMobiliteDateNaissance").html(resp['studentDto']['birthDate']['dayOfMonth'] + "/" 
-            		+ resp['studentDto']['birthDate']['monthValue'] + "/" + resp['studentDto']['birthDate']['year']);
-            	$("#detailMobiliteNationalite").html(resp['studentDto']['citizenship']);
+                
+                if(resp['studentDto']['gender'] != null){
+            	   $("#detailMobiliteSexe").html(resp['studentDto']['gender']);
+                }else{
+                    $("#detailMobiliteSexe").html("Non enregistré");
+                }
+
+                if(resp['studentDto']['birthDate'] != null){
+            	   $("#detailMobiliteDateNaissance").html(resp['studentDto']['birthDate']['dayOfMonth'] + "/" 
+            		  + resp['studentDto']['birthDate']['monthValue'] + "/" + resp['studentDto']['birthDate']['year']);
+                }else{
+                    $("#detailMobiliteDateNaissance").html("Non enregistré");
+                }
+                
+                if(resp['studentDto']['citizenship'] != null){
+                    $("#detailMobiliteNationalite").html(resp['studentDto']['citizenship']);
+                }else{
+                   $("#detailMobiliteNationalite").html("Non enregistré"); 
+                }
+            	
+                if (resp['studentDto']['street'] == null || resp['studentDto']['houseNumber']==null || resp['studentDto']['zip']==null || resp['studentDto']['city']==null){
+                    $("#detailMobiliteAdresse").html("Non enregistré");
+                }else{
             	$("#detailMobiliteAdresse").html(resp['studentDto']['street'] + " " + resp['studentDto']['houseNumber']
             		+ ", " + resp['studentDto']['zip'] + " " + resp['studentDto']['city']);
-            	$("#detailMobiliteTel").html(resp['studentDto']['tel']);
-            	$("#detailMobiliteDepartement").html(resp['departmentDto']['label']);
-            	$("#detailMobiliteMail").html(resp['studentDto']['email']);
+                }
+
+                if(resp['studentDto']['tel'] != null){
+            	   $("#detailMobiliteTel").html(resp['studentDto']['tel']);
+                }else{
+                    $("#detailMobiliteTel").html("Non enregistré");
+                }
+
+                if(resp['departmentDto'] != null ){
+                    $("#detailMobiliteDepartement").html(resp['departmentDto']['label']);
+                }else{
+                    $("#detailMobiliteDepartement").html("Non enregistré");
+                }
+            	
+                if(resp['studentDto']['email']!=null){
+            	   $("#detailMobiliteMail").html(resp['studentDto']['email']);
+                }else{
+                    $("#detailMobiliteMail").html("Non enregistré");
+                }
 
             },
             error: function (error) {
@@ -1616,6 +1730,43 @@ $(function () {
 		});*/
 		
 	}
+
+    $("#detailMobiliteModify").click(function(){
+        $.ajax({
+            method: "POST",
+            url: "/home",
+            data: {
+                action: "updateMobilityDetail",
+                id: parseInt($("#detailMobiliteIdMobilite").attr("data-id")),
+                nrVersion:parseInt($("#detailMobiliteNrVersion").attr("data-nrVer")),
+                paiement1:$("#envoiPaiement1").prop("checked"),
+                paiement2:$("#envoiPaiement2").prop("checked"),
+                proEco:$("#encodageProEco").prop("checked"),
+                mobilitytool:$("#encodageMobilityTool").prop("checked"),
+                mobi:$("#encodageMobi").prop("checked"),
+                departContratBourse:$("#detailMobiliteContratBourse").prop("checked"),
+                departConventionStageEtudes:$("#detailMobiliteConventionStage").prop("checked"),
+                departCharteEtudiant:$("#detailMobiliteCharteEtudiant").prop("checked"),
+                departEngagement:$("#detailMobiliteEngagement").prop("checked"),
+                departTestLangue:$("#detailMobiliteTestLangueDepart").prop("checked"),
+                departDocumentHauteEcole:$("#detailMobiliteDocumentHauteEcoleDepart").prop("checked"),
+                retourAttestationSejour:$("#detailMobiliteAttestationSejour").prop("checked"),
+                retourReleveNotes:$("#detailMobiliteReleveNote").prop("checked"),
+                retourCertificatStage:$("#detailMobiliteCertificatStage").prop("checked"),
+                retourRapportFinal:$("#detailMobiliteRapportFinal").prop("checked"),
+                retourTestLangue:$("#detailMobiliteTestLangueRetour").prop("checked"),
+                retourDocumentHauteEcole:$("#detailMobiliteDocumentHauteEcoleRetour").prop("checked"),
+                etat:$("#detailMobiliteEtat").val()
+            },
+            success: function (resp) {
+                printToaster("success", "La mobilité à bien été modifiée.");
+            },
+            error: function (error) {
+                error = JSON.parse(error.responseText);
+                printToaster(error.type, error.message);
+            }
+        });
+    });
 
 	function printToaster(type, message){
 		switch(type){

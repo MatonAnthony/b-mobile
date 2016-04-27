@@ -9,6 +9,7 @@ import dto.PartnerDto;
 import dto.ProgramDto;
 import dto.UserDto;
 import exceptions.AuthenticationException;
+import exceptions.BadMobilityStatusException;
 import exceptions.NoCountryException;
 import exceptions.NoDepartmentException;
 import exceptions.NoProgramException;
@@ -226,18 +227,42 @@ public class Servlet extends HttpServlet {
 
 
   private void updateMobilityDetail(HttpServletRequest req, HttpServletResponse resp)
-      throws NotEnoughPermissionsException {
+      throws NotEnoughPermissionsException, BadMobilityStatusException {
     if (!req.getSession().getAttribute(KEY_PERMISSIONS).equals("TEACHER")) {
       throw new NotEnoughPermissionsException(
           "Vous n'avez pas les droits nécessaires pour faire cela");
     }
     MobilityDto mobility = bizzFactory.getMobilityDto();
-    mobility.setId(Integer.parseInt("" + req.getAttribute("id")));
-    mobility.setSoftwareProeco((boolean) req.getAttribute("proEco"));
-    mobility.setSoftwareMobilityTools((boolean) req.getAttribute("mobilityTool"));
-    mobility.setSoftwareMobi((boolean) req.getAttribute("mobi"));
+    mobility.setVerNr(Integer.parseInt("" + req.getParameter("nrVersion")));
+    mobility.setId(Integer.parseInt("" + req.getParameter("id")));
+    mobility.setPaymentDate1(Boolean.parseBoolean(req.getParameter("paiement1")));
+    mobility.setPaymentDate2(Boolean.parseBoolean(req.getParameter("paiement2")));
+    mobility.setSoftwareProeco(Boolean.parseBoolean(req.getParameter("proEco")));
+    mobility.setSoftwareMobilityTools(Boolean.parseBoolean(req.getParameter("mobilitytool")));
+    mobility.setSoftwareMobi(Boolean.parseBoolean(req.getParameter("mobi")));
+    mobility
+        .setDepartureGrantContract(Boolean.parseBoolean(req.getParameter("departContratBourse")));
+    mobility.setDepartureConventionInternshipSchoolarship(
+        Boolean.parseBoolean(req.getParameter("departConventionStageEtudes")));
+    mobility.setDepartureStudentConvention(
+        Boolean.parseBoolean(req.getParameter("departCharteEtudiant")));
+    mobility.setDepartureDocAggreement(Boolean.parseBoolean(req.getParameter("departEngagement")));
+    mobility.setDepartureErasmusLanguageTest(
+        Boolean.parseBoolean(req.getParameter("departTestLangue")));
+    mobility.setDepartDocSentHighschool(
+        Boolean.parseBoolean(req.getParameter("departDocumentHauteEcole")));
+    mobility
+        .setReturnResidenceCert(Boolean.parseBoolean(req.getParameter("retourAttestationSejour")));
+    mobility.setReturnTranscript(Boolean.parseBoolean(req.getParameter("retourReleveNotes")));
+    mobility
+        .setReturnInternshipCert(Boolean.parseBoolean(req.getParameter("retourCertificatStage")));
+    mobility.setReturnFinalReport(Boolean.parseBoolean(req.getParameter("retourRapportFinal")));
+    mobility
+        .setReturnErasmusLanguageTest(Boolean.parseBoolean(req.getParameter("retourTestLangue")));
+    mobility.setReturnDocSentHighschool(
+        Boolean.parseBoolean(req.getParameter("retourDocumentHauteEcole")));
+    mobility.setStatus("" + req.getParameter("etat"));
 
-    mobility.setVerNr(Integer.parseInt("" + req.getAttribute("nrVersion")));
 
     mobilityUcc.updateMobilityDetails(mobility);
 
@@ -913,6 +938,11 @@ public class Servlet extends HttpServlet {
       case "class java.lang.IllegalArgumentException":
         resp.setStatus(HttpStatus.EXPECTATION_FAILED_417);
         map.put("type", "warning");
+        map.put("message", exception.getMessage());
+        break;
+      case "class exceptions.BadMobilityStatusException":
+        resp.setStatus(HttpStatus.FORBIDDEN_403);
+        map.put("type", "error");
         map.put("message", exception.getMessage());
         break;
       default:

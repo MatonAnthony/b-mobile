@@ -3,6 +3,7 @@ package ucc.implementations;
 import dal.DalServices;
 import dao.interfaces.MobilityDao;
 import dto.MobilityDto;
+import exceptions.BadMobilityStatusException;
 import ucc.interfaces.MobilityUcController;
 
 import java.sql.SQLException;
@@ -136,12 +137,54 @@ public class MobilityUcControllerImpl implements MobilityUcController {
   }
 
   @Override
-  public void updateMobilityDetails(MobilityDto mobility) {
+  public void updateMobilityDetails(MobilityDto mobility) throws BadMobilityStatusException {
+
+    if (mobility.getStatus().equals("En attente")) {
+      throw new BadMobilityStatusException("Une mobilité en attente ne peut pas être modifiée");
+    }
+    if (mobility.getStatus().equals("Annulee")) {
+      throw new BadMobilityStatusException("Une mobilité annulée ne peut pas être modifiée");
+    }
+
     try {
       dalServices.openConnection();
       dalServices.startTransaction();
-      mobilityDao.updateMobilityDetails(mobility);
-      dalServices.commitTransaction();
+
+      if (mobility.isDepartDocSentHighschool()
+          || mobility.isDepartureConventionInternshipSchoolarship()
+          || mobility.isDepartureDocAggreement() || mobility.isDepartureErasmusLanguageTest()
+          || mobility.isDepartureGrantContract() || mobility.isDepartureStudentConvention()) {
+        mobility.setStatus("En préparation");
+      }
+      if (mobility.isDepartDocSentHighschool()
+          && mobility.isDepartureConventionInternshipSchoolarship()
+          && mobility.isDepartureDocAggreement() && mobility.isDepartureErasmusLanguageTest()
+          && mobility.isDepartureGrantContract() && mobility.isDepartureStudentConvention()) {
+        mobility.setStatus("A payer");
+      }
+
+      if (mobility.getPaymentDate1()) {
+        mobility.setStatus("Paiement demandé");
+      }
+
+      if (mobility.isReturnDocSentHighschool() && mobility.isReturnErasmusLanguageTest()
+          && mobility.isReturnFinalReport() && mobility.isReturnInternshipCert()
+          && mobility.isReturnTranscript()
+          && mobility.isDepartureConventionInternshipSchoolarship()) {
+        mobility.setStatus("A payer solde");
+      }
+
+      if (mobility.getPaymentDate2()) {
+        mobility.setStatus("Paiement du solde demandé");
+      }
+
+      int rowUpdated = mobilityDao.updateMobilityDetails(mobility);
+
+      if (rowUpdated == 1) {
+        dalServices.commitTransaction();
+      } else {
+        dalServices.rollbackTransaction();
+      }
     } catch (SQLException exc) {
       exc.printStackTrace();
       try {
