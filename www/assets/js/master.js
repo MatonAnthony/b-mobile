@@ -933,7 +933,7 @@ $(function () {
 
 						for (key in resp) {
 							var data =
-								"<tr>"+
+								"<tr value='"+ resp[key]['id'] +"'>"+
 								"<td>" + resp[key]['id'] + "</td>" +
 									"<td>" + resp[key]['studentDto']['name'] + "</td>" +
 									"<td>" + resp[key]['studentDto']['firstname'] + "</td>" +
@@ -962,7 +962,7 @@ $(function () {
 								$(this).next().next().append("<button id=\"profBtnConfirm\" class=\"btn btn-success\">Confirmer</button>");
 							}
 						});
-						$("#list tr td:last-child").append("<button id=\"profBtnModif\" class=\"btnModif btn btn-info\" value='"+ resp[key]['id'] +"'>Modifier</button>");
+						$("#list tr td:last-child").append("<button id=\"profBtnModif\" class=\"btnModif btn btn-info\" >Modifier</button>");
 						
 					}
 	            },
@@ -972,12 +972,12 @@ $(function () {
 	            }
 	        });
 	    });
-		$("#list").on("click", ".btnModif", function (){
-			var id = $(this).attr("value");
+		$("#list").on("click", ".btnModif", function (evt){
+			var id = $(evt.currentTarget).parent().parent().attr("value");
 			loadDetailsMobility(id);
 		});
-		$("#list").on("click", ".btnCancel", function (e) {
-			var id = $(this).parent().attr("value");
+		$("#list").on("click", ".btnCancel", function (evt) {
+			var id = $(evt.currentTarget).parent().parent().attr("value");
 			loadCancelMobility(id);
 		});
         /*$("#list").on("click", "#profBtnConfirm", function (e) {
@@ -1139,7 +1139,7 @@ $(function () {
 						data += "<td></td></tr>"
 
 						$("#tablePayments tbody").append(data);
-						$("#tablePayments tr td:last-child").append("<button class=\"btnModif btn btn-info\" value='"+ resp[key]['id'] +"'>Modifier</button>");
+						$("#tablePayments tr td:last-child").append("<button class=\"btnModif btn btn-info\">Modifier</button>");
 					}
 	            },
 	            error: function (error) {
@@ -1148,8 +1148,8 @@ $(function () {
 	            }
 	        });
 		}
-		$("#tablePayments").on("click", ".btnModif", function (){
-			var id = $(this).attr("value");
+		$("#tablePayments").on("click", ".btnModif", function (evt){
+			var id = $(evt.currentTarget).parent().parent().attr("value");
 			loadDetailsMobility(id);
 		});
 	}
@@ -1192,7 +1192,7 @@ $(function () {
 								$(this).parent().addClass("danger");
 							}
 						});
-						$("#tableConfirmed tr td:last-child").append("<button class=\"btnModif btn btn-info\" value='"+ resp[key]['id'] +"'>Modifier</button>");
+						$("#tableConfirmed tr td:last-child").append("<button class=\"btnModif btn btn-info\">Modifier</button>");
 					}
 
 	            },
@@ -1202,8 +1202,8 @@ $(function () {
 	            }
 	        });
 	    });
-		$("#tableConfirmed").on("click", ".btnModif", function (){
-			var id = $(this).attr("value");
+		$("#tableConfirmed").on("click", ".btnModif", function (evt){
+			var id = $(evt.currentTarget).parent().parent().attr("value");
 			loadDetailsMobility(id);
 		});
 	}
