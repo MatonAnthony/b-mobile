@@ -54,9 +54,7 @@ public class DalServicesImpl implements DalServices, DalBackendServices {
 
   @Override
   public void openConnection() throws SQLException {
-
     threadLocal.set(connectionPool.getConnection());
-
   }
 
   @Override

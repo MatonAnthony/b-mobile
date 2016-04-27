@@ -6,7 +6,7 @@ import static org.junit.Assert.assertEquals;
 import bizz.implementations.BizzFactoryImpl;
 import bizz.interfaces.BizzFactory;
 import dal.DalServices;
-import dal.DalServicesImpl;
+import dal.DalServicesImplStub;
 import dao.CountryDaoMock;
 import dto.CountryDto;
 import exceptions.NoCountryException;
@@ -45,7 +45,7 @@ public class CountryUcControllerImplTest {
     listPays.add(countryDto2);
 
     countryDao = new CountryDaoMock(listPays);
-    DalServices dalServices = new DalServicesImpl();
+    DalServices dalServices = new DalServicesImplStub();
     countryUcController = new CountryUcControllerImpl(dalServices, countryDao);
   }
 

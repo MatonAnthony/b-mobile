@@ -21,7 +21,6 @@ public class CountryUcControllerImpl implements CountryUcController {
    * @param countryDao The dao that the ucc will use.
    */
   public CountryUcControllerImpl(DalServices dalServices, CountryDao countryDao) {
-
     this.countryDao = countryDao;
     this.dalServices = dalServices;
 
