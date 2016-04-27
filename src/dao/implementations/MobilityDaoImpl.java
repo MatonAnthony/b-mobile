@@ -75,7 +75,6 @@ public class MobilityDaoImpl implements MobilityDao {
 
   @Override
   public void createMobility(MobilityDto mobilityDto) {
-    System.out.println("insertion dans la DB");
     // language=PostgreSQL
     String query = "INSERT INTO bmobile.mobilities VALUES (DEFAULT,?,?,?,?,?,?,?,?,'En attente',0,"
         + "FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,"

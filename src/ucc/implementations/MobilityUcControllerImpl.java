@@ -64,7 +64,6 @@ public class MobilityUcControllerImpl implements MobilityUcController {
     try {
       dalServices.openConnection();
       dalServices.startTransaction();
-      System.out.println("UCC");
       mobilityDao.createMobility(mobility);
 
       dalServices.commitTransaction();

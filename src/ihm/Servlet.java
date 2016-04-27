@@ -658,12 +658,10 @@ public class Servlet extends HttpServlet {
     mobility.setAcademicYear(req.getParameter("year"));
     mobility.setDepartementDto(departmentUcc.getDepartmentByLabel(req.getParameter("department")));
     mobility.setCountryDto(countryUcc.getCountryByNameFr(req.getParameter("country")));
-    System.out.println("avant le if");
     if (Integer.parseInt("" + req.getParameter("partner")) != -1) {
       mobility.setPartnerDto(
           partnerUcc.getPartnerById(Integer.parseInt("" + req.getParameter("partner"))));
     }
-    System.out.println("après le if");
     mobilityUcc.addMobility(mobility);
 
   }

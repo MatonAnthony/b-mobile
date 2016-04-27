@@ -972,21 +972,21 @@ $(function () {
 	            }
 	        });
 	    });
-		$("#list").on("click", ".btnModif", function (evt){
-			var id = $(evt.currentTarget).parent().parent().attr("value");
-			loadDetailsMobility(id);
-		});
-		$("#list").on("click", ".btnCancel", function (evt) {
-			var id = $(evt.currentTarget).parent().parent().attr("value");
-			loadCancelMobility(id);
-		});
+	}
+
+    $("#list").on("click", ".btnModif", function (evt){
+            var id = $(evt.currentTarget).parent().parent().attr("value");
+            loadDetailsMobility(id);
+        });
+        $("#list").on("click", ".btnCancel", function (evt) {
+            var id = $(evt.currentTarget).parent().parent().attr("value");
+            loadCancelMobility(id);
+        });
         /*$("#list").on("click", "#profBtnConfirm", function (e) {
             e.stopPropagation();
             var id = $(this).parent().attr("value");
             loadConfirmMobility(id);
         });*/
-
-	}
 
 	// Managing of filter buttons
 
@@ -1148,11 +1148,13 @@ $(function () {
 	            }
 	        });
 		}
-		$("#tablePayments").on("click", ".btnModif", function (evt){
-			var id = $(evt.currentTarget).parent().parent().attr("value");
-			loadDetailsMobility(id);
-		});
+		
 	}
+
+    $("#tablePayments").on("click", ".btnModif", function (evt){
+        var id = $(evt.currentTarget).parent().parent().attr("value");
+        loadDetailsMobility(id);
+    });
 
 	// Managing of the confirmed table
 
@@ -1202,11 +1204,13 @@ $(function () {
 	            }
 	        });
 	    });
-		$("#tableConfirmed").on("click", ".btnModif", function (evt){
-			var id = $(evt.currentTarget).parent().parent().attr("value");
-			loadDetailsMobility(id);
-		});
+		
 	}
+
+    $("#tableConfirmed").on("click", ".btnModif", function (evt){
+        var id = $(evt.currentTarget).parent().parent().attr("value");
+        loadDetailsMobility(id);
+    });
 
 	// Managing of the "myMobility" table
 	function loadMyMobility() {
@@ -1258,19 +1262,21 @@ $(function () {
 	            }
 	        });
 	    });
-		$("#myMobility").on("click.btnCancel", "#btnCancelStudent", function () {
-			var id = $(this).parent().attr("value");
-            $("#myMobility").off("click.btnCancel");
-			loadCancelMobility(id);
-
-		});
-		$("#myMobility").on("click.btnConfirm", "#btnConfirm", function () {
-            var id = $(this).parent().attr("id");
-            $("#myMobility").off("click.btnConfirm").on("click.btnCancel");
-			loadConfirmMobility(id);
-
-		});
+		
 	}
+
+    $("#myMobility").on("click.btnCancel", "#btnCancelStudent", function () {
+        var id = $(this).parent().attr("value");
+        $("#myMobility").off("click.btnCancel");
+        loadCancelMobility(id);
+
+    });
+    $("#myMobility").on("click.btnConfirm", "#btnConfirm", function () {
+        var id = $(this).parent().attr("id");
+        $("#myMobility").off("click.btnConfirm").on("click.btnCancel");
+        loadConfirmMobility(id);
+
+    });
 
 
 	function loadCancelMobility(id){
@@ -1335,59 +1341,58 @@ $(function () {
                 }
             });
 		});
-		
-		$("#sendCancelation").on("click", function (){
-			var reasonValue;
-			var idReason=0;
-			if (teacher && $('#listReasons').val() === "other"){
-				if ($("#textReason").val() === ""){
-					printToaster("error","Vous devez entrez une raison pour l'annulation de la mobilité !");
-					return;
-				}
-				reasonValue = $("#textReason").val();
-			}else if (teacher){
-				if ($("#listReasons").val() !== "other" && $("#textReason").val() !== ""){
-					printToaster("error","Vous devez soit sélectionner une raison prédéfinie soit entrer un texte!");
-					return;
-				}
-				idReason = $('#listReasons').val();
-			}else{ // Student
-				if($("#textReason").val() === ""){
-					printToaster("error","Vous devez entrez une raison pour l'annulation de la mobilité !");
-					return;
-				}
-				reasonValue = $("#textReason").val();
-			}
-			$.ajax({
+
+        $("#sendCancelation").on("click", function (){
+            var reasonValue;
+            var idReason=0;
+            
+            if (teacher && $('#listReasons').val() === "other"){
+                if ($("#textReason").val() === ""){
+                    printToaster("error","Vous devez entrez une raison pour l'annulation de la mobilité !");
+                    return;
+                }
+                reasonValue = $("#textReason").val();
+            }else if (teacher){
+                if ($("#listReasons").val() !== "other" && $("#textReason").val() !== ""){
+                    printToaster("error","Vous devez soit sélectionner une raison prédéfinie soit entrer un texte!");
+                    return;
+                }
+                idReason = $('#listReasons').val();
+            }else{ // Student
+                if($("#textReason").val() === ""){
+                    printToaster("error","Vous devez entrez une raison pour l'annulation de la mobilité !");
+                    return;
+                }
+                reasonValue = $("#textReason").val();
+            }
+            $.ajax({
                 method: "POST",
                 url: "/home",
                 data: {
                     action: "cancelMobility",
                     idMobility: id,
-					reasonValue: reasonValue,
-					idReason: idReason,
-					verNr:$(this).val()
+                    reasonValue: reasonValue,
+                    idReason: idReason,
+                    verNr:$(this).val()
                 },
                 success: function (resp) {
-					$(".page").css("display", "none");
+                    $(".page").css("display", "none");
                     $("#modalCancelMobility").modal("hide");
-					if (teacher){
-						loadList();
-					}else{
+                    if (teacher){
+                        loadList();
+                    }else{
                         authStudent();
-					}
-					printToaster("success","La mobilité a bien été annulée.")
+                    }
+                    printToaster("success","La mobilité a bien été annulée.")
                 },
                 error: function (error) {
                     error = JSON.parse(error.responseText);
                     printToaster(error.type, error.message);
                 }
             });
-		});
-
-		
+        });
 	}
-
+    
 	function loadConfirmMobility(id){
         $(function () {
             $.ajax({
