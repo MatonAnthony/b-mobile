@@ -771,8 +771,8 @@ $(function () {
                             + "<td>" + resp[key]['name'] + "</td>"
                             + "<td>" + resp[key]['firstname'] + "</td>"
                             + '<td id="tdPermissions' + resp[key]['id'] + '">' + resp[key]['permissions'] + '</td>'
-                            + '<td id="tdButtonNommer' + resp[key]['id'] + '"><button value="' + resp[key]['id'] + '" class="btnNommer btn btn-info">Nommer</button></td>'
-                            + '<td id="tdButtonGererInfos' + resp[key]['id'] + '"><button value="' + resp[key]['id'] + '" class="btnGererInfos btn btn-info">Gérer les informations</button></td>'
+                            + '<td id="tdButtonNommer' + resp[key]['id'] + '"><button value="' + resp[key]['id'] + '" class="btnNommer btn btn-sm btn-info">Nommer</button></td>'
+                            + '<td id="tdButtonGererInfos' + resp[key]['id'] + '"><button value="' + resp[key]['id'] + '" class="btnGererInfos btn btn-sm btn-info">Gérer les informations</button></td>'
                             + "</tr>";
                     } else {
                         value = "<tr>"
@@ -954,15 +954,15 @@ $(function () {
 						
 						$("#list tr td:nth-child(10)").each(function(){
 							if ($(this).html() !== "Annulee") {
-                                $(this).next().append("<button type=\"button\" class=\"btnCancel btn btn-danger\" data-toggle=\"modal\" data-target=\"#modalCancelMobility\">Annuler</button>");
+                                $(this).next().append("<button type=\"button\" class=\"btnCancel btn btn-sm btn-danger\" data-toggle=\"modal\" data-target=\"#modalCancelMobility\">Annuler</button>");
 							} else {
 								$(this).parent().addClass("danger");
 							}
 							if ($(this).html() === "En attente"){
-								$(this).next().next().append("<button id=\"profBtnConfirm\" class=\"btn btn-success\">Confirmer</button>");
+								$(this).next().next().append("<button id=\"profBtnConfirm\" class=\"btn btn-sm btn-success\">Confirmer</button>");
 							}
 						});
-						$("#list tr td:last-child").append("<button id=\"profBtnModif\" class=\"btnModif btn btn-info\" >Modifier</button>");
+						$("#list tr td:last-child").append("<button id=\"profBtnModif\" class=\"btnModif btn btn-sm btn-info\" >Modifier</button>");
 						
 					}
 	            },
@@ -1139,7 +1139,7 @@ $(function () {
 						data += "<td></td></tr>"
 
 						$("#tablePayments tbody").append(data);
-						$("#tablePayments tr td:last-child").append("<button class=\"btnModif btn btn-info\">Modifier</button>");
+						$("#tablePayments tr td:last-child").append("<button class=\"btnModif btn btn-sm btn-info\">Modifier</button>");
 					}
 	            },
 	            error: function (error) {
@@ -1192,7 +1192,7 @@ $(function () {
 								$(this).parent().addClass("danger");
 							}
 						});
-						$("#tableConfirmed tr td:last-child").append("<button class=\"btnModif btn btn-info\">Modifier</button>");
+						$("#tableConfirmed tr td:last-child").append("<button class=\"btnModif btn btn-sm btn-info\">Modifier</button>");
 					}
 
 	            },
@@ -1240,12 +1240,12 @@ $(function () {
 						}	
 						$("#myMobility tr td:nth-child(6)").each(function () {
 							if ($(this).html() !== "Annulee") {
-								$(this).next().append("<button type=\"button\" class=\"btn btn-info\" id=\"btnCancelStudent\" data-toggle=\"modal\" data-target=\"#modalCancelMobility\">Annuler</button>");
+								$(this).next().append("<button type=\"button\" class=\"btn btn-sm btn-info\" id=\"btnCancelStudent\" data-toggle=\"modal\" data-target=\"#modalCancelMobility\">Annuler</button>");
 							} else {
 								$(this).parent().addClass("danger");
 							}
 							if ($(this).html() === "En attente"&& $(this).parent().attr("value") === undefined) {
-								$(this).next().next().append("<button type=\"button\" class=\"btn btn-info\" id=\"btnConfirm\" data-toggle=\"modal\" data-target=\"#modalConfirmMobility\">Confirmer</button>");
+								$(this).next().next().append("<button type=\"button\" class=\"btn btn-sm btn-info\" id=\"btnConfirm\" data-toggle=\"modal\" data-target=\"#modalConfirmMobility\">Confirmer</button>");
 							}
 						});
 					
@@ -1306,7 +1306,35 @@ $(function () {
 		}else{
 			$("#onlyTeacherReasons").css("display","none");
 		}
-
+		
+		$(function(){
+			$.ajax({
+                method: "POST",
+                url: "/home",
+                data: {
+                    action: "selectMobility",
+                    id: id
+                },
+                success: function (resp) {
+                	resp = JSON.parse(resp);
+					console.log(resp);
+					$("#destinationP").html(resp['programDto']['name'] + " " + resp['type'] +
+											" à " + resp['countryDto']['nameFr'] + " durant le " +
+											resp['quadrimester'] + "e quadrimestre.");
+					if (resp['partnerDto']['legalName'] !== null){
+						$("#partnerP").html("Partenaire : "+resp['partnerDto']['legalName']);
+					}else{
+						$("#partnerP").html("Aucun partenaire actuellement.")
+					}
+					$("#stateP").html("Etat de la mobilité : "+resp['status']);
+                },
+                error: function (error) {
+                    error = JSON.parse(error.responseText);
+                    printToaster(error.type, error.message);
+                }
+            });
+		});
+		
 		$("#sendCancelation").on("click", function (){
 			var reasonValue;
 			var idReason=0;
