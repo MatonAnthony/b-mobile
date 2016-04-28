@@ -209,7 +209,7 @@ public class PartnerImpl implements PartnerBizz {
   }
 
   public void setEmail(String email) {
-    if(email == null) {
+    if(email == null || email.equals("")) {
       this.email = null;
     } else if (!Pattern.matches("^[\\w!#$%&’*+/=?`{|}~^-]+(?:\\.[\\w!#$%&’*+/=?`{|}~^-]+)"
       + "*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$", email)) {

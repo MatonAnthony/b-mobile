@@ -113,6 +113,7 @@ $(function () {
                 printToaster("info", "Le BIC ne peut être composé que de lettres.");
             }
         });
+
     };
     
     window.onpopstate = function(event) {
@@ -577,38 +578,48 @@ $(function () {
 
     //addPartner
     $("#addPartnerBtn").click(function () {
-        $.ajax({
-            method: "POST",
-            url: "/home",
-            data: {
-                action: "addPartner",
-                legal_name: $("#add_partner_legal_name").val(),
-                business_name: $("#add_partner_business_name").val(),
-                full_name: $("#add_partner_full_name").val(),
-                department: $("#add_partner_department").val(),
-                type: $("#add_partner_type").val(),
-                nb_employees: $("#add_partner_nb_employees").val(),
-                street: $("#add_partner_street").val(),
-                number: $("#add_partner_number").val(),
-                mailbox: $("#add_partner_mailbox").val(),
-                zip: $("#add_partner_zip").val(),
-                city: $("#add_partner_city").val(),
-                state: $("#add_partner_state").val(),
-                country: $("#add_partner_country").val(),
-                tel: $("#add_partner_tel").val(),
-                email: $("#add_partner_email").val(),
-                website: $("#add_partner_website").val()
 
-            },
-            success: function (resp) {
-                printToaster("success", "Le partenaire a bien été ajouté.");
-            },
-            error: function (error) {
-                error = JSON.parse(error.responseText);
-				printToaster(error.type, error.message);
+        if ($("#add_partner_legal_name").val() === "" || $("#add_partner_country").val() === ""){
+            if ($("#add_partner_legal_name").val() === ""){
+                printToaster("warning","Le champ \"Nom légale\" est requis");
             }
-        });
+            if ($("#add_partner_country").val() === ""){
+                printToaster("warning","Le champ \"Pays\" est requis");
+            }
+        }
+        else {
+            $.ajax({
+                method: "POST",
+                url: "/home",
+                data: {
+                    action: "addPartner",
+                    legal_name: $("#add_partner_legal_name").val(),
+                    business_name: $("#add_partner_business_name").val(),
+                    full_name: $("#add_partner_full_name").val(),
+                    department: $("#add_partner_department").val(),
+                    type: $("#add_partner_type").val(),
+                    nb_employees: $("#add_partner_nb_employees").val(),
+                    street: $("#add_partner_street").val(),
+                    number: $("#add_partner_number").val(),
+                    mailbox: $("#add_partner_mailbox").val(),
+                    zip: $("#add_partner_zip").val(),
+                    city: $("#add_partner_city").val(),
+                    state: $("#add_partner_state").val(),
+                    country: $("#add_partner_country").val(),
+                    tel: $("#add_partner_tel").val(),
+                    email: $("#add_partner_email").val(),
+                    website: $("#add_partner_website").val()
 
+                },
+                success: function (resp) {
+                    printToaster("success", "Le partenaire a bien été ajouté.");
+                },
+                error: function (error) {
+                    error = JSON.parse(error.responseText);
+                    printToaster(error.type, error.message);
+                }
+            });
+        }
         return false;
     });
 
@@ -814,6 +825,7 @@ $(function () {
 	            success: function (resp) {
 	                resp = JSON.parse(resp);
 	                var key;
+                    $("#add_partner_country").append("<option></option>");
 	                for (key in resp) {
 	                    $("#add_partner_country").append("<option>" + resp[key]['nameFr'] + "</option>");
 	                }
@@ -958,7 +970,7 @@ $(function () {
 								$(this).parent().addClass("danger");
 							}
 							if ($(this).html() === "En attente"){
-								$(this).next().next().append("<button id=\"profBtnConfirm\" class=\"btn btn-sm btn-success\">Confirmer</button>");
+								$(this).next().next().append("<button type=\"button\" class=\"btn btn-sm btn-success btnConfirm\" data-toggle=\"modal\" data-target=\"#modalConfirmMobility\">Confirmer</button>");
 							}else{								
 								$(this).next().next().next().append("<button id=\"profBtnModif\" class=\"btnModif btn btn-sm btn-info\" >Détails</button>");
 							}
@@ -974,19 +986,18 @@ $(function () {
 	    });
 	}
 
-    $("#list").on("click", ".btnModif", function (evt){
+        $("#list").on("click", ".btnModif", function (evt){
             var id = $(evt.currentTarget).parent().parent().attr("value");
             loadDetailsMobility(id);
         });
-    $("#list").on("click", ".btnCancel", function (evt) {
-        var id = $(evt.currentTarget).parent().parent().attr("value");
-        loadCancelMobility(id);
-    });
-    /*$("#list").on("click", "#profBtnConfirm", function (e) {
-        e.stopPropagation();
-        var id = $(this).parent().attr("value");
-        loadConfirmMobility(id);
-    });*/
+        $("#list").on("click", ".btnCancel", function (evt) {
+            var id = $(evt.currentTarget).parent().parent().attr("value");
+            loadCancelMobility(id);
+        });
+        $("#list").on("click", ".btnConfirm", function (evt) {
+            var id = $(evt.currentTarget).parent().parent().attr("value");
+            loadConfirmMobility(id);
+        });
 
 	// Managing of filter buttons
 
@@ -1258,7 +1269,7 @@ $(function () {
 								$(this).parent().addClass("danger");
 							}
 							if ($(this).html() === "En attente"&& $(this).parent().attr("value") === undefined) {
-								$(this).next().next().append("<button type=\"button\" class=\"btn btn-sm btn-info btnConfirm\" data-toggle=\"modal\" data-target=\"#modalConfirmMobility\">Confirmer</button>");
+								$(this).next().next().append("<button type=\"button\" class=\"btn btn-sm btn-success btnConfirm\" data-toggle=\"modal\" data-target=\"#modalConfirmMobility\">Confirmer</button>");
 							}
 						});
 					
@@ -1413,7 +1424,7 @@ $(function () {
                 },
                 success: function (resp) {
                     resp = JSON.parse(resp);
-
+                    console.log(resp);
                     $("#confirmMobilityPartner select").empty();
                     if (jQuery.isEmptyObject(resp['partners'])){
                         $("#confirmMobility ").hide();
@@ -1430,7 +1441,9 @@ $(function () {
 
                     $('#confirmMbolityInfo').empty();
                     $('#confirmMbolityInfo').append(
-                        "<b>Département: </b>" + resp['mobility']['departmentDto']['label'] + "</br>" +
+                        "<b>Etudiant: </b>" + resp['mobility']['studentDto']['name'] + " " +
+                        resp['mobility']['studentDto']['firstname'] + " <i>("+ resp['mobility']['idDepartment'] +")</i></br></br>" +
+                         "<b>Département: </b>" + resp['mobility']['departmentDto']['label'] + "</br>" +
                         "<b>Type: </b> " + resp['mobility']['programDto']['name'] +
                         " <i>(" + resp['mobility']['type'] +")</i></br>" +
                         "<b>Lieu: </b>" + resp['mobility']['countryDto']['nameFr'] + "</br>" +
