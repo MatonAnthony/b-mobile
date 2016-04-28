@@ -127,9 +127,6 @@ public class UserImpl implements UserBizz, Cloneable {
    */
   @Override
   public String getPseudo() {
-    /*
-     * if (pseudo == null) { throw new NullPointerException(); }
-     */
     return pseudo;
   }
 
@@ -153,9 +150,6 @@ public class UserImpl implements UserBizz, Cloneable {
    */
   @Override
   public String getPassword() {
-    /*
-     * if (password == null) { throw new NullPointerException(); }
-     */
     return password;
   }
 
@@ -179,9 +173,6 @@ public class UserImpl implements UserBizz, Cloneable {
    */
   @Override
   public String getName() {
-    /*
-     * if (name == null) { throw new NullPointerException(); }
-     */
     return name;
   }
 
@@ -194,7 +185,7 @@ public class UserImpl implements UserBizz, Cloneable {
   public void setName(String name) {
     if (name == null) {
       this.name = name;
-    } else if(!Pattern.matches("[A-zÀ-ÿ- ]*", name)) {
+    } else if (!Pattern.matches("[A-zÀ-ÿ- ]*", name)) {
       throw new IllegalArgumentException("Nom invalide");
     }
     this.name = name;
@@ -207,9 +198,6 @@ public class UserImpl implements UserBizz, Cloneable {
    */
   @Override
   public String getFirstname() {
-    /*
-     * if (firstname == null) { throw new NullPointerException(); }
-     */
     return firstname;
   }
 
@@ -220,9 +208,9 @@ public class UserImpl implements UserBizz, Cloneable {
    */
   @Override
   public void setFirstname(String firstname) {
-    if (firstname == null){
+    if (firstname == null) {
       this.firstname = firstname;
-    } else if(!Pattern.matches("[A-zÀ-ÿ- ]*", firstname)){
+    } else if (!Pattern.matches("[A-zÀ-ÿ- ]*", firstname)) {
       throw new IllegalArgumentException("Prénom invalide");
     }
     this.firstname = firstname;
@@ -235,9 +223,6 @@ public class UserImpl implements UserBizz, Cloneable {
    */
   @Override
   public String getEmail() {
-    /*
-     * if (email == null) { throw new NullPointerException(); }
-     */
     return email;
   }
 
@@ -248,10 +233,10 @@ public class UserImpl implements UserBizz, Cloneable {
    */
   @Override
   public void setEmail(String email) {
-    if(email == null){
+    if (email == null) {
       this.email = email;
     } else if (!Pattern.matches("^[\\w!#$%&’*.+/=?`{|}~^-]+(?:\\.[\\w!#$%&.’*+/=?`{|}~^-]+)"
-      + "*@(?:[a-zA-Z0-9-.]+\\.)+[a-zA-Z]{2,6}$", email)) {
+        + "*@(?:[a-zA-Z0-9-.]+\\.)+[a-zA-Z]{2,6}$", email)) {
       throw new IllegalArgumentException("Email invalide");
     }
     this.email = email;
@@ -264,9 +249,6 @@ public class UserImpl implements UserBizz, Cloneable {
    */
   @Override
   public String getTel() {
-    /*
-     * if (tel == null) { throw new NullPointerException(); }
-     */
     return tel;
   }
 
@@ -278,12 +260,9 @@ public class UserImpl implements UserBizz, Cloneable {
   @Override
   public void setTel(String tel) {
     // TODO le tel peut etre null normalment
-    /*
-     * if (tel == null) { throw new IllegalArgumentException(); }
-     */
-    if(tel == null){
+    if (tel == null) {
       this.tel = tel;
-    }else if(!Pattern.matches("[0-9]*", tel)) {
+    } else if (!Pattern.matches("[0-9]*", tel)) {
       throw new IllegalArgumentException("Numéro de téléphone invalide");
     }
     this.tel = tel;
@@ -296,9 +275,6 @@ public class UserImpl implements UserBizz, Cloneable {
    */
   @Override
   public String getGender() {
-    /*
-     * if (gender == null) { throw new NullPointerException(); }
-     */
     return gender;
   }
 
@@ -309,9 +285,6 @@ public class UserImpl implements UserBizz, Cloneable {
    */
   @Override
   public void setGender(String gender) {
-    /*
-     * if (gender == null) { throw new IllegalArgumentException(); }
-     */
     this.gender = gender;
   }
 
@@ -322,9 +295,6 @@ public class UserImpl implements UserBizz, Cloneable {
    */
   @Override
   public String getPermissions() {
-    /*
-     * if (permissions == null) { throw new NullPointerException(); }
-     */
     return permissions;
   }
 
@@ -376,11 +346,6 @@ public class UserImpl implements UserBizz, Cloneable {
    */
   @Override
   public String getBic() {
-
-    /*
-     * if (bic == null) { throw new NullPointerException(); }
-     */
-
     return bic;
   }
 
@@ -391,9 +356,6 @@ public class UserImpl implements UserBizz, Cloneable {
    */
   @Override
   public void setBic(String bic) {
-    /*
-     * if (bic == null) { throw new IllegalArgumentException(); }
-     */
     this.bic = bic;
   }
 
@@ -414,12 +376,9 @@ public class UserImpl implements UserBizz, Cloneable {
    */
   @Override
   public void setAccountHolder(String accountHolder) {
-    /*
-     * if (accountHolder == null) { throw new IllegalArgumentException(); }
-     */
-    if(accountHolder == null){
+    if (accountHolder == null) {
       this.accountHolder = accountHolder;
-    }else if (!Pattern.matches("[A-zÀ-ÿ- ]*", accountHolder)) {
+    } else if (!Pattern.matches("[A-zÀ-ÿ- ]*", accountHolder)) {
       throw new IllegalArgumentException("Nom du titulaire invalide");
     }
     this.accountHolder = accountHolder;
@@ -442,10 +401,7 @@ public class UserImpl implements UserBizz, Cloneable {
    */
   @Override
   public void setBankName(String bankName) {
-    /*
-     * if (bankName == null) { throw new IllegalArgumentException(); }
-     */
-    if(bankName == null){
+    if (bankName == null) {
       this.bankName = bankName;
     } else if (!Pattern.matches("[A-zÀ-ÿ- ]*", bankName)) {
       throw new IllegalArgumentException("Nom de la banque invalide");
@@ -483,11 +439,6 @@ public class UserImpl implements UserBizz, Cloneable {
    */
   @Override
   public LocalDate getRegistrationDate() {
-
-    /*
-     * if (registrationDate == null) { throw new NullPointerException(); }
-     */
-
     return registrationDate;
   }
 
@@ -513,11 +464,6 @@ public class UserImpl implements UserBizz, Cloneable {
    */
   @Override
   public LocalDate getBirthDate() {
-
-    /*
-     * if (birthDate == null) { throw new NullPointerException(); }
-     */
-
     return birthDate;
   }
 
@@ -551,7 +497,7 @@ public class UserImpl implements UserBizz, Cloneable {
    * @param citizenship new citizenship.
    */
   public void setCitizenship(String citizenship) {
-    if(citizenship == null){
+    if (citizenship == null) {
       this.citizenship = citizenship;
     } else if (!Pattern.matches("[A-zÀ-ÿ- ]*", citizenship)) {
       throw new IllegalArgumentException("Nationalité invalide");
@@ -579,10 +525,6 @@ public class UserImpl implements UserBizz, Cloneable {
    */
   @Override
   public boolean checkPassword(String passwordToCheck) {
-    /*
-     * if (passwordToCheck == null) { throw new IllegalArgumentException(); } if (this.password ==
-     * null) { throw new NullPointerException(); }
-     */
     return BCrypt.checkpw(passwordToCheck, this.password);
   }
 
@@ -770,5 +712,4 @@ public class UserImpl implements UserBizz, Cloneable {
     }
     return true;
   }
-
 }

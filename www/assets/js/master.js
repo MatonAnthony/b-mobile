@@ -1578,6 +1578,8 @@ $(function () {
 		$("#mobilityDetail").css("display","block");
 		$("#navBarTeacher").css("display","block");
 
+		// TODO : Gerer le montant
+
 		$.ajax({
             url: "/home",
             type: 'POST',
