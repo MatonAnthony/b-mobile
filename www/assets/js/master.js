@@ -963,16 +963,19 @@ $(function () {
 							$("#list tbody").append(data);
 						}
 						
+						var textBtn = "Modifier";
 						$("#list tr td:nth-child(10)").each(function(){
+							textBtn = "Modifier";
 							if ($(this).html() !== "Annulee") {
+								textBtn="Détails";
                                 $(this).next().append("<button type=\"button\" class=\"btnCancel btn btn-sm btn-danger\" data-toggle=\"modal\" data-target=\"#modalCancelMobility\">Annuler</button>");
 							} else {
 								$(this).parent().addClass("danger");
 							}
 							if ($(this).html() === "En attente"){
 								$(this).next().next().append("<button type=\"button\" class=\"btn btn-sm btn-success btnConfirm\" data-toggle=\"modal\" data-target=\"#modalConfirmMobility\">Confirmer</button>");
-							}else{								
-								$(this).next().next().next().append("<button id=\"profBtnModif\" class=\"btnModif btn btn-sm btn-info\" >Détails</button>");
+							}else{	
+								$(this).next().next().next().append("<button id=\"profBtnModif\" class=\"btnModif btn btn-sm btn-info\" >"+textBtn+"</button>");
 							}
 						});
 						
@@ -1126,11 +1129,13 @@ $(function () {
 					$("#tablePayments tbody").empty();
 					$("#empty").empty();
 					var danger = "";
+					var textBtn = "Modifier";
 					for (key in resp) {
+						textBtn = "Modifier";
 						danger="";
 						if (resp[key]['status'] === "Annulee"){
-							console.log(resp[key]['id']);
 							danger = "class='danger'";
+							textBtn = "Détails";
 						}
 						var data = "<tr value='"+ resp[key]['id'] + "'"+danger+">" +
 										"<td>" + resp[key]['id'] + "</td>"+
@@ -1153,7 +1158,7 @@ $(function () {
 						}else data += "<td>Non demandé</td>";
 							
 						if (resp[key]['status'] !== "En attente"){
-							data+="<td><button class=\"btnModif btn btn-sm btn-info\">Détails</button></td>";
+							data+="<td><button class=\"btnModif btn btn-sm btn-info\">"+textBtn+"</button></td>";
 						}else{
 							data+="<td></td>";
 						}
@@ -1209,11 +1214,14 @@ $(function () {
 								+ "</tr>");
 
 						}
+						var textBtn = "Modifier";
 						$("#tableConfirmed tr td:last-child").each(function () {
+							textBtn = "Modifier";
 							if ($(this).html() === "Annulee") {
 								$(this).parent().addClass("danger");
+								textBtn = "Détails";
 							}
-							$(this).append("<button class=\"btnModif btn btn-sm btn-info\">Détails</button>");								
+							$(this).append("<button class=\"btnModif btn btn-sm btn-info\">"+textBtn+"</button>");								
 						});
 					}
 
