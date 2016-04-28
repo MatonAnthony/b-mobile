@@ -2,6 +2,7 @@ package ucc.interfaces;
 
 import dto.MobilityDto;
 import exceptions.BadMobilityStatusException;
+import exceptions.OptimisticLockException;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -97,6 +98,8 @@ public interface MobilityUcController {
    * 
    * @param mobility the mobilityDto with the informations.
    * @throws BadMobilityStatusException if the status of the mobility is not correct
+   * @throws OptimisticLockException if the mobility had been modified since the selection
    */
-  void updateMobilityDetails(MobilityDto mobility) throws BadMobilityStatusException;
+  void updateMobilityDetails(MobilityDto mobility)
+      throws BadMobilityStatusException, OptimisticLockException;
 }

@@ -4,6 +4,7 @@ import dal.DalServices;
 import dao.interfaces.MobilityDao;
 import dto.MobilityDto;
 import exceptions.BadMobilityStatusException;
+import exceptions.OptimisticLockException;
 import ucc.interfaces.MobilityUcController;
 
 import java.sql.SQLException;
@@ -137,7 +138,8 @@ public class MobilityUcControllerImpl implements MobilityUcController {
   }
 
   @Override
-  public void updateMobilityDetails(MobilityDto mobility) throws BadMobilityStatusException {
+  public void updateMobilityDetails(MobilityDto mobility)
+      throws BadMobilityStatusException, OptimisticLockException {
 
     if (mobility.getStatus().equals("En attente")) {
       throw new BadMobilityStatusException("Une mobilité en attente ne peut pas être modifiée");
@@ -145,36 +147,43 @@ public class MobilityUcControllerImpl implements MobilityUcController {
     if (mobility.getStatus().equals("Annulee")) {
       throw new BadMobilityStatusException("Une mobilité annulée ne peut pas être modifiée");
     }
+    if (mobility.getAmount() < 0) {
+      throw new NumberFormatException("Le montant ne peut pas être négatif");
+    }
 
     try {
       dalServices.openConnection();
       dalServices.startTransaction();
 
-      if (mobility.isDepartDocSentHighschool()
+      if ((mobility.isDepartDocSentHighschool()
           || mobility.isDepartureConventionInternshipSchoolarship()
           || mobility.isDepartureDocAggreement() || mobility.isDepartureErasmusLanguageTest()
-          || mobility.isDepartureGrantContract() || mobility.isDepartureStudentConvention()) {
+          || mobility.isDepartureGrantContract() || mobility.isDepartureStudentConvention())
+          && mobility.getStatus().equals("Créée")) {
         mobility.setStatus("En préparation");
       }
+
       if (mobility.isDepartDocSentHighschool()
           && mobility.isDepartureConventionInternshipSchoolarship()
           && mobility.isDepartureDocAggreement() && mobility.isDepartureErasmusLanguageTest()
-          && mobility.isDepartureGrantContract() && mobility.isDepartureStudentConvention()) {
+          && mobility.isDepartureGrantContract() && mobility.isDepartureStudentConvention()
+          && mobility.getStatus().equals("En préparation")) {
         mobility.setStatus("A payer");
       }
 
-      if (mobility.getPaymentDate1()) {
+      if (mobility.getPaymentDate1() && (mobility.getStatus().equals("A payer")
+          || mobility.getStatus().equals("En préparation"))) {
         mobility.setStatus("Paiement demandé");
       }
 
       if (mobility.isReturnDocSentHighschool() && mobility.isReturnErasmusLanguageTest()
           && mobility.isReturnFinalReport() && mobility.isReturnInternshipCert()
-          && mobility.isReturnTranscript()
-          && mobility.isDepartureConventionInternshipSchoolarship()) {
+          && mobility.isReturnTranscript() && mobility.isDepartureConventionInternshipSchoolarship()
+          && mobility.getStatus().equals("Paiement demandé")) {
         mobility.setStatus("A payer solde");
       }
 
-      if (mobility.getPaymentDate2()) {
+      if (mobility.getPaymentDate2() && mobility.getStatus().equals("A payer solde")) {
         mobility.setStatus("Paiement du solde demandé");
       }
 
@@ -184,6 +193,9 @@ public class MobilityUcControllerImpl implements MobilityUcController {
         dalServices.commitTransaction();
       } else {
         dalServices.rollbackTransaction();
+        throw new OptimisticLockException(
+            "Cette mobilité a été modifiée entre temps, veuillez rafraichir la page "
+                + "et recommencer");
       }
     } catch (SQLException exc) {
       exc.printStackTrace();

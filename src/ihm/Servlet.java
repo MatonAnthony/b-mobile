@@ -14,6 +14,7 @@ import exceptions.NoCountryException;
 import exceptions.NoDepartmentException;
 import exceptions.NoProgramException;
 import exceptions.NotEnoughPermissionsException;
+import exceptions.OptimisticLockException;
 import exceptions.UserAlreadyExistsException;
 import exceptions.UserNotFoundException;
 import ucc.interfaces.CancelationUcController;
@@ -232,7 +233,7 @@ public class Servlet extends HttpServlet {
 
 
   private void updateMobilityDetail(HttpServletRequest req, HttpServletResponse resp)
-      throws NotEnoughPermissionsException, BadMobilityStatusException {
+      throws NotEnoughPermissionsException, BadMobilityStatusException, OptimisticLockException {
     if (!req.getSession().getAttribute(KEY_PERMISSIONS).equals("TEACHER")) {
       throw new NotEnoughPermissionsException(
           "Vous n'avez pas les droits nécessaires pour faire cela");
@@ -267,6 +268,7 @@ public class Servlet extends HttpServlet {
     mobility.setReturnDocSentHighschool(
         Boolean.parseBoolean(req.getParameter("retourDocumentHauteEcole")));
     mobility.setStatus("" + req.getParameter("etat"));
+    mobility.setAmount(Double.parseDouble("" + req.getParameter("montant")));
 
 
     mobilityUcc.updateMobilityDetails(mobility);
@@ -975,6 +977,11 @@ public class Servlet extends HttpServlet {
         break;
       case "class exceptions.BadMobilityStatusException":
         resp.setStatus(HttpStatus.FORBIDDEN_403);
+        map.put("type", "error");
+        map.put("message", exception.getMessage());
+        break;
+      case "class exceptions.OptimisticLockException":
+        resp.setStatus(HttpStatus.CONFLICT_409);
         map.put("type", "error");
         map.put("message", exception.getMessage());
         break;

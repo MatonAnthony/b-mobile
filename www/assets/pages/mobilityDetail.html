@@ -11,22 +11,28 @@
 		<input id="detailMobiliteNrVersion" type="hidden"></input>
 		<p id="detailMobiliteIntitule"></p>
 		<a><p id="detailMobilitePartenaire"></p></a>
-		<p id="detailMobiliteEtat"></p>
-		<button id="btnDocumentsDetailMobility" class="btn btn-info" data-toggle="modal" data-target="#detailMobiliteDocumentsModal">Documents</button></br>
+		Etat : <var id="detailMobiliteEtat"></var>
+		<p><button id="btnDocumentsDetailMobility" class="btn btn-info" data-toggle="modal" data-target="#detailMobiliteDocumentsModal">Documents</button></p>
 	</div>
-	<div class="col-md-6">
-		<form class="form-horizontal">
-			<div class="form-group">
-				<input type="checkBox" id="envoiPaiement1"/> <label for="envoiPaiement1" class="control-label">Demande de paiement n°1 </label></br>
-				<input type="checkBox" id="envoiPaiement2"/> <label for="envoiPaiement2" class="control-label">Demande de paiement n°2 </label></br>
-				<label>Données encodées sur : </label></br>
-				<input class="col-md-1" type="checkBox" id="encodageProEco"> Pro Eco</input></br>
-				<input class="col-md-1" type="checkBox" id="encodageMobilityTool"/> MobilityTool</input></br>
-				<input class="col-md-1" type="checkBox" id="encodageMobi"/> Mobi</input>
-			</div>
-		</form>
-	</div>
+	<div class="container">
+		<div class="col-md-3">
+			
+				<div class="form-group">
+					<input type="checkBox" id="envoiPaiement1"/> <label for="envoiPaiement1" class="control-label">Demande de paiement n°1 </label></br>
+					<input type="checkBox" id="envoiPaiement2"/> <label for="envoiPaiement2" class="control-label">Demande de paiement n°2 </label></br>
+					<label>Données encodées sur : </label></br>
+					<input class="col-md-1" type="checkBox" id="encodageProEco"> Pro Eco</input></br>
+					<input class="col-md-1" type="checkBox" id="encodageMobilityTool"/> MobilityTool</input></br>
+					<input class="col-md-1" type="checkBox" id="encodageMobi"/> Mobi</input>
+				</div>
+		</div>
 
+		<div class="col-md-2">
+				<div class="form-group">
+					<label for="detailMobiliteMontant" class="control-label">Montant : </label><input min="0" step="0.01" type="number" id="detailMobiliteMontant"/> </br>
+					
+		</div>
+	</div>
 	<div class="col-md-6 col-md-offset-1">
 	<h4>Informations de l'étudiant : </h2>
 	<p>
@@ -46,7 +52,7 @@
 
 	<div class="col-md-5">
 		</br>
-		<button class="btn btn-danger" id="detailMobiliteCancel">Annuler la demande</button>
+		<button class="btn btn-danger btnCancel" id="detailMobiliteCancel" data-toggle="modal" data-target="#modalCancelMobility">Annuler la demande</button>
 		<button id="detailMobiliteModify" class="btn btn-success">Modifier la demande</button>
 	</div>
 

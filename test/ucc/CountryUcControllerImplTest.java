@@ -28,7 +28,6 @@ public class CountryUcControllerImplTest {
 
   @Before
   public void setUp() throws Exception {
-    // TODO (Martin) Implementer les tests
     BizzFactory bizzFactory = new BizzFactoryImpl();
     countryDto = bizzFactory.getCountryDto();
     countryDto.setNameFr("Belgique");

@@ -1306,15 +1306,12 @@ $(function () {
 
     $("#myMobility").on("click", ".btnCancelStudent", function (evt) {
         var id = $(evt.currentTarget).parent().attr("value");
-        $("#myMobility").off("click.btnCancel");
         loadCancelMobility(id);
 
     });
     $("#myMobility").on("click", ".btnConfirm", function (evt) {
         var id = $(evt.currentTarget).parent().attr("id");
-        $("#myMobility").off("click.btnConfirm").on("click.btnCancel");
         loadConfirmMobility(id);
-
     });
 
 
@@ -1352,6 +1349,8 @@ $(function () {
 			$("#onlyTeacherReasons").css("display","none");
 		}
 		
+        $("#sendCancelation").attr("data-id", id);
+
 		$(function(){
 			$.ajax({
                 method: "POST",
@@ -1381,56 +1380,59 @@ $(function () {
             });
 		});
 
-        $("#sendCancelation").on("click", function (){
-            var reasonValue;
-            var idReason=0;
-            
-            if (teacher && $('#listReasons').val() === "other"){
-                if ($("#textReason").val() === ""){
-                    printToaster("error","Vous devez entrez une raison pour l'annulation de la mobilité !");
-                    return;
-                }
-                reasonValue = $("#textReason").val();
-            }else if (teacher){
-                if ($("#listReasons").val() !== "other" && $("#textReason").val() !== ""){
-                    printToaster("error","Vous devez soit sélectionner une raison prédéfinie soit entrer un texte!");
-                    return;
-                }
-                idReason = $('#listReasons').val();
-            }else{ // Student
-                if($("#textReason").val() === ""){
-                    printToaster("error","Vous devez entrez une raison pour l'annulation de la mobilité !");
-                    return;
-                }
-                reasonValue = $("#textReason").val();
-            }
-            $.ajax({
-                method: "POST",
-                url: "/home",
-                data: {
-                    action: "cancelMobility",
-                    idMobility: id,
-                    reasonValue: reasonValue,
-                    idReason: idReason,
-                    verNr:$(this).val()
-                },
-                success: function (resp) {
-                    $(".page").css("display", "none");
-                    $("#modalCancelMobility").modal("hide");
-                    if (teacher){
-                        loadList();
-                    }else{
-                        authStudent();
-                    }
-                    printToaster("success","La mobilité a bien été annulée.")
-                },
-                error: function (error) {
-                    error = JSON.parse(error.responseText);
-                    printToaster(error.type, error.message);
-                }
-            });
-        });
+        
 	}
+
+    $("#sendCancelation").on("click", function (){
+        var id = $(this).attr("data-id");
+        var reasonValue;
+        var idReason=0;
+        var teacher=false;
+        if($("#navBarTeacher").css("display") === "block"){
+            teacher=true;
+        }
+        
+        if (teacher && $('#listReasons').val() === "other"){
+            if ($("#textReason").val() === ""){
+                printToaster("error","Vous devez entrez une raison pour l'annulation de la mobilité !");
+                return;
+            }
+            reasonValue = $("#textReason").val();
+        }else if (teacher){
+            if ($("#listReasons").val() !== "other" && $("#textReason").val() !== ""){
+                printToaster("error","Vous devez soit sélectionner une raison prédéfinie soit entrer un texte!");
+                return;
+            }
+            idReason = $('#listReasons').val();
+        }else{ // Student
+            if($("#textReason").val() === ""){
+                printToaster("error","Vous devez entrez une raison pour l'annulation de la mobilité !");
+                return;
+            }
+            reasonValue = $("#textReason").val();
+        }
+        $.ajax({
+            method: "POST",
+            url: "/home",
+            data: {
+                action: "cancelMobility",
+                idMobility: id,
+                reasonValue: reasonValue,
+                idReason: idReason,
+                verNr:$(this).val()
+            },
+            success: function (resp) {
+                $(".page").css("display", "none");
+                $("#modalCancelMobility").modal("hide");
+                changePage();
+                printToaster("success","La mobilité a bien été annulée.")
+            },
+            error: function (error) {
+                error = JSON.parse(error.responseText);
+                printToaster(error.type, error.message);
+            }
+        });
+    });
     
 	function loadConfirmMobility(id){
         $(function () {
@@ -1482,6 +1484,7 @@ $(function () {
             });
 
         });
+
         $("#modalConfirmMobility").on("click.confirmMobility", "#confirmMobility", function () {
 
             var idMobility = id;
@@ -1628,7 +1631,6 @@ $(function () {
 		$("#mobilityDetail").css("display","block");
 		$("#navBarTeacher").css("display","block");
 
-		// TODO : Gerer le montant
 
 		$.ajax({
             url: "/home",
@@ -1652,8 +1654,8 @@ $(function () {
             		+  " à " + city + " durant le quadri " + resp['quadrimester'];
             	$("#detailMobiliteIntitule").html(intitule);
             	$("#detailMobilitePartenaire").html("Partenaire : " + resp['partnerDto']['legalName']);
+            	$("#detailMobiliteEtat").html(resp['status']);
             	$("#detailMobilitePartenaire").attr("id-partner",resp['partnerDto']['id']);	
-            	$("#detailMobiliteEtat").html("Etat : " + resp['status']);
             	
                 //infos des checkboxs
             	if(resp['paymentDate1']){
@@ -1667,6 +1669,8 @@ $(function () {
             	}else{
             		$("#envoiPaiement2").prop("checked", false);
             	}
+
+                $("#detailMobiliteMontant").val(resp['amount']);
 
             	if(resp['softwareProeco']){
             		$("#encodageProEco").prop("checked", true);
@@ -1860,6 +1864,75 @@ $(function () {
                 }else{
                     $("#detailMobiliteMail").html("Non enregistré");
                 }
+
+                if(resp['status'] === "Annulee" || resp['status'] === "En attente"){
+
+                    //paiements
+                    $("#envoiPaiement1").prop("disabled", true);
+                    $("#envoiPaiement2").prop("disabled", true);
+
+                    //softwares
+                    $("#encodageProEco").prop("disabled", true);
+                    $("#encodageMobilityTool").prop("disabled", true);
+                    $("#encodageMobi").prop("disabled", true);
+
+                    //montant
+                    $("#detailMobiliteMontant").prop("disabled", true);
+
+                    //documents départ
+                    $("#detailMobiliteContratBourse").prop("disabled", true);
+                    $("#detailMobiliteConventionStage").prop("disabled", true);
+                    $("#detailMobiliteCharteEtudiant").prop("disabled", true);
+                    $("#detailMobiliteEngagement").prop("disabled", true);
+                    $("#detailMobiliteTestLangueDepart").prop("disabled", true);
+                    $("#detailMobiliteDocumentHauteEcoleDepart").prop("disabled", true);
+
+                    //documents retour
+                    $("#detailMobiliteAttestationSejour").prop("disabled", true);
+                    $("#detailMobiliteReleveNote").prop("disabled", true);
+                    $("#detailMobiliteCertificatStage").prop("disabled", true);
+                    $("#detailMobiliteRapportFinal").prop("disabled", true);
+                    $("#detailMobiliteTestLangueRetour").prop("disabled", true);
+                    $("#detailMobiliteDocumentHauteEcoleRetour").prop("disabled", true);
+
+                    //cacher boutons
+                    $("#detailMobiliteCancel").css("display", "none");
+                    $("#detailMobiliteModify").css("display", "none");
+                }else{
+                    //paiements
+                    $("#envoiPaiement1").prop("disabled", false);
+                    $("#envoiPaiement2").prop("disabled", false);
+
+                    //softwares
+                    $("#encodageProEco").prop("disabled", false);
+                    $("#encodageMobilityTool").prop("disabled", false);
+                    $("#encodageMobi").prop("disabled", false);
+
+                    //montant
+                    $("#detailMobiliteMontant").prop("disabled", false);
+
+                    //documents départ
+                    $("#detailMobiliteContratBourse").prop("disabled", false);
+                    $("#detailMobiliteConventionStage").prop("disabled", false);
+                    $("#detailMobiliteCharteEtudiant").prop("disabled", false);
+                    $("#detailMobiliteEngagement").prop("disabled", false);
+                    $("#detailMobiliteTestLangueDepart").prop("disabled", false);
+                    $("#detailMobiliteDocumentHauteEcoleDepart").prop("disabled", false);
+
+                    //documents retour
+                    $("#detailMobiliteAttestationSejour").prop("disabled", false);
+                    $("#detailMobiliteReleveNote").prop("disabled", false);
+                    $("#detailMobiliteCertificatStage").prop("disabled", false);
+                    $("#detailMobiliteRapportFinal").prop("disabled", false);
+                    $("#detailMobiliteTestLangueRetour").prop("disabled", false);
+                    $("#detailMobiliteDocumentHauteEcoleRetour").prop("disabled", false);
+
+                    //cacher boutons
+                    $("#detailMobiliteCancel").css("display", "inline-block");
+                    $("#detailMobiliteModify").css("display", "inline-block");
+                }
+
+
             },
             error: function (error) {
                 error = JSON.parse(error.responseText);
@@ -1873,6 +1946,12 @@ $(function () {
 		});
 		
 	}
+
+    $("#detailMobiliteCancel").click(function(){
+        console.log("click clack");
+        var id = $("#detailMobiliteIdMobilite").attr("data-id");
+        loadCancelMobility(id);
+    });
 
     $("#detailMobiliteModify").click(function(){
         $.ajax({
@@ -1899,10 +1978,12 @@ $(function () {
                 retourRapportFinal:$("#detailMobiliteRapportFinal").prop("checked"),
                 retourTestLangue:$("#detailMobiliteTestLangueRetour").prop("checked"),
                 retourDocumentHauteEcole:$("#detailMobiliteDocumentHauteEcoleRetour").prop("checked"),
-                etat:$("#detailMobiliteEtat").val()
+                etat:$("#detailMobiliteEtat").html(),
+                montant:$("#detailMobiliteMontant").val()
             },
             success: function (resp) {
                 printToaster("success", "La mobilité à bien été modifiée.");
+                changePage();
             },
             error: function (error) {
                 error = JSON.parse(error.responseText);

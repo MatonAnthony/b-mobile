@@ -43,12 +43,12 @@ public class MobilityDaoImpl implements MobilityDao {
           + " m.software_mobility_tools, m.software_mobi, m.return_residence_cert, "
           + "m.return_transcript, m.return_internship_cert, m.return_final_report, "
           + "m.return_erasmus_language_test, m.return_doc_sent_highschool, m.cancelation_reason, "
-          + "m.academic_year, m.ver_nr, amount, first_payment_date, second_payment_date,  " //32
+          + "m.academic_year, m.ver_nr, amount, first_payment_date, second_payment_date,  " // 32
 
           + "u.id, u.id_department, u.pseudo, u.name, u.firstname, u.email, u.registration_date,"
-          + " u.permissions, u.birth_date, u.street, u.house_number, u.mailbox, u.zip, u.city, " //46
+          + " u.permissions, u.birth_date, u.street, u.house_number, u.mailbox, u.zip, u.city, " // 46
           + "u.country, u.tel, u.gender, u.successfull_year_in_college, u.iban, u.bic, "
-          + "u.account_holder, u.bank_name, u.citizenship, u.ver_nr, " //56
+          + "u.account_holder, u.bank_name, u.citizenship, u.ver_nr, " // 56
 
           + "pro.id, pro.name, pro.description, pro.ver_nr, "
           + "par.id, par.id_user, par.legal_name, par.business_name, par.full_name, par.department,"
