@@ -1,6 +1,11 @@
 <section id="mobilityDetail" class="page" style="display:none">
 	<h3 class="col-md-offset-1">Modifier une mobilité</h3>
 	</br>
+	<div class="col-md-12">
+		<button id="CSV_mobility" type="button" class="btn btn-default btn-sm pull-right">
+			<span class="glyphicon glyphicon-save-file"></span> Fichier .CSV</button>
+	</div>
+	</br>
 	<div class="col-md-5 col-md-offset-1">
 		<input id="detailMobiliteIdMobilite" type="hidden"></input>
 		<input id="detailMobiliteNrVersion" type="hidden"></input>
@@ -134,5 +139,20 @@
 	    </div>
 	  </div>
 	</div>
+</div>
 
+	<div class="hidden">
+		<table id="document_csv_table">
+			<thead>
+				<tr>
+					<th>Nom du document</th>
+					<th>Est remis</th>
+				</tr>
+			</thead>
+
+			<tbody>
+
+			</tbody>
+		</table>
+	</div>
 </section>

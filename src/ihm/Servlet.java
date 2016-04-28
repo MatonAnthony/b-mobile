@@ -45,6 +45,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SignatureException;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -348,11 +349,10 @@ public class Servlet extends HttpServlet {
     userEdited.setGender(req.getParameter("gender"));
     try {
       userEdited.setBirthDate(LocalDate.parse(req.getParameter("birthdate")));
-    } catch (IllegalArgumentException exc) {
+    } catch (IllegalArgumentException | DateTimeParseException exc) {
       createToaster(exc, resp);
     }
     userEdited.setCitizenship(req.getParameter("citizenship"));
-    userEdited.setCitizenship(null);
     userEdited.setStreet(req.getParameter("street"));
     userEdited.setHouseNumber(req.getParameter("houseNumber"));
     userEdited.setMailBox(req.getParameter("mailbox"));

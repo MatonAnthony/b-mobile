@@ -907,7 +907,7 @@ $(function () {
                 }catch(err){
                     console.log("La date de naissance est nulle");
                 }
-
+                console.log(resp);
                 $("input[name='name']").val(resp['name']);
                 $("input[name='firstname']").val(resp['firstname']);
                 $("input[name='gender']").val(resp['gender']);
@@ -1637,80 +1637,130 @@ $(function () {
 
                 //Modal documents
                 //depart
+                var string = "";
+                string +="<tr><td> Convention de stage/études : </td>";
                 if(resp['departureConventionInternshipSchoolarship']){
                     $("#detailMobiliteConventionStage").prop("checked", true);
+                    string +="<td> Remis </td> </tr>";
                 }else{
                     $("#detailMobiliteConventionStage").prop("checked", false);
+                    string +="<td> Non Remis </td> </tr>";
                 }
 
+                string +="<tr><td> Document haute école envoyé : </td>";
                 if(resp['departDocSentHighschool']){
                     $("#detailMobiliteDocumentHauteEcoleDepart").prop("checked", true);
+                    string +="<td> Remis </td> </tr>";
                 }else{
                     $("#detailMobiliteDocumentHauteEcoleDepart").prop("checked", false);
+                    string +="<td> Non Remis </td> </tr>";
                 }
-                
+
+                string +="<tr><td> Contrat de bourse : </td>";
                 if(resp['departureDocAggreement']){
                     $("#detailMobiliteEngagement").prop("checked", true);
+                    string +="<td> Remis </td> </tr>";
                 }else{
                     $("#detailMobiliteEngagement").prop("checked", false);
+                    string +="<td> Non Remis </td> </tr>";
                 }
-               
+
+
+                    string +="<tr><td> Preuve du passage des tests linguistiques: </td>";
                 if(resp['departureErasmusLanguageTest']){
                     $("#detailMobiliteTestLangueDepart").prop("checked", true);
+                    string +="<td> Remis </td> </tr>";
+
                 }else{
                     $("#detailMobiliteTestLangueDepart").prop("checked", false);
+                    string +="<td> Non Remis </td> </tr>";
                 }
-                
+
+
+                    string +="<tr><td> Contrat de bourse </td>";
                 if(resp['departureGrantContract']){
                     $("#detailMobiliteContratBourse").prop("checked", true);
+                    string +="<td> Remis </td> </tr>";
+
                 }else{
                     $("#detailMobiliteContratBourse").prop("checked", false);
+                    string +="<td> Non Remis </td> </tr>";
                 }
-                
+
+
+                    string +="<tr><td> Charte de l'étudiant </td>";
                 if(resp['departureStudentConvention']){
                     $("#detailMobiliteCharteEtudiant").prop("checked", true);
+                    string +="<td> Remis </td> </tr>";
+
                 }else{
                     $("#detailMobiliteCharteEtudiant").prop("checked", false);
+                    string +="<td> Non Remis </td> </tr>";
                 }
-                
+
 
                 //retour
+
+                    string +="<tr><td> Document HE Envoyé </td>";
                 if(resp['returnDocSentHighschool']){
                     $("#detailMobiliteDocumentHauteEcoleRetour").prop("checked", true);
+                    string +="<td> Remis </td> </tr>";
                 }else{
                     $("#detailMobiliteDocumentHauteEcoleRetour").prop("checked", false);
-                }
-               
-                if(resp['returnErasmusLanguagetest']){
-                    $("#detailMobiliteTestLangueRetour").prop("checked", true);
-                }else{
-                    $("#detailMobiliteTestLangueRetour").prop("checked", false);
-                }
-               
-                if(resp['returnFinalReport']){
-                    $("#detailMobiliteRapportFinal").prop("checked", true);
-                }else{
-                    $("#detailMobiliteRapportFinal").prop("checked", false);
-                }
-               
-                if(resp['returnInternshipCert']){
-                    $("#detailMobiliteCertificatStage").prop("checked", true);
-                }else{
-                    $("#detailMobiliteCertificatStage").prop("checked", false);
-                }
-               
-                if(resp['returnResidenceCert']){
-                    $("#detailMobiliteAttestationSejour").prop("checked", true);
-                }else{
-                    $("#detailMobiliteAttestationSejour").prop("checked", false);
-                }
-               
-                if(resp['returnTranscript']){
-                    $("#detailMobiliteReleveNote").prop("checked", true);
-                }else{
-                    $("#detailMobiliteReleveNote").prop("checked", false);
+                    string +="<td> Non Remis </td> </tr>";
                 }
 
+
+                    string +="<tr><td> Test de langues : Retour </td>";
+                if(resp['returnErasmusLanguagetest']){
+                    $("#detailMobiliteTestLangueRetour").prop("checked", true);
+                    string +="<td> Remis </td> </tr>";
+                }else{
+                    $("#detailMobiliteTestLangueRetour").prop("checked", false);
+                    string +="<td> Non Remis </td> </tr>";
+                }
+
+
+                    string +="<tr><td> Rapport final </td>";
+                if(resp['returnFinalReport']){
+                    $("#detailMobiliteRapportFinal").prop("checked", true);
+                    string +="<td> Remis </td> </tr>";
+                }else{
+                    $("#detailMobiliteRapportFinal").prop("checked", false);
+                    string +="<td> Non Remis </td> </tr>";
+                }
+
+
+                    string +="<tr><td> Certificat de stage </td>";
+                if(resp['returnInternshipCert']){
+                    $("#detailMobiliteCertificatStage").prop("checked", true);
+                    string +="<td> Remis </td> </tr>";
+                }else{
+                    $("#detailMobiliteCertificatStage").prop("checked", false);
+                    string +="<td> Non Remis </td> </tr>";
+                }
+
+
+                    string +="<tr><td> Attestation de sejour </td>";
+                if(resp['returnResidenceCert']){
+                    $("#detailMobiliteAttestationSejour").prop("checked", true);
+                    string +="<td> Remis </td> </tr>";
+                }else{
+                    $("#detailMobiliteAttestationSejour").prop("checked", false);
+                    string +="<td> Non Remis </td> </tr>";
+                }
+
+
+                    string +="<tr><td> Relevé de notes</td>";
+                if(resp['returnTranscript']){
+                    $("#detailMobiliteReleveNote").prop("checked", true);
+                    string +="<td> Remis </td> </tr>";
+                }else{
+                    $("#detailMobiliteReleveNote").prop("checked", false);
+                    string +="<td> Non Remis </td> </tr>";
+                }
+
+                $("#document_csv_table tbody").append(string);
 
                 //Infos de l'étudiant
             	$("#detailMobiliteNom").html(resp['studentDto']['name']);
@@ -1759,7 +1809,6 @@ $(function () {
                 }else{
                     $("#detailMobiliteMail").html("Non enregistré");
                 }
-
             },
             error: function (error) {
                 error = JSON.parse(error.responseText);
@@ -1834,5 +1883,14 @@ $(function () {
 	$("#CSV").click(function(){
 		$("#list").tableToCSV();
 	})
+
+
+    $("#CSV_paiements").click(function(){
+        $("#tablePayments").tableToCSV();
+    })
+
+    $("#CSV_mobility").click(function(){
+        $("#document_csv_table").tableToCSV();
+    })
 });
 
