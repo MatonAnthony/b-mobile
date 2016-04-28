@@ -217,6 +217,9 @@ public class Servlet extends HttpServlet {
         case "updateMobilityDetail":
           updateMobilityDetail(req, resp);
           break;
+        case "updatePartner":
+          updatePartner(req, resp);
+          break;
         default:
           resp.setStatus(HttpStatus.BAD_REQUEST_400);
       }
@@ -225,6 +228,7 @@ public class Servlet extends HttpServlet {
     }
 
   }
+
 
 
   private void updateMobilityDetail(HttpServletRequest req, HttpServletResponse resp)
@@ -267,6 +271,35 @@ public class Servlet extends HttpServlet {
 
     mobilityUcc.updateMobilityDetails(mobility);
 
+  }
+
+  private void updatePartner(HttpServletRequest req, HttpServletResponse resp)
+      throws NotEnoughPermissionsException {
+    if (!req.getSession().getAttribute(KEY_PERMISSIONS).equals("TEACHER")) {
+      throw new NotEnoughPermissionsException(
+          "Vous n'avez pas les droits nécessaires pour faire cela");
+    }
+
+    PartnerDto partnerDto = bizzFactory.getPartnerDto();
+    partnerDto.setVerNr(Integer.parseInt("" + req.getParameter("nrVersion")));
+    partnerDto.setLegalName(req.getParameter("legalName"));
+    partnerDto.setBusiness(req.getParameter("businnes"));
+    partnerDto.setFullName(req.getParameter("fullName"));
+    partnerDto.setDepartment(req.getParameter("department"));
+    partnerDto.setType(req.getParameter("type"));
+    partnerDto.setNbEmployees(Integer.parseInt("" + req.getParameter("nbEmployees")));
+    partnerDto.setStreet(req.getParameter("street"));
+    partnerDto.setNumber(req.getParameter("number"));
+    partnerDto.setZip(req.getParameter("zip"));
+    partnerDto.setMailbox(req.getParameter("mailbox"));
+    partnerDto.setCountry(req.getParameter("country"));
+    partnerDto.setState(req.getParameter("state"));
+    partnerDto.setCity(req.getParameter("city"));
+    partnerDto.setTel(req.getParameter("tel"));
+    partnerDto.setEmail(req.getParameter("email"));
+    partnerDto.setWebsite(req.getParameter("website"));
+
+    partnerUcc.updatePartner(partnerDto);
   }
 
   private void selectMobility(HttpServletRequest req, HttpServletResponse resp)

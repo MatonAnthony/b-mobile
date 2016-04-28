@@ -153,9 +153,6 @@ $(function () {
 			case "payment" :
 				loadPaymentPage();
 				break;
-			case "partner" :
-				loadInfoPartner("1");
-				break;
             default:
                 disconnect();
                 break;
@@ -1002,7 +999,6 @@ $(function () {
 	            }
 	        });
 	    });
-	}
 
         $("#list").on("click", ".btnModif", function (evt){
             var id = $(evt.currentTarget).parent().parent().attr("value");
@@ -1016,6 +1012,7 @@ $(function () {
             var id = $(evt.currentTarget).parent().parent().attr("value");
             loadConfirmMobility(id);
         });
+	}
 
 	// Managing of filter buttons
 
@@ -1188,13 +1185,12 @@ $(function () {
 	            }
 	        });
 		}
-		
-	}
 
     $("#tablePayments").on("click", ".btnModif", function (evt){
         var id = $(evt.currentTarget).parent().parent().attr("value");
         loadDetailsMobility(id);
     });
+	}
 
 	// Managing of the confirmed table
 
@@ -1535,7 +1531,7 @@ $(function () {
                 },
                 success: function (resp) {
                     resp = JSON.parse(resp);
-
+                    console.log(resp);
                     $('#legalName').html(resp['legalName']);
                     $('#BusinesName').html(resp['business']);
                     $('#FullName').html(resp['fullName']);
@@ -1543,14 +1539,17 @@ $(function () {
                     $('#typePartner').html(resp['type']);
                     $('#employee').html(resp['nbEmployees']);
                     $('#streetPartner').html(resp['street']);
+                    $('#numberPartner').html(resp['number']);
+                    $('#mailboxPartner').html(resp['mailbox']);
                     $('#countryPartner').html(resp['countryDto']['nameFr']);
                     $('#areaPartner').html(resp['state']);
-                    $('#postalPartner').html(resp['number']);
+                    $('#zipPartner').html(resp['zip']);
                     $('#cityPartner').html(resp['city']);
                     $('#PhonePartner').html(resp['tel']);
                     $('#mailPartner').html(resp['email']);
                     $('#webPartner').html(resp['website']);
                     $('#userPartner').html(resp['userDto']['name'] + " " + resp['userDto']['firstname']);
+                    $('#setPartner').attr('nbVr',resp['verNr']);
                 },
                 error: function (error) {
                     error = JSON.parse(error.responseText);
@@ -1569,8 +1568,59 @@ $(function () {
         	$(".page").css("display", "none");
      		$("#addPartnerPage").css("display","block");
      		$("#navBarTeacher").css("display","block");
+     		addParnter();
+     		$('#add_partner_legal_name').val($('#legalName').html());
+     		$('#add_partner_business_name').val($('#BusinesName').html());
+     		$('#add_partner_full_name').val($('#FullName').html());
+     		$('#add_partner_department').val($('#departmentPartner').html());
+     		$('#add_partner_type').val($('#typePartner').html());
+     		$('#add_partner_nb_employees').val($('#employee').html());
+     		$('#add_partner_street').val($('#streetPartner').html());
+     		$('#add_partner_number').val($('#numberPartner').html());
+     		$('#add_partner_mailbox').val($('#mailboxPartner').html());
+     		$('#add_partner_zip').val($('#zipPartner').html());
+     		$('#add_partner_city').val($('#cityPartner').html());
+     		$('#add_partner_state').val($('#areaPartner').html());
+     		$('#add_partner_country').val($('#countryPartner').html());
+     		$('#add_partner_tel').val($('#PhonePartner').html());
+     		$('#add_partner_email').val($('#mailPartner').html());
+     		$('#add_partner_website').val($('#webPartner').html());
          });
 
+         $("#addPartnerBtn").on("click",function(){
+        	 $.ajax({
+                 method: "POST",
+                 url: "/home",
+                 data: {
+                     action: "updatePartner",
+                     nrVersion: $('#setPartner').attr('nbVr'),
+                     legalName: $('#add_partner_legal_name').val(),
+                     businnes: $('#add_partner_business_name').val(),
+                     fullName: $('#add_partner_full_name').val(),
+                     department: $('#add_partner_department').val(),
+                     type: $('#add_partner_type').val(),
+                     nbEmployees: $('#add_partner_nb_employees').val(),
+                     street: $('#add_partner_street').val(),
+                     number: $('#add_partner_number').val(),
+                     zip: $('#add_partner_zip').val(),
+                     mailbox: $('#add_partner_mailbox').val(),
+                     country: $('#add_partner_city').val(),
+                     state: $('#add_partner_state').val(),
+                     city: $('#add_partner_country').val(),
+                     tel: $('#add_partner_tel').val(),
+                     email: $('#add_partner_email').val(),
+                     website:$('#add_partner_website').val()
+                 },
+                 success: function (resp) {
+                     printToaster("success", "Le partenaire à bien été modifiée.");
+                 },
+                 error: function (error) {
+                     error = JSON.parse(error.responseText);
+                     printToaster(error.type, error.message);
+                 }
+             });
+         });
+         
     }
 
 	function loadDetailsMobility(idStudent){
@@ -1602,6 +1652,7 @@ $(function () {
             		+  " à " + city + " durant le quadri " + resp['quadrimester'];
             	$("#detailMobiliteIntitule").html(intitule);
             	$("#detailMobilitePartenaire").html("Partenaire : " + resp['partnerDto']['legalName']);
+            	$("#detailMobilitePartenaire").attr("id-partner",resp['partnerDto']['id']);	
             	$("#detailMobiliteEtat").html("Etat : " + resp['status']);
             	
                 //infos des checkboxs
@@ -1817,10 +1868,9 @@ $(function () {
         });
 		
 		//link info partner
-		//TODO (fany) faire le lien vers info partneraire
-		/*$("#detailMobilitePartenaire").on("click",function(){
-			loadInfoPartner();
-		});*/
+		$("#detailMobilitePartenaire").on("click",function(){
+			loadInfoPartner($(this).attr("id-partner"));
+		});
 		
 	}
 

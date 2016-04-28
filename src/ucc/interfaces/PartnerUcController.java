@@ -35,4 +35,11 @@ public interface PartnerUcController {
    * @throws SQLException if an error occurred with the database.
    */
   ArrayList<PartnerDto> getAllPartners() throws SQLException;
+
+  /**
+   * Update the details for a partner.
+   * 
+   * @param partner the partnerDto with the informations.
+   */
+  void updatePartner(PartnerDto partner);
 }

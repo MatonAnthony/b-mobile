@@ -71,4 +71,36 @@ public class PartnerUcControllerImpl implements PartnerUcController {
     return partner;
 
   }
+
+  @Override
+  public void updatePartner(PartnerDto partner) {
+
+    try {
+      dalServices.openConnection();
+      dalServices.startTransaction();
+
+      int rowUpdated = partnerDao.updatePartner(partner);
+
+      if (rowUpdated == 1) {
+        dalServices.commitTransaction();
+      } else {
+        dalServices.rollbackTransaction();
+      }
+    } catch (SQLException exc) {
+      exc.printStackTrace();
+      try {
+        dalServices.rollbackTransaction();
+      } catch (SQLException exc1) {
+        exc1.printStackTrace();
+      }
+    } finally {
+      try {
+        dalServices.closeConnection();
+      } catch (SQLException exc) {
+        exc.printStackTrace();
+      }
+
+    }
+  }
+
 }

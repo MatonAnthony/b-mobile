@@ -36,4 +36,12 @@ public interface PartnerDao {
    * @return An ArrayList of PartnerDto
    */
   ArrayList<PartnerDto> getAllPartners();
+
+  /**
+   * Update the partner details in the Database whith the informations in the dto.
+   * 
+   * @param partner the dto with the informations.
+   * @return the number of rows modified
+   */
+  int updatePartner(PartnerDto partner);
 }

@@ -8,7 +8,11 @@ import dto.PartnerDto;
 import dto.UserDto;
 import exceptions.UnknowErrorException;
 
-import java.sql.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
 
@@ -139,8 +143,7 @@ public class PartnerDaoImpl implements PartnerDao {
 
     // language=PostgreSQL
     String query = "SELECT p.id, p.legal_name, p.exists FROM bmobile.partners p "
-        + "LEFT JOIN bmobile.mobilities m ON p.id = m.id_partner "
-        + "WHERE m.id_partner IS NULL";
+        + "LEFT JOIN bmobile.mobilities m ON p.id = m.id_partner " + "WHERE m.id_partner IS NULL";
 
     if (permission.equals("STUDENT")) {
       query += " AND p.id_user = ? AND p.exists = ?";
@@ -218,6 +221,47 @@ public class PartnerDaoImpl implements PartnerDao {
           "Une erreur inconnue s'est produite lors de la recherche du partenaire.");
     }
   }
+
+  @Override
+  public int updatePartner(PartnerDto partner) {
+    String query = "UPDATE bmobile.partners SET legal_name=?, business_name=?,"
+        + " full_name=?, department=?, type=?, nb_employees=?, street=?, number=?, mailbox=?,"
+        + " zip=?, city=?, state=?, country=?, email=?, website=?, exists=?, tel=?, ver_nr=?"
+        + " WHERE id=? AND ver_nr=?";
+
+    PreparedStatement preparedStatement = null;
+    try {
+      preparedStatement = dalBackendServices.prepare(query);
+
+      preparedStatement.setString(1, partner.getLegalName());
+      preparedStatement.setString(2, partner.getBusiness());
+      preparedStatement.setString(3, partner.getFullName());
+      preparedStatement.setString(4, partner.getDepartment());
+      preparedStatement.setString(5, partner.getType());
+      preparedStatement.setInt(6, partner.getNbEmployees());
+      preparedStatement.setString(7, partner.getStreet());
+      preparedStatement.setString(8, partner.getNumber());
+      preparedStatement.setString(9, partner.getMailbox());
+      preparedStatement.setString(10, partner.getZip());
+      preparedStatement.setString(11, partner.getCity());
+      preparedStatement.setString(12, partner.getState());
+      preparedStatement.setString(13, partner.getCountry());
+      preparedStatement.setString(14, partner.getEmail());
+      preparedStatement.setString(15, partner.getWebsite());
+      preparedStatement.setBoolean(16, partner.isExists());
+      preparedStatement.setString(17, partner.getTel());
+      preparedStatement.setInt(18, partner.getVerNr() + 1);
+      preparedStatement.setInt(19, partner.getId());
+      preparedStatement.setInt(20, partner.getVerNr());
+
+      return dalBackendServices.executeUpdate(preparedStatement);
+
+    } catch (SQLException exc) {
+      exc.printStackTrace();
+      throw new UnknowErrorException();
+    }
+  }
+
 
   /**
    * Execute a preparedStatement an return an ArrayList of PartnerDto.
@@ -340,5 +384,6 @@ public class PartnerDaoImpl implements PartnerDao {
 
     return partner;
   }
+
 
 }
