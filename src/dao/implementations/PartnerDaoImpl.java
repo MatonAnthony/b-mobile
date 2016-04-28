@@ -138,22 +138,23 @@ public class PartnerDaoImpl implements PartnerDao {
   public ArrayList<PartnerDto> getPartnersMin(int userId, String permission) {
 
     // language=PostgreSQL
-    String query = "SELECT p.id, p.legal_name FROM bmobile.partners p "
+    String query = "SELECT p.id, p.legal_name, p.exists FROM bmobile.partners p "
         + "LEFT JOIN bmobile.mobilities m ON p.id = m.id_partner "
-        + "WHERE m.id_partner IS NULL AND p.id_user = ? AND p.exists = ?";
+        + "WHERE m.id_partner IS NULL";
+
+    if (permission.equals("STUDENT")) {
+      query += " AND p.id_user = ? AND p.exists = ?";
+    }
+
     PreparedStatement preparedStatement = null;
     ArrayList<PartnerDto> partners = null;
     try {
       preparedStatement = dalBackendServices.prepare(query);
-      preparedStatement.setInt(1, userId);
 
       if (permission.equals("STUDENT")) {
+        preparedStatement.setInt(1, userId);
         preparedStatement.setBoolean(2, false);
       }
-      if (permission.equals("TEACHER")) {
-        preparedStatement.setBoolean(2, true);
-      }
-
       partners = new ArrayList<PartnerDto>();
       ResultSet resultSet = dalBackendServices.executeQuery(preparedStatement);
 
@@ -161,6 +162,7 @@ public class PartnerDaoImpl implements PartnerDao {
         PartnerDto partnerDto = factory.getPartnerDto();
         partnerDto.setId(resultSet.getInt(1));
         partnerDto.setLegalName(resultSet.getString(2));
+        partnerDto.setExists(resultSet.getBoolean(3));
         partners.add(partnerDto);
       }
     } catch (SQLException exc) {

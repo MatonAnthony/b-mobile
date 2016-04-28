@@ -809,34 +809,49 @@ $(function () {
     }
 
 	function loadAddPartner() {
-	    $(".page").css("display", "none");
-	    $("#navBarStudent").css("display", "block");
-	    $("#addPartnerPage").css("display", "block");
-	    $(".active").removeClass("active");
-	    $(".navButton[href='#addPartner']").parent().addClass("active");
 
-	    if ($("#add_partner_country").html() == "") {
-	        $.ajax({
-	            method: "POST",
-	            url: "/home",
-	            data: {
-	                action: "selectCountries"
-	            },
-	            success: function (resp) {
-	                resp = JSON.parse(resp);
-	                var key;
+        $(".page").css("display", "none");
+        $("#navBarStudent").css("display", "block");
+        $("#addPartnerPage").css("display", "block");
+        $(".active").removeClass("active");
+        $(".navButton[href='#addPartner']").parent().addClass("active");
+        addParnter();
+
+    }
+
+    function loadAddPartnerTeacher() {
+
+        $(".page").css("display", "none");
+        $("#navBarTeacher").css("display", "block");
+        $("#addPartnerPage").css("display", "block");
+        $(".active").removeClass("active");
+        addParnter();
+
+    }
+
+    function addParnter(){
+        if ($("#add_partner_country").html() == "") {
+            $.ajax({
+                method: "POST",
+                url: "/home",
+                data: {
+                    action: "selectCountries"
+                },
+                success: function (resp) {
+                    resp = JSON.parse(resp);
+                    var key;
                     $("#add_partner_country").append("<option></option>");
-	                for (key in resp) {
-	                    $("#add_partner_country").append("<option>" + resp[key]['nameFr'] + "</option>");
-	                }
-	            },
-	            error: function (error) {
-	                error = JSON.parse(error.responseText);
-					printToaster(error.type, error.message);
-	            }
-	        });
-	    }
-	}
+                    for (key in resp) {
+                        $("#add_partner_country").append("<option>" + resp[key]['nameFr'] + "</option>");
+                    }
+                },
+                error: function (error) {
+                    error = JSON.parse(error.responseText);
+                    printToaster(error.type, error.message);
+                }
+            });
+        }
+    }
 
 	function loadRegisterPage() {
 	    $(".page").css("display", "none");
@@ -1272,7 +1287,7 @@ $(function () {
 						}	
 						$("#myMobility tr td:nth-child(6)").each(function () {
 							if ($(this).html() !== "Annulee") {
-								$(this).next().append("<button type=\"button\" class=\"btn btn-sm btn-info btnCancelStudent\" data-toggle=\"modal\" data-target=\"#modalCancelMobility\">Annuler</button>");
+								$(this).next().append("<button type=\"button\" class=\"btn btn-sm btn-danger btnCancelStudent\" data-toggle=\"modal\" data-target=\"#modalCancelMobility\">Annuler</button>");
 							} else {
 								$(this).parent().addClass("danger");
 							}
@@ -1432,26 +1447,29 @@ $(function () {
                 },
                 success: function (resp) {
                     resp = JSON.parse(resp);
-                    console.log(resp);
-                    $("#confirmMobilityPartner select").empty();
+                    //console.log(resp);
+                    $(".confirmMobilityPartnerDetail").empty();
                     if (jQuery.isEmptyObject(resp['partners'])){
                         $("#confirmMobility ").hide();
-                        $("#confirmMobilityPartner").empty();
-                        $("#confirmMobilityPartner").append("<h5>PAS DE PARTENAIRE DISPONIBLE</h5>");
+                        $(".confirmMobilityPartnerDetail").empty();
+                        $(".confirmMobilityPartnerDetail").append("<h5>PAS DE PARTENAIRE DISPONIBLE</h5>");
 
-                    }
-                    for (key in resp['partners']) {
-                        $("#confirmMobilityPartner select").append(
-                            "<option class=\"confirmClass\"id=" + resp['partners'][key]['id'] + ">" +
-                            resp['partners'][key]['legalName'] + "</option>"
-                        );
+                    }else {
+                        $(".confirmMobilityPartnerDetail").append("<select>");
+                        for (key in resp['partners']) {
+                            $("#confirmMobilityPartner select").append(
+                                "<option class=\"confirmClass\"id=" + resp['partners'][key]['id'] + ">" +
+                                resp['partners'][key]['legalName'] + "</option>"
+                            );
+                        }
+                        $(".confirmMobilityPartnerDetail").append("</select>");
                     }
 
                     $('#confirmMbolityInfo').empty();
                     $('#confirmMbolityInfo').append(
                         "<b>Etudiant: </b>" + resp['mobility']['studentDto']['name'] + " " +
                         resp['mobility']['studentDto']['firstname'] + " <i>("+ resp['mobility']['idDepartment'] +")</i></br></br>" +
-                         "<b>Département: </b>" + resp['mobility']['departmentDto']['label'] + "</br>" +
+                        "<b>Département: </b>" + resp['mobility']['departmentDto']['label'] + "</br>" +
                         "<b>Type: </b> " + resp['mobility']['programDto']['name'] +
                         " <i>(" + resp['mobility']['type'] +")</i></br>" +
                         "<b>Lieu: </b>" + resp['mobility']['countryDto']['nameFr'] + "</br>" +
@@ -1495,9 +1513,12 @@ $(function () {
                 });
 
             });
-            $("#modalConfirmMobility").off("click.confirmMobility").on("click.confirmMobility");
         });
-	}
+        $("#confirmMobilityAddPartnerBtn").on("click", function(){
+            $("#modalConfirmMobility").modal("hide");
+            loadAddPartnerTeacher();
+        });
+    }
 
 
     function loadInfoPartner(id){
