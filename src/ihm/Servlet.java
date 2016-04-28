@@ -12,6 +12,7 @@ import exceptions.AuthenticationException;
 import exceptions.BadMobilityStatusException;
 import exceptions.NoCountryException;
 import exceptions.NoDepartmentException;
+import exceptions.NoMobilityException;
 import exceptions.NoProgramException;
 import exceptions.NotEnoughPermissionsException;
 import exceptions.OptimisticLockException;
@@ -305,7 +306,7 @@ public class Servlet extends HttpServlet {
   }
 
   private void selectMobility(HttpServletRequest req, HttpServletResponse resp)
-      throws NotEnoughPermissionsException, SQLException, IOException {
+      throws NotEnoughPermissionsException, SQLException, IOException, NoMobilityException {
     int id = Integer.parseInt(req.getParameter("id"));
     MobilityDto mobilityDto = mobilityUcc.getMobilityById(id);
     String json = basicGenson.serialize(mobilityDto);
@@ -513,7 +514,7 @@ public class Servlet extends HttpServlet {
 
 
   private void selectPartnersForConfirm(HttpServletRequest req, HttpServletResponse resp)
-      throws IOException, SQLException, NotEnoughPermissionsException {
+      throws IOException, SQLException, NotEnoughPermissionsException, NoMobilityException {
 
     /*
      * if (!req.getSession().getAttribute(KEY_PERMISSIONS).equals("STUDENT")) { throw new
@@ -945,6 +946,7 @@ public class Servlet extends HttpServlet {
       case "class exceptions.NoCountryException":
       case "class exceptions.NoProgramException":
       case "class exceptions.NoDepartmentException":
+      case "class exceptions.NoMobilityException":
         resp.setStatus(HttpStatus.EXPECTATION_FAILED_417);
         map.put("type", "error");
         map.put("message", exception.getMessage());

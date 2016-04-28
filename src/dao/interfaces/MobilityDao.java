@@ -1,6 +1,7 @@
 package dao.interfaces;
 
 import dto.MobilityDto;
+import exceptions.NoMobilityException;
 
 import java.util.ArrayList;
 
@@ -59,8 +60,9 @@ public interface MobilityDao {
    *
    * @param id Nr Id of mobility.
    * @return Mobility DTO.
+   * @throws NoMobilityException If no mobility is matching with the id.
    */
-  MobilityDto getMobilityById(int id);
+  MobilityDto getMobilityById(int id) throws NoMobilityException;
 
   /**
    * Cancels the mobility matching with the id.

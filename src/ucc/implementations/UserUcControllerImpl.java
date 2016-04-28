@@ -40,7 +40,6 @@ public class UserUcControllerImpl implements UserUcController {
       dalServices.openConnection();
       user = (UserBizz) userDao.getUserByUserName(login);
     } catch (NoSuchElementException nsee) {
-      // L'user est null si aucun utilisateur avec le pseudo entré n'existe
       Main.LOGGER.warning("\"" + login + "\" : username not exist ");
       dalServices.closeConnection();
       throw new AuthenticationException("L'utilisateur n'existe pas.");
@@ -114,10 +113,15 @@ public class UserUcControllerImpl implements UserUcController {
     try {
       dalServices.openConnection();
       dalServices.startTransaction();
-      UserDto user = userDao.getUserById(id);
-      if (user.getPermissions().equals("STUDENT")) {
-        userDao.changePermissionsForUserById(user);
-      } else {
+      try {
+        UserDto user = userDao.getUserById(id);
+        if (user.getPermissions().equals("STUDENT")) {
+          userDao.changePermissionsForUserById(user);
+        } else {
+          throw new UserNotFoundException(
+              "Cet utilisateur est un professeur et ne peut être promu.");
+        }
+      } catch (NoSuchElementException ex) {
         throw new UserNotFoundException("Cet utilisateur n'existe pas");
       }
 

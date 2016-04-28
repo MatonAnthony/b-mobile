@@ -4,6 +4,7 @@ import bizz.interfaces.BizzFactory;
 import dal.DalBackendServices;
 import dao.interfaces.MobilityDao;
 import dto.MobilityDto;
+import exceptions.NoMobilityException;
 import exceptions.UnknowErrorException;
 
 import java.sql.PreparedStatement;
@@ -239,7 +240,7 @@ public class MobilityDaoImpl implements MobilityDao {
   }
 
   @Override
-  public MobilityDto getMobilityById(int id) {
+  public MobilityDto getMobilityById(int id) throws NoMobilityException {
     String queryById = queryFull + " AND m.id = ?";
     PreparedStatement preparedStatement;
     MobilityDto mobilityDto = null;
@@ -247,8 +248,10 @@ public class MobilityDaoImpl implements MobilityDao {
       preparedStatement = dalBackendServices.prepare(queryById);
       preparedStatement.setInt(1, id);
       ResultSet resultSet = dalBackendServices.executeQuery(preparedStatement);
-      while (resultSet.next()) {
+      if (resultSet.next()) {
         mobilityDto = fillFullDto(resultSet);
+      } else {
+        throw new NoMobilityException("Cette mobilité n'existe pas");
       }
 
     } catch (SQLException exc) {

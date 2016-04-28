@@ -2,6 +2,7 @@ package ucc.interfaces;
 
 import dto.MobilityDto;
 import exceptions.BadMobilityStatusException;
+import exceptions.NoMobilityException;
 import exceptions.OptimisticLockException;
 
 import java.sql.SQLException;
@@ -73,8 +74,9 @@ public interface MobilityUcController {
    * @param id Id of the mobility.
    * @return Mobility DTO.
    * @throws SQLException there is a problem.
+   * @throws NoMobilityException If no mobility is matching with the id.
    */
-  MobilityDto getMobilityById(int id) throws SQLException;
+  MobilityDto getMobilityById(int id) throws SQLException, NoMobilityException;
 
   /**
    * Cancels the mobility matching with the id.

@@ -4,6 +4,7 @@ import dal.DalServices;
 import dao.interfaces.MobilityDao;
 import dto.MobilityDto;
 import exceptions.BadMobilityStatusException;
+import exceptions.NoMobilityException;
 import exceptions.OptimisticLockException;
 import ucc.interfaces.MobilityUcController;
 
@@ -100,7 +101,7 @@ public class MobilityUcControllerImpl implements MobilityUcController {
 
 
   @Override
-  public MobilityDto getMobilityById(int id) throws SQLException {
+  public MobilityDto getMobilityById(int id) throws SQLException, NoMobilityException {
     dalServices.openConnection();
     MobilityDto mobility = mobilityDao.getMobilityById(id);
     dalServices.closeConnection();

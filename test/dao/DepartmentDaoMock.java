@@ -8,22 +8,22 @@ import java.util.ArrayList;
 
 public class DepartmentDaoMock implements DepartmentDao {
 
-  private ArrayList<DepartmentDto> Db;
+  private ArrayList<DepartmentDto> db;
 
-  public DepartmentDaoMock(ArrayList<DepartmentDto> Db) {
-    this.Db = Db;
+  public DepartmentDaoMock(ArrayList<DepartmentDto> db) {
+    this.db = db;
   }
 
   @Override
   public ArrayList<DepartmentDto> getAllDepartments() {
-    return Db;
+    return db;
   }
 
   @Override
   public DepartmentDto getDepartementById(String id) throws NoDepartmentException {
-    for (int i = 0; i < Db.size(); i++) {
-      if (Db.get(i).getId().equals(id)) {
-        return Db.get(i);
+    for (int i = 0; i < db.size(); i++) {
+      if (db.get(i).getId().equals(id)) {
+        return db.get(i);
       }
     }
     throw new NoDepartmentException();
@@ -31,9 +31,9 @@ public class DepartmentDaoMock implements DepartmentDao {
 
   @Override
   public DepartmentDto getDepartmentByLabel(String label) throws NoDepartmentException {
-    for (int i = 0; i < Db.size(); i++) {
-      if (Db.get(i).getLabel().equals(label)) {
-        return Db.get(i);
+    for (int i = 0; i < db.size(); i++) {
+      if (db.get(i).getLabel().equals(label)) {
+        return db.get(i);
       }
     }
     throw new NoDepartmentException();

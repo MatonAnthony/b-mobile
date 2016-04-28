@@ -975,11 +975,11 @@ $(function () {
 							$("#list tbody").append(data);
 						}
 						
-						var textBtn = "Modifier";
+						var textBtn = "Détails";
 						$("#list tr td:nth-child(10)").each(function(){
-							textBtn = "Modifier";
+							textBtn = "Détails";
 							if ($(this).html() !== "Annulee") {
-								textBtn="Détails";
+								textBtn="Modifier";
                                 $(this).next().append("<button type=\"button\" class=\"btnCancel btn btn-sm btn-danger\" data-toggle=\"modal\" data-target=\"#modalCancelMobility\">Annuler</button>");
 							} else {
 								$(this).parent().addClass("danger");

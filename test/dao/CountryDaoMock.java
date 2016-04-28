@@ -9,22 +9,22 @@ import java.util.ArrayList;
 
 public class CountryDaoMock implements CountryDao {
 
-  private ArrayList<CountryDto> Db;
+  private ArrayList<CountryDto> db;
 
   public CountryDaoMock(ArrayList<CountryDto> listDto) {
-    this.Db = listDto;
+    this.db = listDto;
   }
 
   @Override
   public ArrayList<CountryDto> getAll() throws SQLException {
-    return Db;
+    return db;
   }
 
   @Override
   public CountryDto getCountryByNameFr(String name) throws NoCountryException {
-    for (int i = 0; i < Db.size(); i++) {
-      if (Db.get(i).getNameFr().equals(name)) {
-        return Db.get(i);
+    for (int i = 0; i < db.size(); i++) {
+      if (db.get(i).getNameFr().equals(name)) {
+        return db.get(i);
       }
     }
     throw new NoCountryException();
@@ -32,9 +32,9 @@ public class CountryDaoMock implements CountryDao {
 
   @Override
   public CountryDto getCountryByIso(String iso) throws NoCountryException {
-    for (int i = 0; i < Db.size(); i++) {
-      if (Db.get(i).getIso().equals(iso)) {
-        return Db.get(i);
+    for (int i = 0; i < db.size(); i++) {
+      if (db.get(i).getIso().equals(iso)) {
+        return db.get(i);
       }
     }
     throw new NoCountryException();

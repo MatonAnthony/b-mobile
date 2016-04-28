@@ -1,73 +1,123 @@
 package ucc;
 
+import static org.junit.Assert.assertEquals;
+
 import bizz.implementations.BizzFactoryImpl;
-import dal.DalBackendServices;
+import bizz.implementations.UserImpl;
 import dal.DalServices;
-import dal.DalServicesImpl;
-import dao.implementations.UserDaoImpl;
+import dal.DalServicesImplStub;
+import dao.UserDaoMock;
 import dao.interfaces.UserDao;
 import dto.UserDto;
 import exceptions.AuthenticationException;
+import exceptions.UserAlreadyExistsException;
+import exceptions.UserNotFoundException;
 import ucc.implementations.UserUcControllerImpl;
 
 import org.junit.Before;
 import org.junit.Test;
 
+import java.sql.SQLException;
+import java.util.ArrayList;
 
-/**
- * Beware that class require to use a DEBUG Database, implying that build.properties status set to
- * debug
- */
 public class UserUcControllerImplTest {
 
   private UserUcControllerImpl userUcc;
   private UserDto userdto;
   private UserDto empty;
+  private ArrayList<UserDto> list;
+  private BizzFactoryImpl bizz;
 
   @Before
   public void setUp() throws Exception {
-    DalServices dal = new DalServicesImpl();
-    BizzFactoryImpl bizz = new BizzFactoryImpl();
-    UserDao user = new UserDaoImpl((DalBackendServices) dal, bizz);
-    userUcc = new UserUcControllerImpl(dal, user);
+    DalServices dal = new DalServicesImplStub();
+    bizz = new BizzFactoryImpl();
     userdto = bizz.getUserDto();
-    userdto.setPseudo("pseudo");
+    userdto.setId(1);
+    userdto.setPseudo("Toto");
     userdto.setPassword("password");
     userdto.setFirstname("firstname");
     userdto.setName("name");
     userdto.setEmail("email@email.email");
     userdto.setPermissions("STUDENT");
-    // user.createUser(userdto);
+    UserImpl userImpl = (UserImpl) userdto;
+    userImpl.cryptPassword();
+    list = new ArrayList<UserDto>();
+    list.add(userImpl);
 
+    UserDto prof = bizz.getUserDto();
+    prof.setId(3);
+    prof.setPseudo("prof");
+    prof.setPassword("pass");
+    prof.setPermissions("TEACHER");
+    UserImpl profImpl = (UserImpl) prof;
+    profImpl.cryptPassword();
+    list.add(profImpl);
+
+    UserDao user = new UserDaoMock(list);
+    userUcc = new UserUcControllerImpl(dal, user);
     empty = bizz.getUserDto();
   }
 
-  // Test login with a valid username - password
-  /*
-   * @Test public void testLogin() throws Exception { UserDto compare = userUcc.login("pseudo",
-   * "password"); assertEquals(compare, userdto); }
-   */
-
-
-  // Test login with an invalid username-password
-  @Test(expected = AuthenticationException.class)
-  public void testLogin1() throws Exception {
-    userUcc.login("pp", "jj");
+  @Test
+  public void testLogin() throws AuthenticationException, SQLException {
+    assertEquals(userdto, userUcc.login("Toto", "password"));
   }
 
-  // Test register with a valid new user.
-  /*
-   * @Test public void testRegister() throws Exception { empty.setPseudo("empty");
-   * empty.setPassword("empty"); empty.setFirstname("empty"); empty.setName("empty");
-   * empty.setEmail("empty"); empty.setPermissions("STUDENT");
-   * 
-   * userUcc.register(empty); }
-   */
+  @Test(expected = AuthenticationException.class)
+  public void testLogin2() throws AuthenticationException, SQLException {
+    userUcc.login("Toto", "password2");
+  }
 
-  // Test register with an already existing user
-  // @Test
-  // public void testRegister1() throws Exception {
-  // assertNull(userUcc.register(userdto));
-  // }
+  @Test(expected = AuthenticationException.class)
+  public void testLogin3() throws AuthenticationException, SQLException {
+    userUcc.login("Toto2", "password");
+  }
+
+  @Test(expected = UserAlreadyExistsException.class)
+  public void testRegister() throws AuthenticationException, UserAlreadyExistsException {
+    userUcc.register(userdto);
+  }
+
+  @Test
+  public void testRegister2() throws AuthenticationException, UserAlreadyExistsException {
+    UserDto userdto2 = bizz.getUserDto();
+    userdto2.setPseudo("Boby");
+    userdto2.setPassword("Banane");
+    userUcc.register(userdto2);
+  }
+
+  @Test
+  public void testGetUserById() throws SQLException {
+    assertEquals(userdto, userUcc.getUserById(1));
+  }
+
+  @Test
+  public void testGetAllUsers() throws SQLException {
+    assertEquals(list, userUcc.getAllUsers());
+  }
+
+  @Test
+  public void testChangePermissions() throws UserNotFoundException {
+    userUcc.changePermissions(1);
+  }
+
+  @Test(expected = UserNotFoundException.class)
+  public void testChangePermissions2() throws UserNotFoundException {
+    userUcc.changePermissions(5);
+  }
+
+  @Test(expected = UserNotFoundException.class)
+  public void testChangePermissions3()
+      throws UserNotFoundException, AuthenticationException, UserAlreadyExistsException {
+    // Test if it is a teacher.
+    userUcc.changePermissions(3);
+  }
+
+  @Test
+  public void testUpdateUser() {
+    userdto.setCity("Bruxelles");
+    userUcc.updateUser(userdto);
+  }
 
 }
