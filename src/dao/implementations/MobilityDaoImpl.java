@@ -95,7 +95,7 @@ public class MobilityDaoImpl implements MobilityDao {
       preparedStatement.setString(4, mobilityDto.getType());
       preparedStatement.setInt(5, mobilityDto.getPreferenceOrder());
       preparedStatement.setString(6, mobilityDto.getCountryDto().getIso());
-      preparedStatement.setString(7, mobilityDto.getDepartementDto().getId());
+      preparedStatement.setString(7, mobilityDto.getDepartmentDto().getId());
       preparedStatement.setInt(8, mobilityDto.getQuadrimester());
       preparedStatement.setString(9, mobilityDto.getAcademicYear());
 
@@ -466,10 +466,10 @@ public class MobilityDaoImpl implements MobilityDao {
     mobilitydto.getCountryDto().setNameFr(resultSet.getString(82));
     mobilitydto.getCountryDto().setIdProgram(resultSet.getInt(83));
 
-    mobilitydto.setDepartementDto(factory.getDepartmentDto());
-    mobilitydto.getDepartementDto().setId(resultSet.getString(84));
-    mobilitydto.getDepartementDto().setLabel(resultSet.getString(85));
-    mobilitydto.getDepartementDto().setVerNr(resultSet.getInt(86));
+    mobilitydto.setDepartmentDto(factory.getDepartmentDto());
+    mobilitydto.getDepartmentDto().setId(resultSet.getString(84));
+    mobilitydto.getDepartmentDto().setLabel(resultSet.getString(85));
+    mobilitydto.getDepartmentDto().setVerNr(resultSet.getInt(86));
 
     mobilitydto.setCancelationDto(factory.getCancelationDto());
     mobilitydto.getCancelationDto().setId(resultSet.getInt(87));

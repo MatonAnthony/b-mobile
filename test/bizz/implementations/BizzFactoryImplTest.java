@@ -2,14 +2,6 @@ package bizz.implementations;
 
 import static org.junit.Assert.assertEquals;
 
-import bizz.implementations.BizzFactoryImpl;
-import bizz.implementations.CancelationImpl;
-import bizz.implementations.CountryImpl;
-import bizz.implementations.DepartmentImpl;
-import bizz.implementations.MobilityImpl;
-import bizz.implementations.PartnerImpl;
-import bizz.implementations.ProgramImpl;
-import bizz.implementations.UserImpl;
 import bizz.interfaces.BizzFactory;
 import dto.CancelationDto;
 import dto.CountryDto;

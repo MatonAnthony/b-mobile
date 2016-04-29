@@ -61,7 +61,7 @@ public class PartnerImpl implements PartnerBizz {
   }
 
   public void setLegalName(String legalName) {
-    if(legalName == null) {
+    if (legalName == null) {
       this.legalName = null;
     } else if (!Pattern.matches("[A-zÀ-ÿ-. ]*", legalName)) {
       throw new IllegalArgumentException("Le nom légal doit être cohérent");
@@ -74,7 +74,7 @@ public class PartnerImpl implements PartnerBizz {
   }
 
   public void setBusiness(String business) {
-    if(business == null) {
+    if (business == null) {
       this.businessName = null;
     } else if (!Pattern.matches("[A-zÀ-ÿ-. ]*", business)) {
       throw new IllegalArgumentException("Le nom du business doit être cohérent");
@@ -87,7 +87,7 @@ public class PartnerImpl implements PartnerBizz {
   }
 
   public void setFullName(String fullName) {
-    if(fullName == null) {
+    if (fullName == null) {
       this.fullName = null;
     } else if (!Pattern.matches("[A-zÀ-ÿ-. ]*", fullName)) {
       throw new IllegalArgumentException("Le nom complet doit être cohérent");
@@ -125,7 +125,7 @@ public class PartnerImpl implements PartnerBizz {
   }
 
   public void setStreet(String street) {
-    if(street == null) {
+    if (street == null) {
       this.street = null;
     } else if (!Pattern.matches("[A-zÀ-ÿ-. 0-9]*", street)) {
       throw new IllegalArgumentException("Le nom de la rue doit-être cohérent");
@@ -163,11 +163,11 @@ public class PartnerImpl implements PartnerBizz {
   }
 
   public void setCity(String city) {
-    if(city == null) {
+    if (city == null) {
       this.city = null;
     } else if (!Pattern.matches("[A-zÀ-ÿ-. ]*", city)) {
-      throw new IllegalArgumentException("Le nom de la ville ne peut contenir de chiffres ou de"
-        + "caractères spéciaux.");
+      throw new IllegalArgumentException(
+          "Le nom de la ville ne peut contenir de chiffres ou de" + "caractères spéciaux.");
     }
     this.city = city;
   }
@@ -209,10 +209,10 @@ public class PartnerImpl implements PartnerBizz {
   }
 
   public void setEmail(String email) {
-    if(email == null || email.equals("")) {
+    if (email == null || email.equals("")) {
       this.email = null;
     } else if (!Pattern.matches("^[\\w!#$%&’*+/=?`{|}~^-]+(?:\\.[\\w!#$%&’*+/=?`{|}~^-]+)"
-      + "*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$", email)) {
+        + "*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$", email)) {
       throw new IllegalArgumentException("Email invalide");
     }
     this.email = email;
@@ -225,7 +225,7 @@ public class PartnerImpl implements PartnerBizz {
   public void setWebsite(String website) {
     // TODO : FIX THE ISSUE WITH PATTERN
     String pattern = "/^(https?:\\/\\/)?([\\da-z\\.-]+)\\.([a-z\\.]{2,6})([\\/\\w \\.-]*)*\\/?$/";
-    if(website == null) {
+    if (website == null) {
       this.website = website;
     } else if (!Pattern.matches(pattern, website)) {
       // throw new IllegalArgumentException("Format de l'adresse du site internet invalide");
@@ -248,157 +248,6 @@ public class PartnerImpl implements PartnerBizz {
 
   public void setVerNr(int verNr) {
     this.verNr = verNr;
-  }
-
-
-
-  @Override
-  public boolean equals(Object obj) {
-    if (this == obj) {
-      return true;
-    }
-    if (obj == null) {
-      return false;
-    }
-    if (getClass() != obj.getClass()) {
-      return false;
-    }
-    PartnerImpl other = (PartnerImpl) obj;
-    if (businessName == null) {
-      if (other.businessName != null) {
-        return false;
-      }
-    } else if (!businessName.equals(other.businessName)) {
-      return false;
-    }
-    if (city == null) {
-      if (other.city != null) {
-        return false;
-      }
-    } else if (!city.equals(other.city)) {
-      return false;
-    }
-    if (country == null) {
-      if (other.country != null) {
-        return false;
-      }
-    } else if (!country.equals(other.country)) {
-      return false;
-    }
-    if (countryDto == null) {
-      if (other.countryDto != null) {
-        return false;
-      }
-    } else if (!countryDto.equals(other.countryDto)) {
-      return false;
-    }
-    if (department == null) {
-      if (other.department != null) {
-        return false;
-      }
-    } else if (!department.equals(other.department)) {
-      return false;
-    }
-    if (email == null) {
-      if (other.email != null) {
-        return false;
-      }
-    } else if (!email.equals(other.email)) {
-      return false;
-    }
-    if (exists != other.exists) {
-      return false;
-    }
-    if (fullName == null) {
-      if (other.fullName != null) {
-        return false;
-      }
-    } else if (!fullName.equals(other.fullName)) {
-      return false;
-    }
-    if (id != other.id) {
-      return false;
-    }
-    if (idUser != other.idUser) {
-      return false;
-    }
-    if (legalName == null) {
-      if (other.legalName != null) {
-        return false;
-      }
-    } else if (!legalName.equals(other.legalName)) {
-      return false;
-    }
-    if (mailbox == null) {
-      if (other.mailbox != null) {
-        return false;
-      }
-    } else if (!mailbox.equals(other.mailbox)) {
-      return false;
-    }
-    if (nbEmployees != other.nbEmployees) {
-      return false;
-    }
-    if (number == null) {
-      if (other.number != null) {
-        return false;
-      }
-    } else if (!number.equals(other.number)) {
-      return false;
-    }
-    if (state == null) {
-      if (other.state != null) {
-        return false;
-      }
-    } else if (!state.equals(other.state)) {
-      return false;
-    }
-    if (street == null) {
-      if (other.street != null) {
-        return false;
-      }
-    } else if (!street.equals(other.street)) {
-      return false;
-    }
-    if (tel == null) {
-      if (other.tel != null) {
-        return false;
-      }
-    } else if (!tel.equals(other.tel)) {
-      return false;
-    }
-    if (type == null) {
-      if (other.type != null) {
-        return false;
-      }
-    } else if (!type.equals(other.type)) {
-      return false;
-    }
-    if (userDto == null) {
-      if (other.userDto != null) {
-        return false;
-      }
-    } else if (!userDto.equals(other.userDto)) {
-      return false;
-    }
-    if (verNr != other.verNr) {
-      return false;
-    }
-    if (website == null) {
-      if (other.website != null) {
-        return false;
-      }
-    } else if (!website.equals(other.website)) {
-      return false;
-    }
-    if (zip == null) {
-      if (other.zip != null) {
-        return false;
-      }
-    } else if (!zip.equals(other.zip)) {
-      return false;
-    }
-    return true;
   }
 
   @Override
@@ -429,4 +278,112 @@ public class PartnerImpl implements PartnerBizz {
     result = prime * result + ((zip == null) ? 0 : zip.hashCode());
     return result;
   }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj)
+      return true;
+    if (obj == null)
+      return false;
+    if (getClass() != obj.getClass())
+      return false;
+    PartnerImpl other = (PartnerImpl) obj;
+    if (businessName == null) {
+      if (other.businessName != null)
+        return false;
+    } else if (!businessName.equals(other.businessName))
+      return false;
+    if (city == null) {
+      if (other.city != null)
+        return false;
+    } else if (!city.equals(other.city))
+      return false;
+    if (country == null) {
+      if (other.country != null)
+        return false;
+    } else if (!country.equals(other.country))
+      return false;
+    if (countryDto == null) {
+      if (other.countryDto != null)
+        return false;
+    } else if (!countryDto.equals(other.countryDto))
+      return false;
+    if (department == null) {
+      if (other.department != null)
+        return false;
+    } else if (!department.equals(other.department))
+      return false;
+    if (email == null) {
+      if (other.email != null)
+        return false;
+    } else if (!email.equals(other.email))
+      return false;
+    if (exists != other.exists)
+      return false;
+    if (fullName == null) {
+      if (other.fullName != null)
+        return false;
+    } else if (!fullName.equals(other.fullName))
+      return false;
+    if (id != other.id)
+      return false;
+    if (idUser != other.idUser)
+      return false;
+    if (legalName == null) {
+      if (other.legalName != null)
+        return false;
+    } else if (!legalName.equals(other.legalName))
+      return false;
+    if (mailbox == null) {
+      if (other.mailbox != null)
+        return false;
+    } else if (!mailbox.equals(other.mailbox))
+      return false;
+    if (nbEmployees != other.nbEmployees)
+      return false;
+    if (number == null) {
+      if (other.number != null)
+        return false;
+    } else if (!number.equals(other.number))
+      return false;
+    if (state == null) {
+      if (other.state != null)
+        return false;
+    } else if (!state.equals(other.state))
+      return false;
+    if (street == null) {
+      if (other.street != null)
+        return false;
+    } else if (!street.equals(other.street))
+      return false;
+    if (tel == null) {
+      if (other.tel != null)
+        return false;
+    } else if (!tel.equals(other.tel))
+      return false;
+    if (type == null) {
+      if (other.type != null)
+        return false;
+    } else if (!type.equals(other.type))
+      return false;
+    if (userDto == null) {
+      if (other.userDto != null)
+        return false;
+    } else if (!userDto.equals(other.userDto))
+      return false;
+    if (verNr != other.verNr)
+      return false;
+    if (website == null) {
+      if (other.website != null)
+        return false;
+    } else if (!website.equals(other.website))
+      return false;
+    if (zip == null) {
+      if (other.zip != null)
+        return false;
+    } else if (!zip.equals(other.zip))
+      return false;
+    return true;
+  }
+
 }

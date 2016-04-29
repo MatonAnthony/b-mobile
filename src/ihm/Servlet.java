@@ -717,7 +717,7 @@ public class Servlet extends HttpServlet {
     mobility.setType(req.getParameter("type"));
     mobility.setQuadrimester(Integer.parseInt(req.getParameter("quadrimestre")));
     mobility.setAcademicYear(req.getParameter("year"));
-    mobility.setDepartementDto(departmentUcc.getDepartmentByLabel(req.getParameter("department")));
+    mobility.setDepartmentDto(departmentUcc.getDepartmentByLabel(req.getParameter("department")));
     mobility.setCountryDto(countryUcc.getCountryByNameFr(req.getParameter("country")));
     if (Integer.parseInt("" + req.getParameter("partner")) != -1) {
       mobility.setPartnerDto(

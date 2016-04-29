@@ -39,4 +39,9 @@ public class DepartmentImplTest {
     assertEquals(puppet.getLabel(), "et la bête");
   }
 
+  @Test
+  public void testGetVerNr() {
+    assertEquals(0, puppet.getVerNr());
+  }
+
 }

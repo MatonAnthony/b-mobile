@@ -2,6 +2,8 @@ package bizz.implementations;
 
 import static org.junit.Assert.assertEquals;
 
+import bizz.interfaces.BizzFactory;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -9,10 +11,12 @@ import org.junit.Test;
 public class PartnerImplTest {
 
   private PartnerImpl puppet;
+  private BizzFactory bizz;
 
   @Before
   public void setUp() throws Exception {
     puppet = new PartnerImpl();
+    bizz = new BizzFactoryImpl();
     puppet.setId(0);
     puppet.setIdUser(0);
     puppet.setUserDto(null); // Todo with Mock
@@ -35,6 +39,8 @@ public class PartnerImplTest {
     puppet.setWebsite("http://www.web.com");
     puppet.setExists(false);
     puppet.setVerNr(0);
+    puppet.setCountryDto(bizz.getCountryDto());
+    puppet.setUserDto(bizz.getUserDto());
   }
 
   @Test
@@ -60,16 +66,6 @@ public class PartnerImplTest {
   }
 
   @Test
-  public void testGetUserDto() throws Exception {
-    // TODO With Mock
-  }
-
-  @Test
-  public void testSetUserDto() throws Exception {
-    // TODO With Mock
-  }
-
-  @Test
   public void testGetLegalName() throws Exception {
     assertEquals(puppet.getLegalName(), "legal name");
   }
@@ -78,6 +74,18 @@ public class PartnerImplTest {
   public void testSetLegalName() throws Exception {
     puppet.setLegalName("--");
     assertEquals(puppet.getLegalName(), "--");
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void testSetLegalName2() throws Exception {
+    puppet.setLegalName("--@");
+    assertEquals(puppet.getLegalName(), "--@");
+  }
+
+  @Test
+  public void testSetLegalName3() throws Exception {
+    puppet.setLegalName(null);
+    assertEquals(puppet.getLegalName(), null);
   }
 
   @Test
@@ -91,6 +99,19 @@ public class PartnerImplTest {
     assertEquals(puppet.getBusiness(), "-");
   }
 
+  @Test(expected = IllegalArgumentException.class)
+  public void testSetBusiness2() throws Exception {
+    puppet.setBusiness("-@");
+    assertEquals(puppet.getBusiness(), "-@");
+  }
+
+  @Test
+  public void testSetBusiness3() throws Exception {
+    puppet.setBusiness(null);
+    assertEquals(puppet.getBusiness(), null);
+  }
+
+
   @Test
   public void testGetFullName() throws Exception {
     assertEquals(puppet.getFullName(), "full name");
@@ -100,6 +121,18 @@ public class PartnerImplTest {
   public void testSetFullName() throws Exception {
     puppet.setFullName("-");
     assertEquals(puppet.getFullName(), "-");
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void testSetFullName2() throws Exception {
+    puppet.setFullName("-@");
+    assertEquals(puppet.getFullName(), "-@");
+  }
+
+  @Test
+  public void testSetFullName3() throws Exception {
+    puppet.setFullName(null);
+    assertEquals(puppet.getFullName(), null);
   }
 
   @Test
@@ -146,6 +179,12 @@ public class PartnerImplTest {
     assertEquals(puppet.getStreet(), "fighter");
   }
 
+  @Test(expected = IllegalArgumentException.class)
+  public void testSetStreet2() throws Exception {
+    puppet.setStreet("fighter@");
+    assertEquals(puppet.getStreet(), "fighter@");
+  }
+
   @Test
   public void testGetNumber() throws Exception {
     assertEquals(puppet.getNumber(), "0");
@@ -190,6 +229,18 @@ public class PartnerImplTest {
     assertEquals(puppet.getCity(), "hunter");
   }
 
+  @Test(expected = IllegalArgumentException.class)
+  public void testSetCity2() throws Exception {
+    puppet.setCity("hunter@");
+    assertEquals(puppet.getCity(), "hunter@");
+  }
+
+  @Test
+  public void testSetCity3() throws Exception {
+    puppet.setCity(null);
+    assertEquals(puppet.getCity(), null);
+  }
+
   @Test
   public void testGetState() throws Exception {
     assertEquals(puppet.getState(), "state");
@@ -214,12 +265,12 @@ public class PartnerImplTest {
 
   @Test
   public void testGetCountryDto() throws Exception {
-    // TODO With Mock
+    assertEquals(bizz.getCountryDto(), puppet.getCountryDto());
   }
 
   @Test
   public void testSetCountryDto() throws Exception {
-    // TODO With Mock
+    puppet.setCountryDto(bizz.getCountryDto());
   }
 
   @Test
@@ -245,6 +296,18 @@ public class PartnerImplTest {
   }
 
   @Test
+  public void testSetEmail3() throws Exception {
+    puppet.setEmail(null);
+    assertEquals(puppet.getEmail(), null);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void testSetEmail2() throws Exception {
+    puppet.setEmail("xxx@.zzz");
+    assertEquals(puppet.getEmail(), "xxx@.zzz");
+  }
+
+  @Test
   public void testGetWebsite() throws Exception {
     assertEquals(puppet.getWebsite(), "http://www.web.com");
   }
@@ -253,6 +316,12 @@ public class PartnerImplTest {
   public void testSetWebsite() throws Exception {
     puppet.setWebsite("studentittools.ipl.be");
     assertEquals(puppet.getWebsite(), "studentittools.ipl.be");
+  }
+
+  @Test
+  public void testSetWebsite2() throws Exception {
+    puppet.setWebsite(null);
+    assertEquals(null, puppet.getWebsite());
   }
 
   @Test
@@ -278,12 +347,13 @@ public class PartnerImplTest {
   }
 
   @Test
-  public void testHashCode() throws Exception {
-    // TODO With Junit addons (si autorisé)
+  public void testGetUserDto() {
+    assertEquals(bizz.getUserDto(), puppet.getUserDto());
   }
 
   @Test
-  public void testEquals() throws Exception {
-    // TODO With Junit addons (si autorisé)
+  public void testSetUserDto() throws Exception {
+    puppet.setUserDto(bizz.getUserDto());
   }
+
 }

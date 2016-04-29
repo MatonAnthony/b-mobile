@@ -6,7 +6,13 @@ import static org.junit.Assert.assertTrue;
 
 import bizz.enumeration.MobilityState;
 import bizz.interfaces.BizzFactory;
+import dto.CancelationDto;
+import dto.CountryDto;
+import dto.DepartmentDto;
 import dto.MobilityDto;
+import dto.PartnerDto;
+import dto.ProgramDto;
+import dto.UserDto;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -20,22 +26,24 @@ public class MobilityImplTest {
   private MobilityImpl puppet;
   private BizzFactory bizz;
 
+  private CountryDto countryDto;
+  private CancelationDto cancelationDto;
+  private DepartmentDto departmentDto;
+  private PartnerDto partnerDto;
+  private UserDto userDto;
+  private ProgramDto programDto;
+
   @Before
   public void setUp() throws Exception {
     puppet = new MobilityImpl();
     puppet.setId(0);
     puppet.setIdStudent(0);
-    puppet.setStudentDto(null); // TODO Use Mock
     puppet.setIdProgram(0);
-    puppet.setProgramDto(null); // TODO Use Mock
     puppet.setIdPartner(0);
-    puppet.setPartnerDto(null); // TODO Use Mock
     puppet.setType("Erabel");
     puppet.setPreferenceOrder(0);
     puppet.setIsoCountry("BE");
-    puppet.setCountryDto(null); // TODO Use Mock
     puppet.setIdDepartment("BIN");
-    puppet.setDepartmentDto(null); // TODO Use Mock
     puppet.setQuadrimester(1);
     puppet.setStatus(MobilityState.PENDING.name());
     puppet.setCanceled(false);
@@ -57,10 +65,25 @@ public class MobilityImplTest {
     puppet.setAmount(100);
     puppet.setPaymentDate1(false);
     puppet.setPaymentDate2(false);
-    puppet.setCancelationDto(null); // TODO : Use Mock
     puppet.setAcademicYear("2016-2017");
     puppet.setVerNr(0);
+
     bizz = new BizzFactoryImpl();
+
+    countryDto = bizz.getCountryDto();
+    departmentDto = bizz.getDepartmentDto();
+    cancelationDto = bizz.getCancelationDto();
+    programDto = bizz.getProgramDto();
+    partnerDto = bizz.getPartnerDto();
+    userDto = bizz.getUserDto();
+
+    puppet.setCountryDto(countryDto);
+    puppet.setDepartmentDto(departmentDto);
+    puppet.setCancelationDto(cancelationDto);
+    puppet.setProgramDto(programDto);
+    puppet.setPartnerDto(partnerDto);
+    puppet.setStudentDto(userDto);
+
   }
 
   @Test
@@ -76,52 +99,68 @@ public class MobilityImplTest {
 
   @Test
   public void testGetStudentDto() throws Exception {
-    // TODO with Mock
+    assertEquals(userDto, puppet.getStudentDto());
   }
 
   @Test
   public void testSetStudentDto() throws Exception {
-    // TODO with Mock
+    UserDto userDto2 = bizz.getUserDto();
+    puppet.setStudentDto(userDto2);
   }
 
   @Test
   public void testGetProgramDto() throws Exception {
-    // TODO with Mock
+    assertEquals(programDto, puppet.getProgramDto());
   }
 
   @Test
   public void testSetProgramDto() throws Exception {
-    // TODO with Mock
+    ProgramDto programDto2 = bizz.getProgramDto();
+    puppet.setProgramDto(programDto2);
   }
 
   @Test
   public void testGetPartnerDto() throws Exception {
-    // TODO with Mock
+    assertEquals(partnerDto, puppet.getPartnerDto());
   }
 
   @Test
   public void testSetPartnerDto() throws Exception {
-    // TODO with Mock
+    PartnerDto partnerDto2 = bizz.getPartnerDto();
+    puppet.setPartnerDto(partnerDto2);
   }
 
   @Test
-  public void testGetDepartementDto() throws Exception {
-    // TODO with Mock
+  public void testGetDepartmentDto() throws Exception {
+    assertEquals(departmentDto, puppet.getDepartmentDto());
   }
 
   @Test
-  public void testSetDepartementDto() throws Exception {
-    // TODO with Mock
+  public void testSetDepartmentDto() throws Exception {
+    DepartmentDto departmentDto2 = bizz.getDepartmentDto();
+    puppet.setDepartmentDto(departmentDto2);
   }
 
   @Test
   public void testGetCountryDto() throws Exception {
-    // TODO with Mock
+    assertEquals(countryDto, puppet.getCountryDto());
+  }
+
+  @Test
+  public void testGetCancelationDto() throws Exception {
+    assertEquals(cancelationDto, puppet.getCancelationDto());
+  }
+
+  @Test
+  public void testSetCancelationDto() throws Exception {
+    CancelationDto cancelationDto2 = bizz.getCancelationDto();
+    puppet.setCancelationDto(cancelationDto2);
   }
 
   @Test
   public void testSetCountryDto() throws Exception {
-    // TODO with Mock
+    CountryDto countryDto = bizz.getCountryDto();
+    puppet.setCountryDto(countryDto);
   }
 
   @Test
@@ -488,26 +527,6 @@ public class MobilityImplTest {
   public void testEquals2() throws CloneNotSupportedException {
     MobilityDto puppet2 = bizz.getMobilityDto();
     assertFalse(puppet.equals(puppet2));
-  }
-
-  @Test
-  public void testGetDepartmentDto() throws Exception {
-    // TODO With Mock
-  }
-
-  @Test
-  public void testSetDepartmentDto() throws Exception {
-    // TODO With Mock
-  }
-
-  @Test
-  public void testGetCancelationDto() throws Exception {
-    // TODO With Mock
-  }
-
-  @Test
-  public void testSetCancelationDto() throws Exception {
-    // TODO With Mock
   }
 
 }

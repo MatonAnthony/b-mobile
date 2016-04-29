@@ -43,9 +43,27 @@ public class CancelationImplTest {
     assertEquals(cancelation.getReason(), "no reason given");
   }
 
+  @Test(expected = IllegalArgumentException.class)
+  public void testSetReason2() throws Exception {
+    cancelation.setReason("nope");
+    cancelation.getReason();
+  }
+
   @Test
   public void testGetResponsible() throws Exception {
     assertEquals(cancelation.getResponsible(), "STUDENT");
+  }
+
+  @Test
+  public void testGetResponsible2() throws Exception {
+    cancelation.setResponsible(null);
+    assertEquals(cancelation.getResponsible(), null);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void testGetResponsible3() throws Exception {
+    cancelation.setResponsible("POULE");
+    cancelation.getResponsible();
   }
 
   @Test

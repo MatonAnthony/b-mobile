@@ -92,14 +92,6 @@ public class MobilityImpl implements MobilityBizz, Cloneable {
     this.partnerDto = partnerDto;
   }
 
-  public DepartmentDto getDepartementDto() {
-    return departmentDto;
-  }
-
-  public void setDepartementDto(DepartmentDto departmentDto) {
-    this.departmentDto = departmentDto;
-  }
-
   public CountryDto getCountryDto() {
     return countryDto;
   }

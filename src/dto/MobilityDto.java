@@ -1,7 +1,5 @@
 package dto;
 
-import java.time.LocalDate;
-
 /**
  * The interface Mobility dto.
  */
@@ -68,14 +66,14 @@ public interface MobilityDto {
    *
    * @return the departement dto
    */
-  public DepartmentDto getDepartementDto();
+  public DepartmentDto getDepartmentDto();
 
   /**
    * Sets departement dto.
    *
    * @param departementDto the departement dto
    */
-  public void setDepartementDto(DepartmentDto departementDto);
+  public void setDepartmentDto(DepartmentDto departmentDto);
 
   /**
    * Gets country dto.

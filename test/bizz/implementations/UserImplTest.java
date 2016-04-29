@@ -6,6 +6,7 @@ import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertTrue;
 
+import bizz.interfaces.BizzFactory;
 import nl.garvelink.iban.IBAN;
 
 import org.junit.Before;
@@ -17,10 +18,12 @@ public class UserImplTest {
 
   private UserImpl puppet;
   private UserImpl empty;
+  private BizzFactory bizz;
 
   @Before
   public void setUp() throws Exception {
     puppet = new UserImpl();
+    bizz = new BizzFactoryImpl();
     puppet.setId(1);
     puppet.setPseudo("puppet");
     puppet.setPassword("master");
@@ -37,6 +40,17 @@ public class UserImplTest {
     puppet.setBankName("Goldman Sachs");
     puppet.setRegistrationDate(LocalDate.now());
     puppet.setBirthDate(LocalDate.MIN);
+    puppet.setZip("1300");
+    puppet.setVerNr(1);
+    puppet.setStreet("Avenue Baron d'Huart");
+    puppet.setMailBox("100");
+    puppet.setIdDepartment(4);
+    puppet.setHouseNumber("1");
+    puppet.setDepartmentDto(bizz.getDepartmentDto());
+    puppet.setCountryDto(bizz.getCountryDto());
+    puppet.setCountry("France");
+    puppet.setCity("BXL");
+    puppet.setCitizenship("Francais");
     empty = new UserImpl();
 
   }
@@ -125,6 +139,12 @@ public class UserImplTest {
     assertEquals(puppet.getName(), "joe");
   }
 
+  @Test(expected = IllegalArgumentException.class)
+  public void testSetName2() {
+    puppet.setName("joe2");
+    assertEquals(puppet.getName(), "joe2");
+  }
+
 
   /*
    * Test getFirstname() when firstname is defined
@@ -150,6 +170,12 @@ public class UserImplTest {
     assertEquals(puppet.getFirstname(), "rico");
   }
 
+  @Test(expected = IllegalArgumentException.class)
+  public void testSetFirstname2() {
+    puppet.setFirstname("rico2");
+    assertEquals(puppet.getFirstname(), "rico2");
+  }
+
   /*
    * Test getEmail when email is defined
    */
@@ -173,6 +199,12 @@ public class UserImplTest {
   public void testSetEmail1() {
     puppet.setEmail("anthony@anthony.be");
     assertEquals(puppet.getEmail(), "anthony@anthony.be");
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void testSetEmail2() {
+    puppet.setEmail("anthony@.be");
+    assertEquals(puppet.getEmail(), "anthony@.be");
   }
 
   /*
@@ -235,6 +267,12 @@ public class UserImplTest {
     assertEquals(puppet.getIban(), IBAN.parse("BE39103123456719").toPlainString());
   }
 
+  @Test
+  public void testGetIban2() {
+    puppet.setIban(null);
+    assertEquals(null, puppet.getIban());
+  }
+
   /*
    * Test setIban with a real IBAN
    */
@@ -244,12 +282,9 @@ public class UserImplTest {
     assertEquals(puppet.getIban(), IBAN.parse("BE41063012345610").toPlainString());
   }
 
-  /*
-   * Test setIban with a false IBAN
-   */
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void testSetIban2() {
-    puppet.setIban("ZPEEEBE41063012345610");
+    puppet.setIban(null);
   }
 
   /*
@@ -286,6 +321,11 @@ public class UserImplTest {
     assertEquals(puppet.getAccountHolder(), "Tyrion Lannister");
   }
 
+  @Test(expected = IllegalArgumentException.class)
+  public void testSetAccountHolder2() {
+    puppet.setAccountHolder("Tyrion Lannister2");
+  }
+
   /*
    * Test getBankName when bankName is undefined yet
    */
@@ -309,6 +349,12 @@ public class UserImplTest {
   public void testSetBankName() {
     puppet.setBankName("Ethias");
     assertEquals(puppet.getBankName(), "Ethias");
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void testSetBankName2() {
+    puppet.setBankName("Ethias2");
+    assertEquals(puppet.getBankName(), "Ethias2");
   }
 
   @Test
@@ -494,5 +540,139 @@ public class UserImplTest {
     assertNotSame(puppet, sister);
   }
 
+  @Test
+  public void testSetTel2() {
+    puppet.setTel("0123456789");
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void testSetTel() {
+    puppet.setTel("aaaaaaaa");
+  }
+
+  @Test
+  public void testSetTel3() {
+    puppet.setTel(null);
+  }
+
+  @Test
+  public void testSetZip() {
+    puppet.setZip("1330");
+  }
+
+  @Test
+  public void testGetZip() {
+    assertEquals(puppet.getZip(), "1300");
+  }
+
+  @Test
+  public void testSetVerNr() {
+    puppet.setVerNr(2);
+  }
+
+  @Test
+  public void testGetVerNr() {
+    assertEquals(1, puppet.getVerNr());
+  }
+
+  @Test
+  public void testGetStreet() {
+    assertEquals("Avenue Baron d'Huart", puppet.getStreet());
+  }
+
+  @Test
+  public void testGetMailBox() {
+    assertEquals("100", puppet.getMailBox());
+  }
+
+  @Test
+  public void testGetDepartment() {
+    assertEquals(4, puppet.getIdDepartment());
+  }
+
+  @Test
+  public void testHouseNumber() {
+    assertEquals("1", puppet.getHouseNumber());
+  }
+
+  @Test
+  public void testGetDepartmentDto() {
+    assertEquals(bizz.getDepartmentDto(), puppet.getDepartmentDto());
+  }
+
+  @Test
+  public void testCoutryDto() {
+    assertEquals(bizz.getCountryDto(), puppet.getCountryDto());
+  }
+
+  @Test
+  public void testCoutry() {
+    assertEquals("France", puppet.getCountry());
+  }
+
+  @Test
+  public void testCity() {
+    assertEquals("BXL", puppet.getCity());
+  }
+
+  @Test
+  public void testCitizenship() {
+    assertEquals("Francais", puppet.getCitizenship());
+  }
+
+  @Test
+  public void testSetStreet() {
+    puppet.setStreet("Avenue des tulipes");
+  }
+
+  @Test
+  public void testSetMailBox() {
+    puppet.setMailBox("200A");
+  }
+
+  @Test
+  public void testSetIdDepartment() {
+    puppet.setIdDepartment(1);
+  }
+
+  @Test
+  public void testSetHouseNumber() {
+    puppet.setHouseNumber("2A");
+  }
+
+  @Test
+  public void testSetDepartmentDto() {
+    puppet.setDepartmentDto(bizz.getDepartmentDto());
+  }
+
+  @Test
+  public void testSetCountry() {
+    puppet.setCountry("Belgium");
+  }
+
+  @Test
+  public void testSetCountryDto() {
+    puppet.setCountryDto(bizz.getCountryDto());
+  }
+
+  @Test
+  public void testSetCity() {
+    puppet.setCity("Wavre");
+  }
+
+  @Test
+  public void testSetCitizenship() {
+    puppet.setCitizenship("Belge");
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void testSetCitizenship2() {
+    puppet.setCitizenship("Belge2");
+  }
+
+  @Test
+  public void testSetCitizenship3() {
+    puppet.setCitizenship(null);
+  }
 
 }
