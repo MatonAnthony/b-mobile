@@ -42,7 +42,6 @@ public class CancelationImpl implements CancelationBizz, Cloneable {
   }
 
   public void setResponsible(String responsible) {
-    System.out.println(responsible);
     if(responsible == null){
       this.responsible = null;
     } else if(!responsible.equals("TEACHER") && !responsible.equals("STUDENT")) {
