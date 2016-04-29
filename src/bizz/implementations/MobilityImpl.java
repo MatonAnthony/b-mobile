@@ -893,10 +893,7 @@ public class MobilityImpl implements MobilityBizz, Cloneable {
     } else if (!type.equals(other.type)) {
       return false;
     }
-    if (verNr != other.verNr) {
-      return false;
-    }
-    return true;
+    return verNr == other.verNr;
   }
 
   public boolean getPaymentDate1() {

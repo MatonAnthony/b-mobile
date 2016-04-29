@@ -30,6 +30,7 @@ public interface CancelationDto {
    * Sets reason.
    *
    * @param reason the reason
+   * @throws IllegalArgumentException the reason doesn't match [A-zÀ-ÿ-\s0-9\W]{10,}
    */
   public void setReason(String reason);
 

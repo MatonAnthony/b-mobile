@@ -1,6 +1,12 @@
 package bizz.implementations;
 
+import bizz.interfaces.BizzFactory;
 import bizz.interfaces.CancelationBizz;
+import dal.DalServicesImpl;
+import dao.implementations.UserDaoImpl;
+import dao.interfaces.UserDao;
+
+import java.util.regex.Pattern;
 
 public class CancelationImpl implements CancelationBizz, Cloneable {
 
@@ -22,6 +28,11 @@ public class CancelationImpl implements CancelationBizz, Cloneable {
   }
 
   public void setReason(String reason) {
+    if(this.reason == null) {
+      this.reason = null;
+    } else if(!Pattern.matches("[A-zÀ-ÿ-\\s0-9\\W]{10,}", reason)){
+      throw new IllegalArgumentException("La raison doit contenir au moins 10 caractères.");
+    }
     this.reason = reason;
   }
 
@@ -30,6 +41,12 @@ public class CancelationImpl implements CancelationBizz, Cloneable {
   }
 
   public void setResponsible(String responsible) {
+    UserDao userDao = new UserDaoImpl(new DalServicesImpl(), new BizzFactoryImpl());
+    if(responsible == null){
+      this.responsible = null;
+    } else if (!userDao.userExists(responsible)){
+      throw new IllegalArgumentException("Cet utilisateur n'existe pas !");
+    }
     this.responsible = responsible;
   }
 
