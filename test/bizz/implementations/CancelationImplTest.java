@@ -39,13 +39,13 @@ public class CancelationImplTest {
 
   @Test
   public void testSetReason() throws Exception {
-    cancelation.setReason("no reason");
-    assertEquals(cancelation.getReason(), "no reason");
+    cancelation.setReason("no reason given");
+    assertEquals(cancelation.getReason(), "no reason given");
   }
 
   @Test
   public void testGetResponsible() throws Exception {
-    assertEquals(cancelation.getResponsible(), "responsible");
+    assertEquals(cancelation.getResponsible(), "STUDENT");
   }
 
   @Test
