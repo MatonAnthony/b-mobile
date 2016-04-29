@@ -8,8 +8,6 @@ import dto.PartnerDto;
 import dto.ProgramDto;
 import dto.UserDto;
 
-import java.time.LocalDate;
-
 public class MobilityImpl implements MobilityBizz, Cloneable {
   private int id;
   private int idStudent;
@@ -692,210 +690,6 @@ public class MobilityImpl implements MobilityBizz, Cloneable {
     this.cancelationDto = cancelationDto;
   }
 
-
-  @Override
-  public int hashCode() {
-    final int prime = 31;
-    int result = 1;
-    result = prime * result + ((academicYear == null) ? 0 : academicYear.hashCode());
-    result = prime * result + ((cancelationDto == null) ? 0 : cancelationDto.hashCode());
-    result = prime * result + cancelationReason;
-    result = prime * result + (canceled ? 1231 : 1237);
-    result = prime * result + ((countryDto == null) ? 0 : countryDto.hashCode());
-    result = prime * result + (departDocSentHighschool ? 1231 : 1237);
-    result = prime * result + ((departmentDto == null) ? 0 : departmentDto.hashCode());
-    result = prime * result + (departureConventionInternshipSchoolarship ? 1231 : 1237);
-    result = prime * result + (departureDocAggreement ? 1231 : 1237);
-    result = prime * result + (departureErasmusLanguageTest ? 1231 : 1237);
-    result = prime * result + (departureGrantContract ? 1231 : 1237);
-    result = prime * result + (departureStudentConvention ? 1231 : 1237);
-    result = prime * result + id;
-    result = prime * result + ((idDepartment == null) ? 0 : idDepartment.hashCode());
-    result = prime * result + idPartner;
-    result = prime * result + idProgram;
-    result = prime * result + idStudent;
-    result = prime * result + ((isoCountry == null) ? 0 : isoCountry.hashCode());
-    result = prime * result + ((partnerDto == null) ? 0 : partnerDto.hashCode());
-    result = prime * result + preferenceOrder;
-    result = prime * result + ((programDto == null) ? 0 : programDto.hashCode());
-    result = prime * result + quadrimester;
-    result = prime * result + (returnDocSentHighschool ? 1231 : 1237);
-    result = prime * result + (returnErasmusLanguageTest ? 1231 : 1237);
-    result = prime * result + (returnFinalReport ? 1231 : 1237);
-    result = prime * result + (returnInternshipCert ? 1231 : 1237);
-    result = prime * result + (returnResidenceCert ? 1231 : 1237);
-    result = prime * result + (returnTranscript ? 1231 : 1237);
-    result = prime * result + (softwareMobi ? 1231 : 1237);
-    result = prime * result + (softwareMobilityTools ? 1231 : 1237);
-    result = prime * result + (softwareProeco ? 1231 : 1237);
-    result = prime * result + ((status == null) ? 0 : status.hashCode());
-    result = prime * result + ((studentDto == null) ? 0 : studentDto.hashCode());
-    result = prime * result + ((type == null) ? 0 : type.hashCode());
-    result = prime * result + verNr;
-    return result;
-  }
-
-  @Override
-  public boolean equals(Object obj) {
-    if (this == obj) {
-      return true;
-    }
-    if (obj == null) {
-      return false;
-    }
-    if (getClass() != obj.getClass()) {
-      return false;
-    }
-    MobilityImpl other = (MobilityImpl) obj;
-    if (academicYear == null) {
-      if (other.academicYear != null) {
-        return false;
-      }
-    } else if (!academicYear.equals(other.academicYear)) {
-      return false;
-    }
-    if (cancelationDto == null) {
-      if (other.cancelationDto != null) {
-        return false;
-      }
-    } else if (!cancelationDto.equals(other.cancelationDto)) {
-      return false;
-    }
-    if (cancelationReason != other.cancelationReason) {
-      return false;
-    }
-    if (canceled != other.canceled) {
-      return false;
-    }
-    if (countryDto == null) {
-      if (other.countryDto != null) {
-        return false;
-      }
-    } else if (!countryDto.equals(other.countryDto)) {
-      return false;
-    }
-    if (departDocSentHighschool != other.departDocSentHighschool) {
-      return false;
-    }
-    if (departmentDto == null) {
-      if (other.departmentDto != null) {
-        return false;
-      }
-    } else if (!departmentDto.equals(other.departmentDto)) {
-      return false;
-    }
-    if (departureConventionInternshipSchoolarship != other.departureConventionInternshipSchoolarship) {
-      return false;
-    }
-    if (departureDocAggreement != other.departureDocAggreement) {
-      return false;
-    }
-    if (departureErasmusLanguageTest != other.departureErasmusLanguageTest) {
-      return false;
-    }
-    if (departureGrantContract != other.departureGrantContract) {
-      return false;
-    }
-    if (departureStudentConvention != other.departureStudentConvention) {
-      return false;
-    }
-    if (id != other.id) {
-      return false;
-    }
-    if (idDepartment == null) {
-      if (other.idDepartment != null) {
-        return false;
-      }
-    } else if (!idDepartment.equals(other.idDepartment)) {
-      return false;
-    }
-    if (idPartner != other.idPartner) {
-      return false;
-    }
-    if (idProgram != other.idProgram) {
-      return false;
-    }
-    if (idStudent != other.idStudent) {
-      return false;
-    }
-    if (isoCountry == null) {
-      if (other.isoCountry != null) {
-        return false;
-      }
-    } else if (!isoCountry.equals(other.isoCountry)) {
-      return false;
-    }
-    if (partnerDto == null) {
-      if (other.partnerDto != null) {
-        return false;
-      }
-    } else if (!partnerDto.equals(other.partnerDto)) {
-      return false;
-    }
-    if (preferenceOrder != other.preferenceOrder) {
-      return false;
-    }
-    if (programDto == null) {
-      if (other.programDto != null) {
-        return false;
-      }
-    } else if (!programDto.equals(other.programDto)) {
-      return false;
-    }
-    if (quadrimester != other.quadrimester) {
-      return false;
-    }
-    if (returnDocSentHighschool != other.returnDocSentHighschool) {
-      return false;
-    }
-    if (returnErasmusLanguageTest != other.returnErasmusLanguageTest) {
-      return false;
-    }
-    if (returnFinalReport != other.returnFinalReport) {
-      return false;
-    }
-    if (returnInternshipCert != other.returnInternshipCert) {
-      return false;
-    }
-    if (returnResidenceCert != other.returnResidenceCert) {
-      return false;
-    }
-    if (returnTranscript != other.returnTranscript) {
-      return false;
-    }
-    if (softwareMobi != other.softwareMobi) {
-      return false;
-    }
-    if (softwareMobilityTools != other.softwareMobilityTools) {
-      return false;
-    }
-    if (softwareProeco != other.softwareProeco) {
-      return false;
-    }
-    if (status == null) {
-      if (other.status != null) {
-        return false;
-      }
-    } else if (!status.equals(other.status)) {
-      return false;
-    }
-    if (studentDto == null) {
-      if (other.studentDto != null) {
-        return false;
-      }
-    } else if (!studentDto.equals(other.studentDto)) {
-      return false;
-    }
-    if (type == null) {
-      if (other.type != null) {
-        return false;
-      }
-    } else if (!type.equals(other.type)) {
-      return false;
-    }
-    return verNr == other.verNr;
-  }
-
   public boolean getPaymentDate1() {
     return paymentDate1;
   }
@@ -918,6 +712,184 @@ public class MobilityImpl implements MobilityBizz, Cloneable {
 
   public void setPaymentDate2(boolean paymentDate2) {
     this.paymentDate2 = paymentDate2;
+  }
+
+  /*
+   * (non-Javadoc)
+   * 
+   * @see java.lang.Object#hashCode()
+   */
+  @Override
+  public int hashCode() {
+    final int prime = 31;
+    int result = 1;
+    result = prime * result + ((academicYear == null) ? 0 : academicYear.hashCode());
+    long temp;
+    temp = Double.doubleToLongBits(amount);
+    result = prime * result + (int) (temp ^ (temp >>> 32));
+    result = prime * result + ((cancelationDto == null) ? 0 : cancelationDto.hashCode());
+    result = prime * result + cancelationReason;
+    result = prime * result + (canceled ? 1231 : 1237);
+    result = prime * result + ((countryDto == null) ? 0 : countryDto.hashCode());
+    result = prime * result + (departDocSentHighschool ? 1231 : 1237);
+    result = prime * result + ((departmentDto == null) ? 0 : departmentDto.hashCode());
+    result = prime * result + (departureConventionInternshipSchoolarship ? 1231 : 1237);
+    result = prime * result + (departureDocAggreement ? 1231 : 1237);
+    result = prime * result + (departureErasmusLanguageTest ? 1231 : 1237);
+    result = prime * result + (departureGrantContract ? 1231 : 1237);
+    result = prime * result + (departureStudentConvention ? 1231 : 1237);
+    result = prime * result + id;
+    result = prime * result + ((idDepartment == null) ? 0 : idDepartment.hashCode());
+    result = prime * result + idPartner;
+    result = prime * result + idProgram;
+    result = prime * result + idStudent;
+    result = prime * result + ((isoCountry == null) ? 0 : isoCountry.hashCode());
+    result = prime * result + ((partnerDto == null) ? 0 : partnerDto.hashCode());
+    result = prime * result + (paymentDate1 ? 1231 : 1237);
+    result = prime * result + (paymentDate2 ? 1231 : 1237);
+    result = prime * result + preferenceOrder;
+    result = prime * result + ((programDto == null) ? 0 : programDto.hashCode());
+    result = prime * result + quadrimester;
+    result = prime * result + (returnDocSentHighschool ? 1231 : 1237);
+    result = prime * result + (returnErasmusLanguageTest ? 1231 : 1237);
+    result = prime * result + (returnFinalReport ? 1231 : 1237);
+    result = prime * result + (returnInternshipCert ? 1231 : 1237);
+    result = prime * result + (returnResidenceCert ? 1231 : 1237);
+    result = prime * result + (returnTranscript ? 1231 : 1237);
+    result = prime * result + (softwareMobi ? 1231 : 1237);
+    result = prime * result + (softwareMobilityTools ? 1231 : 1237);
+    result = prime * result + (softwareProeco ? 1231 : 1237);
+    result = prime * result + ((status == null) ? 0 : status.hashCode());
+    result = prime * result + ((studentDto == null) ? 0 : studentDto.hashCode());
+    result = prime * result + ((type == null) ? 0 : type.hashCode());
+    result = prime * result + verNr;
+    return result;
+  }
+
+  /*
+   * (non-Javadoc)
+   * 
+   * @see java.lang.Object#equals(java.lang.Object)
+   */
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj)
+      return true;
+    if (obj == null)
+      return false;
+    if (getClass() != obj.getClass())
+      return false;
+    MobilityImpl other = (MobilityImpl) obj;
+    if (academicYear == null) {
+      if (other.academicYear != null)
+        return false;
+    } else if (!academicYear.equals(other.academicYear))
+      return false;
+    if (Double.doubleToLongBits(amount) != Double.doubleToLongBits(other.amount))
+      return false;
+    if (cancelationDto == null) {
+      if (other.cancelationDto != null)
+        return false;
+    } else if (!cancelationDto.equals(other.cancelationDto))
+      return false;
+    if (cancelationReason != other.cancelationReason)
+      return false;
+    if (canceled != other.canceled)
+      return false;
+    if (countryDto == null) {
+      if (other.countryDto != null)
+        return false;
+    } else if (!countryDto.equals(other.countryDto))
+      return false;
+    if (departDocSentHighschool != other.departDocSentHighschool)
+      return false;
+    if (departmentDto == null) {
+      if (other.departmentDto != null)
+        return false;
+    } else if (!departmentDto.equals(other.departmentDto))
+      return false;
+    if (departureConventionInternshipSchoolarship != other.departureConventionInternshipSchoolarship)
+      return false;
+    if (departureDocAggreement != other.departureDocAggreement)
+      return false;
+    if (departureErasmusLanguageTest != other.departureErasmusLanguageTest)
+      return false;
+    if (departureGrantContract != other.departureGrantContract)
+      return false;
+    if (departureStudentConvention != other.departureStudentConvention)
+      return false;
+    if (id != other.id)
+      return false;
+    if (idDepartment == null) {
+      if (other.idDepartment != null)
+        return false;
+    } else if (!idDepartment.equals(other.idDepartment))
+      return false;
+    if (idPartner != other.idPartner)
+      return false;
+    if (idProgram != other.idProgram)
+      return false;
+    if (idStudent != other.idStudent)
+      return false;
+    if (isoCountry == null) {
+      if (other.isoCountry != null)
+        return false;
+    } else if (!isoCountry.equals(other.isoCountry))
+      return false;
+    if (partnerDto == null) {
+      if (other.partnerDto != null)
+        return false;
+    } else if (!partnerDto.equals(other.partnerDto))
+      return false;
+    if (paymentDate1 != other.paymentDate1)
+      return false;
+    if (paymentDate2 != other.paymentDate2)
+      return false;
+    if (preferenceOrder != other.preferenceOrder)
+      return false;
+    if (programDto == null) {
+      if (other.programDto != null)
+        return false;
+    } else if (!programDto.equals(other.programDto))
+      return false;
+    if (quadrimester != other.quadrimester)
+      return false;
+    if (returnDocSentHighschool != other.returnDocSentHighschool)
+      return false;
+    if (returnErasmusLanguageTest != other.returnErasmusLanguageTest)
+      return false;
+    if (returnFinalReport != other.returnFinalReport)
+      return false;
+    if (returnInternshipCert != other.returnInternshipCert)
+      return false;
+    if (returnResidenceCert != other.returnResidenceCert)
+      return false;
+    if (returnTranscript != other.returnTranscript)
+      return false;
+    if (softwareMobi != other.softwareMobi)
+      return false;
+    if (softwareMobilityTools != other.softwareMobilityTools)
+      return false;
+    if (softwareProeco != other.softwareProeco)
+      return false;
+    if (status == null) {
+      if (other.status != null)
+        return false;
+    } else if (!status.equals(other.status))
+      return false;
+    if (studentDto == null) {
+      if (other.studentDto != null)
+        return false;
+    } else if (!studentDto.equals(other.studentDto))
+      return false;
+    if (type == null) {
+      if (other.type != null)
+        return false;
+    } else if (!type.equals(other.type))
+      return false;
+    if (verNr != other.verNr)
+      return false;
+    return true;
   }
 
 

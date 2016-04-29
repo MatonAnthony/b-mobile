@@ -5,6 +5,8 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import bizz.enumeration.MobilityState;
+import bizz.interfaces.BizzFactory;
+import dto.MobilityDto;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -16,6 +18,7 @@ import org.junit.Test;
 public class MobilityImplTest {
 
   private MobilityImpl puppet;
+  private BizzFactory bizz;
 
   @Before
   public void setUp() throws Exception {
@@ -51,9 +54,13 @@ public class MobilityImplTest {
     puppet.setReturnErasmusLanguageTest(false);
     puppet.setReturnDocSentHighschool(false);
     puppet.setCancelationReason(0);
+    puppet.setAmount(100);
+    puppet.setPaymentDate1(false);
+    puppet.setPaymentDate2(false);
     puppet.setCancelationDto(null); // TODO : Use Mock
     puppet.setAcademicYear("2016-2017");
     puppet.setVerNr(0);
+    bizz = new BizzFactoryImpl();
   }
 
   @Test
@@ -433,6 +440,57 @@ public class MobilityImplTest {
   }
 
   @Test
+  public void testGetPaymentDate1() {
+    assertFalse(puppet.getPaymentDate1());
+  }
+
+  @Test
+  public void testGetPaymentDate2() {
+    assertFalse(puppet.getPaymentDate2());
+  }
+
+  @Test
+  public void testSetPaymentDate1() {
+    puppet.setPaymentDate1(true);
+    assertTrue(puppet.getPaymentDate1());
+  }
+
+  @Test
+  public void testSetPaymentDate2() {
+    puppet.setPaymentDate2(true);
+    assertTrue(puppet.getPaymentDate2());
+  }
+
+  @Test
+  public void testGetAmount() {
+    assertEquals(100, puppet.getAmount(), 0);
+  }
+
+  @Test
+  public void testSetAmount() {
+    puppet.setAmount(200);
+    assertEquals(200, puppet.getAmount(), 0);
+  }
+
+  @Test
+  public void testEquals() throws CloneNotSupportedException {
+    MobilityDto puppet2 = (MobilityDto) puppet.clone();
+    assertTrue(puppet.equals(puppet2));
+  }
+
+  @Test
+  public void testHashCode() throws CloneNotSupportedException {
+    MobilityDto puppet2 = (MobilityDto) puppet.clone();
+    assertEquals(puppet.hashCode(), puppet2.hashCode());
+  }
+
+  @Test
+  public void testEquals2() throws CloneNotSupportedException {
+    MobilityDto puppet2 = bizz.getMobilityDto();
+    assertFalse(puppet.equals(puppet2));
+  }
+
+  @Test
   public void testGetDepartmentDto() throws Exception {
     // TODO With Mock
   }
@@ -452,13 +510,4 @@ public class MobilityImplTest {
     // TODO With Mock
   }
 
-  @Test
-  public void testHashCode() throws Exception {
-    // TODO With junit-addons (si autorise)
-  }
-
-  @Test
-  public void testEquals() throws Exception {
-    // TODO With junit-addons (si autorise)
-  }
 }
