@@ -1,5 +1,6 @@
 package bizz.implementations;
 
+import bizz.enumeration.Permissions;
 import bizz.interfaces.BizzFactory;
 import bizz.interfaces.CancelationBizz;
 import dal.DalServicesImpl;
@@ -41,11 +42,11 @@ public class CancelationImpl implements CancelationBizz, Cloneable {
   }
 
   public void setResponsible(String responsible) {
-    UserDao userDao = new UserDaoImpl(new DalServicesImpl(), new BizzFactoryImpl());
+    System.out.println(responsible);
     if(responsible == null){
       this.responsible = null;
-    } else if (!userDao.userExists(responsible)){
-      throw new IllegalArgumentException("Cet utilisateur n'existe pas !");
+    } else if(!responsible.equals("TEACHER") && !responsible.equals("STUDENT")) {
+      throw new IllegalArgumentException("Responsable incorrect, arrêter de jouer avec l'ajax !");
     }
     this.responsible = responsible;
   }

@@ -17,7 +17,7 @@ public class CancelationImplTest {
     cancelation = (CancelationImpl) (new BizzFactoryImpl()).getCancelationDto();
     cancelation.setId(1);
     cancelation.setReason("reason");
-    cancelation.setResponsible("responsible");
+    cancelation.setResponsible("STUDENT");
     cancelation.setVerNr(1);
   }
 
@@ -50,8 +50,8 @@ public class CancelationImplTest {
 
   @Test
   public void testSetResponsible() throws Exception {
-    cancelation.setResponsible("no one");
-    assertEquals(cancelation.getResponsible(), "no one");
+    cancelation.setResponsible("TEACHER");
+    assertEquals(cancelation.getResponsible(), "TEACHER");
   }
 
   @Test

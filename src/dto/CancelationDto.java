@@ -42,7 +42,7 @@ public interface CancelationDto {
   public String getResponsible();
 
   /**
-   * Sets responsible.
+   * Sets responsible weither a STUDENT or a TEACHER.
    *
    * @param responsible the responsible
    */
