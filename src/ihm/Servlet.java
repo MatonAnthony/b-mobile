@@ -222,6 +222,9 @@ public class Servlet extends HttpServlet {
         case "updatePartner":
           updatePartner(req, resp);
           break;
+        case "checkPermission":
+          checkPermission(req, resp);
+          break;
         default:
           resp.setStatus(HttpStatus.BAD_REQUEST_400);
       }
@@ -230,8 +233,6 @@ public class Servlet extends HttpServlet {
     }
 
   }
-
-
 
   private void updateMobilityDetail(HttpServletRequest req, HttpServletResponse resp)
       throws NotEnoughPermissionsException, BadMobilityStatusException, OptimisticLockException {
@@ -549,7 +550,11 @@ public class Servlet extends HttpServlet {
 
     MobilityDto mobilityDto = bizzFactory.getMobilityDto();
     mobilityDto.setId(Integer.parseInt("" + req.getParameter("idMobility")));
-    mobilityDto.setIdPartner(Integer.parseInt("" + req.getParameter("idPartner")));
+    if (req.getParameter("idPartner") == null){
+      throw new NotEnoughPermissionsException ("Veuillez choisir un partenaire");
+    } else {
+      mobilityDto.setIdPartner(Integer.parseInt("" + req.getParameter("idPartner")));
+    }
     mobilityDto.setStatus("Créée");
 
     mobilityUcc.confirmPartner(mobilityDto);
@@ -995,6 +1000,21 @@ public class Servlet extends HttpServlet {
     }
     resp.getWriter().println(basicGenson.serialize(map));
     return resp;
+  }
+
+  private void checkPermission(HttpServletRequest req, HttpServletResponse resp)
+      throws NotEnoughPermissionsException, IOException, SQLException {
+
+    if (!(req.getSession().getAttribute(KEY_PERMISSIONS).equals("STUDENT") ||
+        req.getSession().getAttribute(KEY_PERMISSIONS).equals("TEACHER"))) {
+      throw new NotEnoughPermissionsException(
+          "Vous n'avez pas les droits nécessaires pour faire cela");
+    }
+    String permission = (String) req.getSession().getAttribute(KEY_PERMISSIONS);
+    String jsonPartner = basicGenson.serialize(permission);
+    resp.getWriter().println(jsonPartner);
+    resp.setStatus(HttpStatus.ACCEPTED_202);
+
   }
 
 }

@@ -7,8 +7,8 @@
 	</div>
 	</br>
 	<div class="col-md-5 col-md-offset-1">
-		<input id="detailMobiliteIdMobilite" type="hidden"></input>
-		<input id="detailMobiliteNrVersion" type="hidden"></input>
+		<input id="detailMobiliteIdMobilite" type="hidden">
+		<input id="detailMobiliteNrVersion" type="hidden">
 		<p id="detailMobiliteIntitule"></p>
 		<a><p id="detailMobilitePartenaire"></p></a>
 		Etat : <var id="detailMobiliteEtat"></var>
@@ -16,137 +16,135 @@
 	</div>
 	<div class="container">
 		<div class="col-md-3">
-			
-				<div class="form-group">
-					<input type="checkBox" id="envoiPaiement1"/> <label for="envoiPaiement1" class="control-label">Demande de paiement n°1 </label></br>
-					<input type="checkBox" id="envoiPaiement2"/> <label for="envoiPaiement2" class="control-label">Demande de paiement n°2 </label></br>
-					<label>Données encodées sur : </label></br>
-					<input class="col-md-1" type="checkBox" id="encodageProEco"> Pro Eco</input></br>
-					<input class="col-md-1" type="checkBox" id="encodageMobilityTool"/> MobilityTool</input></br>
-					<input class="col-md-1" type="checkBox" id="encodageMobi"/> Mobi</input>
-				</div>
+			<div class="form-group">
+				<input type="checkBox" id="envoiPaiement1"/> <label for="envoiPaiement1" class="control-label">Demande de paiement n°1 </label></br>
+				<input type="checkBox" id="envoiPaiement2"/> <label for="envoiPaiement2" class="control-label">Demande de paiement n°2 </label></br>
+				<label>Données encodées sur : </label></br>
+				<input class="col-md-1" type="checkBox" id="encodageProEco"> Pro Eco</input></br>
+				<input class="col-md-1" type="checkBox" id="encodageMobilityTool"/> MobilityTool</input></br>
+				<input class="col-md-1" type="checkBox" id="encodageMobi"/> Mobi</input>
+			</div>
 		</div>
 
 		<div class="col-md-2">
 				<div class="form-group">
 					<label for="detailMobiliteMontant" class="control-label">Montant : </label><input min="0" step="0.01" type="number" id="detailMobiliteMontant"/> </br>
-					
+				</div>
+		</div>
+		<div class="col-md-6 col-md-offset-1">
+			<h4>Informations de l'étudiant : </h4>
+			<p>
+				Nom : <var id="detailMobiliteNom"></var></br>
+				Prenom : <var id="detailMobilitePrenom"></var></br>
+				Sexe : <var id="detailMobiliteSexe"></var></br>
+				</br>
+				Date de naissance: <var id="detailMobiliteDateNaissance"></var></br>
+				Nationalité : <var id="detailMobiliteNationalite"></var></br>
+				Adresse : <var id="detailMobiliteAdresse"></var></br>
+				Tel : <var id="detailMobiliteTel"></var></br>
+				</br>
+				Département : <var id="detailMobiliteDepartement"></var></br>
+				E-mail : <var id="detailMobiliteMail"></var></br>
+			</p>
+		</div>
+
+		<div class="col-md-5">
+			</br>
+			<button class="btn btn-danger btnCancel" id="detailMobiliteCancel" data-toggle="modal" data-target="#modalCancelMobility">Annuler la demande</button>
+			<button id="detailMobiliteModify" class="btn btn-success">Modifier la demande</button>
+		</div>
+
+		<div class="modal fade" id="detailMobiliteDocumentsModal" tabindex="-1" role="dialog" aria-labelledby="DocumentsModal">
+			<div class="modal-dialog modal-lg" role="document">
+				<div class="modal-content">
+			  		<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title" id="myModalLabel">Documents de la mobilité</h4>
+			  		</div>
+			  		<div class="modal-body">
+						<!--Placer le contenu du modal ici-->
+						<div class="col-md-6">
+							<h4>Avant le départ</h4>
+							<table class="table">
+								<thead>
+									<tr>
+										<th>Document</th>
+										<th></th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>Contrat de bourse</td>
+										<td><input type="checkBox" id="detailMobiliteContratBourse"></td>
+									</tr>
+									<tr>
+										<td>Convention de stage/d'études</td>
+										<td><input type="checkBox" id="detailMobiliteConventionStage"></td>
+									</tr>
+									<tr>
+										<td>Charte de l'étudiant</td>
+										<td><input type="checkBox" id="detailMobiliteCharteEtudiant"></td>
+									</tr>
+									<tr>
+										<td>Document d'engagement</td>
+										<td><input type="checkBox" id="detailMobiliteEngagement"></td>
+									</tr>
+									<tr>
+										<td>Preuve du passage des tests linguistiques</td>
+										<td><input type="checkBox" id="detailMobiliteTestLangueDepart"></td>
+									</tr>
+									<tr>
+										<td>Document haute école envoyé</td>
+										<td><input type="checkBox" id="detailMobiliteDocumentHauteEcoleDepart"></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<div class="col-md-6">
+							<h4>Au retour</h4>
+							<table class="table">
+								<thead>
+									<tr>
+										<th>Document</th>
+										<th></th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>Attestation de séjour</td>
+										<td><input type="checkBox" id="detailMobiliteAttestationSejour"></td>
+									</tr>
+									<tr>
+										<td>Relevé de notes</td>
+										<td><input type="checkBox" id="detailMobiliteReleveNote"></td>
+									</tr>
+									<tr>
+										<td>Certificat de stage</td>
+										<td><input type="checkBox" id="detailMobiliteCertificatStage"></td>
+									</tr>
+									<tr>
+										<td>Rapport final</td>
+										<td><input type="checkBox" id="detailMobiliteRapportFinal"></td>
+									</tr>
+									<tr>
+										<td>Preuve du passage des tests linguistiques</td>
+										<td><input type="checkBox" id="detailMobiliteTestLangueRetour"></td>
+									</tr>
+									<tr>
+										<td>Document haute école envoyé</td>
+										<td><input type="checkBox" id="detailMobiliteDocumentHauteEcoleRetour"></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-success" data-dismiss="modal">Valider</button>
+			  		</div>
+				</div>
+			</div>
 		</div>
 	</div>
-	<div class="col-md-6 col-md-offset-1">
-	<h4>Informations de l'étudiant : </h2>
-	<p>
-		Nom : <var id="detailMobiliteNom"></var></br>
-		Prenom : <var id="detailMobilitePrenom"></var></br>
-		Sexe : <var id="detailMobiliteSexe"></var></br>
-		</br>
-		Date de naissance: <var id="detailMobiliteDateNaissance"></var></br>
-		Nationalité : <var id="detailMobiliteNationalite"></var></br>
-		Adresse : <var id="detailMobiliteAdresse"></var></br>
-		Tel : <var id="detailMobiliteTel"></var></br>
-		</br>
-		Département : <var id="detailMobiliteDepartement"></var></br>
-		E-mail : <var id="detailMobiliteMail"></var></br>
-	</p>
-	</div>
-
-	<div class="col-md-5">
-		</br>
-		<button class="btn btn-danger btnCancel" id="detailMobiliteCancel" data-toggle="modal" data-target="#modalCancelMobility">Annuler la demande</button>
-		<button id="detailMobiliteModify" class="btn btn-success">Modifier la demande</button>
-	</div>
-
-	<div class="modal fade" id="detailMobiliteDocumentsModal" tabindex="-1" role="dialog" aria-labelledby="DocumentsModal">
-	  <div class="modal-dialog modal-lg" role="document">
-	    <div class="modal-content">
-	      <div class="modal-header">
-	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-	        <h4 class="modal-title" id="myModalLabel">Documents de la mobilité</h4>
-	      </div>
-	      <div class="modal-body">
-	        <!--Placer le contenu du modal ici-->
-	        <div class="col-md-6">
-	        	<h4>Avant le départ</h4>
-	        	<table class="table">
-	        		<thead>
-	        			<tr>
-	        				<th>Document</th>
-	        				<th></th>
-	        			</tr>
-	        		</thead>
-	        		<tbody>
-	        			<tr>
-	        				<td>Contrat de bourse</td>
-	        				<td><input type="checkBox" id="detailMobiliteContratBourse"></input></td>
-	        			</tr>
-	        			<tr>
-	        				<td>Convention de stage/d'études</td>
-	        				<td><input type="checkBox" id="detailMobiliteConventionStage"></input></td>
-	        			</tr>
-	        			<tr>
-	        				<td>Charte de l'étudiant</td>
-	        				<td><input type="checkBox" id="detailMobiliteCharteEtudiant"></input></td>
-	        			</tr>
-	        			<tr>
-	        				<td>Document d'engagement</td>
-	        				<td><input type="checkBox" id="detailMobiliteEngagement"></input></td>
-	        			</tr>
-	        			<tr>
-	        				<td>Preuve du passage des tests linguistiques</td>
-	        				<td><input type="checkBox" id="detailMobiliteTestLangueDepart"></input></td>
-	        			</tr>
-	        			<tr>
-	        				<td>Document haute école envoyé</td>
-	        				<td><input type="checkBox" id="detailMobiliteDocumentHauteEcoleDepart"></input></td>
-	        			</tr>
-	        		</tbody>
-	        	</table>
-	      </div>
-	      <div class="col-md-6">
-	        	<h4>Au retour</h4>
-	        	<table class="table">
-	        		<thead>
-	        			<tr>
-	        				<th>Document</th>
-	        				<th></th>
-	        			</tr>
-	        		</thead>
-	        		<tbody>
-	        			<tr>
-	        				<td>Attestation de séjour</td>
-	        				<td><input type="checkBox" id="detailMobiliteAttestationSejour"></input></td>
-	        			</tr>
-	        			<tr>
-	        				<td>Relevé de notes</td>
-	        				<td><input type="checkBox" id="detailMobiliteReleveNote"></input></td>
-	        			</tr>
-	        			<tr>
-	        				<td>Certificat de stage</td>
-	        				<td><input type="checkBox" id="detailMobiliteCertificatStage"></input></td>
-	        			</tr>
-	        			<tr>
-	        				<td>Rapport final</td>
-	        				<td><input type="checkBox" id="detailMobiliteRapportFinal"></input></td>
-	        			</tr>
-	        			<tr>
-	        				<td>Preuve du passage des tests linguistiques</td>
-	        				<td><input type="checkBox" id="detailMobiliteTestLangueRetour"></input></td>
-	        			</tr>
-	        			<tr>
-	        				<td>Document haute école envoyé</td>
-	        				<td><input type="checkBox" id="detailMobiliteDocumentHauteEcoleRetour"></input></td>
-	        			</tr>
-	        		</tbody>
-	        	</table>
-	      </div>
-	      <div class="modal-footer">
-	        <button type="button" class="btn btn-default" data-dismiss="modal">Valider</button>
-	      </div>
-	    </div>
-	  </div>
-	</div>
-</div>
-
 	<div class="hidden">
 		<table id="document_csv_table">
 			<thead>

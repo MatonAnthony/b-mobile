@@ -142,11 +142,14 @@ public class PartnerDaoImpl implements PartnerDao {
   public ArrayList<PartnerDto> getPartnersMin(int userId, String permission) {
 
     // language=PostgreSQL
-    String query = "SELECT p.id, p.legal_name, p.exists FROM bmobile.partners p "
-        + "LEFT JOIN bmobile.mobilities m ON p.id = m.id_partner " + "WHERE m.id_partner IS NULL";
+    String query = "SELECT DISTINCT p.id, p.legal_name, p.exists, p.country FROM bmobile.partners p "
+        + "LEFT JOIN bmobile.mobilities m ON p.id = m.id_partner WHERE ";
 
     if (permission.equals("STUDENT")) {
-      query += " AND p.id_user = ? AND p.exists = ?";
+      query += " m.id_partner IS NULL AND p.id_user = ? AND p.exists = ?";
+    }
+    if (permission.equals("TEACHER")) {
+      query += " m.status = 'En attente' OR  m.id_partner IS NULL";
     }
 
     PreparedStatement preparedStatement = null;
@@ -166,6 +169,7 @@ public class PartnerDaoImpl implements PartnerDao {
         partnerDto.setId(resultSet.getInt(1));
         partnerDto.setLegalName(resultSet.getString(2));
         partnerDto.setExists(resultSet.getBoolean(3));
+        partnerDto.setCountry(resultSet.getString(4));
         partners.add(partnerDto);
       }
     } catch (SQLException exc) {

@@ -11,9 +11,13 @@ $(function () {
              if(null != history.state){
             	changePage();
             }else if(resp['permissions'] === "STUDENT"){
-                authStudent();
+                 $('#permissionHideFilds').val('');
+                 $('#permissionHideFilds').val('STUDENT');
+                 authStudent();
             }else{
-                authTeacher();
+                 $('#permissionHideFilds').val('');
+                 $('#permissionHideFilds').val('TEACHER');
+                 authTeacher();
             }
 
             console.log("Authentification OK");
@@ -232,6 +236,7 @@ $(function () {
 
     //Disconnect
     function disconnect() {
+        $('#permissionHideFilds').val('');
         $.ajax({
             url: "/home",
             type: 'POST',
@@ -667,6 +672,7 @@ $(function () {
 
     //Chargement des pages.
     function authStudent() {
+        checkPermission();
         $(".page").css("display", "none");
         $("#navBarStudent").css("display", "block");
         $("#studentHomePage").css("display", "block");
@@ -725,6 +731,7 @@ $(function () {
     }
 
     function authTeacher() {
+        checkPermission();
         $(".page").css("display", "none");
         $("#navBarTeacher").css("display", "block");
         $("#teacherHomePage").css("display", "block");
@@ -904,7 +911,7 @@ $(function () {
                 }catch(err){
                     console.log("La date de naissance est nulle");
                 }
-                console.log(resp);
+                //console.log(resp);
                 $("input[name='name']").val(resp['name']);
                 $("input[name='firstname']").val(resp['firstname']);
                 $("input[name='gender']").val(resp['gender']);
@@ -1267,6 +1274,7 @@ $(function () {
 						$("#myMobility").after("<p id=\"empty\" class=\"text-center\"><strong> Vous n'avez aucune mobilité actuellement. </strong></p>");
 					}else{
 						resp = JSON.parse(resp);
+                        //console.log(resp)
                         for (key in resp) {
 							$("#myMobility tbody").append(
 								"<tr>" +
@@ -1277,7 +1285,7 @@ $(function () {
 								"<td>" + resp[key]['quadrimester'] + "</td>" +
 								"<td>" + resp[key]['status'] + "</td>"+
 								"<td value='"+ resp[key]['id'] +"'></td>"+
-								"<td value='"+ resp[key]['partnerDto'] +"' id='"+ resp[key]['id'] +"'></td>"+
+								"<td value='"+ resp[key]['partnerDto']['id'] +"' id='"+ resp[key]['id'] +"'></td>"+
 								+ "</tr>");
 
 						}	
@@ -1287,7 +1295,8 @@ $(function () {
 							} else {
 								$(this).parent().addClass("danger");
 							}
-							if ($(this).html() === "En attente"&& $(this).parent().attr("value") === undefined) {
+							if ($(this).html() === "En attente" && $(this).next().next().attr("value") == 0) {
+
 								$(this).next().next().append("<button type=\"button\" class=\"btn btn-sm btn-success btnConfirm\" data-toggle=\"modal\" data-target=\"#modalConfirmMobility\">Confirmer</button>");
 							}
 						});
@@ -1304,12 +1313,12 @@ $(function () {
 		
 	}
 
-    $("#myMobility").on("click", ".btnCancelStudent", function (evt) {
+    $("#myMobility").off("click.btnCancelStudent").on("click.btnCancelStudent", ".btnCancelStudent", function (evt) {
         var id = $(evt.currentTarget).parent().attr("value");
         loadCancelMobility(id);
 
     });
-    $("#myMobility").on("click", ".btnConfirm", function (evt) {
+    $("#myMobility").off("click.btnConfirm").on("click.btnConfirm", ".btnConfirm", function (evt) {
         var id = $(evt.currentTarget).parent().attr("id");
         loadConfirmMobility(id);
     });
@@ -1361,7 +1370,7 @@ $(function () {
                 },
                 success: function (resp) {
                 	resp = JSON.parse(resp);
-					console.log(resp);
+					//console.log(resp);
 					$("#destinationP").html(resp['programDto']['name'] + " " + resp['type'] +
 											" (" + resp['countryDto']['nameFr'] + ") durant le " +
 											resp['quadrimester'] + "e quadrimestre.");
@@ -1445,7 +1454,8 @@ $(function () {
                 },
                 success: function (resp) {
                     resp = JSON.parse(resp);
-                    //console.log(resp);
+
+                    checkPermission();
                     $(".confirmMobilityPartnerDetail").empty();
                     if (jQuery.isEmptyObject(resp['partners'])){
                         $("#confirmMobility ").hide();
@@ -1454,13 +1464,24 @@ $(function () {
 
                     }else {
                         $(".confirmMobilityPartnerDetail").append("<select>");
+                        var cmp = 0;
                         for (key in resp['partners']) {
-                            $("#confirmMobilityPartner select").append(
-                                "<option class=\"confirmClass\"id=" + resp['partners'][key]['id'] + ">" +
-                                resp['partners'][key]['legalName'] + "</option>"
-                            );
+                            if (resp['mobility']['countryDto']['iso'] === resp['partners'][key]['country']) {
+                                $("#confirmMobility ").show();
+                                $("#confirmMobilityPartner select").append(
+                                    "<option class=\"confirmClass\"id=" + resp['partners'][key]['id'] + ">" +
+                                    resp['partners'][key]['legalName'] + "</option>"
+                                );
+                                cmp++;
+                            }
+
                         }
                         $(".confirmMobilityPartnerDetail").append("</select>");
+                        if (cmp == 0) {
+                            $("#confirmMobility ").hide();
+                            $(".confirmMobilityPartnerDetail").empty();
+                            $(".confirmMobilityPartnerDetail").append("<h5>PAS DE PARTENAIRE DISPONIBLE</h5>");
+                        }
                     }
 
                     $('#confirmMbolityInfo').empty();
@@ -1485,7 +1506,7 @@ $(function () {
 
         });
 
-        $("#modalConfirmMobility").on("click.confirmMobility", "#confirmMobility", function () {
+        $("#modalConfirmMobility").off('click.confirmMobility').on("click.confirmMobility", "#confirmMobility", function () {
 
             var idMobility = id;
             var idPartner = $('#confirmMobilityPartner option:selected').attr('id');
@@ -1500,7 +1521,11 @@ $(function () {
                     },
                     success: function (resp) {
                         $("#modalConfirmMobility").modal("hide");
-                        authStudent();
+                        if ($('#permissionHideFilds').val() === 'STUDENT'){
+                            authStudent();
+                        }else if ($('#permissionHideFilds').val() === 'TEACHER'){
+                            loadList();
+                        }
                         printToaster("success", "Le partenaire à bien été confirmé");
 
                     },
@@ -1515,8 +1540,15 @@ $(function () {
         });
         $("#confirmMobilityAddPartnerBtn").on("click", function(){
             $("#modalConfirmMobility").modal("hide");
-            loadAddPartnerTeacher();
-        });
+            checkPermission();
+
+            if ($('#permissionHideFilds').val() === "TEACHER"){
+                loadAddPartnerTeacher()
+            } else if ($('#permissionHideFilds').val() === "STUDENT"){
+                loadAddPartner();
+            }
+
+    });
     }
 
 
@@ -1534,7 +1566,7 @@ $(function () {
                 },
                 success: function (resp) {
                     resp = JSON.parse(resp);
-                    console.log(resp);
+
                     $('#legalName').html(resp['legalName']);
                     $('#BusinesName').html(resp['business']);
                     $('#FullName').html(resp['fullName']);
@@ -1641,7 +1673,7 @@ $(function () {
             },
             success: function (resp) {
             	resp = JSON.parse(resp);
-                console.log(resp);
+                //console.log(resp);
             	var city;
             	if(resp['partnerDto']['city'] === null){
             		city = "Non enregistré";
@@ -2009,6 +2041,35 @@ $(function () {
 		}
 
 	}
+
+    function checkPermission(){
+
+        $.ajax({
+            method: "POST",
+            url: "/home",
+            data: {
+                action: "checkPermission"
+            },
+            success: function (resp) {
+                resp = JSON.parse(resp);
+
+                if (resp === 'TEACHER'){
+                    $('#permissionHideFilds').val('');
+                    $('#permissionHideFilds').val('TEACHER');
+                }else if (resp === 'STUDENT') {
+                    $('#permissionHideFilds').val('');
+                    $('#permissionHideFilds').val('STUDENT');
+                }
+            },
+            error: function (error) {
+                error = JSON.parse(error.responseText);
+                printToaster(error.type, error.message);
+            }
+        });
+
+
+
+    }
 
 	// Export to CSV
 	$("#CSV").click(function(){
