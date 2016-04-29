@@ -1327,7 +1327,8 @@ $(function () {
 	function loadCancelMobility(id){
 		$("#textReason").val("");
 		var teacher=false;
-		if($("#navBarTeacher").css("display") === "block"){
+		
+         if ($('#permissionHideFilds').val() === "TEACHER"){
 			teacher=true;
 			$(function (){
 				$.ajax({
@@ -1354,7 +1355,7 @@ $(function () {
 				});
 			});
 			$("#onlyTeacherReasons").css("display","block");
-		}else{
+		} else if ($('#permissionHideFilds').val() === "STUDENT"){
 			$("#onlyTeacherReasons").css("display","none");
 		}
 		
