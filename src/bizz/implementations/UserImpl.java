@@ -13,7 +13,7 @@ import java.util.regex.Pattern;
 public class UserImpl implements UserBizz, Cloneable {
 
   private int id;
-  private int idDepartment;
+  private String idDepartment;
   private DepartmentDto departmentDto;
   private String pseudo;
   private String password;
@@ -40,11 +40,11 @@ public class UserImpl implements UserBizz, Cloneable {
   private String bankName;
   private int verNr;
 
-  public int getIdDepartment() {
+  public String getIdDepartment() {
     return idDepartment;
   }
 
-  public void setIdDepartment(int idDepartment) {
+  public void setIdDepartment(String idDepartment) {
     this.idDepartment = idDepartment;
   }
 

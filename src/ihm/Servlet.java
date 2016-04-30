@@ -457,10 +457,10 @@ public class Servlet extends HttpServlet {
   private void selectDepartments(HttpServletRequest req, HttpServletResponse resp)
       throws IOException, SQLException, NoDepartmentException, NotEnoughPermissionsException {
 
-    if (req.getSession().getAttribute(KEY_PERMISSIONS) == null) {
+    /*if (req.getSession().getAttribute(KEY_PERMISSIONS) == null) {
       throw new NotEnoughPermissionsException(
           "Vous n'avez pas les droits nécessaires pour faire cela");
-    }
+    }*/
 
     ArrayList<DepartmentDto> departments = null;
     departments = departmentUcc.getAllDepartments();
@@ -638,7 +638,8 @@ public class Servlet extends HttpServlet {
   }
 
   private void register(HttpServletRequest req, HttpServletResponse resp) throws IOException,
-      AuthenticationException, UserAlreadyExistsException, NotEnoughPermissionsException {
+      AuthenticationException, UserAlreadyExistsException, NotEnoughPermissionsException,
+      SQLException, NoDepartmentException {
 
     if (req.getSession().getAttribute(KEY_PERMISSIONS) != null) {
       throw new NotEnoughPermissionsException(
@@ -652,6 +653,7 @@ public class Servlet extends HttpServlet {
     userdto.setName(req.getParameter("name"));
     userdto.setFirstname(req.getParameter("firstname"));
     userdto.setEmail(req.getParameter("email"));
+    userdto.setDepartmentDto(departmentUcc.getDepartmentByLabel(req.getParameter("department")));
 
     UserDto userDtoRecept = null;
     userDtoRecept = userUcc.register(userdto);

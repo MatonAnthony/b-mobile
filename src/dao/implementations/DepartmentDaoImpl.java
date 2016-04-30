@@ -30,7 +30,7 @@ public class DepartmentDaoImpl implements DepartmentDao {
 
   @Override
   public ArrayList<DepartmentDto> getAllDepartments() {
-    String query = "SELECT id, label, ver_nr FROM bmobile.departments";
+    String query = "SELECT id, label, ver_nr FROM bmobile.departments ORDER BY label";
     PreparedStatement preparedStatement = null;
 
     try {

@@ -36,18 +36,19 @@ public class UserDaoImpl implements UserDao {
   @Override
   public void createUser(UserDto userdto) {
     // TODO(fany) values en fonction de la db
-    String query = "INSERT INTO bmobile.users VALUES (DEFAULT,NULL,?,?,?,?,?,?,?,NULL,NULL,NULL"
+    String query = "INSERT INTO bmobile.users VALUES (DEFAULT,?,?,?,?,?,?,?,?,NULL,NULL,NULL"
         + ",NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0)";
     PreparedStatement preparedStatement = null;
     try {
       preparedStatement = dalBackendServices.prepare(query);
-      preparedStatement.setString(1, userdto.getPseudo());
-      preparedStatement.setString(2, userdto.getPassword());
-      preparedStatement.setString(3, userdto.getName());
-      preparedStatement.setString(4, userdto.getFirstname());
-      preparedStatement.setString(5, userdto.getEmail());
-      preparedStatement.setTimestamp(6, Timestamp.valueOf(LocalDateTime.now()));
-      preparedStatement.setString(7, userdto.getPermissions());
+      preparedStatement.setString(1, userdto.getDepartmentDto().getId());
+      preparedStatement.setString(2, userdto.getPseudo());
+      preparedStatement.setString(3, userdto.getPassword());
+      preparedStatement.setString(4, userdto.getName());
+      preparedStatement.setString(5, userdto.getFirstname());
+      preparedStatement.setString(6, userdto.getEmail());
+      preparedStatement.setTimestamp(7, Timestamp.valueOf(LocalDateTime.now()));
+      preparedStatement.setString(8, userdto.getPermissions());
 
       dalBackendServices.executeUpdate(preparedStatement);
     } catch (SQLException exc) {
@@ -186,7 +187,7 @@ public class UserDaoImpl implements UserDao {
 
   private UserDto completeDto(UserDto user, ResultSet resultSet) throws SQLException {
     user.setId(resultSet.getInt(1));
-    user.setIdDepartment(resultSet.getInt(2));
+    user.setIdDepartment(resultSet.getString(2));
     user.setPseudo(resultSet.getString(3));
     user.setPassword(resultSet.getString(4));
     user.setName(resultSet.getString(5));

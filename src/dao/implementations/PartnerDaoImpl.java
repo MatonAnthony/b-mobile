@@ -349,7 +349,7 @@ public class PartnerDaoImpl implements PartnerDao {
 
     UserDto user = factory.getUserDto();
     user.setId(resultSet.getInt(21));
-    user.setIdDepartment(resultSet.getInt(22));
+    user.setIdDepartment(resultSet.getString(22));
     user.setPseudo(resultSet.getString(23));
     user.setPassword(resultSet.getString(24));
     user.setName(resultSet.getString(25));

@@ -400,7 +400,7 @@ public class MobilityDaoImpl implements MobilityDao {
     MobilityDto mobilitydto = fillDto(resultSet);
     mobilitydto.setStudentDto(factory.getUserDto());
     mobilitydto.getStudentDto().setId(resultSet.getInt(33));
-    mobilitydto.getStudentDto().setIdDepartment(resultSet.getInt(34));
+    mobilitydto.getStudentDto().setIdDepartment(resultSet.getString(34));
     mobilitydto.getStudentDto().setPseudo(resultSet.getString(35));
     // mobilitydto.getStudentDto().setPassword(resultSet.getString(33));
     mobilitydto.getStudentDto().setName(resultSet.getString(36));

@@ -44,7 +44,7 @@ public class UserImplTest {
     puppet.setVerNr(1);
     puppet.setStreet("Avenue Baron d'Huart");
     puppet.setMailBox("100");
-    puppet.setIdDepartment(4);
+    puppet.setIdDepartment("BIN");
     puppet.setHouseNumber("1");
     puppet.setDepartmentDto(bizz.getDepartmentDto());
     puppet.setCountryDto(bizz.getCountryDto());
@@ -632,7 +632,7 @@ public class UserImplTest {
 
   @Test
   public void testSetIdDepartment() {
-    puppet.setIdDepartment(1);
+    puppet.setIdDepartment("BIN");
   }
 
   @Test

@@ -249,14 +249,14 @@ public interface UserDto {
    *
    * @return the id department
    */
-  int getIdDepartment();
+  String getIdDepartment();
 
   /**
    * Sets id department.
    *
    * @param idDepartment the id department
    */
-  void setIdDepartment(int idDepartment);
+  void setIdDepartment(String idDepartment);
 
   /**
    * Gets department dto.
