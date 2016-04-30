@@ -137,7 +137,8 @@ public class UserImpl implements UserBizz, Cloneable {
    */
   @Override
   public void setPseudo(String pseudo) {
-    if (pseudo == null || !Pattern.matches("[A-z0-9]*{6,}", pseudo)) {
+    // TODO Remettre le Pattern à 6
+    if (pseudo == null || !Pattern.matches("[A-z0-9]*{5,}", pseudo)) {
       throw new IllegalArgumentException("Le pseudo doit faire au moins 6 caractères et ne peut"
         + "contenir de caractères spéciaux !");
     }
