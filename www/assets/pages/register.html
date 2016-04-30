@@ -9,28 +9,33 @@
                         <fieldset>
                             <div class="form-group">
                                 <label>Nom d'utilisateur :</label>
-                                <input class="form-control" placeholder="Nom d'utilisateur" id="loginRegister" type="text" autofocus required>
+                                <!-- TODO Passer le pattern à 6 -->
+                                <input class="form-control" placeholder="Nom d'utilisateur"
+                                       id="loginRegister" type="text" autofocus required pattern="[A-z0-9]{5,}">
                             </div>
                             <div class="form-group">
                                 <label>Mot de passe :</label>
-                                <input class="form-control" placeholder="Mot de passe" id="passwordRegister" type="password" value="" required>
+                                <input class="form-control" placeholder="Mot de passe"
+                                       id="passwordRegister" type="password" value="" required pattern=".{6,}">
                             </div>
                             <div class="form-group">
                                 <label>Confirmer le mot de passe :</label>
-                                <input class="form-control" placeholder="Confirmer le mot de passe" id="confirmRegister" type="password" value="" required>
+                                <input class="form-control" placeholder="Confirmer le mot de passe"
+                                       id="confirmRegister" type="password" value="" required>
                             </div>
                             <br>
                             <div class="form-group">
                                 <label>Nom :</label>
-                                <input class="form-control" placeholder="Nom" id="nameRegister" type="text" required>
+                                <input class="form-control" placeholder="Nom" id="nameRegister" type="text" required pattern="[A-zÀ-ÿ- ]*">
                             </div>
                             <div class="form-group">
                                 <label>Prénom :</label>
-                                <input class="form-control" placeholder="Prénom" id="firstnameRegister" type="text" required>
+                                <input class="form-control" placeholder="Prénom" id="firstnameRegister" type="text" required pattern="[A-zÀ-ÿ- ]*">
                             </div>
                             <div class="form-group">
                                 <label>Adresse email :</label>
-                                <input class="form-control" placeholder="Email" id="emailRegister" type="email" required>
+                                <input class="form-control" placeholder="Email" id="emailRegister"
+                                       type="email" required>
                             </div>
                             <!-- Change this to a button or input when using this as a form -->
                             <button id="registerButton" class="btn btn-lg btn-info btn-block">

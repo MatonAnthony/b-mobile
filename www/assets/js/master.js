@@ -118,6 +118,48 @@ $(function () {
             }
         });
 
+        // Validation for "Register.html"
+        $("#loginRegister").change(function(){
+            var login = document.getElementById("loginRegister");
+            if(login.validity.patternMismatch) {
+                printToaster("info", "Le pseudo doit contenir au moins 6 caractères");
+            }
+        });
+
+        $("#passwordRegister").change(function(){
+            var password = document.getElementById("passwordRegister");
+            if(password.validity.patternMismatch) {
+                printToaster("info", "Le mot de passe doit contenir au moins 6 caractères");
+            }
+        });
+
+        $("#confirmRegister").change(function(){
+           if($("#confirmRigster").val() != $("#passwordRegister").val()) {
+               printToaster("warning", "Les deux mots de passes doivent être identiques");
+           }
+        });
+
+        $("#nameRegister").change(function(){
+            var name = document.getElementById("nameRegister");
+            if(name.validity.patternMismatch) {
+                printToaster("info", "Le nom ne peut pas contenir de ponctuation ou de chiffres");
+            }
+        });
+
+        $("#firstnameRegister").change(function(){
+            var firstname = document.getElementById("firstnameRegister");
+            if(firstname.validity.patternMismatch) {
+                printToaster("info", "Le prénom ne peut pas contenir de ponctuation ou de chiffres");
+            }
+        });
+
+        $("#emailRegister").change(function(){
+           var email = document.getElementById("emailRegister");
+            if(email.validity.typeMismatch) {
+                printToaster("info", "E-mail invalide");
+            }
+        });
+
     };
     
     window.onpopstate = function(event) {
