@@ -62,11 +62,10 @@ public interface MobilityUcController {
   /**
    * Return an ArrayList containing all the payments matching with the academicYear.
    *
-   * @param academicYear the academicYear for the selection of the payment.
    * @return an ArrayList with the academic years.
    * @throws SQLException If there is a problem.
    */
-  ArrayList<MobilityDto> getFullPayments(String academicYear) throws SQLException;
+  ArrayList<MobilityDto> getFullPayments() throws SQLException;
 
   /**
    * Return basic information of Mobility DTO based on an id.

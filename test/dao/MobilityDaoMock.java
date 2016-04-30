@@ -45,7 +45,7 @@ public class MobilityDaoMock implements MobilityDao {
   }
 
   @Override
-  public ArrayList<MobilityDto> getFullPayments(String academicYear) {
+  public ArrayList<MobilityDto> getFullPayments() {
     return db;
   }
 

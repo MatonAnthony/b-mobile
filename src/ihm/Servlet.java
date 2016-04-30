@@ -190,7 +190,7 @@ public class Servlet extends HttpServlet {
           loadAcademicYears(req, resp);
           break;
         case "selectPayments":
-          loadPayments(req, resp);
+          selectPayments(req, resp);
           break;
         case "selectAddMobilityInformations":
           selectAddMobilityInformations(req, resp);
@@ -829,7 +829,7 @@ public class Servlet extends HttpServlet {
    * @throws NotEnoughPermissionsException If the user don't have the permissions to perform the
    *         action
    */
-  private void loadPayments(HttpServletRequest req, HttpServletResponse resp)
+  private void selectPayments(HttpServletRequest req, HttpServletResponse resp)
       throws IOException, SQLException, NotEnoughPermissionsException {
 
     if (!req.getSession().getAttribute(KEY_PERMISSIONS).equals("TEACHER")) {
@@ -837,8 +837,7 @@ public class Servlet extends HttpServlet {
           "Vous n'avez pas les droits nécessaires pour faire cela");
     }
 
-    String academicYear = req.getParameter("academicYear");
-    ArrayList<MobilityDto> mobilities = mobilityUcc.getFullPayments(academicYear);
+    ArrayList<MobilityDto> mobilities = mobilityUcc.getFullPayments();
     String jsonMobilities = null;
     if (null != mobilities && mobilities.size() != 0) {
       jsonMobilities = basicGenson.serialize(mobilities);

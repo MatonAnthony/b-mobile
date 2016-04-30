@@ -92,9 +92,9 @@ public class MobilityUcControllerImpl implements MobilityUcController {
   }
 
   @Override
-  public ArrayList<MobilityDto> getFullPayments(String academicYear) throws SQLException {
+  public ArrayList<MobilityDto> getFullPayments() throws SQLException {
     dalServices.openConnection();
-    ArrayList<MobilityDto> payments = mobilityDao.getFullPayments(academicYear);
+    ArrayList<MobilityDto> payments = mobilityDao.getFullPayments();
     dalServices.closeConnection();
     return payments;
   }

@@ -76,7 +76,7 @@ public class MobilityUcControllerTest {
 
   @Test
   public void testGetFullPayments() throws SQLException {
-    assertEquals(list, mobilityUcController.getFullPayments("2015-2016"));
+    assertEquals(list, mobilityUcController.getFullPayments());
   }
 
   @Test

@@ -904,7 +904,7 @@ $(function () {
 		
 		$("#searchBar").off('input.searchBar').on('input.searchBar', function (){
 			var inputSearch = $("#searchBar").val();
-			var regEx = new RegExp(inputSearch,"i");
+			var regEx = new RegExp("^"+inputSearch,"i");
 			if (inputSearch !== ""){
 				$(".teacherTR").css("display", "none");
 			}else{
@@ -1077,6 +1077,7 @@ $(function () {
 	}
 
 	function loadMobility() {
+		loadAcademicYears("#selectYearList");
 	    $(function () {
 	        $.ajax({
 	            method: "POST",
@@ -1097,7 +1098,7 @@ $(function () {
 
 						for (key in resp) {
 							var data =
-								"<tr value='"+ resp[key]['id'] +"'>"+
+								"<tr class='paymentTR' data-year='"+resp[key]['academicYear']+"' value='"+ resp[key]['id'] +"'>"+
 								"<td>" + resp[key]['id'] + "</td>" +
 									"<td>" + resp[key]['studentDto']['name'] + "</td>" +
 									"<td>" + resp[key]['studentDto']['firstname'] + "</td>" +
@@ -1140,6 +1141,21 @@ $(function () {
 	            }
 	        });
 	    });
+		$("#selectYearList").off('change.selectYearList').on('change.selectYearList', function (){
+			var academicYear = $("#selectYearList").val();
+			$("#idemptyText").remove();
+			$(".paymentTR").each(function(){
+				if (academicYear === 0){
+					$(this).css("display","table-row");
+					return true;
+				}
+				if ($(this).attr("data-year").match(academicYear)){
+					$(this).css("display","table-row");
+				}else{
+					$(this).css("display","none");
+				}
+			});
+		});
 	}
 
         $("#list").on("click", ".btnModif", function (evt){
@@ -1232,44 +1248,39 @@ $(function () {
 		});
 	}
 
+	//Load the academic year for a select field
+	function loadAcademicYears(idOfSelect){
+		$.ajax({
+			method: "POST",
+			url: "/home",
+			data: {
+				action: "academicYears"
+			},
+			success: function (resp) {
+				resp = JSON.parse(resp);
+				$(idOfSelect).empty();
+				$(idOfSelect).append("<option value='0' selected='selected'>--Toutes</option")
+				for(var i=0; i < resp.length; i++){
+					var option = $('<option>');
+					$(option).val(resp[i]).text(resp[i]);
+					$(idOfSelect).append(option);
+				}
+			},
+			error: function (error) {
+				error = JSON.parse(error.responseText);
+				printToaster(error.type, error.message);
+			}
+		});
+	}
+	
     // Managing of the payment table
 	function loadPayment(){
+		loadAcademicYears("#selectYearPayment");
 		$(function (){
-			$.ajax({
-				method: "POST",
-				url: "/home",
-				data: {
-					action: "academicYears"
-				},
-				success: function (resp) {
-					resp = JSON.parse(resp);
-					$('#selectYear').empty();
-					for(var i= 0; i < resp.length; i++){
-						var option;
-						if (i===0){
-							option = $('<option selected="selected">');
-						}else{
-							option = $('<option>');
-						}
-						$(option).val(resp[i]).text(resp[i]);
-						$('#selectYear').append(option);
-					}
-					$('#selectYear').trigger("change");
-				},
-				error: function (error) {
-					error = JSON.parse(error.responseText);
-					printToaster(error.type, error.message);
-				}
-			});
-			$("#selectYear").on("change", function(){ loadPaymentTable($("#selectYear").val()) });
-		});
-		
-		function loadPaymentTable(year) {
 	        $.ajax({
 	            method: "POST",
 	            url: "/home",
 	            data: {
-					academicYear : year,
 	                action: "selectPayments"
 	            },
 	            success: function (resp) {
@@ -1289,7 +1300,7 @@ $(function () {
 								danger = "class='danger'";
 								textBtn = "Détails";
 							}
-							var data = "<tr value='"+ resp[key]['id'] + "'"+danger+">" +
+							var data = "<tr class='paymentTR' data-year='"+resp[key]['academicYear']+"' value='"+ resp[key]['id'] + "'"+danger+">" +
 											"<td>" + resp[key]['id'] + "</td>"+
 											"<td>" + resp[key]['studentDto']['name'] + "</td>" +
 											"<td>" + resp[key]['studentDto']['firstname'] + "</td>" +
@@ -1326,17 +1337,40 @@ $(function () {
 					printToaster(error.type, error.message);
 	            }
 	        });
-		}
-	}
 
-    $("#tablePayments").on("click", ".btnModif", function (evt){
-        var id = $(evt.currentTarget).parent().parent().attr("value");
-        loadDetailsMobility(id);
-    });
+		});
+		$("#tablePayments").on("click", ".btnModif", function (evt){
+			var id = $(evt.currentTarget).parent().parent().attr("value");
+			loadDetailsMobility(id);
+		});
+		$("#selectYearPayment").off('change.selectYearPayment').on('change.selectYearPayment', function (){
+			var academicYear = $("#selectYearPayment").val();
+			$("#idemptyText").remove();
+			$(".paymentTR").each(function(){
+				if (academicYear === 0){
+					$(this).css("display","table-row");
+					return true;
+				}
+				if ($(this).attr("data-year").match(academicYear)){
+					$(this).css("display","table-row");
+				}else{
+					$(this).css("display","none");
+				}
+			});
+		});
+
+
+		$("#tablePayments").on("click", ".btnModif", function (evt){
+			var id = $(evt.currentTarget).parent().parent().attr("value");
+			loadDetailsMobility(id);
+		});
+
+	}
 
 	// Managing of the confirmed table
 
 	function loadConfirmedMobility() {
+		loadAcademicYears("#selectYearConfirm");
 	    $(function () {
 	        $.ajax({
 	            method: "POST",
@@ -1357,7 +1391,7 @@ $(function () {
 						for (key in resp) {
 
 							$("#tableConfirmed tbody").append(
-								"<tr value='"+ resp[key]['id'] + "'>" +
+								"<tr class='paymentTR' data-year='"+resp[key]['academicYear']+"' value='"+ resp[key]['id'] + "'>" +
 								"<td>" + resp[key]['departmentDto']['label'] + "</td>" +
 								"<td>" + resp[key]['programDto']['name'] + "</td>" +
 								"<td>" + resp[key]['type'] + "</td>" +
@@ -1386,7 +1420,21 @@ $(function () {
 	            }
 	        });
 	    });
-		
+		$("#selectYearConfirm").off('change.selectYearConfirm').on('change.selectYearConfirm', function (){
+			var academicYear = $("#selectYearConfirm").val();
+			$("#emptyText").remove();
+			$(".paymentTR").each(function(){
+				if (academicYear === 0){
+					$(this).css("display","table-row");
+					return true;
+				}
+				if ($(this).attr("data-year").match(academicYear)){
+					$(this).css("display","table-row");
+				}else{
+					$(this).css("display","none");
+				}
+			});
+		});
 	}
 
     $("#tableConfirmed").on("click", ".btnModif", function (evt){

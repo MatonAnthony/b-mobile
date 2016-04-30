@@ -219,12 +219,11 @@ public class MobilityDaoImpl implements MobilityDao {
   }
 
   @Override
-  public ArrayList<MobilityDto> getFullPayments(String academicYear) {
-    String queryPayment = queryFull + "AND m.academic_year = ? ORDER BY m.id ASC";
+  public ArrayList<MobilityDto> getFullPayments() {
+    String queryPayment = queryFull + "ORDER BY m.id ASC";
     PreparedStatement preparedStatement = null;
     try {
       preparedStatement = dalBackendServices.prepare(queryPayment);
-      preparedStatement.setString(1, academicYear);
       ArrayList<MobilityDto> payments = new ArrayList<MobilityDto>();
       ResultSet resultSet = dalBackendServices.executeQuery(preparedStatement);
       while (resultSet.next()) {

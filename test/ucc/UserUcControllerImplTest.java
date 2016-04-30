@@ -48,7 +48,7 @@ public class UserUcControllerImplTest {
     UserDto prof = bizz.getUserDto();
     prof.setId(3);
     prof.setPseudo("prof");
-    prof.setPassword("pass");
+    prof.setPassword("password");
     prof.setPermissions("TEACHER");
     UserImpl profImpl = (UserImpl) prof;
     profImpl.cryptPassword();
