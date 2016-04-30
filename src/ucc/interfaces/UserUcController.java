@@ -19,8 +19,7 @@ public interface UserUcController {
    * @throws AuthenticationException if the user doesn't exist or if the password is incorrect.
    * @throws SQLException If there is an Exception.
    */
-  UserDto login(String login, String password)
-      throws AuthenticationException, SQLException;
+  UserDto login(String login, String password) throws AuthenticationException, SQLException;
 
   /**
    * The function register new user in the data base.
@@ -30,8 +29,8 @@ public interface UserUcController {
    * @throws AuthenticationException if an error happen between register and login.
    * @throws UserAlreadyExistsException if the user already exists in the database.
    */
-  UserDto register(UserDto userdto) throws AuthenticationException,
-      UserAlreadyExistsException, UserAlreadyExistsException;
+  UserDto register(UserDto userdto)
+      throws AuthenticationException, UserAlreadyExistsException, UserAlreadyExistsException;
 
   UserDto getUserById(int id) throws SQLException;
 
@@ -41,10 +40,11 @@ public interface UserUcController {
    * Change the permission of the user of id "id" and set them to TEACHER.
    * 
    * @param id the id of the user to change.
+   * @param verNr the number version of the user to change.
    * @throws UserNotFoundException If the user is not found
    * @throws NoCountryException If the country does not exist
    */
-  void changePermissions(int id) throws UserNotFoundException;
+  void changePermissions(int id, int verNr) throws UserNotFoundException;
 
   void updateUser(UserDto userEdited);
 }

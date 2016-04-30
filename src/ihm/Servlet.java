@@ -409,6 +409,7 @@ public class Servlet extends HttpServlet {
     userEdited.setAccountHolder(req.getParameter("accountHolder"));
     userEdited.setBankName(req.getParameter("bankName"));
     userEdited.setBic(req.getParameter("bic"));
+    userEdited.setVerNr(Integer.parseInt("" + req.getParameter("verNr")));
 
     userUcc.updateUser(userEdited);
   }
@@ -421,7 +422,9 @@ public class Servlet extends HttpServlet {
           "Vous n'avez pas les droits nécessaires pour faire cela");
     }
 
-    userUcc.changePermissions(Integer.parseInt(req.getParameter("id")));
+    userUcc.changePermissions(Integer.parseInt(req.getParameter("id")),
+        Integer.parseInt(req.getParameter("vrNr")));
+
     resp.setStatus(HttpStatus.ACCEPTED_202);
   }
 
@@ -457,10 +460,10 @@ public class Servlet extends HttpServlet {
   private void selectDepartments(HttpServletRequest req, HttpServletResponse resp)
       throws IOException, SQLException, NoDepartmentException, NotEnoughPermissionsException {
 
-    /*if (req.getSession().getAttribute(KEY_PERMISSIONS) == null) {
-      throw new NotEnoughPermissionsException(
-          "Vous n'avez pas les droits nécessaires pour faire cela");
-    }*/
+    /*
+     * if (req.getSession().getAttribute(KEY_PERMISSIONS) == null) { throw new
+     * NotEnoughPermissionsException( "Vous n'avez pas les droits nécessaires pour faire cela"); }
+     */
 
     ArrayList<DepartmentDto> departments = null;
     departments = departmentUcc.getAllDepartments();
@@ -561,6 +564,7 @@ public class Servlet extends HttpServlet {
       mobilityDto.setIdPartner(Integer.parseInt("" + req.getParameter("idPartner")));
     }
     mobilityDto.setStatus("Créée");
+    mobilityDto.setVerNr(Integer.parseInt("" + req.getParameter("verNr")));
 
     mobilityUcc.confirmPartner(mobilityDto);
 
@@ -637,9 +641,9 @@ public class Servlet extends HttpServlet {
 
   }
 
-  private void register(HttpServletRequest req, HttpServletResponse resp) throws IOException,
-      AuthenticationException, UserAlreadyExistsException, NotEnoughPermissionsException,
-      SQLException, NoDepartmentException {
+  private void register(HttpServletRequest req, HttpServletResponse resp)
+      throws IOException, AuthenticationException, UserAlreadyExistsException,
+      NotEnoughPermissionsException, SQLException, NoDepartmentException {
 
     if (req.getSession().getAttribute(KEY_PERMISSIONS) != null) {
       throw new NotEnoughPermissionsException(

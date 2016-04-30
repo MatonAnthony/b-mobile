@@ -371,7 +371,8 @@ $(function () {
                 accountHolder: $("input[name='accountHolder']").val(),
                 bankName: $("input[name='bankName']").val(),
                 bic: $("input[name='bic']").val(),
-                idUser: idUser
+                idUser: idUser,
+                verNr: $("#formProfile").attr("verNb")
             },
             success: function (resp) {
                 printToaster("success", "Vos informations ont bien été modifiées.");
@@ -562,12 +563,14 @@ $(function () {
 
     $("#userListTableBody").on("click.btnNommer", ".btnNommer", function () {
         var id = $(this).attr("value");
+        var verNr = $(this).attr("verNr");
         $.ajax({
             method: "POST",
             url: "/home",
             data: {
                 action: "changePermissions",
-                id: id
+                id: id,
+                vrNr: verNr
             },
             success: function (resp) {
                 $("#tdPermissions" + id).html("TEACHER");
@@ -651,6 +654,7 @@ $(function () {
                 $("input[name='bic']").val(resp['bic']);
                 
                 $("#formProfile").attr("idUser", id);
+                $("#formProfile").attr("verNb", resp['verNr']);
 
                 $(".page").css("display", "none");
                 $("#navBarTeacher").css("display","block");
@@ -871,7 +875,9 @@ $(function () {
                             + "<td class='tdNameStudent'>" + resp[key]['name'] + "</td>"
                             + "<td class='tdFirstnameStudent'>" + resp[key]['firstname'] + "</td>"
                             + '<td id="tdPermissions' + resp[key]['id'] + '">' + resp[key]['permissions'] + '</td>'
-                            + '<td id="tdButtonNommer' + resp[key]['id'] + '"><button value="' + resp[key]['id'] + '" class="btnNommer btn btn-sm btn-info">Nommer</button></td>'
+                            + '<td id="tdButtonNommer' + resp[key]['id'] + '"><button value="' + resp[key]['id'] 
+                            + '"verNr="' + resp[key]['verNr']
+                        	+ '" class="btnNommer btn btn-sm btn-info">Nommer</button></td>'
                             + '<td id="tdButtonGererInfos' + resp[key]['id'] + '"><button value="' + resp[key]['id'] + '" class="btnGererInfos btn btn-sm btn-info">Gérer les informations</button></td>'
                             + "</tr>";
                     } else {
@@ -1616,6 +1622,8 @@ $(function () {
                         }
                     }
 
+                    $('#confirmMobility').attr("nbVr",resp['mobility']['verNr']);
+                    
                     $('#confirmMbolityInfo').empty();
                     $('#confirmMbolityInfo').append(
                         "<b>Etudiant: </b>" + resp['mobility']['studentDto']['name'] + " " +
@@ -1642,6 +1650,7 @@ $(function () {
 
             var idMobility = id;
             var idPartner = $('#confirmMobilityPartner option:selected').attr('id');
+            var nbVer = $('#confirmMobility').attr('nbVr');
             $(function () {
                 $.ajax({
                     method: "POST",
@@ -1650,6 +1659,7 @@ $(function () {
                         action: "confirmPartnerInMobility",
                         idMobility: idMobility,
                         idPartner: idPartner,
+                        verNr: nbVer
                     },
                     success: function (resp) {
                         $("#modalConfirmMobility").modal("hide");

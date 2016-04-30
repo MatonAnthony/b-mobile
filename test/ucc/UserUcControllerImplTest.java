@@ -99,19 +99,19 @@ public class UserUcControllerImplTest {
 
   @Test
   public void testChangePermissions() throws UserNotFoundException {
-    userUcc.changePermissions(1);
+    userUcc.changePermissions(1, 0);
   }
 
   @Test(expected = UserNotFoundException.class)
   public void testChangePermissions2() throws UserNotFoundException {
-    userUcc.changePermissions(5);
+    userUcc.changePermissions(5, 0);
   }
 
   @Test(expected = UserNotFoundException.class)
   public void testChangePermissions3()
       throws UserNotFoundException, AuthenticationException, UserAlreadyExistsException {
     // Test if it is a teacher.
-    userUcc.changePermissions(3);
+    userUcc.changePermissions(3, 0);
   }
 
   @Test

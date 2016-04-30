@@ -109,12 +109,13 @@ public class UserUcControllerImpl implements UserUcController {
   }
 
   @Override
-  public void changePermissions(int id) throws UserNotFoundException {
+  public void changePermissions(int id, int verNr) throws UserNotFoundException {
     try {
       dalServices.openConnection();
       dalServices.startTransaction();
       try {
         UserDto user = userDao.getUserById(id);
+        user.setVerNr(verNr);
         if (user.getPermissions().equals("STUDENT")) {
           userDao.changePermissionsForUserById(user);
         } else {
