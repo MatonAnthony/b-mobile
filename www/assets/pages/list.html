@@ -2,7 +2,22 @@
 
 	<h3 class="mainTitle">Liste des demandes</h3>
 	<br/>
-	<div id="choice" class="col-md-12">
+	<div class="col-md-12">
+		<strong>Année académique : </strong><select id="selectYearList"></select>
+		<strong class="col-md-offset-1">Etat : </strong>
+		<select id="selectStateList">
+			<option selected='selected' value='0'>--Toutes</option>
+			<option value='En attente'>En attente</option>
+			<option value='Créée'>Créée</option>
+			<option value='En préparation'>En préparation</option>
+			<option value='A payer'>A payer</option>
+			<option value='Paiement demandé'>Paiement demandé</option>
+			<option value='A payer solde'>A payer solde</option>
+			<option value='Paiement du solde demandé'>Paiement du solde demandé</option>
+			<option value='Annulee'>Annulee</option>
+		</select>
+	</div>
+	<div id="choice" class="col-md-12 fewSpaceTop">
 		<button id="biomed" type="button" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-heart"></span> Biologie Med.</button>
 		<button id="diet" type="button" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-apple"></span> Diététique</button>
 		<button id="imamed" type="button" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-eye-open"></span> Imagerie Med.</button>
@@ -11,7 +26,7 @@
 		<button id="CSV" type="button" class="btn btn-default btn-sm pull-right"><span class="glyphicon glyphicon-save-file"></span> Fichier .CSV</button>
 	</div>
 	
-	<table id="list" class="table table-striped table-hover ">
+	<table id="list" class="table table-striped table-hover spaceTop">
 		<thead>
 		<tr>
 			<th>N° Ordre</th>

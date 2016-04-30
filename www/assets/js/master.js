@@ -1105,6 +1105,11 @@ $(function () {
 	}
 
 	function loadMobility() {
+		/* // TODO (jonathan) faire en sorte qu'il réinitialise le select
+		$("#selectStateList").prop('selected', function() {
+			return this.defaultSelected;
+		});
+		*/
 		loadAcademicYears("#selectYearList");
 	    $(function () {
 	        $.ajax({
@@ -1126,7 +1131,7 @@ $(function () {
 
 						for (key in resp) {
 							var data =
-								"<tr class='paymentTR' data-year='"+resp[key]['academicYear']+"' value='"+ resp[key]['id'] +"'>"+
+								"<tr class='mobilityTR' data-year='"+resp[key]['academicYear']+"' value='"+ resp[key]['id'] +"'>"+
 								"<td>" + resp[key]['id'] + "</td>" +
 									"<td>" + resp[key]['studentDto']['name'] + "</td>" +
 									"<td>" + resp[key]['studentDto']['firstname'] + "</td>" +
@@ -1138,7 +1143,7 @@ $(function () {
 									if (resp[key]['partnerDto']['legalName'] !== null)
 										data += "<td>"+resp[key]['partnerDto']['legalName']+"</td>";
 									else data += "<td></td>";
-									data +=	"<td>" + resp[key]['status'] +
+									data +=	"<td class='stateTD'>" + resp[key]['status'] +
 									"</td><td value='"+ resp[key]['id'] +"'></td>"+
 									"<td></td><td></td>" +
 								"</tr>";
@@ -1170,10 +1175,19 @@ $(function () {
 	        });
 	    });
 		$("#selectYearList").off('change.selectYearList').on('change.selectYearList', function (){
-			var academicYear = $("#selectYearList").val();
-			$("#idemptyText").remove();
-			$(".paymentTR").each(function(){
-				if (academicYear === 0){
+			changeDisplayOfList();
+		});
+		$("#selectStateList").off('change.selectStateList').on('change.selectStateList', function(){
+			changeDisplayOfList();
+		});
+	}
+
+	function changeDisplayOfList(){
+		var academicYear = $("#selectYearList").val();
+		$(".mobilityTR").each(function(){
+			$(this).css("display","table-row");
+			if ($(this).css("display") === "table-row"){
+				if (academicYear == 0){
 					$(this).css("display","table-row");
 					return true;
 				}
@@ -1182,22 +1196,36 @@ $(function () {
 				}else{
 					$(this).css("display","none");
 				}
-			});
+			}
+		});
+		var state = $("#selectStateList").val();
+		$(".mobilityTR").each(function(){
+			if ($(this).css("display") === "table-row"){
+				if (state == 0){
+					$(this).css("display","table-row");
+					return true;
+				}
+				if ($(this).children(".stateTD").html().match(state)){
+					$(this).css("display","table-row");
+				}else{
+					$(this).css("display","none");
+				}
+			}
 		});
 	}
-
-        $("#list").on("click", ".btnModif", function (evt){
-            var id = $(evt.currentTarget).parent().parent().attr("value");
-            loadDetailsMobility(id);
-        });
-        $("#list").on("click", ".btnCancel", function (evt) {
-            var id = $(evt.currentTarget).parent().parent().attr("value");
-            loadCancelMobility(id);
-        });
-        $("#list").on("click", ".btnConfirm", function (evt) {
-            var id = $(evt.currentTarget).parent().parent().attr("value");
-            loadConfirmMobility(id);
-        });
+	
+	$("#list").on("click", ".btnModif", function (evt){
+		var id = $(evt.currentTarget).parent().parent().attr("value");
+		loadDetailsMobility(id);
+	});
+	$("#list").on("click", ".btnCancel", function (evt) {
+		var id = $(evt.currentTarget).parent().parent().attr("value");
+		loadCancelMobility(id);
+	});
+	$("#list").on("click", ".btnConfirm", function (evt) {
+		var id = $(evt.currentTarget).parent().parent().attr("value");
+		loadConfirmMobility(id);
+	});
 
 	// Managing of filter buttons
 
@@ -1328,7 +1356,9 @@ $(function () {
 								danger = "class='danger'";
 								textBtn = "Détails";
 							}
-							var data = "<tr class='paymentTR' data-year='"+resp[key]['academicYear']+"' value='"+ resp[key]['id'] + "'"+danger+">" +
+							var data = "<tr class='paymentTR' data-status='"+resp[key]['status']+
+															"' data-year='"+resp[key]['academicYear']+
+															"' value='"+ resp[key]['id'] + "'"+danger+">" +
 											"<td>" + resp[key]['id'] + "</td>"+
 											"<td>" + resp[key]['studentDto']['name'] + "</td>" +
 											"<td>" + resp[key]['studentDto']['firstname'] + "</td>" +
@@ -1372,10 +1402,25 @@ $(function () {
 			loadDetailsMobility(id);
 		});
 		$("#selectYearPayment").off('change.selectYearPayment').on('change.selectYearPayment', function (){
-			var academicYear = $("#selectYearPayment").val();
-			$("#idemptyText").remove();
-			$(".paymentTR").each(function(){
-				if (academicYear === 0){
+			changeDisplayOfPayment();
+		});
+		$("#selectStatePayment").off('change.selectStatePayment').on('change.selectStatePayment', function (){
+			changeDisplayOfPayment();
+		});
+
+		$("#tablePayments").on("click", ".btnModif", function (evt){
+			var id = $(evt.currentTarget).parent().parent().attr("value");
+			loadDetailsMobility(id);
+		});
+
+	}
+	
+	function changeDisplayOfPayment(){
+		var academicYear = $("#selectYearPayment").val();
+		$(".paymentTR").each(function(){
+			$(this).css("display","table-row");
+			if ($(this).css("display") === "table-row"){
+				if (academicYear == 0){
 					$(this).css("display","table-row");
 					return true;
 				}
@@ -1384,15 +1429,22 @@ $(function () {
 				}else{
 					$(this).css("display","none");
 				}
-			});
+			}
 		});
-
-
-		$("#tablePayments").on("click", ".btnModif", function (evt){
-			var id = $(evt.currentTarget).parent().parent().attr("value");
-			loadDetailsMobility(id);
+		var state = $("#selectStatePayment").val();
+		$(".paymentTR").each(function(){
+			if ($(this).css("display") === "table-row"){
+				if (state == 0){
+					$(this).css("display","table-row");
+					return true;
+				}
+				if ($(this).attr("data-status").match(state)){
+					$(this).css("display","table-row");
+				}else{
+					$(this).css("display","none");
+				}
+			}
 		});
-
 	}
 
 	// Managing of the confirmed table
@@ -1419,14 +1471,14 @@ $(function () {
 						for (key in resp) {
 
 							$("#tableConfirmed tbody").append(
-								"<tr class='paymentTR' data-year='"+resp[key]['academicYear']+"' value='"+ resp[key]['id'] + "'>" +
+								"<tr class='confirmedTR' data-year='"+resp[key]['academicYear']+"' value='"+ resp[key]['id'] + "'>" +
 								"<td>" + resp[key]['departmentDto']['label'] + "</td>" +
 								"<td>" + resp[key]['programDto']['name'] + "</td>" +
 								"<td>" + resp[key]['type'] + "</td>" +
 								"<td>" + resp[key]['countryDto']['nameFr'] + "</td>" +
 								"<td>" + resp[key]['studentDto']['name'] + "</td>" +
 								"<td>" + resp[key]['studentDto']['firstname'] + "</td>" +
-								"<td>" + resp[key]['status'] + "</td><td></td>"
+								"<td class='stateTD'>" + resp[key]['status'] + "</td><td></td>"
 								+ "</tr>");
 
 						}
@@ -1448,11 +1500,21 @@ $(function () {
 	            }
 	        });
 	    });
+		
 		$("#selectYearConfirm").off('change.selectYearConfirm').on('change.selectYearConfirm', function (){
-			var academicYear = $("#selectYearConfirm").val();
-			$("#emptyText").remove();
-			$(".paymentTR").each(function(){
-				if (academicYear === 0){
+			changeDisplayOfConfirmedList();
+		});
+		$("#selectStateConfirm").off('change.selectStateConfirm').on('change.selectStateConfirm', function (){
+			changeDisplayOfConfirmedList();
+		});	
+	}
+	
+	function changeDisplayOfConfirmedList(){
+		var academicYear = $("#selectYearConfirm").val();
+		$(".confirmedTR").each(function(){
+			$(this).css("display","table-row");
+			if ($(this).css("display") === "table-row"){
+				if (academicYear == 0){
 					$(this).css("display","table-row");
 					return true;
 				}
@@ -1461,7 +1523,21 @@ $(function () {
 				}else{
 					$(this).css("display","none");
 				}
-			});
+			}
+		});
+		var state = $("#selectStateConfirm").val();
+		$(".confirmedTR").each(function(){
+			if ($(this).css("display") === "table-row"){
+				if (state == 0){
+					$(this).css("display","table-row");
+					return true;
+				}
+				if ($(this).children(".stateTD").html().match(state)){
+					$(this).css("display","table-row");
+				}else{
+					$(this).css("display","none");
+				}
+			}
 		});
 	}
 
@@ -1487,7 +1563,6 @@ $(function () {
 					}else{
 						$("#myMobility tbody").empty();
 						resp = JSON.parse(resp);
-                        //console.log(resp)
                         for (key in resp) {
 							$("#myMobility tbody").append(
 								"<tr>" +
@@ -1584,7 +1659,6 @@ $(function () {
                 },
                 success: function (resp) {
                 	resp = JSON.parse(resp);
-					//console.log(resp);
 					$("#destinationP").html(resp['programDto']['name'] + " " + resp['type'] +
 											" (" + resp['countryDto']['nameFr'] + ") durant le " +
 											resp['quadrimester'] + "e quadrimestre.");
@@ -1766,7 +1840,7 @@ $(function () {
                 loadAddPartner();
             }
 
-    });
+		});
     }
 
 
