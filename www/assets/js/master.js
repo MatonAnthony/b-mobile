@@ -2296,15 +2296,15 @@ $(function () {
 	// Export to CSV
 	$("#CSV").click(function(){
 		$("#list").tableToCSV();
-	})
+	});
 
 
     $("#CSV_paiements").click(function(){
         $("#tablePayments").tableToCSV();
-    })
+    });
 
     $("#CSV_mobility").click(function(){
         $("#document_csv_table").tableToCSV();
-    })
+    });
 });
 
