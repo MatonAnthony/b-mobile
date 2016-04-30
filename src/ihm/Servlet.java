@@ -278,13 +278,14 @@ public class Servlet extends HttpServlet {
   }
 
   private void updatePartner(HttpServletRequest req, HttpServletResponse resp)
-      throws NotEnoughPermissionsException {
+      throws NotEnoughPermissionsException, NoCountryException, SQLException {
     if (!req.getSession().getAttribute(KEY_PERMISSIONS).equals("TEACHER")) {
       throw new NotEnoughPermissionsException(
           "Vous n'avez pas les droits nécessaires pour faire cela");
     }
 
     PartnerDto partnerDto = bizzFactory.getPartnerDto();
+    partnerDto.setId(Integer.parseInt("" + req.getParameter("idP")));
     partnerDto.setVerNr(Integer.parseInt("" + req.getParameter("nrVersion")));
     partnerDto.setLegalName(req.getParameter("legalName"));
     partnerDto.setBusiness(req.getParameter("businnes"));
@@ -296,7 +297,7 @@ public class Servlet extends HttpServlet {
     partnerDto.setNumber(req.getParameter("number"));
     partnerDto.setZip(req.getParameter("zip"));
     partnerDto.setMailbox(req.getParameter("mailbox"));
-    partnerDto.setCountry(req.getParameter("country"));
+    partnerDto.setCountryDto(countryUcc.getCountryByNameFr(req.getParameter("country")));
     partnerDto.setState(req.getParameter("state"));
     partnerDto.setCity(req.getParameter("city"));
     partnerDto.setTel(req.getParameter("tel"));

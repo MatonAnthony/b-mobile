@@ -1,24 +1,25 @@
 <section id="profilePage" class="page" style="display:none">
 
-    <h3>Modifier mes informations :</h3>
-
+    <h3>Modifier mes informations </h3>
+	<br>
+	
     <form id="formProfile" class="form-horizontal">
                     <div class="form-group">
-                        <label class="col-sm-4 control-label">Nom :</label>
+                        <label class="col-sm-2 control-label">Nom :</label>
                         <div class="col-sm-5">
                             <input class="form-control" name="name" pattern="[A-zÀ-ÿ- ]*"
                                    id="profile_name">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-4 control-label">Prénom :</label>
+                        <label class="col-sm-2 control-label">Prénom :</label>
                         <div class="col-sm-5">
                             <input class="form-control" name="firstname" pattern="[A-zÀ-ÿ- ]*"
                                 id="profile_firstname">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-4 control-label">Sexe :</label>
+                        <label class="col-sm-2 control-label">Sexe :</label>
                         <div class="col-sm-5">
                             <select class="form-control" name="gender">
                                 <option>Homme</option>
@@ -28,72 +29,72 @@
                     </div>
                     <div class="form-group">
                         <!-- TODO : Gérer ce field -->
-                        <label class="col-sm-4 control-label">Date de naissance :</label>
+                        <label class="col-sm-2 control-label">Date de naissance :</label>
                         <div class="col-sm-5">
                             <input class="form-control" name="birthdate" type=date min=1970-01-01
                             default="1995-04-01">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-4 control-label">Nationalité :</label>
+                        <label class="col-sm-2 control-label">Nationalité :</label>
                         <div class="col-sm-5">
                             <input class="form-control" name="citizenship" pattern="[A-zÀ-ÿ- ]*"
                             id="profile_citizenship"/>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-4 control-label">Rue :</label>
+                        <label class="col-sm-2 control-label">Rue :</label>
                         <div class="col-sm-5">
                             <input class="form-control" name="street" pattern="[A-zÀ-ÿ- ]*"
                             id="profile_street">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-4 control-label">N° :</label>
+                        <label class="col-sm-2 control-label">N° :</label>
                         <div class="col-sm-5">
                             <input class="form-control" name="houseNumber" id="profile_houseNumber">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-4 control-label">Boite :</label>
+                        <label class="col-sm-2 control-label">Boite :</label>
                         <div class="col-sm-5">
                             <input class="form-control" name="mailbox" id="profile_mailbox">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-4 control-label">Code Postal :</label>
+                        <label class="col-sm-2 control-label">Code Postal :</label>
                         <div class="col-sm-5">
                             <input class="form-control" name="zipcode" id="profile_zipcode">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-4 control-label">Ville :</label>
+                        <label class="col-sm-2 control-label">Ville :</label>
                         <div class="col-sm-5">
                             <input class="form-control" name="city" pattern="[A-zÀ-ÿ -]*"
                             id="profile_city">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-4 control-label">Pays :</label>
+                        <label class="col-sm-2 control-label">Pays :</label>
                         <div class="col-sm-5">
                             <select class="form-control" name="country" id="profile_country"></select>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-4 control-label">Téléphone :</label>
+                        <label class="col-sm-2 control-label">Téléphone :</label>
                         <div class="col-sm-5">
                             <input type="tel" class="form-control" name="tel" id="profile_tel"
                                    pattern="[0-9 ]*">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-4 control-label">Email :</label>
+                        <label class="col-sm-2 control-label">Email :</label>
                         <div class="col-sm-5">
                             <input type="email" class="form-control" name="email" id="profile_email">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-4 control-label">Nombre d'années d'études réussies dans l'enseignement supérieur
+                        <label class="col-sm-2 control-label">Nombre d'années d'études réussies dans l'enseignement supérieur
                             :</label>
                         <div class="col-sm-5">
                             <input type="number" class="form-control"
@@ -101,33 +102,35 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-4 control-label">Numéro de compte bancaire :</label>
+                        <label class="col-sm-2 control-label">Numéro de compte bancaire :</label>
                         <!-- C'est pas un type number à cause des tirets -->
                         <div class="col-sm-5">
                             <input class="form-control" name="iban">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-4 control-label">Titulaire du compte :</label>
+                        <label class="col-sm-2 control-label">Titulaire du compte :</label>
                         <div class="col-sm-5">
                             <input class="form-control" name="accountHolder" pattern="[A-zÀ-ÿ- ]*"
                             id="profile_accountHolder">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-4 control-label">Nom de la banque :</label>
+                        <label class="col-sm-2 control-label">Nom de la banque :</label>
                         <div class="col-sm-5">
                             <input class="form-control" name="bankName" pattern="[A-zÀ-ÿ-. ]*"
                             id="profile_bankName">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-4 control-label">Code BIC :</label>
+                        <label class="col-sm-2 control-label">Code BIC :</label>
                         <div class="col-sm-5">
                             <input class="form-control" name="bic" pattern="[A-z]*"
                             id="profile_bic">
                         </div>
                     </div>
-                    <button id="profileButton" class="btn btn-info">Envoyer</button>
+                    <div class="col-md-2 col-md-offset-9">
+                    <button id="profileButton" class="btn btn-lg btn-info btn-block">Envoyer</button>
+                    </div>
                 </form>
 </section>

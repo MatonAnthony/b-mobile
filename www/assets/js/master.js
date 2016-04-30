@@ -925,6 +925,8 @@ $(function () {
         $(".page").css("display", "none");
         $("#navBarStudent").css("display", "block");
         $("#addPartnerPage").css("display", "block");
+        $("#setPartnerBtn").css("display","none");
+ 		$("#addPartnerBtn").css("display","block");
         $(".active").removeClass("active");
         $(".navButton[href='#addPartner']").parent().addClass("active");
         addParnter();
@@ -936,6 +938,8 @@ $(function () {
         $(".page").css("display", "none");
         $("#navBarTeacher").css("display", "block");
         $("#addPartnerPage").css("display", "block");
+        $("#setPartnerBtn").css("display","none");
+ 		$("#addPartnerBtn").css("display","block");
         $(".active").removeClass("active");
         addParnter();
 
@@ -1115,6 +1119,7 @@ $(function () {
 	            }
 	        });
 	    });
+	}
 
         $("#list").on("click", ".btnModif", function (evt){
             var id = $(evt.currentTarget).parent().parent().attr("value");
@@ -1128,7 +1133,6 @@ $(function () {
             var id = $(evt.currentTarget).parent().parent().attr("value");
             loadConfirmMobility(id);
         });
-	}
 
 	// Managing of filter buttons
 
@@ -1302,12 +1306,12 @@ $(function () {
 	            }
 	        });
 		}
+	}
 
     $("#tablePayments").on("click", ".btnModif", function (evt){
         var id = $(evt.currentTarget).parent().parent().attr("value");
         loadDetailsMobility(id);
     });
-	}
 
 	// Managing of the confirmed table
 
@@ -1689,7 +1693,7 @@ $(function () {
                     $('#streetPartner').html(resp['street']);
                     $('#numberPartner').html(resp['number']);
                     $('#mailboxPartner').html(resp['mailbox']);
-                    $('#countryPartner').html(resp['countryDto']['nameFr']);
+                    $('#countryPartner').html(resp['countryDto']['nameFr']);                  
                     $('#areaPartner').html(resp['state']);
                     $('#zipPartner').html(resp['zip']);
                     $('#cityPartner').html(resp['city']);
@@ -1698,6 +1702,7 @@ $(function () {
                     $('#webPartner').html(resp['website']);
                     $('#userPartner').html(resp['userDto']['name'] + " " + resp['userDto']['firstname']);
                     $('#setPartner').attr('nbVr',resp['verNr']);
+                    $('#setPartner').attr('idPart',resp['id']);
                 },
                 error: function (error) {
                     error = JSON.parse(error.responseText);
@@ -1711,11 +1716,14 @@ $(function () {
          }else{
          $("#setPartner").css("display","none");
          }
+    }
 
          $("#setPartner").on("click",function(){
         	$(".page").css("display", "none");
      		$("#addPartnerPage").css("display","block");
      		$("#navBarTeacher").css("display","block");
+     		$("#setPartnerBtn").css("display","block");
+     		$("#addPartnerBtn").css("display","none");
      		addParnter();
      		$('#add_partner_legal_name').val($('#legalName').html());
      		$('#add_partner_business_name').val($('#BusinesName').html());
@@ -1729,18 +1737,19 @@ $(function () {
      		$('#add_partner_zip').val($('#zipPartner').html());
      		$('#add_partner_city').val($('#cityPartner').html());
      		$('#add_partner_state').val($('#areaPartner').html());
-     		$('#add_partner_country').val($('#countryPartner').html());
+     		$('#add_partner_country').val($('#countryPartner').html());    		
      		$('#add_partner_tel').val($('#PhonePartner').html());
      		$('#add_partner_email').val($('#mailPartner').html());
      		$('#add_partner_website').val($('#webPartner').html());
          });
 
-         $("#addPartnerBtn").on("click",function(){
+         $("#setPartnerBtn").on("click",function(){
         	 $.ajax({
                  method: "POST",
                  url: "/home",
                  data: {
                      action: "updatePartner",
+                     idP: $('#setPartner').attr('idPart'),
                      nrVersion: $('#setPartner').attr('nbVr'),
                      legalName: $('#add_partner_legal_name').val(),
                      businnes: $('#add_partner_business_name').val(),
@@ -1752,9 +1761,9 @@ $(function () {
                      number: $('#add_partner_number').val(),
                      zip: $('#add_partner_zip').val(),
                      mailbox: $('#add_partner_mailbox').val(),
-                     country: $('#add_partner_city').val(),
+                     country: $('#add_partner_country').val(),
                      state: $('#add_partner_state').val(),
-                     city: $('#add_partner_country').val(),
+                     city: $('#add_partner_city').val(),
                      tel: $('#add_partner_tel').val(),
                      email: $('#add_partner_email').val(),
                      website:$('#add_partner_website').val()
@@ -1768,8 +1777,7 @@ $(function () {
                  }
              });
          });
-         
-    }
+
 
 	function loadDetailsMobility(idStudent){
 		$(".page").css("display", "none");

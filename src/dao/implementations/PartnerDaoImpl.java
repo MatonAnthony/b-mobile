@@ -142,8 +142,9 @@ public class PartnerDaoImpl implements PartnerDao {
   public ArrayList<PartnerDto> getPartnersMin(int userId, String permission) {
 
     // language=PostgreSQL
-    String query = "SELECT DISTINCT p.id, p.legal_name, p.exists, p.country FROM bmobile.partners p "
-        + "LEFT JOIN bmobile.mobilities m ON p.id = m.id_partner WHERE ";
+    String query =
+        "SELECT DISTINCT p.id, p.legal_name, p.exists, p.country FROM bmobile.partners p "
+            + "LEFT JOIN bmobile.mobilities m ON p.id = m.id_partner WHERE ";
 
     if (permission.equals("STUDENT")) {
       query += " m.id_partner IS NULL AND p.id_user = ? AND p.exists = ?";
@@ -228,6 +229,7 @@ public class PartnerDaoImpl implements PartnerDao {
 
   @Override
   public int updatePartner(PartnerDto partner) {
+
     String query = "UPDATE bmobile.partners SET legal_name=?, business_name=?,"
         + " full_name=?, department=?, type=?, nb_employees=?, street=?, number=?, mailbox=?,"
         + " zip=?, city=?, state=?, country=?, email=?, website=?, exists=?, tel=?, ver_nr=?"
@@ -249,7 +251,7 @@ public class PartnerDaoImpl implements PartnerDao {
       preparedStatement.setString(10, partner.getZip());
       preparedStatement.setString(11, partner.getCity());
       preparedStatement.setString(12, partner.getState());
-      preparedStatement.setString(13, partner.getCountry());
+      preparedStatement.setString(13, partner.getCountryDto().getIso());
       preparedStatement.setString(14, partner.getEmail());
       preparedStatement.setString(15, partner.getWebsite());
       preparedStatement.setBoolean(16, partner.isExists());
