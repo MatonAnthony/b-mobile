@@ -337,7 +337,11 @@ public class UserImpl implements UserBizz, Cloneable {
     if (iban == null || iban.isEmpty()) {
       this.iban = null;
     } else {
-      this.iban = IBAN.parse(iban);
+      try {
+        this.iban = IBAN.parse(iban);
+      } catch(Exception exc) {
+        throw new IllegalArgumentException("IBAN Invalide");
+      }
     }
   }
 

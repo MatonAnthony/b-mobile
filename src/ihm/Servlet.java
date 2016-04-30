@@ -400,7 +400,11 @@ public class Servlet extends HttpServlet {
     userEdited.setTel(req.getParameter("tel"));
     userEdited.setSuccessfullYearInCollege(
         Integer.parseInt(0 + req.getParameter("successfullYearsInCollege")));
-    userEdited.setIban(req.getParameter("iban"));
+    try {
+      userEdited.setIban(req.getParameter("iban"));
+    } catch (IllegalArgumentException exc){
+      createToaster(exc, resp);
+    }
     userEdited.setAccountHolder(req.getParameter("accountHolder"));
     userEdited.setBankName(req.getParameter("bankName"));
     userEdited.setBic(req.getParameter("bic"));
