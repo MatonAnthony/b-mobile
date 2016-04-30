@@ -859,6 +859,7 @@ $(function () {
         $(".page").css("display", "none");
         $("#navBarTeacher").css("display", "block");
         $("#userListPage").css("display", "block");
+		$("#searchBar").val("");
         $.ajax({
             method: "POST",
             url: "/home",
@@ -867,21 +868,20 @@ $(function () {
             },
             success: function (resp) {
                 resp = JSON.parse(resp);
-                var key;
-                $("#userListTableBody").html("");
+                $("#userListTableBody").empty();
                 for (key in resp) {
                     var value;
                     if (resp[key]['permissions'] === "STUDENT") {
-                        value = "<tr>"
+                        value = "<tr class='studentTR'>"
                             + "<td>" + resp[key]['id'] + "</td>"
-                            + "<td>" + resp[key]['name'] + "</td>"
-                            + "<td>" + resp[key]['firstname'] + "</td>"
+                            + "<td class='tdNameStudent'>" + resp[key]['name'] + "</td>"
+                            + "<td class='tdFirstnameStudent'>" + resp[key]['firstname'] + "</td>"
                             + '<td id="tdPermissions' + resp[key]['id'] + '">' + resp[key]['permissions'] + '</td>'
                             + '<td id="tdButtonNommer' + resp[key]['id'] + '"><button value="' + resp[key]['id'] + '" class="btnNommer btn btn-sm btn-info">Nommer</button></td>'
                             + '<td id="tdButtonGererInfos' + resp[key]['id'] + '"><button value="' + resp[key]['id'] + '" class="btnGererInfos btn btn-sm btn-info">Gérer les informations</button></td>'
                             + "</tr>";
                     } else {
-                        value = "<tr>"
+                        value = "<tr class='teacherTR'>"
                             + "<td>" + resp[key]['id'] + "</td>"
                             + "<td>" + resp[key]['name'] + "</td>"
                             + "<td>" + resp[key]['firstname'] + "</td>"
@@ -901,7 +901,23 @@ $(function () {
         });
         $(".active").removeClass("active");
         $(".navButton[href='#userList']").parent().addClass("active");
-
+		
+		$("#searchBar").off('input.searchBar').on('input.searchBar', function (){
+			var inputSearch = $("#searchBar").val();
+			var regEx = new RegExp(inputSearch,"i");
+			if (inputSearch !== ""){
+				$(".teacherTR").css("display", "none");
+			}else{
+				$(".teacherTR").css("display", "table-row");
+			}
+			$(".studentTR").each(function(){
+				if ($(this).children(".tdFirstnameStudent").html().match(regEx) || $(this).children(".tdNameStudent").html().match(regEx)  ){
+					$(this).css("display","table-row");
+				}else{
+					$(this).css("display","none");
+				}
+			});
+		});
     }
 
 	function loadAddPartner() {

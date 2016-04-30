@@ -402,7 +402,7 @@ public class Servlet extends HttpServlet {
         Integer.parseInt(0 + req.getParameter("successfullYearsInCollege")));
     try {
       userEdited.setIban(req.getParameter("iban"));
-    } catch (IllegalArgumentException exc){
+    } catch (IllegalArgumentException exc) {
       createToaster(exc, resp);
     }
     userEdited.setAccountHolder(req.getParameter("accountHolder"));
