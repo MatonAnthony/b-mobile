@@ -28,11 +28,18 @@ public class PartnerDaoImpl implements PartnerDao {
 
   @Override
   public void createPartner(PartnerDto partner) {
+    // language=PostgreSQL
     String query =
-        "INSERT INTO bmobile.partners VALUES " + "(DEFAULT,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+        "INSERT INTO bmobile.partners VALUES " + "(DEFAULT,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) RETURNING id ";
+
+    // language=PostgreSQL
+    String partnerDepartment = "INSERT INTO bmobile.partners_departments VALUES (?,?,?)";
+
     PreparedStatement preparedStatement = null;
+    PreparedStatement preparedStatement2 = null;
     try {
       preparedStatement = dalBackendServices.prepare(query);
+      preparedStatement2 = dalBackendServices.prepare(partnerDepartment);
       preparedStatement.setInt(1, partner.getUserDto().getId());
       preparedStatement.setString(2, partner.getLegalName());
 
@@ -130,7 +137,14 @@ public class PartnerDaoImpl implements PartnerDao {
 
       preparedStatement.setBoolean(18, partner.isExists());
       preparedStatement.setInt(19, partner.getVerNr());
-      dalBackendServices.executeUpdate(preparedStatement);
+      ResultSet resultSet = dalBackendServices.executeQuery(preparedStatement);
+
+      if (resultSet.next()) {
+        preparedStatement2.setInt(1, resultSet.getInt(1));
+      }
+      preparedStatement2.setString(2, partner.getUserDto().getIdDepartment());
+      preparedStatement2.setInt(3, 0);
+      dalBackendServices.executeUpdate(preparedStatement2);
     } catch (SQLException exc) {
       exc.printStackTrace();
       throw new UnknowErrorException(

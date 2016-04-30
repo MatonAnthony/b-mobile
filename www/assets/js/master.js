@@ -322,6 +322,7 @@ $(function () {
 
     //Disconnect
     function disconnect() {
+        location.reload();
         $('#permissionHideFilds').val('');
         $.ajax({
             url: "/home",
@@ -700,7 +701,8 @@ $(function () {
                     country: $("#add_partner_country").val(),
                     tel: $("#add_partner_tel").val(),
                     email: $("#add_partner_email").val(),
-                    website: $("#add_partner_website").val()
+                    website: $("#add_partner_website").val(),
+                    schoolDepartment: $("#add_partner_country_school_department").val()
 
                 },
                 success: function (resp) {
@@ -947,6 +949,7 @@ $(function () {
 
     function addParnter(){
         if ($("#add_partner_country").html() == "") {
+            checkPermission();
             $.ajax({
                 method: "POST",
                 url: "/home",
@@ -966,6 +969,31 @@ $(function () {
                     printToaster(error.type, error.message);
                 }
             });
+        }
+        if ($("#add_partner_country_school_department").html() == "" && $("#permissionHideFilds").val() === "TEACHER") {
+            $('#school_department').css("display", "block");
+            $.ajax({
+                method: "POST",
+                url: "/home",
+                data: {
+                    action: "selectDepartments"
+                },
+                success: function (resp) {
+                    resp = JSON.parse(resp);
+                    var key;
+
+                    for (key in resp) {
+                        $("#add_partner_country_school_department").append("<option data-departId=" + resp[key]['id']+ ">" + resp[key]['label'] + "</option>");
+                    }
+                },
+                error: function (error) {
+                    error = JSON.parse(error.responseText);
+                    printToaster(error.type, error.message);
+                }
+            });
+        }else{
+            $('#school_department').css("display", "none");
+            $("#add_partner_country_school_department").empty();
         }
     }
 

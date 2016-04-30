@@ -756,7 +756,8 @@ public class Servlet extends HttpServlet {
    *         action
    */
   private void addPartner(HttpServletRequest req, HttpServletResponse resp) throws IOException,
-      NumberFormatException, SQLException, NoCountryException, NotEnoughPermissionsException {
+      NumberFormatException, SQLException, NoCountryException,
+      NotEnoughPermissionsException, NoDepartmentException {
 
     if (req.getSession().getAttribute(KEY_PERMISSIONS) == null) {
       throw new NotEnoughPermissionsException(
@@ -766,6 +767,12 @@ public class Servlet extends HttpServlet {
     PartnerDto partner = bizzFactory.getPartnerDto();
     partner.setUserDto(
         userUcc.getUserById(Integer.parseInt("" + req.getSession().getAttribute(KEY_ID))));
+
+    // change department id of Teacher for join partner with the good department
+    if (req.getSession().getAttribute(KEY_PERMISSIONS).equals("TEACHER")) {
+      partner.getUserDto().setIdDepartment(departmentUcc.getDepartmentByLabel(
+          req.getParameter("schoolDepartment")).getId());
+    }
     partner.setLegalName(req.getParameter("legal_name"));
     partner.setBusiness(req.getParameter("business_name"));
     partner.setCountryDto(countryUcc.getCountryByNameFr(req.getParameter("country")));
@@ -790,8 +797,7 @@ public class Servlet extends HttpServlet {
     }
     partner.setVerNr(0);
 
-
-    partnerUcc.addPartner(partner);
+   partnerUcc.addPartner(partner);
   }
 
   /**
