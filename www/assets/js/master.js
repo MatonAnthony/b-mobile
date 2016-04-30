@@ -111,13 +111,6 @@ $(function () {
             }
         });
 
-        $("#profile_bic").change(function(){
-            var bic = document.getElementById("profile_bic");
-            if(bic.validity.patternMismatch) {
-                printToaster("info", "Le BIC ne peut être composé que de lettres.");
-            }
-        });
-
         // Validation for "Register.html"
         $("#loginRegister").change(function(){
             var login = document.getElementById("loginRegister");
