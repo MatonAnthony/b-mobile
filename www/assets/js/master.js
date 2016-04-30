@@ -261,7 +261,8 @@ $(function () {
                     password: password,
                     name: $("#nameRegister").val(),
                     firstname: $("#firstnameRegister").val(),
-                    email: $("#emailRegister").val()
+                    email: $("#emailRegister").val(),
+                    department: $('#departmentRegister').val()
                 },
                 success: function (resp) {
                     resp = JSON.parse(resp);
@@ -966,6 +967,27 @@ $(function () {
 	    $(".page").css("display", "none");
 	    $("#registerPage").css("display", "block");
 		$(".form-control").val("");
+
+        if ($("#departmentRegister").html() == "") {
+            $.ajax({
+                method: "POST",
+                url: "/home",
+                data: {
+                    action: "selectDepartments"
+                },
+                success: function (resp) {
+                    resp = JSON.parse(resp);
+                    var key;
+                    for (key in resp) {
+                        $("#departmentRegister").append("<option>" + resp[key]['label'] + "</option>");
+                    }
+                },
+                error: function (error) {
+                    error = JSON.parse(error.responseText);
+                    printToaster(error.type, error.message);
+                }
+            });
+        }
 	}
 
 
