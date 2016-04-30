@@ -1,4 +1,5 @@
 -- INIT.SQL
+DROP SCHEMA bmobile CASCADE;
 
 CREATE SCHEMA bMobile;
 
