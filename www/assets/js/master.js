@@ -349,6 +349,7 @@ $(function () {
     	if(idUser === undefined) {
     		idUser =-1;
     	}
+
         $.ajax({
             method: "POST",
             url: "/home",
@@ -457,7 +458,7 @@ $(function () {
                     department: $("#selectDep" + i).val(),
                     country: $("#selectCountry" + i).val(),
                     year: $("#selectAccademicYear" + i).val(),
-                    partner:$("#selectPartner" + i +" >option:selected").attr("data-partnerId")
+                    partner:$("#selectPartner" + i +" > option:selected").attr("data-partnerId")
                 },
                 success: function (resp) {
                     printToaster("success", "La/Les demande(s) ont bien été ajoutée(s).");
@@ -655,6 +656,7 @@ $(function () {
                 $("input[name='bic']").val(resp['bic']);
                 
                 $("#formProfile").attr("idUser", id);
+                //$("#btnGererInfos").attr("verNb", resp['verNr']);
                 $("#formProfile").attr("verNb", resp['verNr']);
 
                 $(".page").css("display", "none");
@@ -880,7 +882,9 @@ $(function () {
                             + '<td id="tdButtonNommer' + resp[key]['id'] + '"><button value="' + resp[key]['id'] 
                             + '"verNr="' + resp[key]['verNr']
                         	+ '" class="btnNommer btn btn-sm btn-info">Nommer</button></td>'
-                            + '<td id="tdButtonGererInfos' + resp[key]['id'] + '"><button value="' + resp[key]['id'] + '" class="btnGererInfos btn btn-sm btn-info">Gérer les informations</button></td>'
+                            + '<td id="tdButtonGererInfos' + resp[key]['id'] + '"><button value="' 
+                            + resp[key]['id'] + '"verNr="' + resp[key]['verNr'] 
+                        	+'" class="btnGererInfos btn btn-sm btn-info">Gérer les informations</button></td>'
                             + "</tr>";
                     } else {
                         value = "<tr class='teacherTR'>"
@@ -1044,7 +1048,7 @@ $(function () {
                     resp = JSON.parse(resp);
                     var key;
                     for (key in resp) {
-                        $("#profile_country").append('<option value='+resp[key]['iso']+'>' + resp[key]['nameFr'] + '</option>');
+                        $("#profile_country").append('<option iso='+resp[key]['iso']+'>' + resp[key]['nameFr'] + '</option>');
                     }
                 },
                 error: function (error) {
@@ -1062,6 +1066,7 @@ $(function () {
 			},
 			success: function(resp){
 				resp = JSON.parse(resp);
+				
                 try{
                     var b = new Date(""+resp['birthDate']['year']+"-"+resp['birthDate']['month']
                         +"-"+resp['birthDate']['day']);
@@ -1082,7 +1087,7 @@ $(function () {
 
                 $("input[name='city']").val(resp['city']);
                 var country = resp['country'];
-                $("#profile_country").val(country);
+                $("#profile_country").val(country).html();
                 $("input[name='mailbox']").val(resp['mailBox']);
                 $("input[name='zipcode']").val(resp['zip']);
                 $("input[name='tel']").val(resp['tel']);
@@ -1096,6 +1101,8 @@ $(function () {
                 $("input[name='accountHolder']").val(resp['accountHolder']);
                 $("input[name='bankName']").val(resp['bankName']);
                 $("input[name='bic']").val(resp['bic']);
+                $("#formProfile").attr("verNb", resp['verNr']);
+
 			},
 			error: function(error){
 				error = JSON.parse(error.responseText);

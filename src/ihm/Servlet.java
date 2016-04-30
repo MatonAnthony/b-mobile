@@ -396,7 +396,7 @@ public class Servlet extends HttpServlet {
     userEdited.setMailBox(req.getParameter("mailbox"));
     userEdited.setZip(req.getParameter("zipcode"));
     userEdited.setCity(req.getParameter("city"));
-    userEdited.setCountryDto(countryUcc.getCountryByIso(req.getParameter("country")));
+    userEdited.setCountryDto(countryUcc.getCountryByNameFr(req.getParameter("country")));
     userEdited.setCountry(userEdited.getCountryDto().getNameFr());
     userEdited.setTel(req.getParameter("tel"));
     userEdited.setSuccessfullYearInCollege(
@@ -755,8 +755,8 @@ public class Servlet extends HttpServlet {
    * @throws NotEnoughPermissionsException If the user don't have the permissions to perform the
    *         action
    */
-  private void addPartner(HttpServletRequest req, HttpServletResponse resp) throws IOException,
-      NumberFormatException, SQLException, NoCountryException,
+  private void addPartner(HttpServletRequest req, HttpServletResponse resp)
+      throws IOException, NumberFormatException, SQLException, NoCountryException,
       NotEnoughPermissionsException, NoDepartmentException {
 
     if (req.getSession().getAttribute(KEY_PERMISSIONS) == null) {
@@ -770,8 +770,8 @@ public class Servlet extends HttpServlet {
 
     // change department id of Teacher for join partner with the good department
     if (req.getSession().getAttribute(KEY_PERMISSIONS).equals("TEACHER")) {
-      partner.getUserDto().setIdDepartment(departmentUcc.getDepartmentByLabel(
-          req.getParameter("schoolDepartment")).getId());
+      partner.getUserDto().setIdDepartment(
+          departmentUcc.getDepartmentByLabel(req.getParameter("schoolDepartment")).getId());
     }
     partner.setLegalName(req.getParameter("legal_name"));
     partner.setBusiness(req.getParameter("business_name"));
@@ -797,7 +797,7 @@ public class Servlet extends HttpServlet {
     }
     partner.setVerNr(0);
 
-   partnerUcc.addPartner(partner);
+    partnerUcc.addPartner(partner);
   }
 
   /**
