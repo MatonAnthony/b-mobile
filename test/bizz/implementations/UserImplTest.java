@@ -587,7 +587,7 @@ public class UserImplTest {
 
   @Test
   public void testGetDepartment() {
-    assertEquals(4, puppet.getIdDepartment());
+    assertEquals("BIN", puppet.getIdDepartment());
   }
 
   @Test
