@@ -554,8 +554,8 @@ public class Servlet extends HttpServlet {
 
     MobilityDto mobilityDto = bizzFactory.getMobilityDto();
     mobilityDto.setId(Integer.parseInt("" + req.getParameter("idMobility")));
-    if (req.getParameter("idPartner") == null){
-      throw new NotEnoughPermissionsException ("Veuillez choisir un partenaire");
+    if (req.getParameter("idPartner") == null) {
+      throw new NotEnoughPermissionsException("Veuillez choisir un partenaire");
     } else {
       mobilityDto.setIdPartner(Integer.parseInt("" + req.getParameter("idPartner")));
     }
@@ -833,12 +833,10 @@ public class Servlet extends HttpServlet {
     String academicYear = req.getParameter("academicYear");
     ArrayList<MobilityDto> mobilities = mobilityUcc.getFullPayments(academicYear);
     String jsonMobilities = null;
-    if (mobilities.size() == 0) {
-      resp.setStatus(HttpStatus.ACCEPTED_202);
-    } else {
+    if (null != mobilities && mobilities.size() != 0) {
       jsonMobilities = basicGenson.serialize(mobilities);
+      resp.getWriter().println(jsonMobilities);
     }
-    resp.getWriter().println(jsonMobilities);
     resp.setStatus(HttpStatus.ACCEPTED_202);
   }
 
@@ -1009,8 +1007,8 @@ public class Servlet extends HttpServlet {
   private void checkPermission(HttpServletRequest req, HttpServletResponse resp)
       throws NotEnoughPermissionsException, IOException, SQLException {
 
-    if (!(req.getSession().getAttribute(KEY_PERMISSIONS).equals("STUDENT") ||
-        req.getSession().getAttribute(KEY_PERMISSIONS).equals("TEACHER"))) {
+    if (!(req.getSession().getAttribute(KEY_PERMISSIONS).equals("STUDENT")
+        || req.getSession().getAttribute(KEY_PERMISSIONS).equals("TEACHER"))) {
       throw new NotEnoughPermissionsException(
           "Vous n'avez pas les droits nécessaires pour faire cela");
     }

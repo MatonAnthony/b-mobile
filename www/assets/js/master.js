@@ -953,8 +953,9 @@ $(function () {
 	            },
 	            success: function (resp) {
 	                if (resp === ""){
+						$("#list").empty();
 						$("#empty").empty();
-						$("#list").after("<p id=\"empty\" class=\"text-center\"><strong> Il n'y aucune demande actuellement. </strong></p>");
+						$("#list").after("<p id=\"empty\" class=\"text-center\"><strong> Il n'y aucune demande de mobilité actuellement. </strong></p>");
 					}else{
 						clearButtons();
 						resp = JSON.parse(resp);
@@ -1108,24 +1109,19 @@ $(function () {
 					action: "academicYears"
 				},
 				success: function (resp) {
-					if (resp === ""){
-						$("#empty").empty();
-						$("#tablePayments").after("<p id=\"empty\" class=\"text-center\"><strong> Il n'y a aucun paiement actuellement. </strong></p>");
-					}else{
-						resp = JSON.parse(resp);
-						$('#selectYear').empty();
-						for(var i= 0; i < resp.length; i++){
-							var option;
-							if (i===0){
-								option = $('<option selected="selected">');
-							}else{
-								option = $('<option>');
-							}
-							$(option).val(resp[i]).text(resp[i]);
-							$('#selectYear').append(option);
+					resp = JSON.parse(resp);
+					$('#selectYear').empty();
+					for(var i= 0; i < resp.length; i++){
+						var option;
+						if (i===0){
+							option = $('<option selected="selected">');
+						}else{
+							option = $('<option>');
 						}
-						$('#selectYear').trigger("change");
+						$(option).val(resp[i]).text(resp[i]);
+						$('#selectYear').append(option);
 					}
+					$('#selectYear').trigger("change");
 				},
 				error: function (error) {
 					error = JSON.parse(error.responseText);
@@ -1144,47 +1140,53 @@ $(function () {
 	                action: "selectPayments"
 	            },
 	            success: function (resp) {
-					resp = JSON.parse(resp);
-					$("#tablePayments tbody").empty();
 					$("#empty").empty();
-					var danger = "";
-					var textBtn = "Modifier";
-					for (key in resp) {
-						textBtn = "Modifier";
-						danger="";
-						if (resp[key]['status'] === "Annulee"){
-							danger = "class='danger'";
-							textBtn = "Détails";
+					if (resp === ""){
+						$("#tablePayments").empty();
+						$("#tablePayments").after("<p id=\"empty\" class=\"text-center\"><strong> Il n'y a aucun paiement actuellement. </strong></p>");
+					}else{
+						resp = JSON.parse(resp);
+						$("#tablePayments tbody").empty();
+						var danger = "";
+						var textBtn = "Modifier";
+						for (key in resp) {
+							textBtn = "Modifier";
+							danger="";
+							if (resp[key]['status'] === "Annulee"){
+								danger = "class='danger'";
+								textBtn = "Détails";
+							}
+							var data = "<tr value='"+ resp[key]['id'] + "'"+danger+">" +
+											"<td>" + resp[key]['id'] + "</td>"+
+											"<td>" + resp[key]['studentDto']['name'] + "</td>" +
+											"<td>" + resp[key]['studentDto']['firstname'] + "</td>" +
+											"<td>" + resp[key]['departmentDto']['label'] + "</td>" +
+											"<td>" + resp[key]['programDto']['name'] + "</td>" +
+											"<td>" + resp[key]['type'] + "</td>";
+							if (resp[key]['partnerDto']['legalName'] !== null)
+								data += "<td>"+resp[key]['partnerDto']['legalName']+"</td>";
+							else data += "<td></td>";
+								data += "<td>"+resp[key]['amount']+"</td>";
+
+							if (resp[key]['paymentDate1']){
+								data += "<td>Demandé</td>"
+							}else data += "<td>Non demandé</td>";
+
+							if (resp[key]['paymentDate2']){
+								data += "<td>Demandé</td>"
+							}else data += "<td>Non demandé</td>";
+								
+							if (resp[key]['status'] !== "En attente"){
+								data+="<td><button class=\"btnModif btn btn-sm btn-info\">"+textBtn+"</button></td>";
+							}else{
+								data+="<td></td>";
+							}
+							data += "</tr>"
+
+							$("#tablePayments tbody").append(data);
 						}
-						var data = "<tr value='"+ resp[key]['id'] + "'"+danger+">" +
-										"<td>" + resp[key]['id'] + "</td>"+
-										"<td>" + resp[key]['studentDto']['name'] + "</td>" +
-										"<td>" + resp[key]['studentDto']['firstname'] + "</td>" +
-										"<td>" + resp[key]['departmentDto']['label'] + "</td>" +
-										"<td>" + resp[key]['programDto']['name'] + "</td>" +
-										"<td>" + resp[key]['type'] + "</td>";
-						if (resp[key]['partnerDto']['legalName'] !== null)
-							data += "<td>"+resp[key]['partnerDto']['legalName']+"</td>";
-						else data += "<td></td>";
-							data += "<td>"+resp[key]['amount']+"</td>";
-
-						if (resp[key]['paymentDate1']){
-							data += "<td>Demandé</td>"
-						}else data += "<td>Non demandé</td>";
-
-						if (resp[key]['paymentDate2']){
-							data += "<td>Demandé</td>"
-						}else data += "<td>Non demandé</td>";
-							
-						if (resp[key]['status'] !== "En attente"){
-							data+="<td><button class=\"btnModif btn btn-sm btn-info\">"+textBtn+"</button></td>";
-						}else{
-							data+="<td></td>";
-						}
-						data += "</tr>"
-
-						$("#tablePayments tbody").append(data);
 					}
+					
 	            },
 	            error: function (error) {
 	               	error = JSON.parse(error.responseText);
@@ -1210,8 +1212,9 @@ $(function () {
 	                action: "selectConfirmedMobility",
 	            },
 	            success: function (resp) {
+					$("#empty").empty();
 					if (resp === ""){
-						$("#empty").empty();
+						$("#tableConfirmed").empty();
 						$("#tableConfirmed").after("<p id=\"empty\" class=\"text-center\"><strong> Il n'y aucune demande confirmée actuellement. </strong></p>");
 					}else{
 						resp = JSON.parse(resp);
@@ -1268,11 +1271,12 @@ $(function () {
 	                action: "selectMyMobility",
 	            },
 	            success: function (resp) {
-					$("#myMobility tbody").empty();
 					$("#empty").empty();
 					if (resp === ""){
+						$("#myMobility").empty();
 						$("#myMobility").after("<p id=\"empty\" class=\"text-center\"><strong> Vous n'avez aucune mobilité actuellement. </strong></p>");
 					}else{
+						$("#myMobility tbody").empty();
 						resp = JSON.parse(resp);
                         //console.log(resp)
                         for (key in resp) {
