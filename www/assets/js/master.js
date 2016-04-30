@@ -160,6 +160,56 @@ $(function () {
             }
         });
 
+        // Add Partner validation
+        $("#add_partner_legal_name").change(function(){
+            var partner_legal_name = document.getElementById("add_partner_legal_name");
+            if(partner_legal_name.validity.patternMismatch) {
+                printToaster("info", "Le nom du partenaire ne peut pas contenir de caractères spéciaux");
+            }
+        });
+
+        $("#add_partner_business_name").change(function(){
+            var partner_business_name = document.getElementById("add_partner_bussiness_name");
+            if(partner_business_name.validity.patternMismatch) {
+                printToaster("info", "Le nom d'affaire ne peut pas contenir de caractères spéciaux");
+            }
+        });
+
+        $("#add_partner_full_name").change(function(){
+            var partner_full_name = document.getElementByID("add_partner_full_name");
+            if(partner_full_name.validity.patternMismatch) {
+                printToaster("info", "Le nom du partenaire ne peut pas contenir de caractères spéciaux");
+            }
+        });
+
+        $("#add_partner_city").change(function(){
+            var partner_city = document.getElementById("add_partner_city");
+            if(partner_city.validity.patternMismatch) {
+                printToaster("info", "Le nom de la ville ne peut pas contenir de caractères spéciaux");
+            }
+        });
+
+        $("#add_partner_state").change(function(){
+            var partner_state = document.getElementById("add_partner_state");
+            if(partner_state.validity.patternMismatch) {
+                printToaster("info", "Le nom de la région ne peut contenir de caractères spéciaux");
+            }
+        });
+
+        $("#add_partner_email").change(function(){
+            var partner_email = document.getElementById("add_partner_email");
+            if(partner_email.validity.typeMismatch) {
+                printToaster("info", "Email invalide !");
+            }
+        });
+
+        $("#add_partner_website").change(function(){
+            var partner_website = document.getElementById("add_partner_website");
+            if(partner_website.validity.typeMismatch) {
+                printToaster("info", "URL Invalide !");
+            }
+        });
+
     };
     
     window.onpopstate = function(event) {

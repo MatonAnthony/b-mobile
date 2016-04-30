@@ -177,6 +177,11 @@ public class PartnerImpl implements PartnerBizz {
   }
 
   public void setState(String state) {
+    if(this.state == null){
+      this.state = null;
+    }else if(!Pattern.matches("[A-zÀ-ÿ-. ]*", state)) {
+      throw new IllegalArgumentException("La région ne peut contenir de caractères spéciaux");
+    }
     this.state = state;
   }
 

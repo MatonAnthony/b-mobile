@@ -7,19 +7,20 @@
         <div class="form-group">
             <label for="add_partner_legal_name" class="col-sm-2 control-label">Nom légal:</label>
             <div class="col-sm-5">
-                <input type="text" class="form-control" id="add_partner_legal_name" placeholder="Requis">
+                <input type="text" class="form-control" id="add_partner_legal_name"
+                       placeholder="Requis" pattern="[A-zÀ-ÿ-. ]*">
             </div>
         </div>
         <div class="form-group">
             <label for="add_partner_business_name" class="col-sm-2 control-label">Nom d'affaires:</label>
             <div class="col-sm-5">
-                <input type="text" class="form-control" id="add_partner_business_name">
+                <input type="text" class="form-control" id="add_partner_business_name" pattern="[A-zÀ-ÿ-. ]*">
             </div>
         </div>
         <div class="form-group">
             <label for="add_partner_full_name" class="col-sm-2 control-label">Nom complet:</label>
             <div class="col-sm-5">
-                <input type="text" class="form-control" id="add_partner_full_name">
+                <input type="text" class="form-control" id="add_partner_full_name" pattern="[A-zÀ-ÿ-. ]*">
             </div>
         </div>
         <div class="form-group">
@@ -42,7 +43,7 @@
         <div class="form-group">
             <label for="add_partner_nb_employees" class="col-sm-2 control-label">Nombre d'employées:</label>
             <div class="col-sm-2">
-                <input type="text" class="form-control" id="add_partner_nb_employees">
+                <input type="number" class="form-control" id="add_partner_nb_employees">
             </div>
         </div>
         <div class="form-group">
@@ -52,7 +53,7 @@
             </div>
             <label for="add_partner_number" class="col-sm-1 control-label">Nr:</label>
             <div class="col-sm-1">
-                <input type="text" class="form-control" id="add_partner_number">
+                <input type="number" class="form-control" id="add_partner_number">
             </div>
             <label for="add_partner_mailbox" class="col-sm-1 control-label">Boite:</label>
             <div class="col-sm-1">
@@ -68,13 +69,14 @@
         <div class="form-group">
             <label for="add_partner_city" class="col-sm-2 control-label">Ville:</label>
             <div class="col-sm-3">
-                <input type="text" class="form-control" id="add_partner_city">
+                <input type="text" class="form-control" id="add_partner_city" pattern="[A-zÀ-ÿ-. ]*">
             </div>
         </div>
         <div class="form-group">
             <label for="add_partner_state" class="col-sm-2 control-label">Région:</label>
             <div class="col-sm-3">
-                <input type="text" class="form-control" id="add_partner_state">
+                <input type="text" class="form-control" id="add_partner_state"
+                pattern="[A-zÀ-ÿ-. ]*">
             </div>
         </div>
         <div class="form-group">
@@ -98,7 +100,7 @@
         <div class="form-group">
             <label for="add_partner_website" class="col-sm-2 control-label">Site web:</label>
             <div class="col-sm-3">
-                <input type="text" class="form-control" id="add_partner_website">
+                <input type="url" class="form-control" id="add_partner_website">
             </div>
         </div>
         <div class="col-md-2 col-md-offset-9">
