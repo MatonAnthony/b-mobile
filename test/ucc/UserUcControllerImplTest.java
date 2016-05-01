@@ -10,6 +10,7 @@ import dao.UserDaoMock;
 import dao.interfaces.UserDao;
 import dto.UserDto;
 import exceptions.AuthenticationException;
+import exceptions.OptimisticLockException;
 import exceptions.UserAlreadyExistsException;
 import exceptions.UserNotFoundException;
 import ucc.implementations.UserUcControllerImpl;
@@ -98,24 +99,24 @@ public class UserUcControllerImplTest {
   }
 
   @Test
-  public void testChangePermissions() throws UserNotFoundException {
+  public void testChangePermissions() throws UserNotFoundException, OptimisticLockException {
     userUcc.changePermissions(1, 0);
   }
 
   @Test(expected = UserNotFoundException.class)
-  public void testChangePermissions2() throws UserNotFoundException {
+  public void testChangePermissions2() throws UserNotFoundException, OptimisticLockException {
     userUcc.changePermissions(5, 0);
   }
 
   @Test(expected = UserNotFoundException.class)
-  public void testChangePermissions3()
-      throws UserNotFoundException, AuthenticationException, UserAlreadyExistsException {
+  public void testChangePermissions3() throws UserNotFoundException, AuthenticationException,
+      UserAlreadyExistsException, OptimisticLockException {
     // Test if it is a teacher.
     userUcc.changePermissions(3, 0);
   }
 
   @Test
-  public void testUpdateUser() {
+  public void testUpdateUser() throws OptimisticLockException {
     userdto.setCity("Bruxelles");
     userUcc.updateUser(userdto);
   }

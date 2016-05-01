@@ -90,12 +90,12 @@ public class MobilityUcControllerTest {
   }
 
   @Test
-  public void testCancelMobility() throws SQLException {
+  public void testCancelMobility() throws SQLException, OptimisticLockException {
     mobilityUcController.cancelMobility(1, 1, 0);
   }
 
   @Test
-  public void testConfirmPartner() throws SQLException {
+  public void testConfirmPartner() throws SQLException, OptimisticLockException {
     mobilityUcController.confirmPartner(mobilityDto);
   }
 

@@ -3,6 +3,7 @@ package ucc.interfaces;
 import dto.UserDto;
 import exceptions.AuthenticationException;
 import exceptions.NoCountryException;
+import exceptions.OptimisticLockException;
 import exceptions.UserAlreadyExistsException;
 import exceptions.UserNotFoundException;
 
@@ -32,8 +33,21 @@ public interface UserUcController {
   UserDto register(UserDto userdto)
       throws AuthenticationException, UserAlreadyExistsException, UserAlreadyExistsException;
 
+  /**
+   * Gets user by id.
+   *
+   * @param id the id
+   * @return the user by id
+   * @throws SQLException If there is an Exception.
+   */
   UserDto getUserById(int id) throws SQLException;
 
+  /**
+   * Gets all users.
+   *
+   * @return An ArrayList with all users.
+   * @throws SQLException If there is an Exception.
+   */
   ArrayList<UserDto> getAllUsers() throws SQLException;
 
   /**
@@ -43,8 +57,15 @@ public interface UserUcController {
    * @param verNr the number version of the user to change.
    * @throws UserNotFoundException If the user is not found
    * @throws NoCountryException If the country does not exist
+   * @throws OptimisticLockException if the mobility had been modified since the selection
    */
-  void changePermissions(int id, int verNr) throws UserNotFoundException;
+  void changePermissions(int id, int verNr) throws UserNotFoundException, OptimisticLockException;
 
-  void updateUser(UserDto userEdited);
+  /**
+   * Update user profile.
+   *
+   * @param userEdited The user edited
+   * @throws OptimisticLockException if the mobility had been modified since the selection
+   */
+  void updateUser(UserDto userEdited) throws OptimisticLockException;
 }

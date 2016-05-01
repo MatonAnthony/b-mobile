@@ -262,7 +262,7 @@ public class MobilityDaoImpl implements MobilityDao {
   }
 
   @Override
-  public void cancelMobility(int idMobility, int idCancelation, int verNr) {
+  public int cancelMobility(int idMobility, int idCancelation, int verNr) {
 
     String queryUpdate =
         "UPDATE bmobile.mobilities SET cancelation_reason=?, canceled=TRUE, status='Annulee', ver_nr=? WHERE id=? AND ver_nr=?";
@@ -274,7 +274,7 @@ public class MobilityDaoImpl implements MobilityDao {
       preparedStatement.setInt(3, idMobility);
       preparedStatement.setInt(4, verNr);
 
-      dalBackendServices.executeUpdate(preparedStatement);
+      return dalBackendServices.executeUpdate(preparedStatement);
     } catch (SQLException exc) {
       exc.printStackTrace();
       throw new UnknowErrorException(
@@ -283,7 +283,7 @@ public class MobilityDaoImpl implements MobilityDao {
   }
 
   @Override
-  public void confirmPartner(MobilityDto mobilityDto) {
+  public int confirmPartner(MobilityDto mobilityDto) {
     // language=PostgreSQL
     String query = "UPDATE bmobile.mobilities SET id_partner = ?, status = ?, ver_nr=? "
         + "WHERE id = ? AND ver_nr=? AND id_partner IS NULL ";
@@ -297,7 +297,7 @@ public class MobilityDaoImpl implements MobilityDao {
       preparedStatement.setInt(3, mobilityDto.getVerNr() + 1);
       preparedStatement.setInt(4, mobilityDto.getId());
       preparedStatement.setInt(5, mobilityDto.getVerNr());
-      dalBackendServices.executeUpdate(preparedStatement);
+      return dalBackendServices.executeUpdate(preparedStatement);
 
     } catch (SQLException exc) {
       exc.printStackTrace();

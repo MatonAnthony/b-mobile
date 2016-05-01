@@ -69,15 +69,17 @@ public interface MobilityDao {
    * @param idMobility the id of the mobility.
    * @param verNr The version number before cancelation.
    * @param idCancelation the id of the cancellation.
+   * @return the number of rows modified
    */
-  void cancelMobility(int idMobility, int idCancelation, int verNr);
+  int cancelMobility(int idMobility, int idCancelation, int verNr);
 
   /**
    * Update mobility to join whith the partner id.
    * 
    * @param mobilityDto mobility DTO.
+   * @return the number of rows modified
    */
-  void confirmPartner(MobilityDto mobilityDto);
+  int confirmPartner(MobilityDto mobilityDto);
 
   /**
    * Update the mobility details in the Database whith the informations in the dto.

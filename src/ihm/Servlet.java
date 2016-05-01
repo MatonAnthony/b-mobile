@@ -367,9 +367,10 @@ public class Servlet extends HttpServlet {
    * @throws NoCountryException If there is an error.
    * @throws NotEnoughPermissionsException If the user don't have the permissions to perform the
    *         action
+   * @throws OptimisticLockException
    */
-  private void updateUser(HttpServletRequest req, HttpServletResponse resp)
-      throws IOException, SQLException, NoCountryException, NotEnoughPermissionsException {
+  private void updateUser(HttpServletRequest req, HttpServletResponse resp) throws IOException,
+      SQLException, NoCountryException, NotEnoughPermissionsException, OptimisticLockException {
 
     if (req.getSession().getAttribute(KEY_PERMISSIONS) == null) {
       throw new NotEnoughPermissionsException(
@@ -418,7 +419,8 @@ public class Servlet extends HttpServlet {
   }
 
   private void changePermissions(HttpServletRequest req, HttpServletResponse resp)
-      throws NotEnoughPermissionsException, NumberFormatException, UserNotFoundException {
+      throws NotEnoughPermissionsException, NumberFormatException, UserNotFoundException,
+      OptimisticLockException {
 
     if (!req.getSession().getAttribute(KEY_PERMISSIONS).equals("TEACHER")) {
       throw new NotEnoughPermissionsException(
@@ -553,7 +555,7 @@ public class Servlet extends HttpServlet {
   }
 
   private void confirmPartnerInMobility(HttpServletRequest req, HttpServletResponse resp)
-      throws IOException, SQLException, NotEnoughPermissionsException {
+      throws IOException, SQLException, NotEnoughPermissionsException, OptimisticLockException {
     if (req.getSession().getAttribute(KEY_PERMISSIONS) == null) {
       throw new NotEnoughPermissionsException(
           "Vous n'avez pas les droits nécessaires pour faire cela");
@@ -608,7 +610,8 @@ public class Servlet extends HttpServlet {
   }
 
   private void cancelMobility(HttpServletRequest req, HttpServletResponse resp)
-      throws NotEnoughPermissionsException, SQLException {
+      throws NotEnoughPermissionsException, SQLException, NumberFormatException,
+      OptimisticLockException {
 
     int idCancelation = Integer.parseInt(req.getParameter("idReason"));
     if (req.getParameter("reasonValue") != null) { // If user entered a reason by textarea.

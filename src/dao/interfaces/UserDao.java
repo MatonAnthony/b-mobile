@@ -2,6 +2,7 @@ package dao.interfaces;
 
 import dto.UserDto;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
 
@@ -32,28 +33,30 @@ public interface UserDao {
    * @return the user by id
    * @throw NoSuchElementException if no user is matching with the username.
    */
-  UserDto getUserById(int id) throws NoSuchElementException;
+  UserDto getUserById(int id) throws NoSuchElementException, SQLException;
 
   /**
    * Gets all users.
    *
    * @return An ArrayList with all users.
    */
-  ArrayList<UserDto> getAllUsers();
+  ArrayList<UserDto> getAllUsers() throws SQLException;
 
   /**
    * Change permissions for user by id.
    *
    * @param user the user
+   * @return the number of rows modified
    */
-  void changePermissionsForUserById(UserDto user);
+  int changePermissionsForUserById(UserDto user);
 
   /**
    * Update user profile.
    *
    * @param userEdited The user edited
+   * @return the number of rows modified
    */
-  void updateUser(UserDto userEdited);
+  int updateUser(UserDto userEdited);
 
   /**
    * Gets the existence of the username.

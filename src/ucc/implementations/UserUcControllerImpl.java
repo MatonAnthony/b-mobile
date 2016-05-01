@@ -5,6 +5,7 @@ import dal.DalServices;
 import dao.interfaces.UserDao;
 import dto.UserDto;
 import exceptions.AuthenticationException;
+import exceptions.OptimisticLockException;
 import exceptions.UserAlreadyExistsException;
 import exceptions.UserNotFoundException;
 import ihm.Main;
@@ -109,7 +110,8 @@ public class UserUcControllerImpl implements UserUcController {
   }
 
   @Override
-  public void changePermissions(int id, int verNr) throws UserNotFoundException {
+  public void changePermissions(int id, int verNr)
+      throws UserNotFoundException, OptimisticLockException {
     try {
       dalServices.openConnection();
       dalServices.startTransaction();
@@ -117,7 +119,15 @@ public class UserUcControllerImpl implements UserUcController {
         UserDto user = userDao.getUserById(id);
         user.setVerNr(verNr);
         if (user.getPermissions().equals("STUDENT")) {
-          userDao.changePermissionsForUserById(user);
+          int rowUpdated = userDao.changePermissionsForUserById(user);
+          if (rowUpdated == 1) {
+            dalServices.commitTransaction();
+          } else {
+            dalServices.rollbackTransaction();
+            throw new OptimisticLockException(
+                "Cet utilisateur a été modifiée entre temps, veuillez rafraichir la page "
+                    + "et recommencer");
+          }
         } else {
           throw new UserNotFoundException(
               "Cet utilisateur est un professeur et ne peut être promu.");
@@ -125,34 +135,48 @@ public class UserUcControllerImpl implements UserUcController {
       } catch (NoSuchElementException ex) {
         throw new UserNotFoundException("Cet utilisateur n'existe pas");
       }
-
-      dalServices.commitTransaction();
-      dalServices.closeConnection();
-    } catch (SQLException exc1) {
+    } catch (SQLException exc) {
+      exc.printStackTrace();
       try {
         dalServices.rollbackTransaction();
+      } catch (SQLException exc1) {
+        exc1.printStackTrace();
+      }
+    } finally {
+      try {
         dalServices.closeConnection();
-      } catch (SQLException exc2) {
-        exc2.printStackTrace();
+      } catch (SQLException exc) {
+        exc.printStackTrace();
       }
     }
   }
 
   @Override
-  public void updateUser(UserDto userEdited) {
+  public void updateUser(UserDto userEdited) throws OptimisticLockException {
     try {
       dalServices.openConnection();
       dalServices.startTransaction();
-      userDao.updateUser(userEdited);
-      dalServices.commitTransaction();
-      dalServices.closeConnection();
-    } catch (SQLException exc1) {
-      exc1.printStackTrace();
+      int rowUpdated = userDao.updateUser(userEdited);
+      if (rowUpdated == 1) {
+        dalServices.commitTransaction();
+      } else {
+        dalServices.rollbackTransaction();
+        throw new OptimisticLockException(
+            "Cette mobilité a été modifiée entre temps, veuillez rafraichir la page "
+                + "et recommencer");
+      }
+    } catch (SQLException exc) {
+      exc.printStackTrace();
       try {
         dalServices.rollbackTransaction();
+      } catch (SQLException exc1) {
+        exc1.printStackTrace();
+      }
+    } finally {
+      try {
         dalServices.closeConnection();
-      } catch (SQLException exc2) {
-        exc2.printStackTrace();
+      } catch (SQLException exc) {
+        exc.printStackTrace();
       }
     }
   }

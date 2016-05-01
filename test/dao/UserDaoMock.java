@@ -45,10 +45,14 @@ public class UserDaoMock implements UserDao {
   }
 
   @Override
-  public void changePermissionsForUserById(UserDto user) {}
+  public int changePermissionsForUserById(UserDto user) {
+    return 1;
+  }
 
   @Override
-  public void updateUser(UserDto userEdited) {}
+  public int updateUser(UserDto userEdited) {
+    return 1;
+  }
 
   @Override
   public boolean userExists(String username) {

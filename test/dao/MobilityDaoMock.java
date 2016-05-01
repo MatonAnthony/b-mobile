@@ -60,10 +60,14 @@ public class MobilityDaoMock implements MobilityDao {
   }
 
   @Override
-  public void cancelMobility(int idMobility, int idCancelation, int verNr) {}
+  public int cancelMobility(int idMobility, int idCancelation, int verNr) {
+    return 1;
+  }
 
   @Override
-  public void confirmPartner(MobilityDto mobilityDto) {}
+  public int confirmPartner(MobilityDto mobilityDto) {
+    return 1;
+  }
 
   @Override
   public int updateMobilityDetails(MobilityDto mobility) {

@@ -104,7 +104,7 @@ public class UserDaoImpl implements UserDao {
 
 
   @Override
-  public void changePermissionsForUserById(UserDto user) {
+  public int changePermissionsForUserById(UserDto user) {
     String query =
         "UPDATE bmobile.users SET permissions='TEACHER', ver_nr=? " + "WHERE id=? AND ver_nr=?";
     PreparedStatement preparedStatement = null;
@@ -113,7 +113,7 @@ public class UserDaoImpl implements UserDao {
       preparedStatement.setInt(1, user.getVerNr() + 1);
       preparedStatement.setInt(2, user.getId());
       preparedStatement.setInt(3, user.getVerNr());
-      dalBackendServices.executeUpdate(preparedStatement);
+      return dalBackendServices.executeUpdate(preparedStatement);
     } catch (SQLException exc) {
       exc.printStackTrace();
       throw new UnknowErrorException(
@@ -122,7 +122,7 @@ public class UserDaoImpl implements UserDao {
   }
 
   @Override
-  public void updateUser(UserDto userEdited) {
+  public int updateUser(UserDto userEdited) {
 
     // language=PostgreSQL
     String query = "UPDATE bmobile.users SET name = ?, firstname = ?, gender = ?, citizenship = ?,"
@@ -156,11 +156,9 @@ public class UserDaoImpl implements UserDao {
         preparedStatement.setTimestamp(18, null);
       }
       preparedStatement.setInt(19, userEdited.getVerNr() + 1);
-      System.out.println("num" + userEdited.getVerNr());
       preparedStatement.setInt(20, userEdited.getId());
       preparedStatement.setInt(21, userEdited.getVerNr());
-      dalBackendServices.executeUpdate(preparedStatement);
-
+      return dalBackendServices.executeUpdate(preparedStatement);
 
     } catch (SQLException exc) {
       exc.printStackTrace();

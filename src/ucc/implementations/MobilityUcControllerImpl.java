@@ -109,29 +109,64 @@ public class MobilityUcControllerImpl implements MobilityUcController {
   }
 
   @Override
-  public void cancelMobility(int idMobility, int idCancelation, int verNr) throws SQLException {
-    dalServices.openConnection();
-    dalServices.startTransaction();
-    mobilityDao.cancelMobility(idMobility, idCancelation, verNr);
-    dalServices.commitTransaction();
-    dalServices.closeConnection();
-  }
-
-  @Override
-  public void confirmPartner(MobilityDto mobilityDto) {
+  public void cancelMobility(int idMobility, int idCancelation, int verNr)
+      throws SQLException, OptimisticLockException {
     try {
       dalServices.openConnection();
       dalServices.startTransaction();
-      mobilityDao.confirmPartner(mobilityDto);
-      dalServices.commitTransaction();
-      dalServices.closeConnection();
+      int rowUpdated = mobilityDao.cancelMobility(idMobility, idCancelation, verNr);
+
+      if (rowUpdated == 1) {
+        dalServices.commitTransaction();
+      } else {
+        dalServices.rollbackTransaction();
+        throw new OptimisticLockException(
+            "Cette mobilité a été modifiée entre temps, veuillez rafraichir la page "
+                + "et recommencer");
+      }
     } catch (SQLException exc) {
       exc.printStackTrace();
       try {
         dalServices.rollbackTransaction();
-        dalServices.closeConnection();
       } catch (SQLException exc1) {
         exc1.printStackTrace();
+      }
+    } finally {
+      try {
+        dalServices.closeConnection();
+      } catch (SQLException exc) {
+        exc.printStackTrace();
+      }
+    }
+  }
+
+  @Override
+  public void confirmPartner(MobilityDto mobilityDto) throws OptimisticLockException {
+    try {
+      dalServices.openConnection();
+      dalServices.startTransaction();
+      int rowUpdated = mobilityDao.confirmPartner(mobilityDto);
+
+      if (rowUpdated == 1) {
+        dalServices.commitTransaction();
+      } else {
+        dalServices.rollbackTransaction();
+        throw new OptimisticLockException(
+            "Cette mobilité a été modifiée entre temps, veuillez rafraichir la page "
+                + "et recommencer");
+      }
+    } catch (SQLException exc) {
+      exc.printStackTrace();
+      try {
+        dalServices.rollbackTransaction();
+      } catch (SQLException exc1) {
+        exc1.printStackTrace();
+      }
+    } finally {
+      try {
+        dalServices.closeConnection();
+      } catch (SQLException exc) {
+        exc.printStackTrace();
       }
     }
 
