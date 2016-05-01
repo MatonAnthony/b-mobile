@@ -2121,7 +2121,7 @@ $(function () {
 
 
                     string +="<tr><td> Test de langues : Retour </td>";
-                if(resp['returnErasmusLanguagetest']){
+                if(resp['returnErasmusLanguageTest']){
                     $("#detailMobiliteTestLangueRetour").prop("checked", true);
                     string +="<td> Remis </td> </tr>";
                 }else{
