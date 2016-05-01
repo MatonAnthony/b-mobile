@@ -79,6 +79,7 @@ public class PartnerImpl implements PartnerBizz {
     return businessName;
   }
 
+
   public void setBusiness(String business) {
     if (business == null) {
       this.businessName = null;
