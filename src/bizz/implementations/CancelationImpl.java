@@ -23,6 +23,9 @@ public class CancelationImpl implements CancelationBizz, Cloneable {
     return reason;
   }
 
+  /**
+   * {@inheritDoc}
+   */
   public void setReason(String reason) {
     if (this.reason == null) {
       this.reason = null;
@@ -32,6 +35,9 @@ public class CancelationImpl implements CancelationBizz, Cloneable {
     this.reason = reason;
   }
 
+  /**
+   * {@inheritDoc}
+   */
   public String getResponsible() {
     return responsible;
   }

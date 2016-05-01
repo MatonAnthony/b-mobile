@@ -60,6 +60,9 @@ public class PartnerImpl implements PartnerBizz {
     return legalName;
   }
 
+  /**
+   * {@inheritDoc}
+   */
   public void setLegalName(String legalName) {
     if (legalName == null) {
       this.legalName = null;
@@ -69,6 +72,9 @@ public class PartnerImpl implements PartnerBizz {
     this.legalName = legalName;
   }
 
+  /**
+   * {@inheritDoc}
+   */
   public String getBusiness() {
     return businessName;
   }
@@ -82,6 +88,9 @@ public class PartnerImpl implements PartnerBizz {
     this.businessName = business;
   }
 
+  /**
+   * {@inheritDoc}
+   */
   public String getFullName() {
     return fullName;
   }
@@ -112,10 +121,16 @@ public class PartnerImpl implements PartnerBizz {
     this.type = type;
   }
 
+  /**
+   * {@inheritDoc}
+   */
   public int getNbEmployees() {
     return nbEmployees;
   }
 
+  /**
+   * {@inheritDoc}
+   */
   public void setNbEmployees(int nbEmployees) {
     this.nbEmployees = nbEmployees;
   }
@@ -146,6 +161,9 @@ public class PartnerImpl implements PartnerBizz {
     return mailbox;
   }
 
+  /**
+   * {@inheritDoc}
+   */
   public void setMailbox(String mailbox) {
     this.mailbox = mailbox;
   }
@@ -189,6 +207,9 @@ public class PartnerImpl implements PartnerBizz {
     return tel;
   }
 
+  /**
+   * {@inheritDoc}
+   */
   public void setTel(String tel) {
     this.tel = tel;
   }
@@ -201,6 +222,9 @@ public class PartnerImpl implements PartnerBizz {
     this.countryDto = countryDto;
   }
 
+  /**
+   * {@inheritDoc}
+   */
   public String getCountry() {
     return country;
   }

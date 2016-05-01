@@ -1,7 +1,7 @@
 package bizz.enumeration;
 
 /**
- * Define the state of a mobility
+ * Define the state of a mobility.
  */
 public enum MobilityState {
     PENDING,
