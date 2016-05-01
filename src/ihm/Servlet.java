@@ -400,7 +400,8 @@ public class Servlet extends HttpServlet {
     userEdited.setMailBox(req.getParameter("mailbox"));
     userEdited.setZip(req.getParameter("zipcode"));
     userEdited.setCity(req.getParameter("city"));
-    userEdited.setCountryDto(countryUcc.getCountryByNameFr(req.getParameter("country")));
+    System.out.println(req.getParameter("country"));
+    userEdited.setCountryDto(countryUcc.getCountryByIso(req.getParameter("country")));
     userEdited.setCountry(userEdited.getCountryDto().getNameFr());
     userEdited.setTel(req.getParameter("tel"));
     userEdited.setSuccessfullYearInCollege(
@@ -413,7 +414,7 @@ public class Servlet extends HttpServlet {
     userEdited.setAccountHolder(req.getParameter("accountHolder"));
     userEdited.setBankName(req.getParameter("bankName"));
     userEdited.setBic(req.getParameter("bic"));
-    userEdited.setVerNr(Integer.parseInt("" + req.getParameter("verNr")));
+//    userEdited.setVerNr(Integer.parseInt("" + req.getParameter("verNr")));
 
     userUcc.updateUser(userEdited);
   }

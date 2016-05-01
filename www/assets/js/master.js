@@ -607,7 +607,7 @@ $(function () {
                     resp = JSON.parse(resp);
                     var key;
                     for (key in resp) {
-                        $("#profile_country").append('<option value='+resp[key]['nameFr']+'>' + resp[key]['nameFr'] + '</option>');
+                        $("#profile_country").append('<option value='+resp[key]['iso']+'>' + resp[key]['nameFr'] + '</option>');
                     }
                 },
                 error: function (error) {
@@ -1110,7 +1110,8 @@ $(function () {
 
                 $("input[name='city']").val(resp['city']);
                 var country = resp['country'];
-                $("#profile_country").val(country).html();
+                console.log(country);
+                $("select[name='country']").val(resp['country']).html();
                 $("input[name='mailbox']").val(resp['mailBox']);
                 $("input[name='zipcode']").val(resp['zip']);
                 $("input[name='tel']").val(resp['tel']);
