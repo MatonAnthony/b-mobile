@@ -1071,7 +1071,7 @@ $(function () {
                     resp = JSON.parse(resp);
                     var key;
                     for (key in resp) {
-                        $("#profile_country").append('<option iso='+resp[key]['iso']+'>' + resp[key]['nameFr'] + '</option>');
+                        $("#profile_country").append('<option value='+resp[key]['iso']+'>' + resp[key]['nameFr'] + '</option>');
                     }
                 },
                 error: function (error) {
@@ -1100,7 +1100,7 @@ $(function () {
                 }catch(err){
                     console.log("La date de naissance est nulle");
                 }
-                //console.log(resp);
+                console.log(resp);
                 $("input[name='name']").val(resp['name']);
                 $("input[name='firstname']").val(resp['firstname']);
                 $("input[name='gender']").val(resp['gender']);
