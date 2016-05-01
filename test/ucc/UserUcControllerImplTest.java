@@ -25,13 +25,11 @@ public class UserUcControllerImplTest {
 
   private UserUcControllerImpl userUcc;
   private UserDto userdto;
-  private UserDto empty;
   private ArrayList<UserDto> list;
   private BizzFactoryImpl bizz;
 
   @Before
   public void setUp() throws Exception {
-    DalServices dal = new DalServicesImplStub();
     bizz = new BizzFactoryImpl();
     userdto = bizz.getUserDto();
     userdto.setId(1);
@@ -55,9 +53,9 @@ public class UserUcControllerImplTest {
     profImpl.cryptPassword();
     list.add(profImpl);
 
+    DalServices dal = new DalServicesImplStub();
     UserDao user = new UserDaoMock(list);
     userUcc = new UserUcControllerImpl(dal, user);
-    empty = bizz.getUserDto();
   }
 
   @Test

@@ -1,19 +1,12 @@
 package dal;
 
-import org.apache.commons.dbcp2.BasicDataSource;
-
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class DalServicesImplStub implements DalServices, DalBackendServices {
 
-  private ResultSet resultSet;
-  private BasicDataSource connectionPool;
-
-  public DalServicesImplStub() {
-    connectionPool = new BasicDataSource();
-  }
+  public DalServicesImplStub() {}
 
   @Override
   public PreparedStatement prepare(String query) throws SQLException {

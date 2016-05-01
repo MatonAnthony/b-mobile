@@ -135,6 +135,8 @@ public class Servlet extends HttpServlet {
   protected void doPost(HttpServletRequest req, HttpServletResponse resp)
       throws ServletException, IOException {
     resp.setCharacterEncoding("UTF-8");
+
+
     try {
       String action = req.getParameter("action");
       switch (action) {
@@ -231,9 +233,13 @@ public class Servlet extends HttpServlet {
         default:
           resp.setStatus(HttpStatus.BAD_REQUEST_400);
       }
-    } catch (Exception exc) {
+    } catch (SQLException | AuthenticationException | NotEnoughPermissionsException
+        | NoMobilityException | NumberFormatException | OptimisticLockException | NoCountryException
+        | BadMobilityStatusException | NoDepartmentException | UserNotFoundException
+        | NoProgramException | UserAlreadyExistsException exc) {
       createToaster(exc, resp);
     }
+
 
   }
 

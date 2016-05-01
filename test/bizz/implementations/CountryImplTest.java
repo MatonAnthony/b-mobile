@@ -9,7 +9,6 @@ import org.junit.Test;
 public class CountryImplTest {
 
   private CountryImpl puppet;
-  private CountryImpl empty;
 
 
   /**
@@ -19,7 +18,6 @@ public class CountryImplTest {
    */
   @Before
   public void setUp() throws Exception {
-    empty = new CountryImpl();
     puppet = new CountryImpl();
     puppet.setIdProgram(3);
     puppet.setIso("be");

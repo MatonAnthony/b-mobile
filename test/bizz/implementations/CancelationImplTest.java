@@ -46,7 +46,7 @@ public class CancelationImplTest {
   @Test(expected = IllegalArgumentException.class)
   public void testSetReason2() throws Exception {
     cancelation.setReason("nope");
-    cancelation.getReason();
+    String resp = cancelation.getReason();
   }
 
   @Test
@@ -63,7 +63,7 @@ public class CancelationImplTest {
   @Test(expected = IllegalArgumentException.class)
   public void testGetResponsible3() throws Exception {
     cancelation.setResponsible("POULE");
-    cancelation.getResponsible();
+    String resp = cancelation.getResponsible();
   }
 
   @Test
