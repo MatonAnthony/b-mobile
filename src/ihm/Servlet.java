@@ -331,7 +331,7 @@ public class Servlet extends HttpServlet {
     ArrayList<ProgramDto> programs = programUcc.getAllPrograms();
     ArrayList<DepartmentDto> departments = departmentUcc.getAllDepartments();
     ArrayList<CountryDto> countries = countryUcc.getAllCountries();
-    ArrayList<PartnerDto> partners = partnerUcc.getAllPartners();
+    ArrayList<PartnerDto> partners = partnerUcc.getTeacherPartners();
 
     HashMap<String, Object> datas = new HashMap<String, Object>();
     datas.put("programs", programs);
@@ -390,6 +390,7 @@ public class Servlet extends HttpServlet {
     userEdited.setFirstname(req.getParameter("firstname"));
     userEdited.setGender(req.getParameter("gender"));
     try {
+      System.out.println("Birthdate Servlet = " + req.getParameter("birthdate"));
       userEdited.setBirthDate(LocalDate.parse(req.getParameter("birthdate")));
     } catch (IllegalArgumentException | DateTimeParseException exc) {
       createToaster(exc, resp);

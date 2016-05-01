@@ -66,6 +66,11 @@ public class PartnerUcControllerImplTest {
   }
 
   @Test
+  public void testGetTeacherPartners() throws SQLException {
+    assertEquals(list, partnerUcController.getTeacherPartners());
+  }
+
+  @Test
   public void testUpdatePartner() {
     partnerUcController.updatePartner(partnerDto2);
   }

@@ -46,26 +46,28 @@ public class MobilityDaoImpl implements MobilityDao {
           + "m.return_erasmus_language_test, m.return_doc_sent_highschool, m.cancelation_reason, "
           + "m.academic_year, m.ver_nr, amount, first_payment_date, second_payment_date,  " // 32
 
-  + "u.id, u.id_department, u.pseudo, u.name, u.firstname, u.email, u.registration_date,"
+
+          + "u.id, u.id_department, u.pseudo, u.name, u.firstname, u.email, u.registration_date,"
           + " u.permissions, u.birth_date, u.street, u.house_number, u.mailbox, u.zip, u.city, "
+
           + "u.country, u.tel, u.gender, u.successfull_year_in_college, u.iban, u.bic, "
           + "u.account_holder, u.bank_name, u.citizenship, u.ver_nr, " // 56
 
-  + "pro.id, pro.name, pro.description, pro.ver_nr, "
+          + "pro.id, pro.name, pro.description, pro.ver_nr, "
           + "par.id, par.id_user, par.legal_name, par.business_name, par.full_name, par.department,"
           + "par.type, par.nb_employees, par.street, par.number, par.mailbox, par.zip, par.city,"
           + "par.state,par.country, par.email, par.website, par.exists, par.ver_nr,"
 
 
-  + "co.iso, co.name_en, co.name_fr, co.id_program," + "d.id, d.label, d.ver_nr "
+          + "co.iso, co.name_en, co.name_fr, co.id_program," + "d.id, d.label, d.ver_nr "
           + ",c.id, c.reason, c.responsible, c.ver_nr "
 
-  + "FROM bmobile.mobilities m LEFT OUTER JOIN bmobile.partners par "
+          + "FROM bmobile.mobilities m LEFT OUTER JOIN bmobile.partners par "
           + "ON m.id_partner = par.id LEFT OUTER JOIN bmobile.cancelations c "
           + "ON m.cancelation_reason = c.id, bmobile.users u, bmobile.programs pro, "
           + "bmobile.countries co, bmobile.departments d "
 
-  + "WHERE (m.id_student = u.id) AND (m.id_program = pro.id) "
+          + "WHERE (m.id_student = u.id) AND (m.id_program = pro.id) "
           + "AND (m.country = co.iso) AND (m.id_department = d.id)";
 
 
@@ -265,7 +267,9 @@ public class MobilityDaoImpl implements MobilityDao {
   public int cancelMobility(int idMobility, int idCancelation, int verNr) {
 
     String queryUpdate =
-        "UPDATE bmobile.mobilities SET cancelation_reason=?, canceled=TRUE, status='Annulee', ver_nr=? WHERE id=? AND ver_nr=?";
+        "UPDATE bmobile.mobilities SET cancelation_reason=?, canceled=TRUE, status='Annulee', "
+            + "ver_nr=? WHERE id=? AND ver_nr=?";
+
     PreparedStatement preparedStatement = null;
     try {
       preparedStatement = dalBackendServices.prepare(queryUpdate);

@@ -32,6 +32,7 @@ public class PartnerDaoImpl implements PartnerDao {
       + " co.iso, co.name_en, co.name_fr, co.id_program"
       + " FROM bmobile.partners par LEFT OUTER JOIN bmobile.users u ON par.id_user = u.id,"
       + " bmobile.countries co WHERE par.country = co.iso ";
+
   public PartnerDaoImpl(DalBackendServices dalBackendServices, BizzFactory bizzFactory) {
     this.dalBackendServices = dalBackendServices;
     this.factory = bizzFactory;
@@ -40,8 +41,8 @@ public class PartnerDaoImpl implements PartnerDao {
   @Override
   public void createPartner(PartnerDto partner) {
     // language=PostgreSQL
-    String query =
-        "INSERT INTO bmobile.partners VALUES " + "(DEFAULT,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) RETURNING id ";
+    String query = "INSERT INTO bmobile.partners VALUES "
+        + "(DEFAULT,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) RETURNING id ";
 
     // language=PostgreSQL
     String partnerDepartment = "INSERT INTO bmobile.partners_departments VALUES (?,?,?)";
@@ -223,6 +224,24 @@ public class PartnerDaoImpl implements PartnerDao {
 
   }
 
+  @Override
+  public ArrayList<PartnerDto> getTeacherPartners() {
+    String queryTemp = queryFull + " AND exists=TRUE";
+
+    ArrayList<PartnerDto> partners = null;
+    PreparedStatement preparedStatement = null;
+    try {
+      preparedStatement = dalBackendServices.prepare(queryTemp);
+
+      partners = fillDtoArray(preparedStatement);
+
+    } catch (SQLException exc) {
+      exc.printStackTrace();
+    }
+
+    return partners;
+  }
+
 
   @Override
   public PartnerDto getPartnerById(int id) {
@@ -338,7 +357,7 @@ public class PartnerDaoImpl implements PartnerDao {
     user.setId(resultSet.getInt(21));
     user.setIdDepartment(resultSet.getString(22));
     user.setPseudo(resultSet.getString(23));
-    //user.setPassword(resultSet.getString(24));
+    // user.setPassword(resultSet.getString(24));
     user.setName(resultSet.getString(24));
     user.setFirstname(resultSet.getString(25));
     user.setEmail(resultSet.getString(26));
@@ -377,6 +396,5 @@ public class PartnerDaoImpl implements PartnerDao {
 
     return partner;
   }
-
 
 }

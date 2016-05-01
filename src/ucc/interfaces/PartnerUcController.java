@@ -37,6 +37,14 @@ public interface PartnerUcController {
   ArrayList<PartnerDto> getAllPartners() throws SQLException;
 
   /**
+   * Return an ArrayList containing all the partners added by the teacher.
+   * 
+   * @return an ArrayList of PartnerDto
+   * @throws SQLException if an error occurred with the database.
+   */
+  ArrayList<PartnerDto> getTeacherPartners() throws SQLException;
+
+  /**
    * Update the details for a partner.
    * 
    * @param partner the partnerDto with the informations.

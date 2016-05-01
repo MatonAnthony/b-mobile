@@ -44,4 +44,11 @@ public interface PartnerDao {
    * @return the number of rows modified
    */
   int updatePartner(PartnerDto partner);
+
+  /**
+   * Get all the partners of the database added by a teacher.
+   * 
+   * @return An arraylist of PartnerDto
+   */
+  ArrayList<PartnerDto> getTeacherPartners();
 }

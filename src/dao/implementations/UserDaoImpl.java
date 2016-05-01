@@ -25,7 +25,7 @@ public class UserDaoImpl implements UserDao {
       + " u.citizenship, u.house_number, u.mailbox, u.zip, u.city, u.country, u.tel, u.gender,"
       + " u.successfull_year_in_college, u.iban, u.bic, u.account_holder, u.bank_name, u.ver_nr, "
 
-  + "co.iso, co.name_en, co.name_fr, co.id_program "
+      + "co.iso, co.name_en, co.name_fr, co.id_program "
       + "FROM bmobile.users u LEFT OUTER JOIN bmobile.countries co ON u.country = co.iso ";
 
   public UserDaoImpl(DalBackendServices dalBackendServices, BizzFactory bizzFactory) {
@@ -129,6 +129,7 @@ public class UserDaoImpl implements UserDao {
         + "street = ?, house_number = ?, mailbox = ?, zip = ?, city = ?, tel = ?, email = ?,"
         + "successfull_year_in_college = ?, bic = ?, account_holder = ?, bank_name = ?, "
         + "country = ?, iban = ?, birth_date = ?, ver_nr=? WHERE id = ? AND ver_nr=?";
+
     PreparedStatement preparedStatement = null;
     try {
       preparedStatement = dalBackendServices.prepare(query);
