@@ -1099,7 +1099,6 @@ $(function () {
                 }catch(err){
                     console.log("La date de naissance est nulle");
                 }
-                console.log(resp);
                 $("input[name='name']").val(resp['name']);
                 $("input[name='firstname']").val(resp['firstname']);
                 $("input[name='gender']").val(resp['gender']);
@@ -1109,7 +1108,6 @@ $(function () {
 
                 $("input[name='city']").val(resp['city']);
                 var country = resp['country'];
-                console.log(country);
                 $("select[name='country']").val(resp['country']).html();
                 $("input[name='mailbox']").val(resp['mailBox']);
                 $("input[name='zipcode']").val(resp['zip']);
