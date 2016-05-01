@@ -367,7 +367,7 @@ public class Servlet extends HttpServlet {
    * @throws NoCountryException If there is an error.
    * @throws NotEnoughPermissionsException If the user don't have the permissions to perform the
    *         action
-   * @throws OptimisticLockException
+   * @throws OptimisticLockException If the version number changed since the selection.
    */
   private void updateUser(HttpServletRequest req, HttpServletResponse resp) throws IOException,
       SQLException, NoCountryException, NotEnoughPermissionsException, OptimisticLockException {
@@ -415,7 +415,7 @@ public class Servlet extends HttpServlet {
     userEdited.setAccountHolder(req.getParameter("accountHolder"));
     userEdited.setBankName(req.getParameter("bankName"));
     userEdited.setBic(req.getParameter("bic"));
-//    userEdited.setVerNr(Integer.parseInt("" + req.getParameter("verNr")));
+    userEdited.setVerNr(Integer.parseInt("" + req.getParameter("verNr")));
 
     userUcc.updateUser(userEdited);
   }
@@ -961,7 +961,6 @@ public class Servlet extends HttpServlet {
 
   private HttpServletResponse createToaster(Exception exception, HttpServletResponse resp)
       throws IOException {
-    exception.printStackTrace();
     Map<String, String> map = new HashMap<String, String>();
     // warning, success, error, info
     switch (exception.getClass().toString()) {
