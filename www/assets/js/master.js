@@ -242,6 +242,12 @@ $(function () {
 			case "payment" :
 				loadPaymentPage();
 				break;
+            case "addPartnerTeacher" :
+                loadAddPartnerTeacher();
+                break;
+            case "ListAndModifyPartner" :
+                loadPartners();
+                break;
             default:
                 disconnect();
                 break;
@@ -760,6 +766,14 @@ $(function () {
                 loadPaymentPage();
 				history.pushState({page: "payment"}, "Liste des paiements", "/home#payment");
 				break;
+            case "#addPartnerTeacher" :
+                loadAddPartnerTeacher();
+				history.pushState({page: "addPartnerTeacher"}, "Ajouter un partenaire", "/home#addPartnerTeacher");
+				break;
+            case "#ListAndModifyPartner" :
+                loadPartners();
+				history.pushState({page: "ListAndModifyPartner"}, "Lister et modifier les partenaires", "/home#ListAndModifyPartner");
+				break;
         }
         return false;
     });
@@ -829,6 +843,7 @@ $(function () {
         $(".page").css("display", "none");
         $("#navBarTeacher").css("display", "block");
         $("#teacherHomePage").css("display", "block");
+        $('#searchBar').css("display","block");
         loadConfirmedMobility();
         $(".active").removeClass("active");
         $(".navButton[href='#confirmedMobility']").parent().addClass("active");
@@ -842,6 +857,7 @@ $(function () {
         $(".active").removeClass("active");
         $(".navButton[href='#2lists']").parent().addClass("active");
         $("#tableConfirmed tbody").empty();
+        $('#searchBar').css("display","none");
         loadMobility();
     }
 
@@ -849,7 +865,7 @@ $(function () {
 		$(".page").css("display", "none");
 		$("#navBarTeacher").css("display", "block");
 		$("#paymentPage").css("display", "block");
-
+        $('#searchBar').css("display","block");
 		$(".active").removeClass("active");
 		$(".navButton[href='#2lists']").parent().addClass("active");
 		//$(".navButton[href='#payment']").parent().addClass("active");
@@ -861,6 +877,7 @@ $(function () {
         $(".page").css("display", "none");
         $("#navBarTeacher").css("display", "block");
         $("#userListPage").css("display", "block");
+        $('#searchBar').css("display","block");
 		$("#searchBar").val("");
         $.ajax({
             method: "POST",
@@ -933,6 +950,7 @@ $(function () {
         $("#addPartnerPage").css("display", "block");
         $("#setPartnerBtn").css("display","none");
  		$("#addPartnerBtn").css("display","block");
+        $('#school_department').css("display", "none");
         $(".active").removeClass("active");
         $(".navButton[href='#addPartner']").parent().addClass("active");
         addParnter();
@@ -946,14 +964,19 @@ $(function () {
         $("#addPartnerPage").css("display", "block");
         $("#setPartnerBtn").css("display","none");
  		$("#addPartnerBtn").css("display","block");
+        $('#searchBar').css("display","block");
+        $('#school_department').css("display", "block");
         $(".active").removeClass("active");
+        $(".navButton[href='#3lists']").parent().addClass("active");
         addParnter();
 
     }
 
     function addParnter(){
+        
+        $("#add_partner_country_school_department").empty();
         if ($("#add_partner_country").html() == "") {
-            checkPermission();
+
             $.ajax({
                 method: "POST",
                 url: "/home",
@@ -974,8 +997,8 @@ $(function () {
                 }
             });
         }
-        if ($("#add_partner_country_school_department").html() == "" && $("#permissionHideFilds").val() === "TEACHER") {
-            $('#school_department').css("display", "block");
+        checkPermission();
+        if ($("#add_partner_country_school_department").html() == "") {
             $.ajax({
                 method: "POST",
                 url: "/home",
@@ -985,7 +1008,7 @@ $(function () {
                 success: function (resp) {
                     resp = JSON.parse(resp);
                     var key;
-
+                    $("#add_partner_country_school_department").append("<option></option>");
                     for (key in resp) {
                         $("#add_partner_country_school_department").append("<option data-departId=" + resp[key]['id']+ ">" + resp[key]['label'] + "</option>");
                     }
@@ -996,7 +1019,7 @@ $(function () {
                 }
             });
         }else{
-            $('#school_department').css("display", "none");
+
             $("#add_partner_country_school_department").empty();
         }
     }
@@ -1322,7 +1345,7 @@ $(function () {
 			success: function (resp) {
 				resp = JSON.parse(resp);
 				$(idOfSelect).empty();
-				$(idOfSelect).append("<option value='0' selected='selected'>--Toutes</option")
+				$(idOfSelect).append("<option value='0' selected='selected'>--Toutes</option>")
 				for(var i=0; i < resp.length; i++){
 					var option = $('<option>');
 					$(option).val(resp[i]).text(resp[i]);
@@ -1900,7 +1923,7 @@ $(function () {
          }
     }
 
-         $("#setPartner").on("click",function(){
+         $("#setPartner").off("clicl.setPartner").on("click.setPartner",function(){
         	$(".page").css("display", "none");
      		$("#addPartnerPage").css("display","block");
      		$("#navBarTeacher").css("display","block");
@@ -1925,7 +1948,7 @@ $(function () {
      		$('#add_partner_website').val($('#webPartner').html());
          });
 
-         $("#setPartnerBtn").on("click",function(){
+         $("#setPartnerBtn").off("click.setPartnerBtn").on("click.setPartnerBtn",function(){
         	 $.ajax({
                  method: "POST",
                  url: "/home",
@@ -2369,9 +2392,74 @@ $(function () {
                 printToaster(error.type, error.message);
             }
         });
+    }
 
+    function loadPartners() {
+        $(".page").css("display", "none");
+        $("#partnersListPage").css("display","block");
+        $("#navBarTeacher").css("display","block");
+        $('#searchBar').css("display","block");
+        $(".active").removeClass("active");
+        $(".navButton[href='#3lists']").parent().addClass("active");
+        addParnter();
 
+        $.ajax({
+            method: "POST",
+            url: "/home",
+            data: {
+                action: "selectAllPartners"
+            },
+            success: function (resp) {
+                resp = JSON.parse(resp);
+                //console.log(resp);
+                $("#tablePartnersList tbody").empty();
 
+                for (key in resp) {
+                    if (resp[key]['city'] === null || resp[key]['city'] === "") {
+                        var city = "-"
+                    } else {
+                        city = resp[key]['city'];
+                    }
+                    var data =
+                        "<tr class='partnerTR'>" +
+                        "<td>" + resp[key]['id'] + "</td>" +
+                        "<td class='tdName'>" + resp[key]['legalName'] + "</td>" +
+                        "<td class='tdCity'>"+ city +"</td>" +
+                        "<td class='tdCountry'>" + resp[key]['countryDto']['nameFr'] + "</td>" +
+                        "<td>" + resp[key]['userDto']['firstname'] + " " + resp[key]['userDto']['name'] + "</td>" +
+                        "<td><button id="+ resp[key]['id'] +" class=\"btn btn-sm btn-success btnModifyPartner\">Modifier</button></td>" +
+                        "<td><button id="+ resp[key]['id'] +" class=\"btn btn-sm btn-danger btnDelPartner\">Supprimer</button></td>" +
+                        "</tr>";
+                    $("#tablePartnersList tbody").append(data);
+                }
+            },
+            error: function (error) {
+                error = JSON.parse(error.responseText);
+                printToaster(error.type, error.message);
+            }
+        });
+
+        $("#partnersListPage").off("click.btnModifyPartner").on("click.btnModifyPartner", ".btnModifyPartner", function (){
+            loadInfoPartner($(this).attr('id'));
+        });
+
+        $(".active").removeClass("active");
+        $(".navButton[href='#3lists']").parent().addClass("active");
+
+        $("#searchBar").off('input.searchBar').on('input.searchBar', function (){
+            var inputSearch = $("#searchBar").val();
+            var regEx = new RegExp("^"+inputSearch,"i");
+
+            $(".partnerTR").each(function(){
+                if ($(this).children(".tdName").html().match(regEx) ||
+                    $(this).children(".tdCity").html().match(regEx) ||
+                    $(this).children(".tdCountry").html().match(regEx) ){
+                    $(this).css("display","table-row");
+                }else{
+                    $(this).css("display","none");
+                }
+            });
+        });
     }
 
 	// Export to CSV

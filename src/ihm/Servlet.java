@@ -225,6 +225,9 @@ public class Servlet extends HttpServlet {
         case "checkPermission":
           checkPermission(req, resp);
           break;
+        case "selectAllPartners":
+          selectAllPartners(req, resp);
+          break;
         default:
           resp.setStatus(HttpStatus.BAD_REQUEST_400);
       }
@@ -1029,6 +1032,20 @@ public class Servlet extends HttpServlet {
     resp.getWriter().println(jsonPartner);
     resp.setStatus(HttpStatus.ACCEPTED_202);
 
+  }
+
+  private void selectAllPartners(HttpServletRequest req, HttpServletResponse resp)
+      throws NotEnoughPermissionsException, IOException, SQLException {
+
+    if (!req.getSession().getAttribute(KEY_PERMISSIONS).equals("TEACHER")) {
+      throw new NotEnoughPermissionsException(
+          "Vous n'avez pas les droits nécessaires pour faire cela");
+    }
+
+    ArrayList<PartnerDto> partners = partnerUcc.getAllPartners();
+    String jsonPartners = basicGenson.serialize(partners);
+    resp.getWriter().println(jsonPartners);
+    resp.setStatus(HttpStatus.ACCEPTED_202);
   }
 
 }
