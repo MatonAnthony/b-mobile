@@ -595,7 +595,20 @@ $(function () {
 
     $("#userListTableBody").on("click", ".btnGererInfos", function () {
         var id = $(this).attr("value");
-        if ($("#profile_country").html() == "") {
+        fillProfilePage(id);
+        $(".page").css("display", "none");
+        $("#navBarTeacher").css("display","block");
+        $("#profilePage").css("display", "block");
+        return true;
+    });
+
+    function fillProfilePage(id){
+    	var actionVal = "selectUserInformationsById";
+    	if(id == null){
+    		actionVal = "selectProfile";
+    	}
+
+    	if ($("#profile_country").html() == "") {
             $.ajax({
                 method: "POST",
                 url: "/home",
@@ -603,11 +616,15 @@ $(function () {
                     action: "selectCountries"
                 },
                 success: function (resp) {
+                	var id= $("#profile_country").attr('data-id');
                     resp = JSON.parse(resp);
                     var key;
                     for (key in resp) {
                         $("#profile_country").append('<option value='+resp[key]['iso']+'>' + resp[key]['nameFr'] + '</option>');
                     }
+                	if (id!=null) {
+                	    $("#profile_country").val(id);
+                	}
                 },
                 error: function (error) {
                     error = JSON.parse(error.responseText);
@@ -620,7 +637,7 @@ $(function () {
             method: "POST",
             url: "/home",
             data: {
-                action: "selectUserInformationsById",
+                action: actionVal,
                 id: id
             },
             success: function (resp) {
@@ -638,14 +655,19 @@ $(function () {
 
                 $("input[name='name']").val(resp['name']);
                 $("input[name='firstname']").val(resp['firstname']);
-                $("input[name='gender']").val(resp['gender']);
+                $("select[name='gender']").val(resp['gender']);
                 $("input[name='citizenship']").val(resp['citizenship']);
                 $("input[name='street']").val(resp['street']);
                 $("input[name='houseNumber']").val(resp['houseNumber']);
 
                 $("input[name='city']").val(resp['city']);
                 var country = resp['country'];
-                $("#profile_country").val(country);
+                if ($("#profile_country").html()=="") {
+                	$("#profile_country").attr('data-id',country);
+                } else {
+                	$("#profile_country").val(country);
+                }
+               
                 $("input[name='mailbox']").val(resp['mailBox']);
                 $("input[name='zipcode']").val(resp['zip']);
                 $("input[name='tel']").val(resp['tel']);
@@ -663,18 +685,14 @@ $(function () {
                 $("#formProfile").attr("idUser", id);
                 //$("#btnGererInfos").attr("verNb", resp['verNr']);
                 $("#formProfile").attr("verNb", resp['verNr']);
-
-                $(".page").css("display", "none");
-                $("#navBarTeacher").css("display","block");
-                $("#profilePage").css("display", "block");
             },
             error: function (error) {
                 error = JSON.parse(error.responseText);
 				printToaster(error.type, error.message);
             }
         });
-        return true;
-    });
+        return false;
+    }
 
     //addPartner
     $("#addPartnerBtn").click(function () {
@@ -1059,77 +1077,8 @@ $(function () {
 		$(".active").removeClass("active");
 		$(".navButton[href='#myInformations']").parent().addClass("active");
 
-        if ($("#profile_country").html() == "") {
-            $.ajax({
-                method: "POST",
-                url: "/home",
-                data: {
-                    action: "selectCountries"
-                },
-                success: function (resp) {
-                    resp = JSON.parse(resp);
-                    var key;
-                    for (key in resp) {
-                        $("#profile_country").append('<option value='+resp[key]['iso']+'>' + resp[key]['nameFr'] + '</option>');
-                    }
-                },
-                error: function (error) {
-                    error = JSON.parse(error.responseText);
-					printToaster(error.type, error.message);
-                }
-            });
-        }
-
-		$.ajax({
-			method: 'POST',
-			url: '/home',
-			data: {
-				action: 'selectProfile'
-			},
-			success: function(resp){
-				resp = JSON.parse(resp);
-				
-                try{
-                    var b = new Date(""+resp['birthDate']['year']+"-"+resp['birthDate']['month']
-                        +"-"+resp['birthDate']['day']);
-                    var birthdate = b.getFullYear() + "-" +
-                        (b.getMonth().toString().length == 1 ? "0" + parseInt(b.getMonth() + 1) : parseInt(b.getMonth() + 1)) + "-" +
-                        (b.getDate().toString().length == 1 ? "0" + b.getDate() : b.getDate());
-                    $("input[name='birthdate']").val(birthdate);
-                }catch(err){
-                    console.log("La date de naissance est nulle");
-                }
-                $("input[name='name']").val(resp['name']);
-                $("input[name='firstname']").val(resp['firstname']);
-                $("input[name='gender']").val(resp['gender']);
-                $("input[name='citizenship']").val(resp['citizenship']);
-                $("input[name='street']").val(resp['street']);
-                $("input[name='houseNumber']").val(resp['houseNumber']);
-
-                $("input[name='city']").val(resp['city']);
-                var country = resp['country'];
-                $("select[name='country']").val(resp['country']).html();
-                $("input[name='mailbox']").val(resp['mailBox']);
-                $("input[name='zipcode']").val(resp['zip']);
-                $("input[name='tel']").val(resp['tel']);
-                $("input[name='email']").val(resp['email']);
-                $("input[name='successfullYearsInCollege']").val(resp['successfullYearInCollege']);
-                try {
-                    $("input[name='iban']").val(resp["iban"]["value"]);
-                }catch(err){
-
-                }
-                $("input[name='accountHolder']").val(resp['accountHolder']);
-                $("input[name='bankName']").val(resp['bankName']);
-                $("input[name='bic']").val(resp['bic']);
-                $("#formProfile").attr("verNb", resp['verNr']);
-
-			},
-			error: function(error){
-				error = JSON.parse(error.responseText);
-				printToaster(error.type, error.message);
-			}
-		});
+        fillProfilePage(null);
+		return true;
 	}
 
 	function loadMobility() {
@@ -1640,6 +1589,7 @@ $(function () {
 	function loadCancelMobility(id){
 		$("#textReason").val("");
 		var teacher=false;
+		
 		
          if ($('#permissionHideFilds').val() === "TEACHER"){
 			teacher=true;
