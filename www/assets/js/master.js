@@ -1133,11 +1133,8 @@ $(function () {
 	}
 
 	function loadMobility() {
-		/* // TODO (jonathan) faire en sorte qu'il réinitialise le select
-		$("#selectStateList").prop('selected', function() {
-			return this.defaultSelected;
-		});
-		*/
+		$("#selectStateList option:first").prop('selected','selected');
+		
 		loadAcademicYears("#selectYearList");
 	    $(function () {
 	        $.ajax({
