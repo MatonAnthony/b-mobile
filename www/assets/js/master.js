@@ -860,7 +860,7 @@ $(function () {
         $(".page").css("display", "none");
         $("#navBarTeacher").css("display", "block");
         $("#teacherHomePage").css("display", "block");
-        $('#searchBar').css("display","block");
+        $('#searchBar').css("display","none");
         loadConfirmedMobility();
         $(".active").removeClass("active");
         $(".navButton[href='#confirmedMobility']").parent().addClass("active");
@@ -885,6 +885,7 @@ $(function () {
         $('#searchBar').css("display","block");
 		$(".active").removeClass("active");
 		$(".navButton[href='#2lists']").parent().addClass("active");
+		$('#searchBar').css("display","none");
 		//$(".navButton[href='#payment']").parent().addClass("active");
 		$("#tablePayments tbody").empty();
 		loadPayment();
@@ -984,6 +985,7 @@ $(function () {
         $('#searchBar').css("display","block");
         $('#school_department').css("display", "block");
         $(".active").removeClass("active");
+        $('#searchBar').css("display","none");
         $(".navButton[href='#3lists']").parent().addClass("active");
         addParnter();
 
@@ -1083,7 +1085,6 @@ $(function () {
 
 	function loadMobility() {
 		$("#selectStateList option:first").prop('selected','selected');
-		
 		loadAcademicYears("#selectYearList");
 	    $(function () {
 	        $.ajax({
