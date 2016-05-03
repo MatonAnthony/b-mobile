@@ -1305,6 +1305,7 @@ $(function () {
 	
     // Managing of the payment table
 	function loadPayment(){
+		$("#selectStatePayment option:first").prop('selected','selected');
 		loadAcademicYears("#selectYearPayment");
 		$(function (){
 	        $.ajax({
@@ -1424,6 +1425,7 @@ $(function () {
 	// Managing of the confirmed table
 
 	function loadConfirmedMobility() {
+		$("#selectStateConfirm option:first").prop('selected','selected');
 		loadAcademicYears("#selectYearConfirm");
 	    $(function () {
 	        $.ajax({
