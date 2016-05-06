@@ -31,38 +31,42 @@ public class PartnerImpl implements PartnerBizz {
   private boolean exists;
   private int verNr;
 
-
+  @Override
   public int getId() {
     return id;
   }
 
+  @Override
   public void setId(int id) {
     this.id = id;
   }
 
+  @Override
   public int getIdUser() {
     return idUser;
   }
 
+  @Override
   public void setIdUser(int idUser) {
     this.idUser = idUser;
   }
 
+  @Override
   public UserDto getUserDto() {
     return userDto;
   }
 
+  @Override
   public void setUserDto(UserDto userDto) {
     this.userDto = userDto;
   }
 
+  @Override
   public String getLegalName() {
     return legalName;
   }
 
-  /**
-   * {@inheritDoc}
-   */
+  @Override
   public void setLegalName(String legalName) {
     if (legalName == null) {
       this.legalName = null;
@@ -72,14 +76,12 @@ public class PartnerImpl implements PartnerBizz {
     this.legalName = legalName;
   }
 
-  /**
-   * {@inheritDoc}
-   */
+  @Override
   public String getBusiness() {
     return businessName;
   }
 
-
+  @Override
   public void setBusiness(String business) {
     if (business == null) {
       this.businessName = null;
@@ -89,13 +91,12 @@ public class PartnerImpl implements PartnerBizz {
     this.businessName = business;
   }
 
-  /**
-   * {@inheritDoc}
-   */
+  @Override
   public String getFullName() {
     return fullName;
   }
 
+  @Override
   public void setFullName(String fullName) {
     if (fullName == null) {
       this.fullName = null;
@@ -105,41 +106,43 @@ public class PartnerImpl implements PartnerBizz {
     this.fullName = fullName;
   }
 
+  @Override
   public String getDepartment() {
     return department;
   }
 
+  @Override
   public void setDepartment(String department) {
     this.department = department;
   }
 
+  @Override
   public String getType() {
     return type;
   }
 
+  @Override
   public void setType(String type) {
     // TODO Check validation with Martin
     this.type = type;
   }
 
-  /**
-   * {@inheritDoc}
-   */
+  @Override
   public int getNbEmployees() {
     return nbEmployees;
   }
 
-  /**
-   * {@inheritDoc}
-   */
+  @Override
   public void setNbEmployees(int nbEmployees) {
     this.nbEmployees = nbEmployees;
   }
 
+  @Override
   public String getStreet() {
     return street;
   }
 
+  @Override
   public void setStreet(String street) {
     if (street == null) {
       this.street = null;
@@ -149,38 +152,43 @@ public class PartnerImpl implements PartnerBizz {
     this.street = street;
   }
 
+  @Override
   public String getNumber() {
     return number;
   }
 
+  @Override
   public void setNumber(String number) {
     // TODO : Pourquoi est-ce un string ?
     this.number = number;
   }
 
+  @Override
   public String getMailbox() {
     return mailbox;
   }
 
-  /**
-   * {@inheritDoc}
-   */
+  @Override
   public void setMailbox(String mailbox) {
     this.mailbox = mailbox;
   }
 
+  @Override
   public String getZip() {
     return zip;
   }
 
+  @Override
   public void setZip(String zip) {
     this.zip = zip;
   }
 
+  @Override
   public String getCity() {
     return city;
   }
 
+  @Override
   public void setCity(String city) {
     if (city == null) {
       this.city = null;
@@ -191,53 +199,57 @@ public class PartnerImpl implements PartnerBizz {
     this.city = city;
   }
 
+  @Override
   public String getState() {
     return state;
   }
 
+  @Override
   public void setState(String state) {
-    if(this.state == null){
+    if (this.state == null) {
       this.state = null;
-    }else if(!Pattern.matches("[A-zÀ-ÿ-. ]*", state)) {
+    } else if (!Pattern.matches("[A-zÀ-ÿ-. ]*", state)) {
       throw new IllegalArgumentException("La région ne peut contenir de caractères spéciaux");
     }
     this.state = state;
   }
 
+  @Override
   public String getTel() {
     return tel;
   }
 
-  /**
-   * {@inheritDoc}
-   */
+  @Override
   public void setTel(String tel) {
     this.tel = tel;
   }
 
+  @Override
   public CountryDto getCountryDto() {
     return countryDto;
   }
 
+  @Override
   public void setCountryDto(CountryDto countryDto) {
     this.countryDto = countryDto;
   }
 
-  /**
-   * {@inheritDoc}
-   */
+  @Override
   public String getCountry() {
     return country;
   }
 
+  @Override
   public void setCountry(String country) {
     this.country = country;
   }
 
+  @Override
   public String getEmail() {
     return email;
   }
 
+  @Override
   public void setEmail(String email) {
     if (email == null || email.equals("")) {
       this.email = null;
@@ -248,10 +260,12 @@ public class PartnerImpl implements PartnerBizz {
     this.email = email;
   }
 
+  @Override
   public String getWebsite() {
     return website;
   }
 
+  @Override
   public void setWebsite(String website) {
     // TODO : FIX THE ISSUE WITH PATTERN
     String pattern = "/^(https?:\\/\\/)?([\\da-z\\.-]+)\\.([a-z\\.]{2,6})([\\/\\w \\.-]*)*\\/?$/";
@@ -264,18 +278,22 @@ public class PartnerImpl implements PartnerBizz {
     this.website = website;
   }
 
+  @Override
   public boolean isExists() {
     return exists;
   }
 
+  @Override
   public void setExists(boolean exists) {
     this.exists = exists;
   }
 
+  @Override
   public int getVerNr() {
     return verNr;
   }
 
+  @Override
   public void setVerNr(int verNr) {
     this.verNr = verNr;
   }

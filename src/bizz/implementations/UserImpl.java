@@ -140,7 +140,7 @@ public class UserImpl implements UserBizz, Cloneable {
     // TODO Remettre le Pattern à 6
     if (pseudo == null || !Pattern.matches("[A-z0-9]*{5,}", pseudo)) {
       throw new IllegalArgumentException("Le pseudo doit faire au moins 6 caractères et ne peut"
-        + "contenir de caractères spéciaux !");
+          + "contenir de caractères spéciaux !");
     }
     this.pseudo = pseudo;
   }
@@ -339,7 +339,7 @@ public class UserImpl implements UserBizz, Cloneable {
     } else {
       try {
         this.iban = IBAN.parse(iban);
-      } catch(Exception exc) {
+      } catch (Exception exc) {
         throw new IllegalArgumentException("IBAN Invalide");
       }
     }

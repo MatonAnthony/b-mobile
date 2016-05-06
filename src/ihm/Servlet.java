@@ -396,7 +396,6 @@ public class Servlet extends HttpServlet {
     userEdited.setFirstname(req.getParameter("firstname"));
     userEdited.setGender(req.getParameter("gender"));
     try {
-      System.out.println("Birthdate Servlet = " + req.getParameter("birthdate"));
       userEdited.setBirthDate(LocalDate.parse(req.getParameter("birthdate")));
     } catch (IllegalArgumentException | DateTimeParseException exc) {
       createToaster(exc, resp);
@@ -407,10 +406,10 @@ public class Servlet extends HttpServlet {
     userEdited.setMailBox(req.getParameter("mailbox"));
     userEdited.setZip(req.getParameter("zipcode"));
     userEdited.setCity(req.getParameter("city"));
-    System.out.println(req.getParameter("country"));
     userEdited.setCountryDto(countryUcc.getCountryByIso(req.getParameter("country")));
     userEdited.setCountry(userEdited.getCountryDto().getNameFr());
     userEdited.setTel(req.getParameter("tel"));
+    userEdited.setEmail(req.getParameter("email"));
     userEdited.setSuccessfullYearInCollege(
         Integer.parseInt(0 + req.getParameter("successfullYearsInCollege")));
     try {
@@ -968,6 +967,7 @@ public class Servlet extends HttpServlet {
   private HttpServletResponse createToaster(Exception exception, HttpServletResponse resp)
       throws IOException {
     Map<String, String> map = new HashMap<String, String>();
+    Main.LOGGER.severe("");
     // warning, success, error, info
     switch (exception.getClass().toString()) {
       case "class exceptions.AuthenticationException":

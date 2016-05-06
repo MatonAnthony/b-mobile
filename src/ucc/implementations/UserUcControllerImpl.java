@@ -162,7 +162,7 @@ public class UserUcControllerImpl implements UserUcController {
       } else {
         dalServices.rollbackTransaction();
         throw new OptimisticLockException(
-            "Cette mobilité a été modifiée entre temps, veuillez rafraichir la page "
+            "Cet utilisateur a été modifiée entre temps, veuillez rafraichir la page "
                 + "et recommencer");
       }
     } catch (SQLException exc) {
