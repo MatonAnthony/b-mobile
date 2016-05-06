@@ -945,7 +945,7 @@ $(function () {
 		
 		$("#searchBar").off('input.searchBar').on('input.searchBar', function (){
 			var inputSearch = $("#searchBar").val();
-			var regEx = new RegExp("^"+inputSearch,"i");
+			var regEx = new RegExp(inputSearch,"i");
 			if (inputSearch !== ""){
 				$(".teacherTR").css("display", "none");
 			}else{
@@ -2394,7 +2394,7 @@ $(function () {
 
         $("#searchBar").off('input.searchBar').on('input.searchBar', function (){
             var inputSearch = $("#searchBar").val();
-            var regEx = new RegExp("^"+inputSearch,"i");
+            var regEx = new RegExp(inputSearch,"i");
 
             $(".partnerTR").each(function(){
                 if ($(this).children(".tdName").html().match(regEx) ||
