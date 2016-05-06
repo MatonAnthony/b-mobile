@@ -33,19 +33,19 @@ import ucc.interfaces.MobilityUcController;
 import ucc.interfaces.PartnerUcController;
 import ucc.interfaces.ProgramUcController;
 import ucc.interfaces.UserUcController;
+import utils.ContextManager;
 
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.DefaultServlet;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jetty.webapp.WebAppContext;
-import utils.ContextManager;
 
 import java.io.IOException;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.FileHandler;
+import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.logging.Handler;
 
 
 public class Main {
@@ -109,13 +109,15 @@ public class Main {
     CancelationUcController cancelationUcController =
         new CancelationUcControllerImpl(dalServices, cancelationDao);
 
-    Servlet servlet =
-        new Servlet(userUcc, bizzFactory, mobilityUcc, countryUcc, departmentUcc,
-            programUcController, partnerUcController, cancelationUcController);
+    Servlet servlet = new Servlet(userUcc, bizzFactory, mobilityUcc, countryUcc, departmentUcc,
+        programUcController, partnerUcController, cancelationUcController);
 
     // Gestion des servlets
+
+    DefaultServlet def = new DefaultServlet();
+
     context.addServlet(new ServletHolder(servlet), "/home");
-    context.addServlet(new ServletHolder(new DefaultServlet()), "/");
+    context.addServlet(new ServletHolder(def), "/");
 
     // Parametres du serveur
     context.setWelcomeFiles(new String[] {"index.html"});

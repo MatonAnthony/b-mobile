@@ -83,8 +83,6 @@ public class Servlet extends HttpServlet {
 
   private transient Genson userGenson = new GensonBuilder()
       .useFields(true, VisibilityFilter.PRIVATE).useMethods(false).exclude("password").create();
-  // private transient Genson defaultGenson =
-  // new GensonBuilder().useFields(true, VisibilityFilter.PRIVATE).useMethods(false).create();
   private transient Genson basicGenson = new GensonBuilder().create();
 
   /**
@@ -541,6 +539,7 @@ public class Servlet extends HttpServlet {
      * if (!req.getSession().getAttribute(KEY_PERMISSIONS).equals("STUDENT")) { throw new
      * NotEnoughPermissionsException( "Vous n'avez pas les droits nécessaires pour faire cela"); }
      */
+
     int idMobility = Integer.parseInt(0 + req.getParameter("idMobility"));
     MobilityDto mobilityDto = mobilityUcc.getMobilityById(idMobility);
     ArrayList<PartnerDto> partners =
@@ -967,7 +966,7 @@ public class Servlet extends HttpServlet {
   private HttpServletResponse createToaster(Exception exception, HttpServletResponse resp)
       throws IOException {
     Map<String, String> map = new HashMap<String, String>();
-    Main.LOGGER.severe("");
+    Main.LOGGER.warning(exception.getMessage());
     // warning, success, error, info
     switch (exception.getClass().toString()) {
       case "class exceptions.AuthenticationException":
