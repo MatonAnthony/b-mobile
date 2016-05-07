@@ -135,6 +135,9 @@ public class PartnerImpl implements PartnerBizz {
 
   @Override
   public void setNbEmployees(int nbEmployees) {
+    if(nbEmployees <= 0){
+      throw new IllegalArgumentException("Le nombre d'employés doit être supérieur à 0");
+    }
     this.nbEmployees = nbEmployees;
   }
 

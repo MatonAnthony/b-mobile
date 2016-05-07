@@ -203,6 +203,12 @@ $(function () {
             }
         });
 
+        $("#add_partner_nb_employees").change(function(){
+            if($("#add_partner_nb_employees").val() <= 0){
+                printToaster("info", "Le nombre d'employées doit être supérieur à 0");
+            }
+        })
+
     };
     
     window.onpopstate = function(event) {
