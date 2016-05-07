@@ -1535,9 +1535,11 @@ $(function () {
 	            success: function (resp) {
 					$("#empty").empty();
 					if (resp === ""){
-						$("#myMobility").empty();
+						$("#myMobility tbody").empty();
+						$("#myMobility thead").css("display","none");
 						$("#myMobility").after("<p id=\"empty\" class=\"text-center\"><strong> Vous n'avez aucune mobilité actuellement. </strong></p>");
 					}else{
+						$("#myMobility thead").css("display","table-header-group");
 						$("#myMobility tbody").empty();
 						resp = JSON.parse(resp);
                         for (key in resp) {
