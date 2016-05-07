@@ -135,9 +135,9 @@ public class PartnerImpl implements PartnerBizz {
 
   @Override
   public void setNbEmployees(int nbEmployees) {
-    /*if(nbEmployees <= 0){
+    if(nbEmployees <= 0){
       throw new IllegalArgumentException("Le nombre d'employés doit être supérieur à 0");
-    }*/
+    }
     this.nbEmployees = nbEmployees;
   }
 
@@ -274,7 +274,7 @@ public class PartnerImpl implements PartnerBizz {
     // TODO : FIX THE ISSUE WITH PATTERN
     String pattern = "/^(https?:\\/\\/)?([\\da-z\\.-]+)\\.([a-z\\.]{2,6})([\\/\\w \\.-]*)*\\/?$/";
     if (website == null) {
-      this.website = website;
+      this.website = null;
     } else if (!Pattern.matches(pattern, website)) {
       // throw new IllegalArgumentException("Format de l'adresse du site internet invalide");
       this.website = website;
