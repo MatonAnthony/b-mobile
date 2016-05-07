@@ -135,7 +135,6 @@ public class PartnerUcControllerImpl implements PartnerUcController {
       dalServices.startTransaction();
 
       int rowUpdated = partnerDao.setDeleted(partnerDto);
-      System.out.println(rowUpdated);
 
       if (rowUpdated == 1) {
         dalServices.commitTransaction();

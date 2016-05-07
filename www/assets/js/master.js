@@ -1021,6 +1021,8 @@ $(function () {
     function addParnter(){
         
         $("#add_partner_country_school_department").empty();
+		$("#add_partner_legal_name").val("");
+		$("#btnRehabilitatePartnerAddForm").css("display","none");
         if ($("#add_partner_country").html() == "") {
 
             $.ajax({
@@ -1085,7 +1087,7 @@ $(function () {
 					 'value': resp[key]['id'],
 					 'verNr': resp[key]['verNr']});
 				}
-				console.log(deletedPartners);
+
 				$("#add_partner_legal_name").autocomplete({
 					minLength: 2,
 					source: deletedPartners,
@@ -1109,7 +1111,17 @@ $(function () {
 				printToaster(error.type, error.message);
 			}
 		});
+		
+		$("#addPartnerPage").off("click.btnRehabilitatePartnerAddForm").on("click.btnRehabilitatePartnerAddForm", "#btnRehabilitatePartnerAddForm", function (){
+            RehabilitatePartner($(this).attr('value'), $(this).attr('data-vernr'));
+			if ($('#permissionHideFilds').val() === "TEACHER"){
+				loadPartners();
+			}else{
+				loadPartnersList();
+			}
+        });
     }
+
 
 	function loadRegisterPage() {
 	    $(".page").css("display", "none");
@@ -2448,7 +2460,7 @@ $(function () {
             },
             success: function (resp) {
                 resp = JSON.parse(resp);
-                console.log(resp);
+
                 $("#tablePartnersList tbody").empty();
 
                 for (key in resp) {
@@ -2467,7 +2479,7 @@ $(function () {
                             "<td class='tdCountry'>" + resp[key]['countryDto']['nameFr'] + "</td>" +
                             "<td>" + resp[key]['userDto']['firstname'] + " " + resp[key]['userDto']['name'] + "</td>" +
                             "<td><button id=" + resp[key]['id'] + " class=\"btn btn-sm btn-success btnModifyPartner\">Voir & Modifier</button></td>" +
-                            "<td><button id=" + resp[key]['id'] + " class=\"btn btn-sm btn-danger btnDelPartner\">Supprimer</button></td>" +
+                            "<td><button id='" + resp[key]['id'] + "' data-verNr='"+resp[key]['verNr']+"' class=\"btn btn-sm btn-danger btnDelPartner\">Supprimer</button></td>" +
                             "</tr>";
                     } else {
                         data =
@@ -2477,7 +2489,7 @@ $(function () {
                             "<td class='tdCity'><del>" + city + "</del></td>" +
                             "<td class='tdCountry'><del>" + resp[key]['countryDto']['nameFr'] + "</del></td>" +
                             "<td><del>" + resp[key]['userDto']['firstname'] + " " + resp[key]['userDto']['name'] + "</del></td>" +
-                            "<td><button id=" + resp[key]['id'] + " class=\"btn btn-sm btn-warning btnRehabilitatePartner\">Réhabiliter</button></td>" +
+                            "<td><button id='" + resp[key]['id'] + "' data-verNr="+resp[key]['verNr']+" class=\"btn btn-sm btn-warning btnRehabilitatePartner\">Réhabiliter</button></td>" +
                             "<td></td>"
                             "</tr>";
                     }
@@ -2496,6 +2508,16 @@ $(function () {
             loadInfoPartner($(this).attr('id'));
         });
 
+		$("#partnersListPage").off("click.btnRehabilitatePartner").on("click.btnRehabilitatePartner", ".btnRehabilitatePartner", function (){
+            RehabilitatePartner($(this).attr('id'), $(this).attr('data-vernr'));
+			location.reload();
+        });
+		
+		$("#partnersListPage").off("click.btnDelPartner").on("click.btnDelPartner", ".btnDelPartner", function (){
+            deletePartner($(this).attr('id'), $(this).attr('data-vernr'));
+			location.reload();
+        });
+		
         $(".active").removeClass("active");
         $(".navButton[href='#3lists']").parent().addClass("active");
 
@@ -2514,6 +2536,44 @@ $(function () {
             });
         });
     }
+	
+	function RehabilitatePartner(id, verNr){
+		$.ajax({
+			method: "POST",
+			url: "/home",
+			data: {
+				idPartner : id,
+				verNr : verNr,
+				action: "RehabilitatePartner"
+			},
+			success: function (resp) {
+				console.log("success rehab !");
+			},
+			error: function (error) {
+				error = JSON.parse(error.responseText);
+				printToaster(error.type, error.message);
+			}
+		});
+	}
+	
+	function deletePartner(id, verNr){
+		$.ajax({
+			method: "POST",
+			url: "/home",
+			data: {
+				idPartner : id,
+				verNr : verNr,
+				action: "deletePartner"
+			},
+			success: function (resp) {
+				console.log("success delete !");
+			},
+			error: function (error) {
+				error = JSON.parse(error.responseText);
+				printToaster(error.type, error.message);
+			}
+		});
+	}
     
    function loadPartnersList(){
 	   $(".page").css("display", "none");
