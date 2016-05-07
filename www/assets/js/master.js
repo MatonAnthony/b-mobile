@@ -402,7 +402,12 @@ $(function () {
         var value =
             "<tr> " +
             "<form>" +
-            '<td>' + nbRow + '</td>' +
+            '<td><select id="selectOrder' + nbRow + '" class="form-control">' +
+            '<option value="1">1</option>' +
+            '<option value="2">2</option>' +
+            '<option value="3">3</option>' +
+            '</select>' + 
+            '</td>' +
             '<td>' +
             '<select id="selectProgram' + nbRow + '" class="form-control programSelector">' +
             '</select>' +
@@ -456,7 +461,7 @@ $(function () {
                 url: "/home",
                 data: {
                     action: "addMobility",
-                    preferenceOrder: i,
+                    preferenceOrder: $("#selectOrder" + i).val(),
                     program: $("#selectProgram" + i).val(),
                     type: $("input[name='optionsRadios" + i + "']:checked").val(),
                     quadrimestre: $("#selectQuadri" + i).val(),
