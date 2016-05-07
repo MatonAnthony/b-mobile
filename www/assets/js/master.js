@@ -127,7 +127,7 @@ $(function () {
         });
 
         $("#confirmRegister").change(function(){
-           if($("#confirmRigster").val() != $("#passwordRegister").val()) {
+           if($("#confirmRegister").val() != $("#passwordRegister").val()) {
                printToaster("warning", "Les deux mots de passes doivent être identiques");
            }
         });
