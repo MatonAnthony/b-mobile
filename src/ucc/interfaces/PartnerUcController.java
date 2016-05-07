@@ -1,6 +1,7 @@
 package ucc.interfaces;
 
 import dto.PartnerDto;
+import exceptions.MalformedIbanException;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -26,23 +27,25 @@ public interface PartnerUcController {
   ArrayList<PartnerDto> getPartnerMin(int userId, String permission) throws SQLException;
 
 
-  PartnerDto getPartnerById(int id) throws SQLException;
+  PartnerDto getPartnerById(int id) throws SQLException, MalformedIbanException;
 
   /**
    * Return an ArrayList containing all the partners.
    * 
    * @return an ArrayList of PartnerDto
    * @throws SQLException if an error occurred with the database.
+   * @throws MalformedIbanException If the Iban is malformed.
    */
-  ArrayList<PartnerDto> getAllPartners() throws SQLException;
+  ArrayList<PartnerDto> getAllPartners() throws SQLException, MalformedIbanException;
 
   /**
    * Return an ArrayList containing all the partners added by the teacher.
    * 
    * @return an ArrayList of PartnerDto
    * @throws SQLException if an error occurred with the database.
+   * @throws MalformedIbanException If the Iban is malformed.
    */
-  ArrayList<PartnerDto> getTeacherPartners() throws SQLException;
+  ArrayList<PartnerDto> getTeacherPartners() throws SQLException, MalformedIbanException;
 
   /**
    * Update the details for a partner.

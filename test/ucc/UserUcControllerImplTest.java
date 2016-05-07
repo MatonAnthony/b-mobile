@@ -10,6 +10,7 @@ import dao.UserDaoMock;
 import dao.interfaces.UserDao;
 import dto.UserDto;
 import exceptions.AuthenticationException;
+import exceptions.MalformedIbanException;
 import exceptions.OptimisticLockException;
 import exceptions.UserAlreadyExistsException;
 import exceptions.UserNotFoundException;
@@ -20,6 +21,7 @@ import org.junit.Test;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.NoSuchElementException;
 
 public class UserUcControllerImplTest {
 
@@ -59,27 +61,29 @@ public class UserUcControllerImplTest {
   }
 
   @Test
-  public void testLogin() throws AuthenticationException, SQLException {
+  public void testLogin() throws AuthenticationException, SQLException, MalformedIbanException {
     assertEquals(userdto, userUcc.login("Toto", "password"));
   }
 
   @Test(expected = AuthenticationException.class)
-  public void testLogin2() throws AuthenticationException, SQLException {
+  public void testLogin2() throws AuthenticationException, SQLException, MalformedIbanException {
     userUcc.login("Toto", "password2");
   }
 
   @Test(expected = AuthenticationException.class)
-  public void testLogin3() throws AuthenticationException, SQLException {
+  public void testLogin3() throws AuthenticationException, SQLException, MalformedIbanException {
     userUcc.login("Toto2", "password");
   }
 
   @Test(expected = UserAlreadyExistsException.class)
-  public void testRegister() throws AuthenticationException, UserAlreadyExistsException {
+  public void testRegister()
+      throws AuthenticationException, UserAlreadyExistsException, MalformedIbanException {
     userUcc.register(userdto);
   }
 
   @Test
-  public void testRegister2() throws AuthenticationException, UserAlreadyExistsException {
+  public void testRegister2()
+      throws AuthenticationException, UserAlreadyExistsException, MalformedIbanException {
     UserDto userdto2 = bizz.getUserDto();
     userdto2.setPseudo("Boby");
     userdto2.setPassword("Banane");
@@ -87,28 +91,31 @@ public class UserUcControllerImplTest {
   }
 
   @Test
-  public void testGetUserById() throws SQLException {
+  public void testGetUserById()
+      throws SQLException, NoSuchElementException, MalformedIbanException {
     assertEquals(userdto, userUcc.getUserById(1));
   }
 
   @Test
-  public void testGetAllUsers() throws SQLException {
+  public void testGetAllUsers() throws SQLException, MalformedIbanException {
     assertEquals(list, userUcc.getAllUsers());
   }
 
   @Test
-  public void testChangePermissions() throws UserNotFoundException, OptimisticLockException {
+  public void testChangePermissions()
+      throws UserNotFoundException, OptimisticLockException, MalformedIbanException {
     userUcc.changePermissions(1, 0);
   }
 
   @Test(expected = UserNotFoundException.class)
-  public void testChangePermissions2() throws UserNotFoundException, OptimisticLockException {
+  public void testChangePermissions2()
+      throws UserNotFoundException, OptimisticLockException, MalformedIbanException {
     userUcc.changePermissions(5, 0);
   }
 
   @Test(expected = UserNotFoundException.class)
   public void testChangePermissions3() throws UserNotFoundException, AuthenticationException,
-      UserAlreadyExistsException, OptimisticLockException {
+      UserAlreadyExistsException, OptimisticLockException, MalformedIbanException {
     // Test if it is a teacher.
     userUcc.changePermissions(3, 0);
   }

@@ -3,6 +3,7 @@ package bizz.implementations;
 import bizz.interfaces.UserBizz;
 import dto.CountryDto;
 import dto.DepartmentDto;
+import exceptions.MalformedIbanException;
 import nl.garvelink.iban.IBAN;
 
 import org.mindrot.jbcrypt.BCrypt;
@@ -322,20 +323,15 @@ public class UserImpl implements UserBizz, Cloneable {
     return iban.toPlainString();
   }
 
-  /**
-   * Set the IBAN
-   *
-   * @param iban IBAN to set.
-   */
   @Override
-  public void setIban(String iban) {
+  public void setIban(String iban) throws MalformedIbanException {
     if (iban == null || iban.isEmpty()) {
       this.iban = null;
     } else {
       try {
         this.iban = IBAN.parse(iban);
       } catch (Exception exc) {
-        throw new IllegalArgumentException("IBAN Invalide");
+        throw new MalformedIbanException("IBAN Invalide");
       }
     }
   }
@@ -475,8 +471,9 @@ public class UserImpl implements UserBizz, Cloneable {
    */
   @Override
   public void setBirthDate(LocalDate birthDate) {
-
-    if (birthDate.isAfter(LocalDate.now())) {
+    if (birthDate == null) {
+      this.birthDate = null;
+    } else if (birthDate.isAfter(LocalDate.now())) {
       throw new IllegalArgumentException("La date de naissance ne peut-être dans le futur.");
     }
 

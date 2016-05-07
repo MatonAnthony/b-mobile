@@ -9,6 +9,7 @@ import dal.DalServicesImplStub;
 import dao.MobilityDaoMock;
 import dto.MobilityDto;
 import exceptions.BadMobilityStatusException;
+import exceptions.MalformedIbanException;
 import exceptions.NoMobilityException;
 import exceptions.OptimisticLockException;
 import ucc.implementations.MobilityUcControllerImpl;
@@ -48,17 +49,17 @@ public class MobilityUcControllerTest {
   }
 
   @Test
-  public void testGetMobilities() throws SQLException {
+  public void testGetMobilities() throws SQLException, MalformedIbanException {
     assertEquals(list, mobilityUcController.getMobilities());
   }
 
   @Test
-  public void testGetConfirmedMobilities() throws SQLException {
+  public void testGetConfirmedMobilities() throws SQLException, MalformedIbanException {
     assertEquals(list, mobilityUcController.getConfirmedMobilities());
   }
 
   @Test
-  public void testGetMyMobilities() throws SQLException {
+  public void testGetMyMobilities() throws SQLException, MalformedIbanException {
     assertEquals(list, mobilityUcController.getMyMobilities("Toto"));
   }
 
@@ -75,17 +76,19 @@ public class MobilityUcControllerTest {
   }
 
   @Test
-  public void testGetFullPayments() throws SQLException {
+  public void testGetFullPayments() throws SQLException, MalformedIbanException {
     assertEquals(list, mobilityUcController.getFullPayments());
   }
 
   @Test
-  public void testGetMobilityById() throws SQLException, NoMobilityException {
+  public void testGetMobilityById()
+      throws SQLException, NoMobilityException, MalformedIbanException {
     assertEquals(mobilityDto, mobilityUcController.getMobilityById(1));
   }
 
   @Test(expected = NoMobilityException.class)
-  public void testGetMobilityById2() throws SQLException, NoMobilityException {
+  public void testGetMobilityById2()
+      throws SQLException, NoMobilityException, MalformedIbanException {
     assertEquals(mobilityDto, mobilityUcController.getMobilityById(2));
   }
 

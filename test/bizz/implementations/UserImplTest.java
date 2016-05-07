@@ -7,6 +7,7 @@ import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertTrue;
 
 import bizz.interfaces.BizzFactory;
+import exceptions.MalformedIbanException;
 import nl.garvelink.iban.IBAN;
 
 import org.junit.Before;
@@ -268,7 +269,7 @@ public class UserImplTest {
   }
 
   @Test
-  public void testGetIban2() {
+  public void testGetIban2() throws MalformedIbanException {
     puppet.setIban(null);
     assertEquals(null, puppet.getIban());
   }
@@ -277,13 +278,13 @@ public class UserImplTest {
    * Test setIban with a real IBAN
    */
   @Test
-  public void testSetIban1() {
+  public void testSetIban1() throws MalformedIbanException {
     puppet.setIban("BE41063012345610");
     assertEquals(puppet.getIban(), IBAN.parse("BE41063012345610").toPlainString());
   }
 
   @Test
-  public void testSetIban2() {
+  public void testSetIban2() throws MalformedIbanException {
     puppet.setIban(null);
   }
 

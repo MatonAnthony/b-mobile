@@ -4,6 +4,7 @@ import dal.DalServices;
 import dao.interfaces.MobilityDao;
 import dto.MobilityDto;
 import exceptions.BadMobilityStatusException;
+import exceptions.MalformedIbanException;
 import exceptions.NoMobilityException;
 import exceptions.OptimisticLockException;
 import ucc.interfaces.MobilityUcController;
@@ -37,7 +38,7 @@ public class MobilityUcControllerImpl implements MobilityUcController {
   }
 
   @Override
-  public ArrayList<MobilityDto> getMobilities() throws SQLException {
+  public ArrayList<MobilityDto> getMobilities() throws SQLException, MalformedIbanException {
     dalServices.openConnection();
     ArrayList<MobilityDto> mobilities = mobilityDao.getFullMobilities();
     dalServices.closeConnection();
@@ -45,7 +46,8 @@ public class MobilityUcControllerImpl implements MobilityUcController {
   }
 
   @Override
-  public ArrayList<MobilityDto> getConfirmedMobilities() throws SQLException {
+  public ArrayList<MobilityDto> getConfirmedMobilities()
+      throws SQLException, MalformedIbanException {
     dalServices.openConnection();
     ArrayList<MobilityDto> mobilities = mobilityDao.getFullConfirmedMobilities();
     dalServices.closeConnection();
@@ -53,7 +55,8 @@ public class MobilityUcControllerImpl implements MobilityUcController {
   }
 
   @Override
-  public ArrayList<MobilityDto> getMyMobilities(String user) throws SQLException {
+  public ArrayList<MobilityDto> getMyMobilities(String user)
+      throws SQLException, MalformedIbanException {
     dalServices.openConnection();
     ArrayList<MobilityDto> mobilities = mobilityDao.getFullMyMobilities(user);
     dalServices.closeConnection();
@@ -92,7 +95,7 @@ public class MobilityUcControllerImpl implements MobilityUcController {
   }
 
   @Override
-  public ArrayList<MobilityDto> getFullPayments() throws SQLException {
+  public ArrayList<MobilityDto> getFullPayments() throws SQLException, MalformedIbanException {
     dalServices.openConnection();
     ArrayList<MobilityDto> payments = mobilityDao.getFullPayments();
     dalServices.closeConnection();
@@ -101,7 +104,8 @@ public class MobilityUcControllerImpl implements MobilityUcController {
 
 
   @Override
-  public MobilityDto getMobilityById(int id) throws SQLException, NoMobilityException {
+  public MobilityDto getMobilityById(int id)
+      throws SQLException, NoMobilityException, MalformedIbanException {
     dalServices.openConnection();
     MobilityDto mobility = mobilityDao.getMobilityById(id);
     dalServices.closeConnection();
@@ -194,8 +198,7 @@ public class MobilityUcControllerImpl implements MobilityUcController {
       if ((mobility.isDepartDocSentHighschool()
           || mobility.isDepartureConventionInternshipSchoolarship()
           || mobility.isDepartureDocAggreement() || mobility.isDepartureErasmusLanguageTest()
-          || mobility.isDepartureGrantContract() || mobility.isDepartureStudentConvention())
-          && mobility.getStatus().equals("Créée")) {
+          || mobility.isDepartureGrantContract() || mobility.isDepartureStudentConvention())) {
         mobility.setStatus("En préparation");
       }
 

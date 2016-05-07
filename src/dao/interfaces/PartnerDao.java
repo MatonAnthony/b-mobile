@@ -1,6 +1,7 @@
 package dao.interfaces;
 
 import dto.PartnerDto;
+import exceptions.MalformedIbanException;
 
 import java.util.ArrayList;
 
@@ -27,15 +28,17 @@ public interface PartnerDao {
    *
    * @param id Id of partner.
    * @return A partnerDto.
+   * @throws MalformedIbanException If the Iban is malformed.
    */
-  PartnerDto getPartnerById(int id);
+  PartnerDto getPartnerById(int id) throws MalformedIbanException;
 
   /**
    * Get all the partners of the database.
    * 
    * @return An ArrayList of PartnerDto
+   * @throws MalformedIbanException If the Iban is malformed.
    */
-  ArrayList<PartnerDto> getAllPartners();
+  ArrayList<PartnerDto> getAllPartners() throws MalformedIbanException;
 
   /**
    * Update the partner details in the Database whith the informations in the dto.
@@ -49,8 +52,9 @@ public interface PartnerDao {
    * Get all the partners of the database added by a teacher.
    * 
    * @return An arraylist of PartnerDto
+   * @throws MalformedIbanException If the Iban is malformed.
    */
-  ArrayList<PartnerDto> getTeacherPartners();
+  ArrayList<PartnerDto> getTeacherPartners() throws MalformedIbanException;
 
   /**
    * Get partners who do not have mobility.

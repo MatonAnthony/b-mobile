@@ -8,6 +8,7 @@ import dal.DalServices;
 import dal.DalServicesImplStub;
 import dao.PartnerDaoMock;
 import dto.PartnerDto;
+import exceptions.MalformedIbanException;
 import ucc.implementations.PartnerUcControllerImpl;
 import ucc.interfaces.PartnerUcController;
 
@@ -56,17 +57,17 @@ public class PartnerUcControllerImplTest {
   }
 
   @Test
-  public void testGetPartnerById() throws SQLException {
+  public void testGetPartnerById() throws SQLException, MalformedIbanException {
     assertEquals(partnerDto, partnerUcController.getPartnerById(1));
   }
 
   @Test
-  public void testGetAllPartners() throws SQLException {
+  public void testGetAllPartners() throws SQLException, MalformedIbanException {
     assertEquals(list, partnerUcController.getAllPartners());
   }
 
   @Test
-  public void testGetTeacherPartners() throws SQLException {
+  public void testGetTeacherPartners() throws SQLException, MalformedIbanException {
     assertEquals(list, partnerUcController.getTeacherPartners());
   }
 

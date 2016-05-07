@@ -3,6 +3,7 @@ package ucc.implementations;
 import dal.DalServices;
 import dao.interfaces.PartnerDao;
 import dto.PartnerDto;
+import exceptions.MalformedIbanException;
 import ucc.interfaces.PartnerUcController;
 
 import java.sql.SQLException;
@@ -56,7 +57,7 @@ public class PartnerUcControllerImpl implements PartnerUcController {
   }
 
   @Override
-  public PartnerDto getPartnerById(int id) throws SQLException {
+  public PartnerDto getPartnerById(int id) throws SQLException, MalformedIbanException {
     dalServices.openConnection();
     PartnerDto partner = partnerDao.getPartnerById(id);
     dalServices.closeConnection();
@@ -64,7 +65,7 @@ public class PartnerUcControllerImpl implements PartnerUcController {
   }
 
   @Override
-  public ArrayList<PartnerDto> getAllPartners() throws SQLException {
+  public ArrayList<PartnerDto> getAllPartners() throws SQLException, MalformedIbanException {
     dalServices.openConnection();
     ArrayList<PartnerDto> partner = partnerDao.getAllPartners();
     dalServices.closeConnection();
@@ -112,7 +113,7 @@ public class PartnerUcControllerImpl implements PartnerUcController {
   }
 
   @Override
-  public ArrayList<PartnerDto> getTeacherPartners() throws SQLException {
+  public ArrayList<PartnerDto> getTeacherPartners() throws SQLException, MalformedIbanException {
     dalServices.openConnection();
     ArrayList<PartnerDto> partners = partnerDao.getTeacherPartners();
     dalServices.closeConnection();

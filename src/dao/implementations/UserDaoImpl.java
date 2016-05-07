@@ -5,12 +5,14 @@ import dal.DalBackendServices;
 import dao.interfaces.UserDao;
 import dto.CountryDto;
 import dto.UserDto;
+import exceptions.MalformedIbanException;
 import exceptions.UnknowErrorException;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.sql.Types;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
@@ -58,7 +60,8 @@ public class UserDaoImpl implements UserDao {
   }
 
   @Override
-  public UserDto getUserByUserName(String username) throws NoSuchElementException {
+  public UserDto getUserByUserName(String username)
+      throws NoSuchElementException, MalformedIbanException {
     String query = this.getUserQuery + "WHERE pseudo=?";
     PreparedStatement preparedStatement = null;
     try {
@@ -73,7 +76,7 @@ public class UserDaoImpl implements UserDao {
   }
 
   @Override
-  public UserDto getUserById(int id) throws NoSuchElementException {
+  public UserDto getUserById(int id) throws NoSuchElementException, MalformedIbanException {
     String query = this.getUserQuery + "WHERE id=?";
     PreparedStatement preparedStatement = null;
     try {
@@ -89,7 +92,7 @@ public class UserDaoImpl implements UserDao {
 
 
   @Override
-  public ArrayList<UserDto> getAllUsers() {
+  public ArrayList<UserDto> getAllUsers() throws MalformedIbanException {
     String query = this.getUserQuery + "ORDER BY id";
     PreparedStatement preparedStatement = null;
     try {
@@ -154,7 +157,7 @@ public class UserDaoImpl implements UserDao {
         preparedStatement.setTimestamp(18,
             Timestamp.valueOf(userEdited.getBirthDate().atStartOfDay()));
       } catch (NullPointerException exc) {
-        preparedStatement.setTimestamp(18, null);
+        preparedStatement.setNull(18, Types.TIMESTAMP);
       }
       preparedStatement.setInt(19, userEdited.getVerNr() + 1);
       preparedStatement.setInt(20, userEdited.getId());
@@ -168,7 +171,8 @@ public class UserDaoImpl implements UserDao {
     }
   }
 
-  private UserDto fillDto(PreparedStatement preparedStatement) throws SQLException {
+  private UserDto fillDto(PreparedStatement preparedStatement)
+      throws SQLException, MalformedIbanException {
     UserDto user = factory.getUserDto();
     ResultSet resultSet = dalBackendServices.executeQuery(preparedStatement);
     if (resultSet.next()) {
@@ -179,7 +183,8 @@ public class UserDaoImpl implements UserDao {
     return user;
   }
 
-  private ArrayList<UserDto> fillDtoArray(PreparedStatement preparedStatement) throws SQLException {
+  private ArrayList<UserDto> fillDtoArray(PreparedStatement preparedStatement)
+      throws SQLException, MalformedIbanException {
     ArrayList<UserDto> users = new ArrayList<UserDto>();
     ResultSet resultSet = dalBackendServices.executeQuery(preparedStatement);
     while (resultSet.next()) {
@@ -190,7 +195,8 @@ public class UserDaoImpl implements UserDao {
     return users;
   }
 
-  private UserDto completeDto(UserDto user, ResultSet resultSet) throws SQLException {
+  private UserDto completeDto(UserDto user, ResultSet resultSet)
+      throws SQLException, MalformedIbanException {
     user.setId(resultSet.getInt(1));
     user.setIdDepartment(resultSet.getString(2));
     user.setPseudo(resultSet.getString(3));
@@ -234,7 +240,7 @@ public class UserDaoImpl implements UserDao {
   }
 
   @Override
-  public boolean userExists(String username) {
+  public boolean userExists(String username) throws MalformedIbanException {
     try {
       getUserByUserName(username);
       return true;

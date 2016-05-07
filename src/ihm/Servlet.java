@@ -10,6 +10,8 @@ import dto.ProgramDto;
 import dto.UserDto;
 import exceptions.AuthenticationException;
 import exceptions.BadMobilityStatusException;
+import exceptions.MalformedDateException;
+import exceptions.MalformedIbanException;
 import exceptions.NoCountryException;
 import exceptions.NoDepartmentException;
 import exceptions.NoMobilityException;
@@ -51,6 +53,7 @@ import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.NoSuchElementException;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
@@ -126,7 +129,6 @@ public class Servlet extends HttpServlet {
       }
     }
     out.println(htmlToString("www/assets/footer.html"));
-
   }
 
   @Override
@@ -234,7 +236,8 @@ public class Servlet extends HttpServlet {
     } catch (SQLException | AuthenticationException | NotEnoughPermissionsException
         | NoMobilityException | NumberFormatException | OptimisticLockException | NoCountryException
         | BadMobilityStatusException | NoDepartmentException | UserNotFoundException
-        | NoProgramException | UserAlreadyExistsException exc) {
+        | NoProgramException | UserAlreadyExistsException | MalformedIbanException
+        | MalformedDateException exc) {
       createToaster(exc, resp);
     }
 
@@ -315,7 +318,8 @@ public class Servlet extends HttpServlet {
   }
 
   private void selectMobility(HttpServletRequest req, HttpServletResponse resp)
-      throws NotEnoughPermissionsException, SQLException, IOException, NoMobilityException {
+      throws NotEnoughPermissionsException, SQLException, IOException, NoMobilityException,
+      MalformedIbanException {
     int id = Integer.parseInt(req.getParameter("id"));
     MobilityDto mobilityDto = mobilityUcc.getMobilityById(id);
     String json = basicGenson.serialize(mobilityDto);
@@ -325,7 +329,8 @@ public class Servlet extends HttpServlet {
   }
 
   private void selectAddMobilityInformations(HttpServletRequest req, HttpServletResponse resp)
-      throws SQLException, NoDepartmentException, IOException, NotEnoughPermissionsException {
+      throws SQLException, NoDepartmentException, IOException, NotEnoughPermissionsException,
+      MalformedIbanException {
 
     if (req.getSession().getAttribute(KEY_PERMISSIONS) == null) {
       throw new NotEnoughPermissionsException(
@@ -349,7 +354,8 @@ public class Servlet extends HttpServlet {
   }
 
   private void selectProfile(HttpServletRequest req, HttpServletResponse resp, int id)
-      throws IOException, SQLException, NotEnoughPermissionsException {
+      throws IOException, SQLException, NotEnoughPermissionsException, NoSuchElementException,
+      MalformedIbanException {
 
     if (req.getSession().getAttribute(KEY_PERMISSIONS) == null) {
       throw new NotEnoughPermissionsException(
@@ -372,9 +378,12 @@ public class Servlet extends HttpServlet {
    * @throws NotEnoughPermissionsException If the user don't have the permissions to perform the
    *         action
    * @throws OptimisticLockException If the version number changed since the selection.
+   * @throws MalformedIbanException If the Iban is malformed.
+   * @throws MalformedDateException If the birthdate is malformed.
    */
-  private void updateUser(HttpServletRequest req, HttpServletResponse resp) throws IOException,
-      SQLException, NoCountryException, NotEnoughPermissionsException, OptimisticLockException {
+  private void updateUser(HttpServletRequest req, HttpServletResponse resp)
+      throws IOException, SQLException, NoCountryException, NotEnoughPermissionsException,
+      OptimisticLockException, MalformedIbanException, MalformedDateException {
 
     if (req.getSession().getAttribute(KEY_PERMISSIONS) == null) {
       throw new NotEnoughPermissionsException(
@@ -401,11 +410,17 @@ public class Servlet extends HttpServlet {
       createToaster(exc, resp);
     }
     userEdited.setGender(req.getParameter("gender"));
-    try {
-      userEdited.setBirthDate(LocalDate.parse(req.getParameter("birthdate")));
-    } catch (IllegalArgumentException | DateTimeParseException exc) {
-      createToaster(exc, resp);
+
+    if (!req.getParameter("birthdate").equals("")) {
+      try {
+        userEdited.setBirthDate(LocalDate.parse(req.getParameter("birthdate")));
+      } catch (IllegalArgumentException | DateTimeParseException exc) {
+        throw new MalformedDateException("La date entrée est invalide");
+      }
+    } else {
+      userEdited.setBirthDate(null);
     }
+
     userEdited.setCitizenship(req.getParameter("citizenship"));
     userEdited.setStreet(req.getParameter("street"));
     userEdited.setHouseNumber(req.getParameter("houseNumber"));
@@ -422,11 +437,7 @@ public class Servlet extends HttpServlet {
     }
     userEdited.setSuccessfullYearInCollege(
         Integer.parseInt(0 + req.getParameter("successfullYearsInCollege")));
-    try {
-      userEdited.setIban(req.getParameter("iban"));
-    } catch (IllegalArgumentException exc) {
-      createToaster(exc, resp);
-    }
+    userEdited.setIban(req.getParameter("iban"));
     userEdited.setAccountHolder(req.getParameter("accountHolder"));
     userEdited.setBankName(req.getParameter("bankName"));
     userEdited.setBic(req.getParameter("bic"));
@@ -437,7 +448,7 @@ public class Servlet extends HttpServlet {
 
   private void changePermissions(HttpServletRequest req, HttpServletResponse resp)
       throws NotEnoughPermissionsException, NumberFormatException, UserNotFoundException,
-      OptimisticLockException {
+      OptimisticLockException, MalformedIbanException {
 
     if (!req.getSession().getAttribute(KEY_PERMISSIONS).equals("TEACHER")) {
       throw new NotEnoughPermissionsException(
@@ -451,7 +462,7 @@ public class Servlet extends HttpServlet {
   }
 
   private void selectUsers(HttpServletRequest req, HttpServletResponse resp)
-      throws IOException, SQLException, NotEnoughPermissionsException {
+      throws IOException, SQLException, NotEnoughPermissionsException, MalformedIbanException {
 
     if (!req.getSession().getAttribute(KEY_PERMISSIONS).equals("TEACHER")) {
       throw new NotEnoughPermissionsException(
@@ -510,7 +521,7 @@ public class Servlet extends HttpServlet {
   }
 
   private void selectAllMobility(HttpServletRequest req, HttpServletResponse resp)
-      throws IOException, SQLException, NotEnoughPermissionsException {
+      throws IOException, SQLException, NotEnoughPermissionsException, MalformedIbanException {
 
     if (!req.getSession().getAttribute(KEY_PERMISSIONS).equals("TEACHER")) {
       throw new NotEnoughPermissionsException(
@@ -527,7 +538,7 @@ public class Servlet extends HttpServlet {
   }
 
   private void selectConfirmedMobility(HttpServletRequest req, HttpServletResponse resp)
-      throws IOException, SQLException, NotEnoughPermissionsException {
+      throws IOException, SQLException, NotEnoughPermissionsException, MalformedIbanException {
 
     if (!req.getSession().getAttribute(KEY_PERMISSIONS).equals("TEACHER")) {
       throw new NotEnoughPermissionsException(
@@ -545,7 +556,8 @@ public class Servlet extends HttpServlet {
 
 
   private void selectPartnersForConfirm(HttpServletRequest req, HttpServletResponse resp)
-      throws IOException, SQLException, NotEnoughPermissionsException, NoMobilityException {
+      throws IOException, SQLException, NotEnoughPermissionsException, NoMobilityException,
+      MalformedIbanException {
 
     /*
      * if (!req.getSession().getAttribute(KEY_PERMISSIONS).equals("STUDENT")) { throw new
@@ -595,7 +607,8 @@ public class Servlet extends HttpServlet {
   }
 
   private void selectPartnerById(HttpServletRequest req, HttpServletResponse resp)
-      throws NotEnoughPermissionsException, IOException, SQLException {
+      throws NotEnoughPermissionsException, IOException, SQLException, NumberFormatException,
+      MalformedIbanException {
 
     if (req.getSession().getAttribute(KEY_PERMISSIONS).equals("STUDENT")) {
       throw new NotEnoughPermissionsException(
@@ -611,7 +624,7 @@ public class Servlet extends HttpServlet {
   }
 
   private void selectMyMobility(HttpServletRequest req, HttpServletResponse resp)
-      throws IOException, SQLException, NotEnoughPermissionsException {
+      throws IOException, SQLException, NotEnoughPermissionsException, MalformedIbanException {
     if (req.getSession().getAttribute(KEY_PERMISSIONS) == null) {
       throw new NotEnoughPermissionsException(
           "Vous n'avez pas les droits nécessaires pour faire cela");
@@ -667,7 +680,7 @@ public class Servlet extends HttpServlet {
 
   private void register(HttpServletRequest req, HttpServletResponse resp)
       throws IOException, AuthenticationException, UserAlreadyExistsException,
-      NotEnoughPermissionsException, SQLException, NoDepartmentException {
+      NotEnoughPermissionsException, SQLException, NoDepartmentException, MalformedIbanException {
 
     if (req.getSession().getAttribute(KEY_PERMISSIONS) != null) {
       throw new NotEnoughPermissionsException(
@@ -718,8 +731,8 @@ public class Servlet extends HttpServlet {
 
   }
 
-  private void login(HttpServletRequest req, HttpServletResponse resp)
-      throws IOException, SQLException, AuthenticationException, NotEnoughPermissionsException {
+  private void login(HttpServletRequest req, HttpServletResponse resp) throws IOException,
+      SQLException, AuthenticationException, NotEnoughPermissionsException, MalformedIbanException {
 
     if (req.getSession().getAttribute(KEY_PERMISSIONS) != null) {
       throw new NotEnoughPermissionsException("Vous êtes déjà connecté");
@@ -739,9 +752,9 @@ public class Servlet extends HttpServlet {
     resp.getWriter().println(dtoToJson(userDtoRecept));
   }
 
-  private void addMobility(HttpServletRequest req, HttpServletResponse resp)
-      throws IOException, NumberFormatException, SQLException, NoCountryException,
-      NoDepartmentException, NotEnoughPermissionsException, NoProgramException {
+  private void addMobility(HttpServletRequest req, HttpServletResponse resp) throws IOException,
+      NumberFormatException, SQLException, NoCountryException, NoDepartmentException,
+      NotEnoughPermissionsException, NoProgramException, MalformedIbanException {
 
     if (req.getSession().getAttribute(KEY_PERMISSIONS) == null) {
       throw new NotEnoughPermissionsException(
@@ -778,10 +791,12 @@ public class Servlet extends HttpServlet {
    * @throws NoCountryException If there is an error.
    * @throws NotEnoughPermissionsException If the user don't have the permissions to perform the
    *         action
+   * @throws MalformedIbanException If the Iban is malformed.
+   * @throws NoSuchElementException
    */
-  private void addPartner(HttpServletRequest req, HttpServletResponse resp)
-      throws IOException, NumberFormatException, SQLException, NoCountryException,
-      NotEnoughPermissionsException, NoDepartmentException {
+  private void addPartner(HttpServletRequest req, HttpServletResponse resp) throws IOException,
+      NumberFormatException, SQLException, NoCountryException, NotEnoughPermissionsException,
+      NoDepartmentException, NoSuchElementException, MalformedIbanException {
 
     if (req.getSession().getAttribute(KEY_PERMISSIONS) == null) {
       throw new NotEnoughPermissionsException(
@@ -858,9 +873,10 @@ public class Servlet extends HttpServlet {
    * @throws IOException If there is an error.
    * @throws NotEnoughPermissionsException If the user don't have the permissions to perform the
    *         action
+   * @throws MalformedIbanException If the Iban is malformed.
    */
   private void selectPayments(HttpServletRequest req, HttpServletResponse resp)
-      throws IOException, SQLException, NotEnoughPermissionsException {
+      throws IOException, SQLException, NotEnoughPermissionsException, MalformedIbanException {
 
     if (!req.getSession().getAttribute(KEY_PERMISSIONS).equals("TEACHER")) {
       throw new NotEnoughPermissionsException(
@@ -1010,6 +1026,11 @@ public class Servlet extends HttpServlet {
         map.put("type", "warning");
         map.put("message", exception.getMessage());
         break;
+      case "class exceptions.MalformedIbanException":
+        resp.setStatus(HttpStatus.EXPECTATION_FAILED_417);
+        map.put("type", "warning");
+        map.put("message", exception.getMessage());
+        break;
       case "class exceptions.UnknowErrorException":
         resp.setStatus(HttpStatus.INTERNAL_SERVER_ERROR_500);
         map.put("type", "warning");
@@ -1030,13 +1051,18 @@ public class Servlet extends HttpServlet {
         map.put("type", "error");
         map.put("message", exception.getMessage());
         break;
+      case "class exceptions.MalformedDateException":
+        resp.setStatus(HttpStatus.UNPROCESSABLE_ENTITY_422);
+        map.put("type", "error");
+        map.put("message", exception.getMessage());
+        break;
       default:
         resp.setStatus(HttpStatus.PARTIAL_CONTENT_206);
         map.put("type", "info");
         map.put("message", "Une erreur inconnue est survenue");
         break;
     }
-    resp.getWriter().println(basicGenson.serialize(map));
+    resp.getWriter().print(basicGenson.serialize(map));
     return resp;
   }
 
@@ -1056,7 +1082,7 @@ public class Servlet extends HttpServlet {
   }
 
   private void selectAllPartners(HttpServletRequest req, HttpServletResponse resp)
-      throws NotEnoughPermissionsException, IOException, SQLException {
+      throws NotEnoughPermissionsException, IOException, SQLException, MalformedIbanException {
 
     if (!req.getSession().getAttribute(KEY_PERMISSIONS).equals("TEACHER")) {
       throw new NotEnoughPermissionsException(

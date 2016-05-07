@@ -6,6 +6,7 @@ import dao.interfaces.PartnerDao;
 import dto.CountryDto;
 import dto.PartnerDto;
 import dto.UserDto;
+import exceptions.MalformedIbanException;
 import exceptions.UnknowErrorException;
 
 import java.sql.PreparedStatement;
@@ -207,7 +208,7 @@ public class PartnerDaoImpl implements PartnerDao {
   }
 
   @Override
-  public ArrayList<PartnerDto> getAllPartners() {
+  public ArrayList<PartnerDto> getAllPartners() throws MalformedIbanException {
 
     ArrayList<PartnerDto> partners = null;
     PreparedStatement preparedStatement = null;
@@ -225,7 +226,7 @@ public class PartnerDaoImpl implements PartnerDao {
   }
 
   @Override
-  public ArrayList<PartnerDto> getTeacherPartners() {
+  public ArrayList<PartnerDto> getTeacherPartners() throws MalformedIbanException {
     String queryTemp = queryFull + " AND exists=TRUE";
 
     ArrayList<PartnerDto> partners = null;
@@ -263,7 +264,7 @@ public class PartnerDaoImpl implements PartnerDao {
 
 
   @Override
-  public PartnerDto getPartnerById(int id) {
+  public PartnerDto getPartnerById(int id) throws MalformedIbanException {
     String query = queryFull + "AND par.id = ?";
     PreparedStatement preparedStatement = null;
     try {
@@ -325,9 +326,10 @@ public class PartnerDaoImpl implements PartnerDao {
    * @param preparedStatement The PreparedStatement to execute.
    * @return An ArrayList of PartnerDto
    * @throws SQLException If an error occured in the database.
+   * @throws MalformedIbanException If the Iban is malformed.
    */
   private ArrayList<PartnerDto> fillDtoArray(PreparedStatement preparedStatement)
-      throws SQLException {
+      throws SQLException, MalformedIbanException {
     ArrayList<PartnerDto> partners = new ArrayList<PartnerDto>();
     ResultSet rs = dalBackendServices.executeQuery(preparedStatement);
     while (rs.next()) {
@@ -338,7 +340,8 @@ public class PartnerDaoImpl implements PartnerDao {
   }
 
 
-  private PartnerDto fillDtoFull(PreparedStatement preparedStatement) throws SQLException {
+  private PartnerDto fillDtoFull(PreparedStatement preparedStatement)
+      throws SQLException, MalformedIbanException {
     PartnerDto partner;
     ResultSet resultSet = dalBackendServices.executeQuery(preparedStatement);
     if (resultSet.next()) {
@@ -349,7 +352,8 @@ public class PartnerDaoImpl implements PartnerDao {
     return partner;
   }
 
-  private PartnerDto completeDtoFull(ResultSet resultSet) throws SQLException {
+  private PartnerDto completeDtoFull(ResultSet resultSet)
+      throws SQLException, MalformedIbanException {
     PartnerDto partner = factory.getPartnerDto();
     partner.setId(resultSet.getInt(1));
     partner.setIdUser(resultSet.getInt(2));

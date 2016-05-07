@@ -384,8 +384,14 @@ $(function () {
             },
             success: function (resp) {
                 printToaster("success", "Vos informations ont bien été modifiées.");
+                if(idUser == -1){
+                	fillProfilePage();
+            	}else{
+            		fillProfilePage(id);
+            	}
             },
             error: function (error) {
+                console.log(error);
                 error = JSON.parse(error.responseText);
 				printToaster(error.type, error.message);
             }
@@ -704,7 +710,7 @@ $(function () {
 
         if ($("#add_partner_legal_name").val() === "" || $("#add_partner_country").val() === ""){
             if ($("#add_partner_legal_name").val() === ""){
-                printToaster("warning","Le champ \"Nom légale\" est requis");
+                printToaster("warning","Le champ \"Nom légal\" est requis");
             }
             if ($("#add_partner_country").val() === ""){
                 printToaster("warning","Le champ \"Pays\" est requis");
@@ -815,17 +821,18 @@ $(function () {
         $(".page").css("display", "none");
         $("#navBarStudent").css("display", "block");
         $("#addMobilityPage").css("display", "block");
-		var currentTime = new Date();
-        var startYear = currentTime.getFullYear()-1;
-
-        for(var i = 0; i<4; i++){
-        	var temp = "" + startYear + "-" + (startYear+1);
-        	$("#selectAccademicYear1").append("<option>" + temp +"</option>");
-        	startYear++;
-        }
-
 
         if ($("#selectProgram1").html() == "" || $("#selectCountry1").html() == "" || $("#selectDep").html() == "") {
+			var currentTime = new Date();
+	        var startYear = currentTime.getFullYear()-1;
+	         for(var i = 0; i<4; i++){
+        		var temp = "" + startYear + "-" + (startYear+1);
+        		$("#selectAccademicYear1").append("<option>" + temp +"</option>");
+        		startYear++;
+        	}
+
+        	$("selectQuadri1").val("1");
+
 	        $.ajax({
 	            method: "POST",
 	            url: "/home",
@@ -1952,7 +1959,7 @@ $(function () {
             },
             success: function (resp) {
             	resp = JSON.parse(resp);
-                //console.log(resp);
+                console.log(resp);
             	var city;
             	if(resp['partnerDto']['city'] === null){
             		city = "Non enregistré";
@@ -1969,18 +1976,37 @@ $(function () {
             	$("#detailMobilitePartenaire").attr("id-partner",resp['partnerDto']['id']);	
             	
                 //infos des checkboxs
-            	if(resp['paymentDate1']){
-            		$("#envoiPaiement1").prop("checked", true);
-            	}else{
-            		$("#envoiPaiement1").prop("checked", false);
-            	}
+                if(resp['studentDto']['iban'] != null && resp['studentDto']['iban'] != ""){
+	            	if(resp['paymentDate1']){
+	            		$("#envoiPaiement1").prop("checked", true);
+	            	}else{
+	            		$("#envoiPaiement1").prop("checked", false);
+	            	}
 
-            	if(resp['paymentDate2']){
-            		$("#envoiPaiement2").prop("checked", true);
-            	}else{
-            		$("#envoiPaiement2").prop("checked", false);
-            	}
+	            	if(resp['paymentDate2']){
+	            		$("#envoiPaiement2").prop("checked", true);
+	            	}else{
+	            		$("#envoiPaiement2").prop("checked", false);
+	            	}
+	            	$("#envoiPaiement1").tooltip('destroy');
+	            	$("#envoiPaiement2").tooltip('destroy');
 
+	            	$("#envoiPaiement1").removeAttr("data-toggle");
+	            	$("#envoiPaiement1").removeAttr("data-placement");
+	            	$("#envoiPaiement1").removeAttr("title");
+	            	$("#envoiPaiement2").removeAttr("data-toggle");
+	            	$("#envoiPaiement2").removeAttr("data-placement");
+	            	$("#envoiPaiement2").removeAttr("title");
+	            }else{
+	            	$("#envoiPaiement1").attr("data-toggle", "tooltip");
+	            	$("#envoiPaiement1").attr("data-placement", "left");
+	            	$("#envoiPaiement1").attr("title", "Iban non enregistré");
+	            	$("#envoiPaiement1").tooltip();
+	            	$("#envoiPaiement2").attr("data-toggle", "tooltip");
+	            	$("#envoiPaiement2").attr("data-placement", "left");
+	            	$("#envoiPaiement2").attr("title", "Iban non enregistré");
+	            	$("#envoiPaiement2").tooltip();
+	            }
                 $("#detailMobiliteMontant").val(resp['amount']);
 
             	if(resp['softwareProeco']){
@@ -2132,33 +2158,36 @@ $(function () {
             	$("#detailMobiliteNom").html(resp['studentDto']['name']);
             	$("#detailMobilitePrenom").html(resp['studentDto']['firstname']);
                 
-                if(resp['studentDto']['gender'] != null){
+                if(resp['studentDto']['gender'] != null && resp['studentDto']['gender'] != ""){
             	   $("#detailMobiliteSexe").html(resp['studentDto']['gender']);
                 }else{
                     $("#detailMobiliteSexe").html("Non enregistré");
                 }
 
-                if(resp['studentDto']['birthDate'] != null){
+                if(resp['studentDto']['birthDate'] != null && resp['studentDto']['birthdate'] != ""){
             	   $("#detailMobiliteDateNaissance").html(resp['studentDto']['birthDate']['dayOfMonth'] + "/" 
             		  + resp['studentDto']['birthDate']['monthValue'] + "/" + resp['studentDto']['birthDate']['year']);
                 }else{
                     $("#detailMobiliteDateNaissance").html("Non enregistré");
                 }
                 
-                if(resp['studentDto']['citizenship'] != null){
+                if(resp['studentDto']['citizenship'] != null && resp['studentDto']['citizenship'] != ""){
                     $("#detailMobiliteNationalite").html(resp['studentDto']['citizenship']);
                 }else{
                    $("#detailMobiliteNationalite").html("Non enregistré"); 
                 }
             	
-                if (resp['studentDto']['street'] == null || resp['studentDto']['houseNumber']==null || resp['studentDto']['zip']==null || resp['studentDto']['city']==null){
+                if (resp['studentDto']['street'] == null || resp['studentDto']['houseNumber']==null 
+                	|| resp['studentDto']['zip']==null || resp['studentDto']['city']==null ||
+                	resp['studentDto']['street'] == "" || resp['studentDto']['houseNumber']== ""
+                	|| resp['studentDto']['zip']=="" || resp['studentDto']['city']=="" ){
                     $("#detailMobiliteAdresse").html("Non enregistré");
                 }else{
             	$("#detailMobiliteAdresse").html(resp['studentDto']['street'] + " " + resp['studentDto']['houseNumber']
             		+ ", " + resp['studentDto']['zip'] + " " + resp['studentDto']['city']);
                 }
 
-                if(resp['studentDto']['tel'] != null){
+                if(resp['studentDto']['tel'] != null && resp['studentDto']['tel'] != ""){
             	   $("#detailMobiliteTel").html(resp['studentDto']['tel']);
                 }else{
                     $("#detailMobiliteTel").html("Non enregistré");
@@ -2170,7 +2199,7 @@ $(function () {
                     $("#detailMobiliteDepartement").html("Non enregistré");
                 }
             	
-                if(resp['studentDto']['email']!=null){
+                if(resp['studentDto']['email']!=null && resp['studentDto']['tel'] != ""){
             	   $("#detailMobiliteMail").html(resp['studentDto']['email']);
                 }else{
                     $("#detailMobiliteMail").html("Non enregistré");
@@ -2179,6 +2208,7 @@ $(function () {
                 if(resp['status'] === "Annulee" || resp['status'] === "En attente"){
 
                     //paiements
+
                     $("#envoiPaiement1").prop("disabled", true);
                     $("#envoiPaiement2").prop("disabled", true);
 
@@ -2210,10 +2240,7 @@ $(function () {
                     $("#detailMobiliteCancel").css("display", "none");
                     $("#detailMobiliteModify").css("display", "none");
                 }else{
-                    //paiements
-                    $("#envoiPaiement1").prop("disabled", false);
-                    $("#envoiPaiement2").prop("disabled", false);
-
+                    
                     //softwares
                     $("#encodageProEco").prop("disabled", false);
                     $("#encodageMobilityTool").prop("disabled", false);

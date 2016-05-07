@@ -5,6 +5,7 @@ import dal.DalServices;
 import dao.interfaces.UserDao;
 import dto.UserDto;
 import exceptions.AuthenticationException;
+import exceptions.MalformedIbanException;
 import exceptions.OptimisticLockException;
 import exceptions.UserAlreadyExistsException;
 import exceptions.UserNotFoundException;
@@ -34,7 +35,8 @@ public class UserUcControllerImpl implements UserUcController {
   }
 
   @Override
-  public UserDto login(String login, String password) throws AuthenticationException, SQLException {
+  public UserDto login(String login, String password)
+      throws AuthenticationException, SQLException, MalformedIbanException {
     UserBizz user;
     try {
       // Récupérer les données du DAL
@@ -59,7 +61,7 @@ public class UserUcControllerImpl implements UserUcController {
 
   @Override
   public UserDto register(UserDto userdto)
-      throws AuthenticationException, UserAlreadyExistsException {
+      throws AuthenticationException, UserAlreadyExistsException, MalformedIbanException {
 
     String password = userdto.getPassword();
     UserBizz userBizz = (UserBizz) userdto;
@@ -94,7 +96,8 @@ public class UserUcControllerImpl implements UserUcController {
   }
 
   @Override
-  public UserDto getUserById(int id) throws SQLException {
+  public UserDto getUserById(int id)
+      throws SQLException, NoSuchElementException, MalformedIbanException {
     dalServices.openConnection();
     UserDto user = userDao.getUserById(id);
     dalServices.closeConnection();
@@ -102,7 +105,7 @@ public class UserUcControllerImpl implements UserUcController {
   }
 
   @Override
-  public ArrayList<UserDto> getAllUsers() throws SQLException {
+  public ArrayList<UserDto> getAllUsers() throws SQLException, MalformedIbanException {
     dalServices.openConnection();
     ArrayList<UserDto> users = userDao.getAllUsers();
     dalServices.closeConnection();
@@ -111,7 +114,7 @@ public class UserUcControllerImpl implements UserUcController {
 
   @Override
   public void changePermissions(int id, int verNr)
-      throws UserNotFoundException, OptimisticLockException {
+      throws UserNotFoundException, OptimisticLockException, MalformedIbanException {
     try {
       dalServices.openConnection();
       dalServices.startTransaction();

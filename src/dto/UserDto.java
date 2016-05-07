@@ -1,5 +1,7 @@
 package dto;
 
+import exceptions.MalformedIbanException;
+
 import java.time.LocalDate;
 
 /**
@@ -93,7 +95,8 @@ public interface UserDto {
    *
    * @param email the email.
    * @throws IllegalArgumentException Email must match
-   * `^[\w!#$%&’*+/=?`{|}~^-]+(?:\.[\w!#$%&’*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\.)+[a-zA-Z]{2,6}$`.
+   *         `^[\w!#$%&’*+/=?`{|}~^-]+(?:\.[\w!#$%&’*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\.)+[a-zA-Z]{2,
+   *         6}$`.
    */
   void setEmail(String email);
 
@@ -152,8 +155,9 @@ public interface UserDto {
    * Sets iban.
    *
    * @param iban the iban
+   * @throws MalformedIbanException If the Iban is malformed.
    */
-  void setIban(String iban);
+  void setIban(String iban) throws MalformedIbanException;
 
   /**
    * Gets bic.

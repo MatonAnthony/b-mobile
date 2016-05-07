@@ -1,6 +1,7 @@
 package dao.interfaces;
 
 import dto.UserDto;
+import exceptions.MalformedIbanException;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -15,9 +16,10 @@ public interface UserDao {
    *
    * @param username username to base our research on.
    * @return An UserDto filled with his data.
+   * @throws MalformedIbanException If the Iban is malformed.
    * @throw NoSuchElementException if no user is matching with the username.
    */
-  UserDto getUserByUserName(String username) throws NoSuchElementException;
+  UserDto getUserByUserName(String username) throws NoSuchElementException, MalformedIbanException;
 
   /**
    * To add a user in the data base.
@@ -31,16 +33,18 @@ public interface UserDao {
    *
    * @param id the id
    * @return the user by id
+   * @throws MalformedIbanException If the Iban is malformed.
    * @throw NoSuchElementException if no user is matching with the username.
    */
-  UserDto getUserById(int id) throws NoSuchElementException, SQLException;
+  UserDto getUserById(int id) throws NoSuchElementException, SQLException, MalformedIbanException;
 
   /**
    * Gets all users.
    *
    * @return An ArrayList with all users.
+   * @throws MalformedIbanException If the Iban is malformed.
    */
-  ArrayList<UserDto> getAllUsers() throws SQLException;
+  ArrayList<UserDto> getAllUsers() throws SQLException, MalformedIbanException;
 
   /**
    * Change permissions for user by id.
@@ -63,8 +67,9 @@ public interface UserDao {
    * 
    * @param username to check in the database.
    * @return true if the username exists in the database, else return false.
+   * @throws MalformedIbanException If the Iban is malformed.
    */
-  boolean userExists(String username);
+  boolean userExists(String username) throws MalformedIbanException;
 
   /**
    * Gets the number of user in the database.

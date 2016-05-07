@@ -4,6 +4,7 @@ import bizz.interfaces.BizzFactory;
 import dal.DalBackendServices;
 import dao.interfaces.MobilityDao;
 import dto.MobilityDto;
+import exceptions.MalformedIbanException;
 import exceptions.NoMobilityException;
 import exceptions.UnknowErrorException;
 
@@ -132,7 +133,7 @@ public class MobilityDaoImpl implements MobilityDao {
   }
 
   @Override
-  public ArrayList<MobilityDto> getFullMobilities() {
+  public ArrayList<MobilityDto> getFullMobilities() throws MalformedIbanException {
     String queryTemp = queryFull + "ORDER BY m.id ASC";
     PreparedStatement preparedStatement = null;
     try {
@@ -152,7 +153,7 @@ public class MobilityDaoImpl implements MobilityDao {
   }
 
   @Override
-  public ArrayList<MobilityDto> getFullConfirmedMobilities() {
+  public ArrayList<MobilityDto> getFullConfirmedMobilities() throws MalformedIbanException {
 
     String queryTemp =
         queryFull + " AND m.status != 'En attente' AND m.canceled = 'false' ORDER BY m.id ASC";
@@ -176,7 +177,7 @@ public class MobilityDaoImpl implements MobilityDao {
   }
 
   @Override
-  public ArrayList<MobilityDto> getFullMyMobilities(String pseudo) {
+  public ArrayList<MobilityDto> getFullMyMobilities(String pseudo) throws MalformedIbanException {
 
     String queryTemp = queryFull + " AND (u.pseudo = '" + pseudo + "' ) ORDER BY m.id ASC";
     PreparedStatement preparedStatement = null;
@@ -221,7 +222,7 @@ public class MobilityDaoImpl implements MobilityDao {
   }
 
   @Override
-  public ArrayList<MobilityDto> getFullPayments() {
+  public ArrayList<MobilityDto> getFullPayments() throws MalformedIbanException {
     String queryPayment = queryFull + "ORDER BY m.id ASC";
     PreparedStatement preparedStatement = null;
     try {
@@ -241,7 +242,7 @@ public class MobilityDaoImpl implements MobilityDao {
   }
 
   @Override
-  public MobilityDto getMobilityById(int id) throws NoMobilityException {
+  public MobilityDto getMobilityById(int id) throws NoMobilityException, MalformedIbanException {
     String queryById = queryFull + " AND m.id = ?";
     PreparedStatement preparedStatement;
     MobilityDto mobilityDto = null;
@@ -400,7 +401,7 @@ public class MobilityDaoImpl implements MobilityDao {
     return mobilitydto;
   }
 
-  private MobilityDto fillFullDto(ResultSet resultSet) throws SQLException {
+  private MobilityDto fillFullDto(ResultSet resultSet) throws SQLException, MalformedIbanException {
 
     MobilityDto mobilitydto = fillDto(resultSet);
     mobilitydto.setStudentDto(factory.getUserDto());

@@ -1,6 +1,7 @@
 package dao.interfaces;
 
 import dto.MobilityDto;
+import exceptions.MalformedIbanException;
 import exceptions.NoMobilityException;
 
 import java.util.ArrayList;
@@ -20,25 +21,28 @@ public interface MobilityDao {
    * Return an ArrayList containing all the mobilities of one departements stored in database.
    *
    * @return an ArrayList of MobilityDto.
+   * @throws MalformedIbanException If the Iban is malformed.
    */
 
-  ArrayList<MobilityDto> getFullMobilities();
+  ArrayList<MobilityDto> getFullMobilities() throws MalformedIbanException;
 
   /**
    * Return an ArrayList containing all the confirmed mobilities stored in database.
    *
    * @return an ArrayList of MobilityDto.
+   * @throws MalformedIbanException If the Iban is malformed.
    */
-  ArrayList<MobilityDto> getFullConfirmedMobilities();
+  ArrayList<MobilityDto> getFullConfirmedMobilities() throws MalformedIbanException;
 
   /**
    * Return an ArrayList containing all the mobilities of one user stored in database.
    *
    * @param user Pseudo of user who want to see his mobilities
    * @return an ArrayList of MobilityDto.
+   * @throws MalformedIbanException If the Iban is malformed.
    */
 
-  ArrayList<MobilityDto> getFullMyMobilities(String user);
+  ArrayList<MobilityDto> getFullMyMobilities(String user) throws MalformedIbanException;
 
   /**
    * Return an ArrayList containing all the academic years stored in database.
@@ -51,8 +55,9 @@ public interface MobilityDao {
    * Return an ArrayList containing all the payments matching with the academicYear.
    *
    * @return an ArrayList with the academic years.
+   * @throws MalformedIbanException If the Iban is malformed.
    */
-  ArrayList<MobilityDto> getFullPayments();
+  ArrayList<MobilityDto> getFullPayments() throws MalformedIbanException;
 
   /**
    * Return basic information of Mobility DTO based on an id.
@@ -60,8 +65,9 @@ public interface MobilityDao {
    * @param id Nr Id of mobility.
    * @return Mobility DTO.
    * @throws NoMobilityException If no mobility is matching with the id.
+   * @throws MalformedIbanException If the Iban is malformed.
    */
-  MobilityDto getMobilityById(int id) throws NoMobilityException;
+  MobilityDto getMobilityById(int id) throws NoMobilityException, MalformedIbanException;
 
   /**
    * Cancels the mobility matching with the id.

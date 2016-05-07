@@ -2,6 +2,7 @@ package ucc.interfaces;
 
 import dto.MobilityDto;
 import exceptions.BadMobilityStatusException;
+import exceptions.MalformedIbanException;
 import exceptions.NoMobilityException;
 import exceptions.OptimisticLockException;
 
@@ -23,16 +24,18 @@ public interface MobilityUcController {
    *
    * @return an ArrayList of MobilityDto.
    * @throws SQLException If there is a problem.
+   * @throws MalformedIbanException If the Iban is malformed.
    */
-  ArrayList<MobilityDto> getMobilities() throws SQLException;
+  ArrayList<MobilityDto> getMobilities() throws SQLException, MalformedIbanException;
 
   /**
    * Return an ArrayList containing all the confirmed mobilities stored in database.
    *
    * @return an ArrayList of MobilityDto.
    * @throws SQLException If there is a problem.
+   * @throws MalformedIbanException If the Iban is malformed.
    */
-  ArrayList<MobilityDto> getConfirmedMobilities() throws SQLException;
+  ArrayList<MobilityDto> getConfirmedMobilities() throws SQLException, MalformedIbanException;
 
   /**
    * Return an ArrayList containing all the mobilities of one user stored in database.
@@ -40,8 +43,9 @@ public interface MobilityUcController {
    * @param user pseudo of user who want to see his mobilities
    * @return an ArrayList of MobilityDto.
    * @throws SQLException If there is a problem.
+   * @throws MalformedIbanException If the Iban is malformed.
    */
-  ArrayList<MobilityDto> getMyMobilities(String user) throws SQLException;
+  ArrayList<MobilityDto> getMyMobilities(String user) throws SQLException, MalformedIbanException;
 
   /**
    * Add a mobility to the database.
@@ -64,8 +68,9 @@ public interface MobilityUcController {
    *
    * @return an ArrayList with the academic years.
    * @throws SQLException If there is a problem.
+   * @throws MalformedIbanException If the Iban is malformed.
    */
-  ArrayList<MobilityDto> getFullPayments() throws SQLException;
+  ArrayList<MobilityDto> getFullPayments() throws SQLException, MalformedIbanException;
 
   /**
    * Return basic information of Mobility DTO based on an id.
@@ -74,8 +79,10 @@ public interface MobilityUcController {
    * @return Mobility DTO.
    * @throws SQLException there is a problem.
    * @throws NoMobilityException If no mobility is matching with the id.
+   * @throws MalformedIbanException If the Iban is malformed.
    */
-  MobilityDto getMobilityById(int id) throws SQLException, NoMobilityException;
+  MobilityDto getMobilityById(int id)
+      throws SQLException, NoMobilityException, MalformedIbanException;
 
   /**
    * Cancels the mobility matching with the id.
