@@ -36,7 +36,7 @@ $(function () {
         // Validation for "Edit profile"
         $("#profile_name").change(function(){
             var name = document.getElementById("profile_name")
-            if(name.validity.patternMismatch){
+            if(name.validity.patternMismatch || name.validity.valueMissing){
                 console.log("event fired");
                 printToaster("info", "Le nom peut uniquement contenir des lettres et des tirets");
             }else{
@@ -46,7 +46,7 @@ $(function () {
 
         $("#profile_firstname").change(function(){
             var firstname = document.getElementById("profile_firstname")
-            if(firstname.validity.patternMismatch){
+            if(firstname.validity.patternMismatch || firstname.validity.valueMissing){
                 console.log("event fired");
                 printToaster("info", "Le nom doit uniquement contenir des lettres et des tirets");
             }else{
@@ -85,7 +85,7 @@ $(function () {
 
         $("#profile_email").change(function(){
            var email = document.getElementById("profile_email");
-            if(email.validity.typeMismatch){
+            if(email.validity.typeMismatch || email.validity.valueMissing){
                 printToaster("info", "E-mail invalide");
             }
         });

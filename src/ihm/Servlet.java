@@ -390,8 +390,16 @@ public class Servlet extends HttpServlet {
     userEdited = userUcc.getUserById(id);
     assert userEdited != null;
     userEdited.setId(id);
-    userEdited.setName(req.getParameter("name"));
-    userEdited.setFirstname(req.getParameter("firstname"));
+    try {
+      userEdited.setName(req.getParameter("name"));
+    }catch(IllegalArgumentException exc) {
+      createToaster(exc, resp);
+    }
+    try {
+      userEdited.setFirstname(req.getParameter("firstname"));
+    }catch(IllegalArgumentException exc){
+      createToaster(exc, resp);
+    }
     userEdited.setGender(req.getParameter("gender"));
     try {
       userEdited.setBirthDate(LocalDate.parse(req.getParameter("birthdate")));
@@ -407,7 +415,11 @@ public class Servlet extends HttpServlet {
     userEdited.setCountryDto(countryUcc.getCountryByIso(req.getParameter("country")));
     userEdited.setCountry(userEdited.getCountryDto().getNameFr());
     userEdited.setTel(req.getParameter("tel"));
-    userEdited.setEmail(req.getParameter("email"));
+    try {
+      userEdited.setEmail(req.getParameter("email"));
+    }catch(IllegalArgumentException exc){
+      createToaster(exc, resp);
+    }
     userEdited.setSuccessfullYearInCollege(
         Integer.parseInt(0 + req.getParameter("successfullYearsInCollege")));
     try {

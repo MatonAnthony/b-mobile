@@ -138,7 +138,7 @@ public class UserImpl implements UserBizz, Cloneable {
   @Override
   public void setPseudo(String pseudo) {
     // TODO Remettre le Pattern à 6
-    if (pseudo == null || !Pattern.matches("[A-z0-9]*{5,}", pseudo)) {
+    if (pseudo == null || pseudo.isEmpty() || !Pattern.matches("[A-z0-9]*{5,}", pseudo)) {
       throw new IllegalArgumentException("Le pseudo doit faire au moins 6 caractères et ne peut"
           + "contenir de caractères spéciaux !");
     }
@@ -162,7 +162,7 @@ public class UserImpl implements UserBizz, Cloneable {
    */
   @Override
   public void setPassword(String password) {
-    if (password == null || !Pattern.matches(".{6,}", password)) {
+    if (password == null || password.isEmpty() || !Pattern.matches(".{6,}", password)) {
       throw new IllegalArgumentException("Le mot de passe doit contenir au moins 6 caractères");
     }
     this.password = password;
@@ -185,9 +185,7 @@ public class UserImpl implements UserBizz, Cloneable {
    */
   @Override
   public void setName(String name) {
-    if (name == null) {
-      this.name = name;
-    } else if (!Pattern.matches("[A-zÀ-ÿ- ]*", name)) {
+    if ( name == null || name.isEmpty() || !Pattern.matches("[A-zÀ-ÿ- ]*", name)) {
       throw new IllegalArgumentException("Nom invalide");
     }
     this.name = name;
@@ -210,9 +208,7 @@ public class UserImpl implements UserBizz, Cloneable {
    */
   @Override
   public void setFirstname(String firstname) {
-    if (firstname == null) {
-      this.firstname = firstname;
-    } else if (!Pattern.matches("[A-zÀ-ÿ- ]*", firstname)) {
+    if (firstname == null || firstname.isEmpty() || !Pattern.matches("[A-zÀ-ÿ- ]*", firstname)) {
       throw new IllegalArgumentException("Prénom invalide");
     }
     this.firstname = firstname;
@@ -235,9 +231,8 @@ public class UserImpl implements UserBizz, Cloneable {
    */
   @Override
   public void setEmail(String email) {
-    if (email == null) {
-      this.email = email;
-    } else if (!Pattern.matches("^[\\w!#$%&’*.+/=?`{|}~^-]+(?:\\.[\\w!#$%&.’*+/=?`{|}~^-]+)"
+    if (email == null || email.isEmpty() ||
+      !Pattern.matches("^[\\w!#$%&’*.+/=?`{|}~^-]+(?:\\.[\\w!#$%&.’*+/=?`{|}~^-]+)"
         + "*@(?:[a-zA-Z0-9-.]+\\.)+[a-zA-Z]{2,6}$", email)) {
       throw new IllegalArgumentException("Email invalide");
     }
