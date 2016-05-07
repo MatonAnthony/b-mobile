@@ -81,4 +81,9 @@ public class PartnerUcControllerImplTest {
     assertEquals(list, partnerUcController.getDeletedPartners());
   }
 
+  @Test
+  public void testChangeDeletion() throws SQLException {
+    partnerUcController.changeDeletion(partnerDto);
+  }
+
 }

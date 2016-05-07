@@ -60,6 +60,11 @@ public class PartnerDaoMock implements PartnerDao {
     return db;
   }
 
+  @Override
+  public int setDeleted(PartnerDto dto) {
+    return 1;
+  }
+
 
 
 }

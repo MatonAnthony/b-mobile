@@ -233,6 +233,12 @@ public class Servlet extends HttpServlet {
         case "selectDeletedPartners":
           selectDeletedPartners(req, resp);
           break;
+        case "RehabilitatePartner":
+          RehabilitatePartner(req, resp);
+          break;
+        case "deletePartner":
+          deletePartner(req, resp);
+          break;
         default:
           resp.setStatus(HttpStatus.BAD_REQUEST_400);
       }
@@ -318,6 +324,37 @@ public class Servlet extends HttpServlet {
     partnerDto.setWebsite(req.getParameter("website"));
 
     partnerUcc.updatePartner(partnerDto);
+  }
+
+  private void RehabilitatePartner(HttpServletRequest req, HttpServletResponse resp)
+      throws NotEnoughPermissionsException, SQLException {
+    if (!(req.getSession().getAttribute(KEY_PERMISSIONS).equals("STUDENT")
+        || req.getSession().getAttribute(KEY_PERMISSIONS).equals("TEACHER"))) {
+      throw new NotEnoughPermissionsException(
+          "Vous n'avez pas les droits nécessaires pour faire cela");
+    }
+
+    PartnerDto partnerDto = bizzFactory.getPartnerDto();
+    partnerDto.setId(Integer.parseInt("" + req.getParameter("idPartner")));
+    partnerDto.setVerNr(Integer.parseInt(req.getParameter("verNr")));
+    partnerDto.setDeleted(false);
+
+    partnerUcc.changeDeletion(partnerDto);
+  }
+
+  private void deletePartner(HttpServletRequest req, HttpServletResponse resp)
+      throws NotEnoughPermissionsException, SQLException {
+    if (!(req.getSession().getAttribute(KEY_PERMISSIONS).equals("STUDENT")
+        || req.getSession().getAttribute(KEY_PERMISSIONS).equals("TEACHER"))) {
+      throw new NotEnoughPermissionsException(
+          "Vous n'avez pas les droits nécessaires pour faire cela");
+    }
+    PartnerDto partnerDto = bizzFactory.getPartnerDto();
+    partnerDto.setId(Integer.parseInt("" + req.getParameter("idPartner")));
+    partnerDto.setVerNr(Integer.parseInt(req.getParameter("verNr")));
+    partnerDto.setDeleted(true);
+
+    partnerUcc.changeDeletion(partnerDto);
   }
 
   private void selectMobility(HttpServletRequest req, HttpServletResponse resp)
@@ -1115,5 +1152,7 @@ public class Servlet extends HttpServlet {
     resp.getWriter().println(jsonPartners);
     resp.setStatus(HttpStatus.ACCEPTED_202);
   }
+
+
 
 }

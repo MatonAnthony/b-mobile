@@ -71,4 +71,12 @@ public interface PartnerDao {
    * @throws MalformedIbanException If the Iban is malformed.
    */
   ArrayList<PartnerDto> getDeletedPartners() throws MalformedIbanException;
+
+  /**
+   * Set the field "deleted" of a partner.
+   * 
+   * @param partnerDto The partner dto containing the modification.
+   * @return The number of row updated.
+   */
+  int setDeleted(PartnerDto partnerDto);
 }

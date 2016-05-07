@@ -333,7 +333,30 @@ public class PartnerDaoImpl implements PartnerDao {
 
     } catch (SQLException exc) {
       exc.printStackTrace();
-      throw new UnknowErrorException();
+      throw new UnknowErrorException(
+          "Une erreur inconnue s'est produite lors de la mise à jour du partneraire.");
+    }
+  }
+
+  @Override
+  public int setDeleted(PartnerDto partner) {
+    String query = "UPDATE bmobile.partners SET deleted=?, ver_nr=? WHERE id=? AND ver_nr=?";
+
+    PreparedStatement preparedStatement = null;
+    try {
+      preparedStatement = dalBackendServices.prepare(query);
+
+      preparedStatement.setBoolean(1, partner.isDeleted());
+      preparedStatement.setInt(2, partner.getVerNr() + 1);
+      preparedStatement.setInt(3, partner.getId());
+      preparedStatement.setInt(4, partner.getVerNr());
+
+      return dalBackendServices.executeUpdate(preparedStatement);
+
+    } catch (SQLException exc) {
+      exc.printStackTrace();
+      throw new UnknowErrorException(
+          "Une erreur inconnue s'est produite lors de la mise à jour d'un partenaire (deleted).");
     }
   }
 

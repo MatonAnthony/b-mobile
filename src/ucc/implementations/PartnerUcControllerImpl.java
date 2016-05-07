@@ -128,4 +128,36 @@ public class PartnerUcControllerImpl implements PartnerUcController {
     return partners;
   }
 
+  @Override
+  public void changeDeletion(PartnerDto partnerDto) throws SQLException {
+    try {
+      dalServices.openConnection();
+      dalServices.startTransaction();
+
+      int rowUpdated = partnerDao.setDeleted(partnerDto);
+      System.out.println(rowUpdated);
+
+      if (rowUpdated == 1) {
+        dalServices.commitTransaction();
+      } else {
+        dalServices.rollbackTransaction();
+      }
+    } catch (SQLException exc) {
+      exc.printStackTrace();
+      try {
+        dalServices.rollbackTransaction();
+      } catch (SQLException exc1) {
+        exc1.printStackTrace();
+      }
+    } finally {
+      try {
+        dalServices.closeConnection();
+      } catch (SQLException exc) {
+        exc.printStackTrace();
+      }
+
+    }
+
+  }
+
 }

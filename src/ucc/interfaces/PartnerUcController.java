@@ -70,4 +70,12 @@ public interface PartnerUcController {
    * @throws MalformedIbanException If the Iban is malformed.
    */
   ArrayList<PartnerDto> getDeletedPartners() throws SQLException, MalformedIbanException;
+
+  /**
+   * Change the partner to "deleted" or not.
+   * 
+   * @param partnerDto The partner to set.
+   * @throws SQLException If an error occurred with the database.
+   */
+  void changeDeletion(PartnerDto partnerDto) throws SQLException;
 }
