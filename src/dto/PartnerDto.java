@@ -300,6 +300,20 @@ public interface PartnerDto {
   public void setExists(boolean exists);
 
   /**
+   * Is exists boolean.
+   *
+   * @return the boolean
+   */
+  public boolean isDeleted();
+
+  /**
+   * Sets deleted partner from lists.
+   *
+   * @param deleted the exists
+   */
+  public void setDeleted(boolean deleted);
+
+  /**
    * Gets ver nr.
    *
    * @return the ver nr

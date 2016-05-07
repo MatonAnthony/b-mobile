@@ -2364,7 +2364,7 @@ $(function () {
             },
             success: function (resp) {
                 resp = JSON.parse(resp);
-                //console.log(resp);
+                console.log(resp);
                 $("#tablePartnersList tbody").empty();
 
                 for (key in resp) {
@@ -2373,16 +2373,32 @@ $(function () {
                     } else {
                         city = resp[key]['city'];
                     }
-                    var data =
-                        "<tr class='partnerTR'>" +
-                        "<td>" + resp[key]['id'] + "</td>" +
-                        "<td class='tdName'>" + resp[key]['legalName'] + "</td>" +
-                        "<td class='tdCity'>"+ city +"</td>" +
-                        "<td class='tdCountry'>" + resp[key]['countryDto']['nameFr'] + "</td>" +
-                        "<td>" + resp[key]['userDto']['firstname'] + " " + resp[key]['userDto']['name'] + "</td>" +
-                        "<td><button id="+ resp[key]['id'] +" class=\"btn btn-sm btn-success btnModifyPartner\">Modifier</button></td>" +
-                        "<td><button id="+ resp[key]['id'] +" class=\"btn btn-sm btn-danger btnDelPartner\">Supprimer</button></td>" +
-                        "</tr>";
+                    var data;
+                    if (resp[key]['deleted'] == false) {
+                        data =
+                            "<tr class='partnerTR'>" +
+                            "<td>" + resp[key]['id'] + "</td>" +
+                            "<td class='tdName'>" + resp[key]['legalName'] + "</td>" +
+                            "<td class='tdCity'>" + city + "</td>" +
+                            "<td class='tdCountry'>" + resp[key]['countryDto']['nameFr'] + "</td>" +
+                            "<td>" + resp[key]['userDto']['firstname'] + " " + resp[key]['userDto']['name'] + "</td>" +
+                            "<td><button id=" + resp[key]['id'] + " class=\"btn btn-sm btn-success btnModifyPartner\">Voir & Modifier</button></td>" +
+                            "<td><button id=" + resp[key]['id'] + " class=\"btn btn-sm btn-danger btnDelPartner\">Supprimer</button></td>" +
+                            "</tr>";
+                    } else {
+                        data =
+                            "<tr class='partnerTR'>" +
+                            "<td><del>" + resp[key]['id'] + "</del></td>" +
+                            "<td class='tdName'><del>" + resp[key]['legalName'] + "</del></td>" +
+                            "<td class='tdCity'><del>" + city + "</del></td>" +
+                            "<td class='tdCountry'><del>" + resp[key]['countryDto']['nameFr'] + "</del></td>" +
+                            "<td><del>" + resp[key]['userDto']['firstname'] + " " + resp[key]['userDto']['name'] + "</del></td>" +
+                            "<td><button id=" + resp[key]['id'] + " class=\"btn btn-sm btn-warning btnRehabilitatePartner\">Réhabiliter</button></td>" +
+                            "<td></td>"
+                            "</tr>";
+                    }
+
+
                     $("#tablePartnersList tbody").append(data);
                 }
             },

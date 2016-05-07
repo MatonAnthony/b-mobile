@@ -20,11 +20,11 @@ public class PartnerDaoImpl implements PartnerDao {
 
   private DalBackendServices dalBackendServices;
   private BizzFactory factory;
-
+  // language=PostgreSQL
   private String queryFull = "SELECT par.id, par.id_user, par.legal_name, par.business_name,"
       + " par.full_name, par.department,par.type, par.nb_employees, par.street,"
       + " par.number, par.mailbox, par.zip, par.city, par.state, par.country, par.email,"
-      + " par.website, par.exists, par.tel, par.ver_nr,"
+      + " par.website, par.exists, par.deleted, par.tel, par.ver_nr,"
       + " u.id, u.id_department, u.pseudo, u.name, u.firstname, u.email, "
       + " u.registration_date, u.permissions, u.birth_date, u.street, u.citizenship,"
       + " u.house_number, u.mailbox, u.zip, u.city, u.country, u.tel, u.gender,"
@@ -42,7 +42,7 @@ public class PartnerDaoImpl implements PartnerDao {
   public void createPartner(PartnerDto partner) {
     // language=PostgreSQL
     String query = "INSERT INTO bmobile.partners VALUES "
-        + "(DEFAULT,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) RETURNING id ";
+        + "(DEFAULT,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,FALSE,?) RETURNING id ";
 
     // language=PostgreSQL
     String partnerDepartment = "INSERT INTO bmobile.partners_departments VALUES (?,?,?)";
@@ -170,13 +170,13 @@ public class PartnerDaoImpl implements PartnerDao {
     // language=PostgreSQL
     String query =
         "SELECT DISTINCT p.id, p.legal_name, p.exists, p.country FROM bmobile.partners p "
-            + "LEFT JOIN bmobile.mobilities m ON p.id = m.id_partner WHERE ";
+            + "LEFT JOIN bmobile.mobilities m ON p.id = m.id_partner WHERE";
 
     if (permission.equals("STUDENT")) {
-      query += " m.id_partner IS NULL AND p.id_user = ? AND p.exists = ?";
+      query += " m.id_partner IS NULL AND p.id_user = ? AND p.exists = ? AND p.deleted = false";
     }
     if (permission.equals("TEACHER")) {
-      query += " m.status = 'En attente' OR  m.id_partner IS NULL";
+      query += " m.status = 'En attente' OR  m.id_partner IS NULL AND p.deleted = false";
     }
 
     PreparedStatement preparedStatement = null;
@@ -239,6 +239,25 @@ public class PartnerDaoImpl implements PartnerDao {
       exc.printStackTrace();
     }
 
+    return partners;
+  }
+
+  @Override
+  public ArrayList<PartnerDto> getPartnersWithoutMobility() {
+    String query = "SELECT id_partner FROM bmobile.mobilities WHERE id_partner NOTNULL";
+    ArrayList<PartnerDto> partners = null;
+    PreparedStatement preparedStatement = null;
+    try {
+      preparedStatement = dalBackendServices.prepare(query);
+      ResultSet resultSet = preparedStatement.executeQuery();
+      while (resultSet.next()) {
+        PartnerDto partnerDto = factory.getPartnerDto();
+        partnerDto.setId(resultSet.getInt(1));
+        partners.add(partnerDto);
+      }
+    } catch (SQLException exc) {
+      exc.printStackTrace();
+    }
     return partners;
   }
 
@@ -350,41 +369,42 @@ public class PartnerDaoImpl implements PartnerDao {
     partner.setEmail(resultSet.getString(16));
     partner.setWebsite(resultSet.getString(17));
     partner.setExists(resultSet.getBoolean(18));
-    partner.setTel(resultSet.getString(19));
-    partner.setVerNr(resultSet.getInt(20));
+    partner.setDeleted(resultSet.getBoolean(19));
+    partner.setTel(resultSet.getString(20));
+    partner.setVerNr(resultSet.getInt(21));
 
     UserDto user = factory.getUserDto();
-    user.setId(resultSet.getInt(21));
-    user.setIdDepartment(resultSet.getString(22));
-    user.setPseudo(resultSet.getString(23));
+    user.setId(resultSet.getInt(22));
+    user.setIdDepartment(resultSet.getString(23));
+    user.setPseudo(resultSet.getString(24));
     // user.setPassword(resultSet.getString(24));
-    user.setName(resultSet.getString(24));
-    user.setFirstname(resultSet.getString(25));
-    user.setEmail(resultSet.getString(26));
-    Timestamp registrationDate = resultSet.getTimestamp(27);
+    user.setName(resultSet.getString(25));
+    user.setFirstname(resultSet.getString(26));
+    user.setEmail(resultSet.getString(27));
+    Timestamp registrationDate = resultSet.getTimestamp(28);
     if (null != registrationDate) {
       user.setRegistrationDate(registrationDate.toLocalDateTime().toLocalDate());
     }
-    user.setPermissions(resultSet.getString(28));
-    Timestamp birthdate = resultSet.getTimestamp(29);
+    user.setPermissions(resultSet.getString(29));
+    Timestamp birthdate = resultSet.getTimestamp(30);
     if (null != birthdate) {
       user.setBirthDate(birthdate.toLocalDateTime().toLocalDate());
     }
     user.setCitizenship(resultSet.getString("citizenship"));
     user.setStreet(resultSet.getString("street"));
-    user.setHouseNumber(resultSet.getString(32));
-    user.setMailBox(resultSet.getString(33));
-    user.setZip(resultSet.getString(34));
-    user.setCity(resultSet.getString(35));
+    user.setHouseNumber(resultSet.getString(33));
+    user.setMailBox(resultSet.getString(34));
+    user.setZip(resultSet.getString(35));
+    user.setCity(resultSet.getString(36));
     user.setCountry(resultSet.getString("country"));
-    user.setTel(resultSet.getString(37));
-    user.setGender(resultSet.getString(38));
-    user.setSuccessfullYearInCollege(resultSet.getInt(39));
-    user.setIban(resultSet.getString(40));
-    user.setBic(resultSet.getString(41));
-    user.setAccountHolder(resultSet.getString(42));
-    user.setBankName(resultSet.getString(43));
-    user.setVerNr(resultSet.getInt(44));
+    user.setTel(resultSet.getString(38));
+    user.setGender(resultSet.getString(39));
+    user.setSuccessfullYearInCollege(resultSet.getInt(40));
+    user.setIban(resultSet.getString(41));
+    user.setBic(resultSet.getString(42));
+    user.setAccountHolder(resultSet.getString(43));
+    user.setBankName(resultSet.getString(44));
+    user.setVerNr(resultSet.getInt(45));
     partner.setUserDto(user);
 
     CountryDto countryDto = factory.getCountryDto();

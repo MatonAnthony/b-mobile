@@ -104,6 +104,14 @@ public class PartnerUcControllerImpl implements PartnerUcController {
   }
 
   @Override
+  public ArrayList<PartnerDto> getPartnersWithoutMobility() throws SQLException {
+    dalServices.openConnection();
+    ArrayList<PartnerDto> partner = partnerDao.getPartnersWithoutMobility();
+    dalServices.closeConnection();
+    return partner;
+  }
+
+  @Override
   public ArrayList<PartnerDto> getTeacherPartners() throws SQLException {
     dalServices.openConnection();
     ArrayList<PartnerDto> partners = partnerDao.getTeacherPartners();

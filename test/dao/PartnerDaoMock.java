@@ -45,6 +45,11 @@ public class PartnerDaoMock implements PartnerDao {
   }
 
   @Override
+  public ArrayList<PartnerDto> getPartnersWithoutMobility() {
+    return db;
+  }
+
+  @Override
   public int updatePartner(PartnerDto partner) {
     return 1;
   }

@@ -51,4 +51,10 @@ public interface PartnerDao {
    * @return An arraylist of PartnerDto
    */
   ArrayList<PartnerDto> getTeacherPartners();
+
+  /**
+   * Get partners who do not have mobility.
+   * @return an ArrayList with partnerDto.
+   */
+  ArrayList<PartnerDto> getPartnersWithoutMobility();
 }

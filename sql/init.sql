@@ -89,6 +89,7 @@ CREATE TABLE bMobile.partners
   email VARCHAR(150),
   website VARCHAR(150),
   exists BOOLEAN,
+  deleted BOOLEAN,
   ver_nr INTEGER,
 
   CONSTRAINT foreign_key_user FOREIGN KEY (id_user) REFERENCES bMobile.users (id),

@@ -29,6 +29,7 @@ public class PartnerImpl implements PartnerBizz {
   private String email;
   private String website;
   private boolean exists;
+  private boolean deleted;
   private int verNr;
 
   @Override
@@ -286,6 +287,16 @@ public class PartnerImpl implements PartnerBizz {
   @Override
   public void setExists(boolean exists) {
     this.exists = exists;
+  }
+
+  @Override
+  public boolean isDeleted() {
+    return deleted;
+  }
+
+  @Override
+  public void setDeleted(boolean deleted) {
+    this.deleted = deleted;
   }
 
   @Override

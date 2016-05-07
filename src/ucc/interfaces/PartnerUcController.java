@@ -50,4 +50,11 @@ public interface PartnerUcController {
    * @param partner the partnerDto with the informations.
    */
   void updatePartner(PartnerDto partner);
+
+  /**
+   * Return an ArrayList containing all partners who do not have mobility.
+   * @return an ArraylList of PartnerDto.
+   * @throws SQLException
+   */
+  ArrayList<PartnerDto> getPartnersWithoutMobility() throws SQLException;
 }

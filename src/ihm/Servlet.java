@@ -1062,8 +1062,13 @@ public class Servlet extends HttpServlet {
       throw new NotEnoughPermissionsException(
           "Vous n'avez pas les droits nécessaires pour faire cela");
     }
-
     ArrayList<PartnerDto> partners = partnerUcc.getAllPartners();
+    //ArrayList<PartnerDto> partnersWithoutMobility = partnerUcc.getPartnersWithoutMobility();
+
+    //HashMap<String, Object> data = new HashMap<String, Object>();
+    //data.put("partners",partners);
+    //data.put("partnersWithoutMobility", partnersWithoutMobility);
+
     String jsonPartners = basicGenson.serialize(partners);
     resp.getWriter().println(jsonPartners);
     resp.setStatus(HttpStatus.ACCEPTED_202);
