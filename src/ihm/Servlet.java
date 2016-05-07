@@ -234,10 +234,10 @@ public class Servlet extends HttpServlet {
           selectDeletedPartners(req, resp);
           break;
         case "RehabilitatePartner":
-          RehabilitatePartner(req, resp);
+          changeDeletion(req, resp, false);
           break;
         case "deletePartner":
-          deletePartner(req, resp);
+          changeDeletion(req, resp, true);
           break;
         default:
           resp.setStatus(HttpStatus.BAD_REQUEST_400);
@@ -326,23 +326,7 @@ public class Servlet extends HttpServlet {
     partnerUcc.updatePartner(partnerDto);
   }
 
-  private void RehabilitatePartner(HttpServletRequest req, HttpServletResponse resp)
-      throws NotEnoughPermissionsException, SQLException {
-    if (!(req.getSession().getAttribute(KEY_PERMISSIONS).equals("STUDENT")
-        || req.getSession().getAttribute(KEY_PERMISSIONS).equals("TEACHER"))) {
-      throw new NotEnoughPermissionsException(
-          "Vous n'avez pas les droits nécessaires pour faire cela");
-    }
-
-    PartnerDto partnerDto = bizzFactory.getPartnerDto();
-    partnerDto.setId(Integer.parseInt("" + req.getParameter("idPartner")));
-    partnerDto.setVerNr(Integer.parseInt(req.getParameter("verNr")));
-    partnerDto.setDeleted(false);
-
-    partnerUcc.changeDeletion(partnerDto);
-  }
-
-  private void deletePartner(HttpServletRequest req, HttpServletResponse resp)
+  private void changeDeletion(HttpServletRequest req, HttpServletResponse resp, boolean change)
       throws NotEnoughPermissionsException, SQLException {
     if (!(req.getSession().getAttribute(KEY_PERMISSIONS).equals("STUDENT")
         || req.getSession().getAttribute(KEY_PERMISSIONS).equals("TEACHER"))) {
@@ -352,7 +336,7 @@ public class Servlet extends HttpServlet {
     PartnerDto partnerDto = bizzFactory.getPartnerDto();
     partnerDto.setId(Integer.parseInt("" + req.getParameter("idPartner")));
     partnerDto.setVerNr(Integer.parseInt(req.getParameter("verNr")));
-    partnerDto.setDeleted(true);
+    partnerDto.setDeleted(change);
 
     partnerUcc.changeDeletion(partnerDto);
   }
