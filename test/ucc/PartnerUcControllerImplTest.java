@@ -76,4 +76,9 @@ public class PartnerUcControllerImplTest {
     partnerUcController.updatePartner(partnerDto2);
   }
 
+  @Test
+  public void testGetDeletedPartner() throws SQLException, MalformedIbanException {
+    assertEquals(list, partnerUcController.getDeletedPartners());
+  }
+
 }

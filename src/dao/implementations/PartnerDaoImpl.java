@@ -246,7 +246,7 @@ public class PartnerDaoImpl implements PartnerDao {
   @Override
   public ArrayList<PartnerDto> getPartnersWithoutMobility() {
     String query = "SELECT id_partner FROM bmobile.mobilities WHERE id_partner NOTNULL";
-    ArrayList<PartnerDto> partners = null;
+    ArrayList<PartnerDto> partners = new ArrayList<PartnerDto>();
     PreparedStatement preparedStatement = null;
     try {
       preparedStatement = dalBackendServices.prepare(query);
@@ -276,6 +276,24 @@ public class PartnerDaoImpl implements PartnerDao {
       throw new UnknowErrorException(
           "Une erreur inconnue s'est produite lors de la recherche du partenaire.");
     }
+  }
+
+
+  @Override
+  public ArrayList<PartnerDto> getDeletedPartners() throws MalformedIbanException {
+    String queryTemp = queryFull + " AND deleted=TRUE";
+
+    ArrayList<PartnerDto> partners = null;
+    PreparedStatement preparedStatement = null;
+    try {
+      preparedStatement = dalBackendServices.prepare(queryTemp);
+      partners = fillDtoArray(preparedStatement);
+
+    } catch (SQLException exc) {
+      exc.printStackTrace();
+    }
+
+    return partners;
   }
 
   @Override

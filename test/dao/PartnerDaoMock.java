@@ -2,6 +2,7 @@ package dao;
 
 import dao.interfaces.PartnerDao;
 import dto.PartnerDto;
+import exceptions.MalformedIbanException;
 
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
@@ -52,6 +53,11 @@ public class PartnerDaoMock implements PartnerDao {
   @Override
   public int updatePartner(PartnerDto partner) {
     return 1;
+  }
+
+  @Override
+  public ArrayList<PartnerDto> getDeletedPartners() throws MalformedIbanException {
+    return db;
   }
 
 

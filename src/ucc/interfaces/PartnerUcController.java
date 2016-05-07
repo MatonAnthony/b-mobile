@@ -56,8 +56,18 @@ public interface PartnerUcController {
 
   /**
    * Return an ArrayList containing all partners who do not have mobility.
+   * 
    * @return an ArraylList of PartnerDto.
-   * @throws SQLException
+   * @throws SQLException If an error occurred with the database.
    */
   ArrayList<PartnerDto> getPartnersWithoutMobility() throws SQLException;
+
+  /**
+   * Return an ArrayList containing all deleted partners
+   * 
+   * @return an ArrayList of PartnerDto.
+   * @throws SQLException If an error occurred with the database.
+   * @throws MalformedIbanException If the Iban is malformed.
+   */
+  ArrayList<PartnerDto> getDeletedPartners() throws SQLException, MalformedIbanException;
 }

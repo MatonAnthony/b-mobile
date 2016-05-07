@@ -120,4 +120,12 @@ public class PartnerUcControllerImpl implements PartnerUcController {
     return partners;
   }
 
+  @Override
+  public ArrayList<PartnerDto> getDeletedPartners() throws SQLException, MalformedIbanException {
+    dalServices.openConnection();
+    ArrayList<PartnerDto> partners = partnerDao.getDeletedPartners();
+    dalServices.closeConnection();
+    return partners;
+  }
+
 }

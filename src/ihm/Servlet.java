@@ -230,6 +230,9 @@ public class Servlet extends HttpServlet {
         case "selectAllPartners":
           selectAllPartners(req, resp);
           break;
+        case "selectDeletedPartners":
+          selectDeletedPartners(req, resp);
+          break;
         default:
           resp.setStatus(HttpStatus.BAD_REQUEST_400);
       }
@@ -401,12 +404,12 @@ public class Servlet extends HttpServlet {
     userEdited.setId(id);
     try {
       userEdited.setName(req.getParameter("name"));
-    }catch(IllegalArgumentException exc) {
+    } catch (IllegalArgumentException exc) {
       createToaster(exc, resp);
     }
     try {
       userEdited.setFirstname(req.getParameter("firstname"));
-    }catch(IllegalArgumentException exc){
+    } catch (IllegalArgumentException exc) {
       createToaster(exc, resp);
     }
     userEdited.setGender(req.getParameter("gender"));
@@ -432,7 +435,7 @@ public class Servlet extends HttpServlet {
     userEdited.setTel(req.getParameter("tel"));
     try {
       userEdited.setEmail(req.getParameter("email"));
-    }catch(IllegalArgumentException exc){
+    } catch (IllegalArgumentException exc) {
       createToaster(exc, resp);
     }
     userEdited.setSuccessfullYearInCollege(
@@ -1089,12 +1092,25 @@ public class Servlet extends HttpServlet {
           "Vous n'avez pas les droits nécessaires pour faire cela");
     }
     ArrayList<PartnerDto> partners = partnerUcc.getAllPartners();
-    //ArrayList<PartnerDto> partnersWithoutMobility = partnerUcc.getPartnersWithoutMobility();
+    // ArrayList<PartnerDto> partnersWithoutMobility = partnerUcc.getPartnersWithoutMobility();
 
-    //HashMap<String, Object> data = new HashMap<String, Object>();
-    //data.put("partners",partners);
-    //data.put("partnersWithoutMobility", partnersWithoutMobility);
+    // HashMap<String, Object> data = new HashMap<String, Object>();
+    // data.put("partners",partners);
+    // data.put("partnersWithoutMobility", partnersWithoutMobility);
 
+    String jsonPartners = basicGenson.serialize(partners);
+    resp.getWriter().println(jsonPartners);
+    resp.setStatus(HttpStatus.ACCEPTED_202);
+  }
+
+  private void selectDeletedPartners(HttpServletRequest req, HttpServletResponse resp)
+      throws NotEnoughPermissionsException, SQLException, IOException, MalformedIbanException {
+    if (!(req.getSession().getAttribute(KEY_PERMISSIONS).equals("STUDENT")
+        || req.getSession().getAttribute(KEY_PERMISSIONS).equals("TEACHER"))) {
+      throw new NotEnoughPermissionsException(
+          "Vous n'avez pas les droits nécessaires pour faire cela");
+    }
+    ArrayList<PartnerDto> partners = partnerUcc.getDeletedPartners();
     String jsonPartners = basicGenson.serialize(partners);
     resp.getWriter().println(jsonPartners);
     resp.setStatus(HttpStatus.ACCEPTED_202);

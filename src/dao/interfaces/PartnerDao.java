@@ -58,7 +58,17 @@ public interface PartnerDao {
 
   /**
    * Get partners who do not have mobility.
+   * 
    * @return an ArrayList with partnerDto.
    */
   ArrayList<PartnerDto> getPartnersWithoutMobility();
+
+
+  /**
+   * Get deleted partners of the database
+   * 
+   * @return an ArrayList with PartnerDto
+   * @throws MalformedIbanException If the Iban is malformed.
+   */
+  ArrayList<PartnerDto> getDeletedPartners() throws MalformedIbanException;
 }

@@ -1059,6 +1059,46 @@ $(function () {
 
             $("#add_partner_country_school_department").empty();
         }
+		
+		//Ajax request for deleted partners
+		$.ajax({
+			method: "POST",
+			url: "/home",
+			data: {
+				action: "selectDeletedPartners"
+			},
+			success: function (resp) {
+				resp = JSON.parse(resp);
+				var deletedPartners=[];
+				for (key in resp){
+					deletedPartners.push(
+					{'label': resp[key]['legalName']+' ( '+resp[key]['countryDto']['nameFr']+' )',
+					 'value': resp[key]['id']});
+				}
+				console.log(deletedPartners);
+				$("#add_partner_legal_name").autocomplete({
+					minLength: 2,
+					source: deletedPartners,
+					select: function( evt, ui ) {
+						$("#btnRehabilitatePartnerAddForm").css("display","block");
+						$('[data-toggle="tooltip"]').tooltip()
+						
+						
+						evt.preventDefault() // <--- Prevent the value from being inserted.
+						$("#btnRehabilitatePartnerAddForm").val(ui.item.value);
+						$(this).val(ui.item.label);
+					}
+				});
+				$("#add_partner_legal_name").off('input.add_partner_legal_name').on('input.add_partner_legal_name', function (){
+					$("#btnRehabilitatePartnerAddForm").css("display","none");
+				});
+				
+			},
+			error: function (error) {
+				error = JSON.parse(error.responseText);
+				printToaster(error.type, error.message);
+			}
+		});
     }
 
 	function loadRegisterPage() {
