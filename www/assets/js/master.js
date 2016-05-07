@@ -1073,7 +1073,8 @@ $(function () {
 				for (key in resp){
 					deletedPartners.push(
 					{'label': resp[key]['legalName']+' ( '+resp[key]['countryDto']['nameFr']+' )',
-					 'value': resp[key]['id']});
+					 'value': resp[key]['id'],
+					 'verNr': resp[key]['verNr']});
 				}
 				console.log(deletedPartners);
 				$("#add_partner_legal_name").autocomplete({
@@ -1081,11 +1082,11 @@ $(function () {
 					source: deletedPartners,
 					select: function( evt, ui ) {
 						$("#btnRehabilitatePartnerAddForm").css("display","block");
-						$('[data-toggle="tooltip"]').tooltip()
-						
+						$('[data-toggle="tooltipRehab"]').tooltip();
 						
 						evt.preventDefault() // <--- Prevent the value from being inserted.
 						$("#btnRehabilitatePartnerAddForm").val(ui.item.value);
+						$("#btnRehabilitatePartnerAddForm").attr("data-verNr",ui.item.verNr);
 						$(this).val(ui.item.label);
 					}
 				});
