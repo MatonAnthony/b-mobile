@@ -13,12 +13,23 @@
                 <ul class="nav navbar-nav">
                     <li class="active"><a href="#myMobility" class="navButton"><span class="glyphicon glyphicon-plane" aria-hidden="true"></span> Mes mobilités</a></li>
                     <li><a href="#addMobility" class="navButton"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Ajouter une demande</a></li>
-                    <li><a href="#addPartner" class="navButton"><span class="glyphicon glyphicon-briefcase" aria-hidden="true"></span> Ajouter un partenaire</a></li>
+                     <li class="dropdown navButton">
+                        <a href="#3lists" class="navButton dropdown-toggle" data-toggle="dropdown">
+                            <span class="glyphicon glyphicon-briefcase" aria-hidden="true"></span>
+                            Partenaires
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#addPartner" class="navButton">Ajouter</a></li>
+                            <li><a href="#ListPartner" class="navButton">Lister</a></li>
+                        </ul>
+                    </li>
                     <li><a href="#myInformations" class="navButton"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Gérer mes informations</a></li>
                     <li class="dropdown"></li>
                 </ul>
                 <form class="navbar-form navbar-right" role="search">
-                
+                	<div class="form-group">
+                        <input id="searchBar" type="text" class="form-control" placeholder="Rechercher" style="display:none">
+                    </div>
                     <a class="navButton" href="#disconnect"><button type="button" class="btn btn-default"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span></button></a>
                 </form>
             </div>

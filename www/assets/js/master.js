@@ -254,6 +254,9 @@ $(function () {
             case "ListAndModifyPartner" :
                 loadPartners();
                 break;
+            case "ListPartner" :
+            	loadPartnersList();
+            	break;
             default:
                 disconnect();
                 break;
@@ -808,6 +811,9 @@ $(function () {
                 loadPartners();
 				history.pushState({page: "ListAndModifyPartner"}, "Lister et modifier les partenaires", "/home#ListAndModifyPartner");
 				break;
+            case "#ListPartner" :
+            	loadPartnersList();
+            	history.pushState({page: "ListPartner"}, "Lister les partenaires", "/home#ListPartner");
         }
         return false;
     });
@@ -818,6 +824,7 @@ $(function () {
         $(".page").css("display", "none");
         $("#navBarStudent").css("display", "block");
         $("#studentHomePage").css("display", "block");
+        $('#searchBar').css("display","none");
         loadMyMobility();
         $(".active").removeClass("active");
         $(".navButton[href='#myMobility']").parent().addClass("active");
@@ -827,6 +834,7 @@ $(function () {
         $(".page").css("display", "none");
         $("#navBarStudent").css("display", "block");
         $("#addMobilityPage").css("display", "block");
+        $('#searchBar').css("display","none");
 
         if ($("#selectProgram1").html() == "" || $("#selectCountry1").html() == "" || $("#selectDep").html() == "") {
 			var currentTime = new Date();
@@ -987,6 +995,7 @@ $(function () {
         $("#setPartnerBtn").css("display","none");
  		$("#addPartnerBtn").css("display","block");
         $('#school_department').css("display", "none");
+        $('#searchBar').css("display","none");
         $(".active").removeClass("active");
         $(".navButton[href='#addPartner']").parent().addClass("active");
         addParnter();
@@ -1134,6 +1143,7 @@ $(function () {
 	    $(".page").css("display", "none");
 	    $("#navBarStudent").css("display", "block");
 	    $("#profilePage").css("display", "block");
+	    $('#searchBar').css("display","none");
 
 		$(".active").removeClass("active");
 		$(".navButton[href='#myInformations']").parent().addClass("active");
@@ -2503,6 +2513,30 @@ $(function () {
                 }
             });
         });
+    }
+    
+   function loadPartnersList(){
+	   $(".page").css("display", "none");
+       $("#partnersListStudentPage").css("display","block");
+       $("#navBarStudent").css("display","block");
+       $('#searchBar').css("display","block");
+       $(".active").removeClass("active");
+    	/*$.ajax({
+            method: "POST",
+            url: "/home",
+            data: {
+                action: "loadPartner"
+            },
+            success: function (resp) {
+                resp = JSON.parse(resp);
+
+                
+            },
+            error: function (error) {
+                error = JSON.parse(error.responseText);
+                printToaster(error.type, error.message);
+            }
+        });*/
     }
 
 	// Export to CSV
