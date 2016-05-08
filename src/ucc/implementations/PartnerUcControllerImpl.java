@@ -5,7 +5,6 @@ import dao.interfaces.PartnerDao;
 import dto.DepartmentDto;
 import dto.PartnerDto;
 import exceptions.MalformedIbanException;
-import jdk.internal.org.xml.sax.SAXException;
 import ucc.interfaces.PartnerUcController;
 
 import java.sql.SQLException;
@@ -30,7 +29,8 @@ public class PartnerUcControllerImpl implements PartnerUcController {
   }
 
   @Override
-  public void addPartner(PartnerDto partner, ArrayList<DepartmentDto> departments) throws SQLException {
+  public void addPartner(PartnerDto partner, ArrayList<DepartmentDto> departments)
+      throws SQLException {
     // TODO (Kamil) Throw les exceptions custom a la place de les catch
     try {
       dalServices.openConnection();

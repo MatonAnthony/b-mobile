@@ -384,7 +384,6 @@ public class PartnerDaoImpl implements PartnerDao {
 
     try {
       preparedStatement = dalBackendServices.prepare(queryDepartmentsDel);
-      System.out.println(partner.getId());
       preparedStatement.setInt(1, partner.getId());
       dalBackendServices.executeUpdate(preparedStatement);
 
@@ -430,7 +429,8 @@ public class PartnerDaoImpl implements PartnerDao {
 
   @Override
   public int setDeleted(PartnerDto partner) {
-    String query = "UPDATE bmobile.partners SET deleted=?, ver_nr=?, id_user=? WHERE id=? AND ver_nr=?";
+    String query = "UPDATE bmobile.partners SET deleted=?, ver_nr=?, id_user=?"
+        + " WHERE id=? AND ver_nr=?";
 
     PreparedStatement preparedStatement = null;
     try {
