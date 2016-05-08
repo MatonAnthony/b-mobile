@@ -354,6 +354,7 @@ public class Servlet extends HttpServlet {
           "Vous n'avez pas les droits nécessaires pour faire cela");
     }
     PartnerDto partnerDto = bizzFactory.getPartnerDto();
+    partnerDto.setIdUser(Integer.parseInt("" +req.getSession().getAttribute(KEY_ID)));
     partnerDto.setId(Integer.parseInt("" + req.getParameter("idPartner")));
     partnerDto.setVerNr(Integer.parseInt(req.getParameter("verNr")));
     partnerDto.setDeleted(change);
