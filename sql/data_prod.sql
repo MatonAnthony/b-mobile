@@ -57,8 +57,16 @@ UPDATE bmobile.countries SET id_program = 3 WHERE id_program IS NULL ;
 --INSERT INTO bmobile.mobilities (id, id_student, id_program, id_partner, type, preference_order, country, id_department, quadrimester, status, canceled, departure_grant_contract, departure_convention_internship_schoolarship, departure_student_convention, departure_erasmus_language_test, departure_doc_aggreement, depart_doc_sent_highschool, software_proeco, software_mobility_tools, software_mobi, return_residence_cert, return_transcript, return_internship_cert, return_final_report, return_erasmus_language_test, return_doc_sent_highschool, cancelation_reason, academic_year, ver_nr) VALUES (DEFAULT, 1, 1, null, 'SMS', 1, 'AD', 'BCH', 2, 'Supprimee', false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, null, null, 0);
 
 -- USERS --
---INSERT INTO bmobile.users (id, pseudo, password, name, firstname, email, permissions)
---VALUES (DEFAULT, 'martin', '$2a$10$rdkGjZwuiZhatzgokIck3./2q48AElTSv9snaxDjNq.xjulxzdCUC', 'Techy', 'Martin', 'martin.techy@student.vinci.be','STUDENT');
+-- password = mdpadmin --
+INSERT INTO bmobile.users (id, pseudo, password, name, firstname, email, permissions)
+VALUES (DEFAULT, 'lehmann', '$2a$10$qOSl9dCvUcBHeBNbKqj9JO5sgEJno8BvzgLq4HCaRLP9hhVGNP566', 'Lehmann', 'Brigitte', 'brigitte.lehmann@vinci.be','TEACHER');
+VALUES (DEFAULT, 'grolaux', '$2a$10$qOSl9dCvUcBHeBNbKqj9JO5sgEJno8BvzgLq4HCaRLP9hhVGNP566', 'Grolaux', 'Donatien', 'donatien.grolaux@vinci.be','TEACHER');
 
---INSERT INTO bmobile.users (id, pseudo, password, name, firstname, email, permissions)
---VALUES (DEFAULT, 'prof', '$2a$10$rdkGjZwuiZhatzgokIck3./2q48AElTSv9snaxDjNq.xjulxzdCUC', 'Janssens', 'Thierry', 'prof@vinci.be','TEACHER');
+-- password = mdpstudent --
+INSERT INTO bmobile.users (id, id_department, pseudo, password, name, firstname, email, permissions)
+VALUES (DEFAULT, 'BDI', 'kiroule', '$2a$10$.Ne7tUXEu9GWkMDUXyCF5e0kCZ6nsECV2W/j8iypMH8/N26qB.NWy', 'Kiroule', 'Pierre', 'pierre.kiroule@vinci.be','STUDENT');
+VALUES (DEFAULT, 'BIN', 'pamousse', '$2a$10$.Ne7tUXEu9GWkMDUXyCF5e0kCZ6nsECV2W/j8iypMH8/N26qB.NWy', 'Pamousse', 'Namasse', 'namasse.pamousse@vinci.be','STUDENT');
+
+INSERT INTO bmobile.users (id, id_department, pseudo, password, name, firstname, email, permissions, iban, bic)
+VALUES (DEFAULT, 'BDI', 'tatilotetatou', '$2a$10$.Ne7tUXEu9GWkMDUXyCF5e0kCZ6nsECV2W/j8iypMH8/N26qB.NWy', 'Tatilotetatou', 'Tonthe', 'tonthe.tatilotetatou@vinci.be','STUDENT', 'BE73000000006060', 'BPOTBEB1');
+

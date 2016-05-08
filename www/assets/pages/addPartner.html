@@ -1,124 +1,149 @@
 <section id="addPartnerPage" class="page" style="display:none">
 
-    <h3>Partenaire</h3>
-    <br>
-
-    <div class="addPartnerForm form-horizontal">
-        <div class="form-group">
-            <div id="school_department">
-                <label class="col-sm-2 control-label">Département de l'école:</label>
-                <div class="col-sm-5">
-                    <select class="form-control" id="add_partner_country_school_department"></select>
+    <div class="container">
+        <div class="col-md-offset-1 col-md-10">
+            <div class="panel panel-info" id="school_department">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Département(s) IPL du partenaire:</h3>
+                </div>
+                <div class="panel-body">
+                    <label class="checkbox-inline">
+                        <input type="checkbox" id="add_partner_BBM" value="BBM">Biologie médicale (BBM)
+                    </label>
+                    <label class="checkbox-inline">
+                        <input type="checkbox" id="add_partner_BCH" value="BCH">Chimie (BCH)
+                    </label>
+                    <label class="checkbox-inline">
+                        <input type="checkbox" id="add_partner_BDI" value="BDI">Diététique (BDI)
+                    </label>
+                    <label class="checkbox-inline">
+                        <input type="checkbox" id="add_partner_BIM" value="BIM">Imagerie médicale (BIM)
+                    </label>
+                    <label class="checkbox-inline">
+                        <input type="checkbox" id="add_partner_BIN" value="BIN">Informatique de gestion (BIN)
+                    </label>
                 </div>
             </div>
         </div>
-        <div class="form-group">
-            <label for="add_partner_legal_name" class="col-sm-2 control-label">Nom légal:</label>
-            <div class="col-sm-5">
-                <input type="text" class="form-control" id="add_partner_legal_name"
-                       placeholder="Requis" pattern="[A-zÀ-ÿ-. ]*"> 
+    </div>
+    <div class="container">
+        <div class="col-md-offset-1 col-md-10">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <div class="panel-title">Coordonnées du partenaire: </div>
+                </div>
+                <div class="panel-body">
+                    <div class="addPartnerForm form-horizontal">
+                        <div class="form-group">
+                            <label for="add_partner_legal_name" class="col-sm-2 control-label">Nom légal:</label>
+                            <div class="col-sm-5">
+                                <input type="text" class="form-control" id="add_partner_legal_name"
+                                       placeholder="Requis" pattern="[A-zÀ-ÿ-. ]*">
+                            </div>
+                            <button id="btnRehabilitatePartnerAddForm" class="btn btn-sm btn-warning" style="display:none" data-toggle="tooltipRehab" data-placement="bottom" title="Ce partenaire a été supprimé, si vous le réhabilité, il sera à nouveau disponible">Réhabiliter</button>
+                        </div>
+                        <div class="form-group">
+                            <label for="add_partner_business_name" class="col-sm-2 control-label">Nom d'affaires:</label>
+                            <div class="col-sm-5">
+                                <input type="text" class="form-control" id="add_partner_business_name" pattern="[A-zÀ-ÿ-. ]*">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="add_partner_full_name" class="col-sm-2 control-label">Nom complet:</label>
+                            <div class="col-sm-5">
+                                <input type="text" class="form-control" id="add_partner_full_name" pattern="[A-zÀ-ÿ-. ]*">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="add_partner_department" class="col-sm-2 control-label">Département:</label>
+                            <div class="col-sm-5">
+                                <input type="text" class="form-control" id="add_partner_department">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="add_partner_type" class="col-sm-2 control-label">Type d'organisation:</label>
+                            <div class="col-sm-2">
+                                <select class="form-control" id="add_partner_type">
+                                    <option>TPE</option>
+                                    <option>PME</option>
+                                    <option>ETI</option>
+                                    <option>TGE</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="add_partner_nb_employees" class="col-sm-2 control-label">Nombre d'employées:</label>
+                            <div class="col-sm-2">
+                                <input type="number" class="form-control" id="add_partner_nb_employees">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="add_partner_street" class="col-sm-2 control-label">Rue:</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control" id="add_partner_street">
+                            </div>
+                            <label for="add_partner_number" class="col-sm-1 control-label">Nr:</label>
+                            <div class="col-sm-1">
+                                <input type="number" class="form-control" id="add_partner_number">
+                            </div>
+                            <label for="add_partner_mailbox" class="col-sm-1 control-label">Boite:</label>
+                            <div class="col-sm-1">
+                                <input type="text" class="form-control" id="add_partner_mailbox">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="add_partner_zip" class="col-sm-2 control-label">Code postal:</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" id="add_partner_zip">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="add_partner_city" class="col-sm-2 control-label">Ville:</label>
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" id="add_partner_city" pattern="[A-zÀ-ÿ-. ]*">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="add_partner_state" class="col-sm-2 control-label">Région:</label>
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" id="add_partner_state"
+                                pattern="[A-zÀ-ÿ-. ]*">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="add_partner_country" class="col-sm-2 control-label">Pays:</label>
+                            <div class="col-sm-4">
+                                <select class="form-control" id="add_partner_country" required></select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="add_partner_tel" class="col-sm-2 control-label">Tel:</label>
+                            <div class="col-sm-2">
+                                <input type="tel" class="form-control" id="add_partner_tel">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="add_partner_email" class="col-sm-2 control-label">E-mail:</label>
+                            <div class="col-sm-3">
+                                <input type="email" class="form-control" id="add_partner_email">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="add_partner_website" class="col-sm-2 control-label">Site web:</label>
+                            <div class="col-sm-3">
+                                <input type="url" class="form-control" id="add_partner_website">
+                            </div>
+                        </div>
+                        <div class="col-md-2 col-md-offset-9">
+                            <button class="btn btn-lg btn-info btn-block" id="addPartnerBtn">Envoyer</button>
+                        </div>
+                        <div class="col-md-2 col-md-offset-9">
+                            <button class="btn btn-lg btn-info btn-block" id="setPartnerBtn">Envoyer</button><br>
+                        </div>
+                    </div>
+                </div>
             </div>
-			<button id="btnRehabilitatePartnerAddForm" class="btn btn-sm btn-warning" style="display:none" data-toggle="tooltipRehab" data-placement="bottom" title="Ce partenaire a été supprimé, si vous le réhabilité, il sera à nouveau disponible">Réhabiliter</button>
         </div>
-        <div class="form-group">
-            <label for="add_partner_business_name" class="col-sm-2 control-label">Nom d'affaires:</label>
-            <div class="col-sm-5">
-                <input type="text" class="form-control" id="add_partner_business_name" pattern="[A-zÀ-ÿ-. ]*">
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="add_partner_full_name" class="col-sm-2 control-label">Nom complet:</label>
-            <div class="col-sm-5">
-                <input type="text" class="form-control" id="add_partner_full_name" pattern="[A-zÀ-ÿ-. ]*">
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="add_partner_department" class="col-sm-2 control-label">Département:</label>
-            <div class="col-sm-5">
-                <input type="text" class="form-control" id="add_partner_department">
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="add_partner_type" class="col-sm-2 control-label">Type d'organisation:</label>
-            <div class="col-sm-2">
-                <select class="form-control" id="add_partner_type">
-                    <option>TPE</option>
-                    <option>PME</option>
-                    <option>ETI</option>
-                    <option>TGE</option>
-                </select>
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="add_partner_nb_employees" class="col-sm-2 control-label">Nombre d'employées:</label>
-            <div class="col-sm-2">
-                <input type="number" class="form-control" id="add_partner_nb_employees">
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="add_partner_street" class="col-sm-2 control-label">Rue:</label>
-            <div class="col-sm-4">
-                <input type="text" class="form-control" id="add_partner_street">
-            </div>
-            <label for="add_partner_number" class="col-sm-1 control-label">Nr:</label>
-            <div class="col-sm-1">
-                <input type="number" class="form-control" id="add_partner_number">
-            </div>
-            <label for="add_partner_mailbox" class="col-sm-1 control-label">Boite:</label>
-            <div class="col-sm-1">
-                <input type="text" class="form-control" id="add_partner_mailbox">
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="add_partner_zip" class="col-sm-2 control-label">Code postal:</label>
-            <div class="col-sm-2">
-                <input type="text" class="form-control" id="add_partner_zip">
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="add_partner_city" class="col-sm-2 control-label">Ville:</label>
-            <div class="col-sm-3">
-                <input type="text" class="form-control" id="add_partner_city" pattern="[A-zÀ-ÿ-. ]*">
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="add_partner_state" class="col-sm-2 control-label">Région:</label>
-            <div class="col-sm-3">
-                <input type="text" class="form-control" id="add_partner_state"
-                pattern="[A-zÀ-ÿ-. ]*">
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="add_partner_country" class="col-sm-2 control-label">Pays:</label>
-            <div class="col-sm-4">
-                <select class="form-control" id="add_partner_country" required></select>
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="add_partner_tel" class="col-sm-2 control-label">Tel:</label>
-            <div class="col-sm-2">
-                <input type="tel" class="form-control" id="add_partner_tel">
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="add_partner_email" class="col-sm-2 control-label">E-mail:</label>
-            <div class="col-sm-3">
-                <input type="email" class="form-control" id="add_partner_email">
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="add_partner_website" class="col-sm-2 control-label">Site web:</label>
-            <div class="col-sm-3">
-                <input type="url" class="form-control" id="add_partner_website">
-            </div>
-        </div>
-        <div class="col-md-2 col-md-offset-9">
-            <button class="btn btn-lg btn-info btn-block" id="addPartnerBtn">Envoyer</button>
-        </div>
-        <div class="col-md-2 col-md-offset-9">
-            <button class="btn btn-lg btn-info btn-block" id="setPartnerBtn">Envoyer</button>
-        </div>
-        
-    </form>
+    </div>
 
 </section>

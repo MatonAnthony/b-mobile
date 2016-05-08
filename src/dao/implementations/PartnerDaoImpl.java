@@ -4,6 +4,7 @@ import bizz.interfaces.BizzFactory;
 import dal.DalBackendServices;
 import dao.interfaces.PartnerDao;
 import dto.CountryDto;
+import dto.DepartmentDto;
 import dto.PartnerDto;
 import dto.UserDto;
 import exceptions.MalformedIbanException;
@@ -40,7 +41,7 @@ public class PartnerDaoImpl implements PartnerDao {
   }
 
   @Override
-  public void createPartner(PartnerDto partner) {
+  public void createPartner(PartnerDto partner, ArrayList<DepartmentDto> departments) {
     // language=PostgreSQL
     String query = "INSERT INTO bmobile.partners VALUES "
         + "(DEFAULT,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,FALSE,?) RETURNING id ";
@@ -151,17 +152,25 @@ public class PartnerDaoImpl implements PartnerDao {
       preparedStatement.setBoolean(18, partner.isExists());
       preparedStatement.setInt(19, partner.getVerNr());
       ResultSet resultSet = dalBackendServices.executeQuery(preparedStatement);
-
       if (resultSet.next()) {
-        preparedStatement2.setInt(1, resultSet.getInt(1));
+        if (departments.isEmpty()) {
+          preparedStatement2.setInt(1, resultSet.getInt(1));
+          preparedStatement2.setString(2, partner.getUserDto().getIdDepartment());
+          preparedStatement2.setInt(3, 0);
+          dalBackendServices.executeUpdate(preparedStatement2);
+        } else {
+          for (DepartmentDto department : departments) {
+            preparedStatement2.setInt(1, resultSet.getInt(1));
+            preparedStatement2.setString(2, department.getId());
+            preparedStatement2.setInt(3, 0);
+            dalBackendServices.executeUpdate(preparedStatement2);
+          }
+        }
       }
-      preparedStatement2.setString(2, partner.getUserDto().getIdDepartment());
-      preparedStatement2.setInt(3, 0);
-      dalBackendServices.executeUpdate(preparedStatement2);
     } catch (SQLException exc) {
       exc.printStackTrace();
-      throw new UnknowErrorException(
-          "Une erreur inconnue s'est produite lors de la création du partenaire.");
+      throw new UnknowErrorException("Une erreur inconnue s'est produite lors "
+          + "de la création du partenaire.");
     }
   }
 
@@ -281,6 +290,32 @@ public class PartnerDaoImpl implements PartnerDao {
   }
 
   @Override
+  public ArrayList<DepartmentDto> getAllPartnerDepartments(int partnerId) {
+
+    String query = "SELECT part_dep.id_department, dep.label "
+        + "FROM bmobile.partners_departments part_dep, bmobile.departments dep "
+        + "WHERE part_dep.id_department = dep.id AND part_dep.id_partner = ?";
+    ArrayList<DepartmentDto> departments = new ArrayList<>();
+    PreparedStatement preparedStatement = null;
+
+    try {
+      preparedStatement = dalBackendServices.prepare(query);
+      preparedStatement.setInt(1, partnerId);
+      ResultSet resultSet = preparedStatement.executeQuery();
+      while (resultSet.next()) {
+        DepartmentDto departmentDto = factory.getDepartmentDto();
+        departmentDto.setId(resultSet.getString(1));
+        departmentDto.setLabel(resultSet.getString(2));
+        departments.add(departmentDto);
+      }
+    } catch (SQLException exc) {
+      exc.printStackTrace();
+    }
+
+    return departments;
+  }
+
+  @Override
   public ArrayList<PartnerDto> getPartnersWithoutMobility() {
     String query = "SELECT DISTINCT id_partner FROM bmobile.mobilities WHERE id_partner NOTNULL";
     ArrayList<PartnerDto> partners = new ArrayList<PartnerDto>();
@@ -334,15 +369,33 @@ public class PartnerDaoImpl implements PartnerDao {
   }
 
   @Override
-  public int updatePartner(PartnerDto partner) {
+  public int updatePartner(PartnerDto partner, ArrayList<DepartmentDto> departments) {
 
     String query = "UPDATE bmobile.partners SET legal_name=?, business_name=?,"
         + " full_name=?, department=?, type=?, nb_employees=?, street=?, number=?, mailbox=?,"
         + " zip=?, city=?, state=?, country=?, email=?, website=?, exists=?, tel=?, ver_nr=?"
         + " WHERE id=? AND ver_nr=?";
 
-    PreparedStatement preparedStatement = null;
+    // language=PostgreSQL
+    String queryDepartmentsDel = "DELETE FROM bmobile.partners_departments WHERE id_partner = ?";
+    String queryDepartmentsAdd = "INSERT INTO bmobile.partners_departments VALUES (?,?,?)";
+
+        PreparedStatement preparedStatement = null;
+
     try {
+      preparedStatement = dalBackendServices.prepare(queryDepartmentsDel);
+      System.out.println(partner.getId());
+      preparedStatement.setInt(1, partner.getId());
+      dalBackendServices.executeUpdate(preparedStatement);
+
+      preparedStatement = dalBackendServices.prepare(queryDepartmentsAdd);
+      for (DepartmentDto department : departments) {
+        preparedStatement.setInt(1, partner.getId());
+        preparedStatement.setString(2, department.getId());
+        preparedStatement.setInt(3, 0);
+        dalBackendServices.executeUpdate(preparedStatement);
+      }
+
       preparedStatement = dalBackendServices.prepare(query);
 
       preparedStatement.setString(1, partner.getLegalName());

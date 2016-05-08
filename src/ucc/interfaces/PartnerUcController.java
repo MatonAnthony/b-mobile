@@ -1,5 +1,6 @@
 package ucc.interfaces;
 
+import dto.DepartmentDto;
 import dto.PartnerDto;
 import exceptions.MalformedIbanException;
 
@@ -12,9 +13,10 @@ public interface PartnerUcController {
    * Add new partner to DB for current user.
    *
    * @param partner patrnerDto.
+   * @param departments Array List of departmentDto.
    * @throws SQLException if there is a problem.
    */
-  void addPartner(PartnerDto partner) throws SQLException;
+  void addPartner(PartnerDto partner, ArrayList<DepartmentDto> departments) throws SQLException;
 
   /**
    * Return ArrayList containing partners for of one user stored in database
@@ -51,8 +53,9 @@ public interface PartnerUcController {
    * Update the details for a partner.
    * 
    * @param partner the partnerDto with the informations.
+   * @param departments ArrayList with departments DTO.
    */
-  void updatePartner(PartnerDto partner);
+  void updatePartner(PartnerDto partner, ArrayList<DepartmentDto> departments);
 
   /**
    * Return an ArrayList containing all partners who do not have mobility.
@@ -87,4 +90,12 @@ public interface PartnerUcController {
    * @throws SQLException If an error occurred with the database.
    */
   ArrayList<PartnerDto> getPartnersForStudentList(int userId) throws SQLException;
+
+  /**
+   * Get all departments of partner
+   *
+   * @param partnerId id of partner
+   * @return ArrayList with departmentsDto
+   */
+  ArrayList<DepartmentDto> getAllPartnerDepartments(int partnerId) throws SQLException;
 }

@@ -317,12 +317,13 @@ public class Servlet extends HttpServlet {
   }
 
   private void updatePartner(HttpServletRequest req, HttpServletResponse resp)
-      throws NotEnoughPermissionsException, NoCountryException, SQLException {
+      throws NotEnoughPermissionsException, NoCountryException, SQLException,
+      NoDepartmentException {
     if (!req.getSession().getAttribute(KEY_PERMISSIONS).equals("TEACHER")) {
       throw new NotEnoughPermissionsException(
           "Vous n'avez pas les droits nécessaires pour faire cela");
     }
-
+    ArrayList<DepartmentDto> departements = new ArrayList<DepartmentDto>();
     PartnerDto partnerDto = bizzFactory.getPartnerDto();
     partnerDto.setId(Integer.parseInt("" + req.getParameter("idP")));
     partnerDto.setVerNr(Integer.parseInt("" + req.getParameter("nrVersion")));
@@ -343,7 +344,26 @@ public class Servlet extends HttpServlet {
     partnerDto.setEmail(req.getParameter("email"));
     partnerDto.setWebsite(req.getParameter("website"));
 
-    partnerUcc.updatePartner(partnerDto);
+    if (req.getParameter("bbm").equals("true")) {
+      departements.add(departmentUcc.getDepartementsById("BBM"));
+    }
+    if (req.getParameter("bch").equals("true")) {
+      departements.add(departmentUcc.getDepartementsById("BCH"));
+    }
+    if (req.getParameter("bdi").equals("true")) {
+      departements.add(departmentUcc.getDepartementsById("BDI"));
+    }
+    if (req.getParameter("bim").equals("true")) {
+      departements.add(departmentUcc.getDepartementsById("BIM"));
+    }
+    if (req.getParameter("bin").equals("true")) {
+      departements.add(departmentUcc.getDepartementsById("BIN"));
+    }
+    if (departements.isEmpty()) {
+      throw new NoDepartmentException("Veuillez choisir au moins un département IPL.");
+    }
+
+    partnerUcc.updatePartner(partnerDto, departements);
   }
 
   private void changeDeletion(HttpServletRequest req, HttpServletResponse resp, boolean change)
@@ -661,8 +681,11 @@ public class Servlet extends HttpServlet {
     }
 
     PartnerDto partner = partnerUcc.getPartnerById(Integer.parseInt(req.getParameter("id")));
-
-    String jsonPartner = basicGenson.serialize(partner);
+    ArrayList<DepartmentDto> departments = partnerUcc.getAllPartnerDepartments(Integer.parseInt(req.getParameter("id")));
+    HashMap<String,Object> data = new HashMap<>();
+    data.put("partner", partner);
+    data.put("departments", departments);
+    String jsonPartner = basicGenson.serialize(data);
     resp.getWriter().println(jsonPartner);
     resp.setStatus(HttpStatus.ACCEPTED_202);
 
@@ -850,16 +873,10 @@ public class Servlet extends HttpServlet {
       throw new NotEnoughPermissionsException(
           "Vous n'avez pas les droits nécessaires pour faire cela");
     }
-
+    ArrayList<DepartmentDto> departements = new ArrayList<DepartmentDto>();
     PartnerDto partner = bizzFactory.getPartnerDto();
-    partner.setUserDto(
-        userUcc.getUserById(Integer.parseInt("" + req.getSession().getAttribute(KEY_ID))));
-
-    // change department id of Teacher for join partner with the good department
-    if (req.getSession().getAttribute(KEY_PERMISSIONS).equals("TEACHER")) {
-      partner.getUserDto().setIdDepartment(
-          departmentUcc.getDepartmentByLabel(req.getParameter("schoolDepartment")).getId());
-    }
+    UserDto userDto = userUcc.getUserById(Integer.parseInt("" + req.getSession().getAttribute(KEY_ID)));
+    partner.setUserDto(userDto);
     partner.setLegalName(req.getParameter("legal_name"));
     partner.setBusiness(req.getParameter("business_name"));
     partner.setCountryDto(countryUcc.getCountryByNameFr(req.getParameter("country")));
@@ -876,15 +893,35 @@ public class Servlet extends HttpServlet {
     partner.setTel(req.getParameter("tel"));
     partner.setEmail(req.getParameter("email"));
     partner.setWebsite(req.getParameter("website"));
+
     if (req.getSession().getAttribute(KEY_PERMISSIONS).equals("STUDENT")) {
       partner.setExists(false);
     }
+
     if (req.getSession().getAttribute(KEY_PERMISSIONS).equals("TEACHER")) {
       partner.setExists(true);
+
+      if (req.getParameter("bbm").equals("true")) {
+        departements.add(departmentUcc.getDepartementsById("BBM"));
+      }
+      if (req.getParameter("bch").equals("true")) {
+        departements.add(departmentUcc.getDepartementsById("BCH"));
+      }
+      if (req.getParameter("bdi").equals("true")) {
+        departements.add(departmentUcc.getDepartementsById("BDI"));
+      }
+      if (req.getParameter("bim").equals("true")) {
+        departements.add(departmentUcc.getDepartementsById("BIM"));
+      }
+      if (req.getParameter("bin").equals("true")) {
+        departements.add(departmentUcc.getDepartementsById("BIN"));
+      }
+      if (departements.isEmpty()) {
+        throw new NoDepartmentException("Veuillez choisir au moins un département IPL.");
+      }
     }
     partner.setVerNr(0);
-
-    partnerUcc.addPartner(partner);
+    partnerUcc.addPartner(partner, departements);
   }
 
   /**

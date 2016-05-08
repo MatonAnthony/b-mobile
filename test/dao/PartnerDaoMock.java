@@ -1,6 +1,7 @@
 package dao;
 
 import dao.interfaces.PartnerDao;
+import dto.DepartmentDto;
 import dto.PartnerDto;
 import exceptions.MalformedIbanException;
 
@@ -10,13 +11,14 @@ import java.util.NoSuchElementException;
 public class PartnerDaoMock implements PartnerDao {
 
   private ArrayList<PartnerDto> db;
+  private ArrayList<DepartmentDto> db2;
 
   public PartnerDaoMock(ArrayList<PartnerDto> db) {
     this.db = db;
   }
 
   @Override
-  public void createPartner(PartnerDto partner) {
+  public void createPartner(PartnerDto partner, ArrayList<DepartmentDto> departments) {
     db.add(partner);
   }
 
@@ -51,7 +53,7 @@ public class PartnerDaoMock implements PartnerDao {
   }
 
   @Override
-  public int updatePartner(PartnerDto partner) {
+  public int updatePartner(PartnerDto partner, ArrayList<DepartmentDto> departments) {
     return 1;
   }
 
@@ -68,6 +70,11 @@ public class PartnerDaoMock implements PartnerDao {
   @Override
   public ArrayList<PartnerDto> getPartnersForStudentList(int userId) {
     return db;
+  }
+
+  @Override
+  public ArrayList<DepartmentDto> getAllPartnerDepartments(int partnerId) {
+    return db2;
   }
 
 

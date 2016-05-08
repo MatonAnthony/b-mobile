@@ -717,6 +717,7 @@ $(function () {
     //addPartner
     $("#addPartnerBtn").click(function () {
 
+        
         if ($("#add_partner_legal_name").val() === "" || $("#add_partner_country").val() === ""){
             if ($("#add_partner_legal_name").val() === ""){
                 printToaster("warning","Le champ \"Nom légal\" est requis");
@@ -724,6 +725,8 @@ $(function () {
             if ($("#add_partner_country").val() === ""){
                 printToaster("warning","Le champ \"Pays\" est requis");
             }
+            checkPermission();
+
         }
         else {
             $.ajax({
@@ -747,11 +750,17 @@ $(function () {
                     tel: $("#add_partner_tel").val(),
                     email: $("#add_partner_email").val(),
                     website: $("#add_partner_website").val(),
-                    schoolDepartment: $("#add_partner_country_school_department").val()
+                    schoolDepartment: "Informatique de gestion",
+                    bbm: $("#add_partner_BBM").prop("checked"),
+                    bch: $("#add_partner_BCH").prop("checked"),
+                    bdi: $("#add_partner_BDI").prop("checked"),
+                    bim: $("#add_partner_BIM").prop("checked"),
+                    bin: $("#add_partner_BIN").prop("checked")
 
                 },
                 success: function (resp) {
                     printToaster("success", "Le partenaire a bien été ajouté.");
+                    
                 },
                 error: function (error) {
                     error = JSON.parse(error.responseText);
@@ -1044,31 +1053,6 @@ $(function () {
                     printToaster(error.type, error.message);
                 }
             });
-        }
-        checkPermission();
-        if ($("#add_partner_country_school_department").html() == "") {
-            $.ajax({
-                method: "POST",
-                url: "/home",
-                data: {
-                    action: "selectDepartments"
-                },
-                success: function (resp) {
-                    resp = JSON.parse(resp);
-                    var key;
-                    $("#add_partner_country_school_department").append("<option></option>");
-                    for (key in resp) {
-                        $("#add_partner_country_school_department").append("<option data-departId=" + resp[key]['id']+ ">" + resp[key]['label'] + "</option>");
-                    }
-                },
-                error: function (error) {
-                    error = JSON.parse(error.responseText);
-                    printToaster(error.type, error.message);
-                }
-            });
-        }else{
-
-            $("#add_partner_country_school_department").empty();
         }
 		
 		//Ajax request for deleted partners
@@ -1931,26 +1915,30 @@ $(function () {
             },
             success: function (resp) {
                 resp = JSON.parse(resp);
-
-                $('#legalName').html(resp['legalName']);
-                $('#BusinesName').html(resp['business']);
-                $('#FullName').html(resp['fullName']);
-                $('#departmentPartner').html(resp['department']);
-                $('#typePartner').html(resp['type']);
-                $('#employee').html(resp['nbEmployees']);
-                $('#streetPartner').html(resp['street']);
-                $('#numberPartner').html(resp['number']);
-                $('#mailboxPartner').html(resp['mailbox']);
-                $('#countryPartner').html(resp['countryDto']['nameFr']);                  
-                $('#areaPartner').html(resp['state']);
-                $('#zipPartner').html(resp['zip']);
-                $('#cityPartner').html(resp['city']);
-                $('#PhonePartner').html(resp['tel']);
-                $('#mailPartner').html(resp['email']);
-                $('#webPartner').html(resp['website']);
-                $('#userPartner').html(resp['userDto']['name'] + " " + resp['userDto']['firstname']);
-                $('#setPartner').attr('nbVr',resp['verNr']);
-                $('#setPartner').attr('idPart',resp['id']);
+                console.log(resp);
+                $('#legalName').html(resp['partner']['legalName']);
+                $('#BusinesName').html(resp['partner']['business']);
+                $('#FullName').html(resp['partner']['fullName']);
+                $('#departmentPartner').html(resp['partner']['department']);
+                $('#typePartner').html(resp['partner']['type']);
+                $('#employee').html(resp['partner']['nbEmployees']);
+                $('#streetPartner').html(resp['partner']['street']);
+                $('#numberPartner').html(resp['partner']['number']);
+                $('#mailboxPartner').html(resp['partner']['mailbox']);
+                $('#countryPartner').html(resp['partner']['countryDto']['nameFr']);
+                $('#areaPartner').html(resp['partner']['state']);
+                $('#zipPartner').html(resp['partner']['zip']);
+                $('#cityPartner').html(resp['partner']['city']);
+                $('#PhonePartner').html(resp['partner']['tel']);
+                $('#mailPartner').html(resp['partner']['email']);
+                $('#webPartner').html(resp['partner']['website']);
+                $('#userPartner').html(resp['partner']['userDto']['name'] + " " + resp['partner']['userDto']['firstname']);
+                $('#setPartner').attr('nbVr',resp['partner']['verNr']);
+                $('#setPartner').attr('idPart',resp['partner']['id']);
+                $('#departmentIpl').empty();
+                for (key in resp['departments']) {
+                    $('#departmentIpl').append("<li data-"+  resp['departments'][key]['id'] +"="+resp['departments'][key]['id']+">"+ resp['departments'][key]['label']+"</li>");
+                }
             },
             error: function (error) {
                 error = JSON.parse(error.responseText);
@@ -1982,6 +1970,27 @@ $(function () {
  		$('#add_partner_tel').val($('#PhonePartner').html());
  		$('#add_partner_email').val($('#mailPartner').html());
  		$('#add_partner_website').val($('#webPartner').html());
+        $('#add_partner_BBM').prop("checked", false);
+        $('#add_partner_BCH').prop("checked", false);
+        $('#add_partner_BDI').prop("checked", false);
+        $('#add_partner_BIM').prop("checked", false);
+        $('#add_partner_BIN').prop("checked", false);
+
+        if ($("[data-bbm]").attr("data-bbm") === "BBM"){
+            $('#add_partner_BBM').prop("checked", true);
+        }
+        if ($("[data-bch]").attr("data-bch") === "BCH"){
+            $('#add_partner_BCH').prop("checked", true);
+        }
+        if ($("[data-bdi]").attr("data-bdi") === "BDI"){
+            $('#add_partner_BDI').prop("checked", true);
+        }
+        if ($("[data-bim]").attr("data-bim") === "BIM"){
+            $('#add_partner_BIM').prop("checked", true);
+        }
+        if ($("[data-bin]").attr("data-bin") === "BIN"){
+            $('#add_partner_BIN').prop("checked", true);
+        }
      });
 
      $("#setPartnerBtn").off("click.setPartnerBtn").on("click.setPartnerBtn",function(){
@@ -2007,7 +2016,12 @@ $(function () {
                  city: $('#add_partner_city').val(),
                  tel: $('#add_partner_tel').val(),
                  email: $('#add_partner_email').val(),
-                 website:$('#add_partner_website').val()
+                 website:$('#add_partner_website').val(),
+                 bbm: $('#add_partner_BBM').prop("checked"),
+                 bch: $('#add_partner_BCH').prop("checked"),
+                 bdi: $('#add_partner_BDI').prop("checked"),
+                 bim: $('#add_partner_BIM').prop("checked"),
+                 bin: $('#add_partner_BIN').prop("checked")
              },
              success: function (resp) {
                  printToaster("success", "Le partenaire à bien été modifiée.");

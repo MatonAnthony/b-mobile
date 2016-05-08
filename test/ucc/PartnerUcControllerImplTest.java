@@ -7,6 +7,7 @@ import bizz.interfaces.BizzFactory;
 import dal.DalServices;
 import dal.DalServicesImplStub;
 import dao.PartnerDaoMock;
+import dto.DepartmentDto;
 import dto.PartnerDto;
 import exceptions.MalformedIbanException;
 import ucc.implementations.PartnerUcControllerImpl;
@@ -22,8 +23,10 @@ public class PartnerUcControllerImplTest {
 
   private PartnerDaoMock partnerDao;
   private ArrayList<PartnerDto> list;
+  private ArrayList<DepartmentDto> listDepartments;
   private PartnerDto partnerDto;
   private PartnerDto partnerDto2;
+  private DepartmentDto departmentDto;
   private PartnerUcController partnerUcController;
 
   @Before
@@ -39,6 +42,8 @@ public class PartnerUcControllerImplTest {
     partnerDto2.setVerNr(0);
     list = new ArrayList<PartnerDto>();
     list.add(partnerDto);
+    listDepartments = new ArrayList<DepartmentDto>();
+    listDepartments.add(departmentDto);
 
     partnerDao = new PartnerDaoMock(list);
     DalServices dalServices = new DalServicesImplStub();
@@ -48,7 +53,7 @@ public class PartnerUcControllerImplTest {
 
   @Test
   public void testAddPartner() throws SQLException {
-    partnerUcController.addPartner(partnerDto2);
+    partnerUcController.addPartner(partnerDto2, listDepartments);
   }
 
   @Test
@@ -73,7 +78,7 @@ public class PartnerUcControllerImplTest {
 
   @Test
   public void testUpdatePartner() {
-    partnerUcController.updatePartner(partnerDto2);
+    partnerUcController.updatePartner(partnerDto2, listDepartments);
   }
 
   @Test

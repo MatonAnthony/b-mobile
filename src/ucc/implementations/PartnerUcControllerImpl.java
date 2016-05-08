@@ -2,8 +2,10 @@ package ucc.implementations;
 
 import dal.DalServices;
 import dao.interfaces.PartnerDao;
+import dto.DepartmentDto;
 import dto.PartnerDto;
 import exceptions.MalformedIbanException;
+import jdk.internal.org.xml.sax.SAXException;
 import ucc.interfaces.PartnerUcController;
 
 import java.sql.SQLException;
@@ -28,12 +30,12 @@ public class PartnerUcControllerImpl implements PartnerUcController {
   }
 
   @Override
-  public void addPartner(PartnerDto partner) throws SQLException {
+  public void addPartner(PartnerDto partner, ArrayList<DepartmentDto> departments) throws SQLException {
     // TODO (Kamil) Throw les exceptions custom a la place de les catch
     try {
       dalServices.openConnection();
       dalServices.startTransaction();
-      partnerDao.createPartner(partner);
+      partnerDao.createPartner(partner, departments);
       dalServices.commitTransaction();
       dalServices.closeConnection();
     } catch (SQLException exc1) {
@@ -74,13 +76,13 @@ public class PartnerUcControllerImpl implements PartnerUcController {
   }
 
   @Override
-  public void updatePartner(PartnerDto partner) {
+  public void updatePartner(PartnerDto partner, ArrayList<DepartmentDto> departments) {
 
     try {
       dalServices.openConnection();
       dalServices.startTransaction();
 
-      int rowUpdated = partnerDao.updatePartner(partner);
+      int rowUpdated = partnerDao.updatePartner(partner, departments);
 
       if (rowUpdated == 1) {
         dalServices.commitTransaction();
@@ -165,6 +167,14 @@ public class PartnerUcControllerImpl implements PartnerUcController {
     ArrayList<PartnerDto> partners = partnerDao.getPartnersForStudentList(userId);
     dalServices.closeConnection();
     return partners;
+  }
+
+  @Override
+  public ArrayList<DepartmentDto> getAllPartnerDepartments(int partnerId) throws SQLException {
+    dalServices.openConnection();
+    ArrayList<DepartmentDto> departments = partnerDao.getAllPartnerDepartments(partnerId);
+    dalServices.closeConnection();
+    return departments;
   }
 
 }

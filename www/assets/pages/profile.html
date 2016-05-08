@@ -1,137 +1,145 @@
 <section id="profilePage" class="page" style="display:none">
 
-    <h3>Modifier mes informations </h3>
-	<br>
-	
-    <form id="formProfile" class="form-horizontal">
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label">Nom :</label>
-                        <div class="col-sm-5">
-                            <input class="form-control" name="name" pattern="[A-zÀ-ÿ- ]{1,}"
-                                   id="profile_name" required>
+    <div class="container">
+        <div class="col-md-offset-1 col-md-10">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Modifier mes informations</h3>
+                </div>
+                <div class="panel-body">
+                    <form id="formProfile" class="form-horizontal">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Nom :</label>
+                            <div class="col-sm-5">
+                                <input class="form-control" name="name" pattern="[A-zÀ-ÿ- ]{1,}"
+                                       id="profile_name" required>
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label">Prénom :</label>
-                        <div class="col-sm-5">
-                            <input class="form-control" name="firstname" pattern="[A-zÀ-ÿ- ]{1,}"
-                                id="profile_firstname" required>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Prénom :</label>
+                            <div class="col-sm-5">
+                                <input class="form-control" name="firstname" pattern="[A-zÀ-ÿ- ]{1,}"
+                                    id="profile_firstname" required>
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label">Sexe :</label>
-                        <div class="col-sm-5">
-                            <select class="form-control" name="gender">
-                                <option>Homme</option>
-                                <option>Femme</option>
-                            </select>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Sexe :</label>
+                            <div class="col-sm-5">
+                                <select class="form-control" name="gender">
+                                    <option>Homme</option>
+                                    <option>Femme</option>
+                                </select>
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <!-- TODO : Gérer ce field -->
-                        <label class="col-sm-2 control-label">Date de naissance :</label>
-                        <div class="col-sm-5">
-                            <input class="form-control" name="birthdate" type=date min=1900-01-01
-                            default="1995-04-01" id="datepicker">
+                        <div class="form-group">
+                            <!-- TODO : Gérer ce field -->
+                            <label class="col-sm-2 control-label">Date de naissance :</label>
+                            <div class="col-sm-5">
+                                <input class="form-control" name="birthdate" type=date min=1900-01-01
+                                default="1995-04-01" id="datepicker">
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label">Nationalité :</label>
-                        <div class="col-sm-5">
-                            <input class="form-control" name="citizenship" pattern="[A-zÀ-ÿ- ]*"
-                            id="profile_citizenship"/>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Nationalité :</label>
+                            <div class="col-sm-5">
+                                <input class="form-control" name="citizenship" pattern="[A-zÀ-ÿ- ]*"
+                                id="profile_citizenship"/>
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label">Rue :</label>
-                        <div class="col-sm-5">
-                            <input class="form-control" name="street" pattern="[A-zÀ-ÿ- ]*"
-                            id="profile_street">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Rue :</label>
+                            <div class="col-sm-5">
+                                <input class="form-control" name="street" pattern="[A-zÀ-ÿ- ]*"
+                                id="profile_street">
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label">N° :</label>
-                        <div class="col-sm-5">
-                            <input class="form-control" name="houseNumber" id="profile_houseNumber">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">N° :</label>
+                            <div class="col-sm-5">
+                                <input class="form-control" name="houseNumber" id="profile_houseNumber">
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label">Boite :</label>
-                        <div class="col-sm-5">
-                            <input class="form-control" name="mailbox" id="profile_mailbox">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Boite :</label>
+                            <div class="col-sm-5">
+                                <input class="form-control" name="mailbox" id="profile_mailbox">
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label">Code Postal :</label>
-                        <div class="col-sm-5">
-                            <input class="form-control" name="zipcode" id="profile_zipcode">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Code Postal :</label>
+                            <div class="col-sm-5">
+                                <input class="form-control" name="zipcode" id="profile_zipcode">
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label">Ville :</label>
-                        <div class="col-sm-5">
-                            <input class="form-control" name="city" pattern="[A-zÀ-ÿ -]*"
-                            id="profile_city">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Ville :</label>
+                            <div class="col-sm-5">
+                                <input class="form-control" name="city" pattern="[A-zÀ-ÿ -]*"
+                                id="profile_city">
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label">Pays :</label>
-                        <div class="col-sm-5">
-                            <select class="form-control" name="country" id="profile_country"></select>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Pays :</label>
+                            <div class="col-sm-5">
+                                <select class="form-control" name="country" id="profile_country"></select>
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label">Téléphone :</label>
-                        <div class="col-sm-5">
-                            <input type="tel" class="form-control" name="tel" id="profile_tel"
-                                   pattern="[0-9 ]*">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Téléphone :</label>
+                            <div class="col-sm-5">
+                                <input type="tel" class="form-control" name="tel" id="profile_tel"
+                                       pattern="[0-9 ]*">
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label">Email :</label>
-                        <div class="col-sm-5">
-                            <input type="email" class="form-control" name="email" id="profile_email"
-                            required>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Email :</label>
+                            <div class="col-sm-5">
+                                <input type="email" class="form-control" name="email" id="profile_email"
+                                required>
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label">Nombre d'années d'études réussies dans l'enseignement supérieur
-                            :</label>
-                        <div class="col-sm-5">
-                            <input type="number" class="form-control" min="0" 
-                                name="successfullYearsInCollege" id="profile_successfullYearsInCollege">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Nombre d'années d'études réussies dans l'enseignement supérieur
+                                :</label>
+                            <div class="col-sm-5">
+                                <input type="number" class="form-control" min="0"
+                                    name="successfullYearsInCollege" id="profile_successfullYearsInCollege">
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label">Numéro de compte bancaire :</label>
-                        <!-- C'est pas un type number à cause des tirets -->
-                        <div class="col-sm-5">
-                            <input class="form-control" name="iban">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Numéro de compte bancaire :</label>
+                            <!-- C'est pas un type number à cause des tirets -->
+                            <div class="col-sm-5">
+                                <input class="form-control" name="iban">
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label">Titulaire du compte :</label>
-                        <div class="col-sm-5">
-                            <input class="form-control" name="accountHolder" pattern="[A-zÀ-ÿ- ]*"
-                            id="profile_accountHolder">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Titulaire du compte :</label>
+                            <div class="col-sm-5">
+                                <input class="form-control" name="accountHolder" pattern="[A-zÀ-ÿ- ]*"
+                                id="profile_accountHolder">
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label">Nom de la banque :</label>
-                        <div class="col-sm-5">
-                            <input class="form-control" name="bankName" pattern="[A-zÀ-ÿ-. ]*"
-                            id="profile_bankName">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Nom de la banque :</label>
+                            <div class="col-sm-5">
+                                <input class="form-control" name="bankName" pattern="[A-zÀ-ÿ-. ]*"
+                                id="profile_bankName">
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label">Code BIC :</label>
-                        <div class="col-sm-5">
-                            <input class="form-control" name="bic"
-                            id="profile_bic">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Code BIC :</label>
+                            <div class="col-sm-5">
+                                <input class="form-control" name="bic"
+                                id="profile_bic">
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-md-2 col-md-offset-9">
-                    <button id="profileButton" class="btn btn-lg btn-info btn-block">Envoyer</button>
-                    </div>
-                </form>
+                        <div class="col-md-2 col-md-offset-9">
+                        <button id="profileButton" class="btn btn-lg btn-info btn-block">Envoyer</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 </section>

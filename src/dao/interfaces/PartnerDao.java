@@ -1,5 +1,6 @@
 package dao.interfaces;
 
+import dto.DepartmentDto;
 import dto.PartnerDto;
 import exceptions.MalformedIbanException;
 
@@ -11,8 +12,9 @@ public interface PartnerDao {
    * Add partner to DB.
    *
    * @param partner DTO partner
+   * @param departments ArrayList of Department DTO
    */
-  void createPartner(PartnerDto partner);
+  void createPartner(PartnerDto partner, ArrayList<DepartmentDto> departments);
 
   /**
    * Get all partners created by one user.
@@ -44,9 +46,10 @@ public interface PartnerDao {
    * Update the partner details in the Database whith the informations in the dto.
    * 
    * @param partner the dto with the informations.
+   * @param departments Array List of departmentDto.
    * @return the number of rows modified
    */
-  int updatePartner(PartnerDto partner);
+  int updatePartner(PartnerDto partner, ArrayList<DepartmentDto> departments);
 
   /**
    * Get all the partners of the database added by a teacher.
@@ -87,4 +90,12 @@ public interface PartnerDao {
    * @return An ArrayList with all partners.
    */
   ArrayList<PartnerDto> getPartnersForStudentList(int userId);
+
+  /**
+   * Get all departments of partner.
+   *
+   * @param partnerId id of partner
+   * @return ArrayList with departmentsDto
+   */
+  ArrayList<DepartmentDto> getAllPartnerDepartments(int partnerId);
 }
