@@ -244,6 +244,42 @@ public class PartnerDaoImpl implements PartnerDao {
   }
 
   @Override
+  public ArrayList<PartnerDto> getPartnersForStudentList(int userId) {
+    String query = "SELECT DISTINCT p.id, p.legal_name, p.city, p.department, c.name_fr "
+        + " FROM bmobile.countries c, bmobile.partners p "
+        + " WHERE p.country = c.iso AND (p.id_user = ? OR p.exists = TRUE) AND p.deleted = false";
+
+
+    PreparedStatement preparedStatement = null;
+    ArrayList<PartnerDto> partners = null;
+    try {
+      preparedStatement = dalBackendServices.prepare(query);
+
+      preparedStatement.setInt(1, userId);
+      partners = new ArrayList<PartnerDto>();
+      ResultSet resultSet = dalBackendServices.executeQuery(preparedStatement);
+
+      while (resultSet.next()) {
+        PartnerDto partnerDto = factory.getPartnerDto();
+        partnerDto.setId(resultSet.getInt(1));
+        partnerDto.setLegalName(resultSet.getString(2));
+        partnerDto.setCity(resultSet.getString(3));
+        partnerDto.setDepartment(resultSet.getString(4));
+
+        CountryDto countryDto = factory.getCountryDto();
+        countryDto.setNameFr(resultSet.getString("name_fr"));
+        partnerDto.setCountryDto(countryDto);
+
+        partners.add(partnerDto);
+      }
+    } catch (SQLException exc) {
+      exc.printStackTrace();
+    }
+
+    return partners;
+  }
+
+  @Override
   public ArrayList<PartnerDto> getPartnersWithoutMobility() {
     String query = "SELECT id_partner FROM bmobile.mobilities WHERE id_partner NOTNULL";
     ArrayList<PartnerDto> partners = new ArrayList<PartnerDto>();
@@ -461,5 +497,6 @@ public class PartnerDaoImpl implements PartnerDao {
 
     return partner;
   }
+
 
 }

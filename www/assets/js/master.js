@@ -1906,9 +1906,17 @@ $(function () {
 
 
     function loadInfoPartner(id){
-    	$(".page").css("display", "none");
+    	 if($("#navBarTeacher").css("display") === "block"){
+    		 $(".page").css("display", "none");
+    		 $("#navBarTeacher").css("display","block");
+ 		    $("#setPartner").css("display","block");
+ 		}else{
+ 			$(".page").css("display", "none");
+ 			$("#navBarStudent").css("display","block");
+ 		    $("#setPartner").css("display","none");
+ 	    }
         $("#partnerPage").css("display","block");
-        $("#navBarTeacher").css("display","block");
+       
         
         $.ajax({
             method: "POST",
@@ -1945,12 +1953,6 @@ $(function () {
                 printToaster(error.type, error.message);
             }
         });
-
-        if($("#navBarTeacher").css("display") === "block"){
-		    $("#setPartner").css("display","block");
-		}else{
-		    $("#setPartner").css("display","none");
-	    }
 	}
 
     $("#setPartner").off("click.setPartner").on("click.setPartner",function(){
@@ -2581,23 +2583,77 @@ $(function () {
        $("#navBarStudent").css("display","block");
        $('#searchBar').css("display","block");
        $(".active").removeClass("active");
-    	/*$.ajax({
+    	$.ajax({
             method: "POST",
             url: "/home",
             data: {
-                action: "loadPartner"
+                action: "loadPartnerList"
             },
             success: function (resp) {
-                resp = JSON.parse(resp);
-
+            	$("#empty").empty();
+				if (resp === ""){
+					$("#tablePartnersListStudent").empty();
+					$("#tablePartnersListStudent").after("<p id=\"empty\" class=\"text-center\"><strong> Il n'y aucun partenaire actuellement. </strong></p>");
+				}else{
+					resp = JSON.parse(resp);
+					$("#tablePartnersListStudent tbody").empty();
+					$("#empty").empty();
+	            	
+					for (key in resp) {
+						
+						var city;
+		            	if(resp[key]['city'] === null){
+		            		city = "Non enregistré";
+		            	}else{
+		            		city = resp[key]['city'];
+		            	}
+		            	var department;
+		            	if(resp[key]['department'] === null){
+		            		department = "Non enregistré";
+		            	}else{
+		            		department = resp[key]['department'];
+		            	}
+						
+						$("#tablePartnersListStudent tbody").append(
+							"<tr class='partnerTR' >" +
+							"<td class='tdName'>" + resp[key]['legalName'] + "</td>" +
+							"<td class='tdCity'>" + city + "</td>" +
+							"<td class='tdCountry'>" + resp[key]['countryDto']['nameFr'] + "</td>" +
+							"<td>" + department + "</td>" +
+							"<td><button id='" + resp[key]['id'] + "' class=\"btn btn-sm btn-info btnInfoPartner\" >Détails</button></td>" +
+							+ "</tr>");
+					}
+				}
                 
             },
             error: function (error) {
                 error = JSON.parse(error.responseText);
                 printToaster(error.type, error.message);
             }
-        });*/
+        });
+    	
+    	$("#searchBar").off('input.searchBar').on('input.searchBar', function (){
+            var inputSearch = $("#searchBar").val();
+            var regEx = new RegExp(inputSearch,"i");
+
+            $(".partnerTR").each(function(){
+                if ($(this).children(".tdName").html().match(regEx) ||
+                    $(this).children(".tdCity").html().match(regEx) ||
+                    $(this).children(".tdCountry").html().match(regEx) ){
+                    $(this).css("display","table-row");
+                }else{
+                    $(this).css("display","none");
+                }
+            });
+        });
+    	
     }
+   
+   $("#tablePartnersListStudent").on("click", ".btnInfoPartner", function (evt){
+       var id = $(evt.currentTarget).attr("id");
+       loadInfoPartner(id);
+   });
+
 
 	// Export to CSV
 	$("#CSV").click(function(){

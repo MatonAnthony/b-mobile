@@ -79,4 +79,12 @@ public interface PartnerDao {
    * @return The number of row updated.
    */
   int setDeleted(PartnerDto partnerDto);
+
+  /**
+   * Get all partners of the database that a student may see.
+   *
+   * @param userId Id of user.
+   * @return An ArrayList with all partners.
+   */
+  ArrayList<PartnerDto> getPartnersForStudentList(int userId);
 }

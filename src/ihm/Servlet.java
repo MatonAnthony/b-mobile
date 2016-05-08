@@ -239,6 +239,9 @@ public class Servlet extends HttpServlet {
         case "deletePartner":
           changeDeletion(req, resp, true);
           break;
+        case "loadPartnerList":
+          loadPartnerList(req, resp);
+          break;
         default:
           resp.setStatus(HttpStatus.BAD_REQUEST_400);
       }
@@ -252,6 +255,22 @@ public class Servlet extends HttpServlet {
 
 
   }
+
+  private void loadPartnerList(HttpServletRequest req, HttpServletResponse resp)
+      throws NumberFormatException, SQLException, IOException, NotEnoughPermissionsException {
+
+    if (!req.getSession().getAttribute(KEY_PERMISSIONS).equals("STUDENT")) {
+      throw new NotEnoughPermissionsException(
+          "Vous n'avez pas les droits nécessaires pour faire cela");
+    }
+
+    ArrayList<PartnerDto> partners = partnerUcc
+        .getPartnersForStudentList(Integer.parseInt("" + req.getSession().getAttribute(KEY_ID)));
+    String jsonMobilities = basicGenson.serialize(partners);
+    resp.getWriter().println(jsonMobilities);
+    resp.setStatus(HttpStatus.ACCEPTED_202);
+  }
+
 
   private void updateMobilityDetail(HttpServletRequest req, HttpServletResponse resp)
       throws NotEnoughPermissionsException, BadMobilityStatusException, OptimisticLockException {
@@ -634,7 +653,7 @@ public class Servlet extends HttpServlet {
       throws NotEnoughPermissionsException, IOException, SQLException, NumberFormatException,
       MalformedIbanException {
 
-    if (req.getSession().getAttribute(KEY_PERMISSIONS).equals("STUDENT")) {
+    if (req.getSession().getAttribute(KEY_PERMISSIONS) == null) {
       throw new NotEnoughPermissionsException(
           "Vous n'avez pas les droits nécessaires pour faire cela");
     }

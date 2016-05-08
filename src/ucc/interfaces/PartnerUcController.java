@@ -78,4 +78,13 @@ public interface PartnerUcController {
    * @throws SQLException If an error occurred with the database.
    */
   void changeDeletion(PartnerDto partnerDto) throws SQLException;
+
+  /**
+   * Get all partners of the database that a student may see.
+   *
+   * @param userId Id of user.
+   * @return An ArrayList with all partners.
+   * @throws SQLException If an error occurred with the database.
+   */
+  ArrayList<PartnerDto> getPartnersForStudentList(int userId) throws SQLException;
 }
