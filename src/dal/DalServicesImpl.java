@@ -60,7 +60,9 @@ public class DalServicesImpl implements DalServices, DalBackendServices {
   @Override
   public int executeUpdate(PreparedStatement statement) throws SQLException {
     try {
-      Main.LOGGER.finest(statement.toString());
+      if (ContextManager.env == "debug") {
+        Main.LOGGER.finest(statement.toString());
+      }
       return statement.executeUpdate();
     } catch (SQLException exc) {
       Main.LOGGER.severe(exc.getMessage());
@@ -72,7 +74,9 @@ public class DalServicesImpl implements DalServices, DalBackendServices {
   @Override
   public ResultSet executeQuery(PreparedStatement statement) throws SQLException {
     try {
-      Main.LOGGER.finest(statement.toString());
+      if (ContextManager.env == "debug") {
+        Main.LOGGER.finest(statement.toString());
+      }
       return statement.executeQuery();
     } catch (SQLException exc) {
       Main.LOGGER.severe(exc.getMessage());

@@ -9,7 +9,6 @@ import exceptions.MalformedIbanException;
 import exceptions.OptimisticLockException;
 import exceptions.UserAlreadyExistsException;
 import exceptions.UserNotFoundException;
-import ihm.Main;
 import ucc.interfaces.UserUcController;
 
 import java.sql.SQLException;
@@ -43,17 +42,14 @@ public class UserUcControllerImpl implements UserUcController {
       dalServices.openConnection();
       user = (UserBizz) userDao.getUserByUserName(login);
     } catch (NoSuchElementException nsee) {
-      Main.LOGGER.warning("\"" + login + "\" : username not exist ");
       dalServices.closeConnection();
       throw new AuthenticationException("L'utilisateur n'existe pas.");
     }
 
     if (user.checkPassword(password)) {
-      Main.LOGGER.info("[" + user.getPermissions() + "] \"" + login + "\" connected");
       dalServices.closeConnection();
       return user;
     } else {
-      Main.LOGGER.warning("\"" + login + "\" : bad password ");
       dalServices.closeConnection();
       throw new AuthenticationException("Le mot de passe indiqué est incorrect.");
     }

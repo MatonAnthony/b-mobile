@@ -36,6 +36,7 @@ import com.owlike.genson.GensonBuilder;
 import com.owlike.genson.reflect.VisibilityFilter;
 
 import org.eclipse.jetty.http.HttpStatus;
+import utils.ContextManager;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -709,9 +710,10 @@ public class Servlet extends HttpServlet {
       throw new NotEnoughPermissionsException(
           "Vous n'avez pas les droits nécessaires pour faire cela");
     }
-
-    Main.LOGGER.info("[" + req.getSession().getAttribute(KEY_PERMISSIONS) + "] \""
-        + req.getSession().getAttribute(KEY_USERNAME) + "\" disconnected.");
+    if (ContextManager.env == "debug") {
+      Main.LOGGER.info("[" + req.getSession().getAttribute(KEY_PERMISSIONS) + "] \""
+          + req.getSession().getAttribute(KEY_USERNAME) + "\" disconnected.");
+    }
     req.getSession().invalidate();
 
     Cookie cookie = new Cookie("user", "");
@@ -1038,7 +1040,9 @@ public class Servlet extends HttpServlet {
 
   private HttpServletResponse createToaster(Exception exception, HttpServletResponse resp)
       throws IOException {
-    exception.printStackTrace();
+    if (ContextManager.env == "debug") {
+      exception.printStackTrace();
+    }
     Map<String, String> map = new HashMap<String, String>();
     Main.LOGGER.warning(exception.getMessage());
     // warning, success, error, info
