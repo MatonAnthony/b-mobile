@@ -2401,23 +2401,6 @@ $(function () {
         });
     });
 
-	function printToaster(type, message){
-		switch(type){
-			case "warning":
-				toastr.warning(message);
-				break;
-			case "error":
-				toastr.error(message);
-				break;
-			case "success":
-				toastr.success(message);
-				break;
-			case "info":
-				toastr.info(message);
-				break;
-		}
-
-	}
 
     function checkPermission(){
 
@@ -2520,16 +2503,15 @@ $(function () {
             loadInfoPartner($(this).attr('id'));
         });
 
-		$("#partnersListPage").off("click.btnRehabilitatePartner").on("click.btnRehabilitatePartner", ".btnRehabilitatePartner", function (){
+        $("#partnersListPage").off("click.btnRehabilitatePartner").on("click.btnRehabilitatePartner", ".btnRehabilitatePartner", function (){
             RehabilitatePartner($(this).attr('id'), $(this).attr('data-vernr'));
-			location.reload();
         });
-		
-		$("#partnersListPage").off("click.btnDelPartner").on("click.btnDelPartner", ".btnDelPartner", function (){
+
+        $("#partnersListPage").off("click.btnDelPartner").on("click.btnDelPartner", ".btnDelPartner", function (){
             deletePartner($(this).attr('id'), $(this).attr('data-vernr'));
-			location.reload();
         });
-		
+
+
         $(".active").removeClass("active");
         $(".navButton[href='#3lists']").parent().addClass("active");
 
@@ -2548,7 +2530,8 @@ $(function () {
             });
         });
     }
-	
+
+
 	function RehabilitatePartner(id, verNr){
 		$.ajax({
 			method: "POST",
@@ -2559,7 +2542,8 @@ $(function () {
 				action: "RehabilitatePartner"
 			},
 			success: function (resp) {
-				console.log("success rehab !");
+                printToaster("success", "Le partenaire a été réhabilité.");
+                loadPartners();
 			},
 			error: function (error) {
 				error = JSON.parse(error.responseText);
@@ -2578,7 +2562,8 @@ $(function () {
 				action: "deletePartner"
 			},
 			success: function (resp) {
-				console.log("success delete !");
+                printToaster("warning", "Le partenaire a été supprimé.");
+                loadPartners();
 			},
 			error: function (error) {
 				error = JSON.parse(error.responseText);
@@ -2678,5 +2663,23 @@ $(function () {
     $("#CSV_mobility").click(function(){
         $("#document_csv_table").tableToCSV();
     });
+
+    function printToaster(type, message){
+        switch(type){
+            case "warning":
+                toastr.warning(message);
+                break;
+            case "error":
+                toastr.error(message);
+                break;
+            case "success":
+                toastr.success(message);
+                break;
+            case "info":
+                toastr.info(message);
+                break;
+        }
+
+    }
 });
 
