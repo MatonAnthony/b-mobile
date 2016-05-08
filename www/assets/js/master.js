@@ -2464,34 +2464,43 @@ $(function () {
                 resp = JSON.parse(resp);
 
                 $("#tablePartnersList tbody").empty();
-
-                for (key in resp) {
-                    if (resp[key]['city'] === null || resp[key]['city'] === "") {
+                for (key in resp['partners']) {
+                    var buttonDel = "";
+                    for (mob in resp['partnersWithoutMobility']) {
+                        if (resp['partners'][key]['id'] === resp['partnersWithoutMobility'][mob]['id'] ){
+                            buttonDel = "Appartient à une mobilitée.";
+                            break;
+                        } else {
+                            buttonDel = "<button id='" + resp['partners'][key]['id'] + "' data-verNr='"+resp['partners'][key]['verNr']+"' class=\"btn btn-sm btn-danger btnDelPartner\">Supprimer</button>";
+                        }
+                    }
+                    if (resp['partners'][key]['city'] === null || resp['partners'][key]['city'] === "") {
                         var city = "-"
                     } else {
-                        city = resp[key]['city'];
+                        city = resp['partners'][key]['city'];
                     }
                     var data;
-                    if (resp[key]['deleted'] == false) {
+                    if (resp['partners'][key]['deleted'] == false) {
                         data =
                             "<tr class='partnerTR'>" +
-                            "<td>" + resp[key]['id'] + "</td>" +
-                            "<td class='tdName'>" + resp[key]['legalName'] + "</td>" +
+                            "<td>" + resp['partners'][key]['id'] + "</td>" +
+                            "<td class='tdName'>" + resp['partners'][key]['legalName'] + "</td>" +
                             "<td class='tdCity'>" + city + "</td>" +
-                            "<td class='tdCountry'>" + resp[key]['countryDto']['nameFr'] + "</td>" +
-                            "<td>" + resp[key]['userDto']['firstname'] + " " + resp[key]['userDto']['name'] + "</td>" +
-                            "<td><button id=" + resp[key]['id'] + " class=\"btn btn-sm btn-success btnModifyPartner\">Voir & Modifier</button></td>" +
-                            "<td><button id='" + resp[key]['id'] + "' data-verNr='"+resp[key]['verNr']+"' class=\"btn btn-sm btn-danger btnDelPartner\">Supprimer</button></td>" +
+                            "<td class='tdCountry'>" + city + "</td>" +
+                            "<td>" + resp['partners'][key]['userDto']['firstname'] + " " + resp['partners'][key]['userDto']['name'] + "</td>" +
+                            "<td><button id=" + resp['partners'][key]['id'] + " class=\"btn btn-sm btn-success btnModifyPartner\">Voir & Modifier</button></td>" +
+                            "<td>" + buttonDel + "</td>" +
+                            "<td></td>"+
                             "</tr>";
                     } else {
                         data =
                             "<tr class='partnerTR'>" +
-                            "<td><del>" + resp[key]['id'] + "</del></td>" +
-                            "<td class='tdName'><del>" + resp[key]['legalName'] + "</del></td>" +
-                            "<td class='tdCity'><del>" + city + "</del></td>" +
-                            "<td class='tdCountry'><del>" + resp[key]['countryDto']['nameFr'] + "</del></td>" +
-                            "<td><del>" + resp[key]['userDto']['firstname'] + " " + resp[key]['userDto']['name'] + "</del></td>" +
-                            "<td><button id='" + resp[key]['id'] + "' data-verNr="+resp[key]['verNr']+" class=\"btn btn-sm btn-warning btnRehabilitatePartner\">Réhabiliter</button></td>" +
+                            "<td><del>" + resp['partners'][key]['id'] + "</del></td>" +
+                            "<td class='tdName'><del>" + resp['partners'][key]['legalName'] + "</del></td>" +
+                            "<td class='tdCity'><del>" + resp['partners'][key]['countryDto']['nameFr'] + "</del></td>" +
+                            "<td class='tdCountry'><del>" + city + "</del></td>" +
+                            "<td><del>" + resp['partners'][key]['userDto']['firstname'] + " " + resp['partners'][key]['userDto']['name'] + "</del></td>" +
+                            "<td><button id='" + resp['partners'][key]['id'] + "' data-verNr="+resp['partners'][key]['verNr']+" class=\"btn btn-sm btn-warning btnRehabilitatePartner\">Réhabiliter</button></td>" +
                             "<td></td>"
                             "</tr>";
                     }
@@ -2499,6 +2508,7 @@ $(function () {
 
                     $("#tablePartnersList tbody").append(data);
                 }
+
             },
             error: function (error) {
                 error = JSON.parse(error.responseText);

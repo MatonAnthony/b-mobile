@@ -686,11 +686,13 @@ public class Servlet extends HttpServlet {
   private void cancelMobility(HttpServletRequest req, HttpServletResponse resp)
       throws NotEnoughPermissionsException, SQLException, NumberFormatException,
       OptimisticLockException {
+    System.out.println(req.getParameter("idReason"));
 
-    int idCancelation = Integer.parseInt(req.getParameter("idReason"));
+    int idCancelation = Integer.parseInt("" + req.getParameter("idReason") );
+
     if (req.getParameter("reasonValue") != null) { // If user entered a reason by textarea.
       CancelationDto cancelationDto = bizzFactory.getCancelationDto();
-      cancelationDto.setResponsible((String) req.getSession().getAttribute(KEY_PERMISSIONS));
+      cancelationDto.setResponsible("" + req.getSession().getAttribute(KEY_PERMISSIONS));
       cancelationDto.setReason(req.getParameter("reasonValue"));
       idCancelation = cancelationUcc.insertCancelation(cancelationDto);
     }
@@ -1036,6 +1038,7 @@ public class Servlet extends HttpServlet {
 
   private HttpServletResponse createToaster(Exception exception, HttpServletResponse resp)
       throws IOException {
+    exception.printStackTrace();
     Map<String, String> map = new HashMap<String, String>();
     Main.LOGGER.warning(exception.getMessage());
     // warning, success, error, info
@@ -1132,14 +1135,14 @@ public class Servlet extends HttpServlet {
           "Vous n'avez pas les droits nécessaires pour faire cela");
     }
     ArrayList<PartnerDto> partners = partnerUcc.getAllPartners();
-    // ArrayList<PartnerDto> partnersWithoutMobility = partnerUcc.getPartnersWithoutMobility();
+    ArrayList<PartnerDto> partnersWithoutMobility = partnerUcc.getPartnersWithoutMobility();
 
-    // HashMap<String, Object> data = new HashMap<String, Object>();
-    // data.put("partners",partners);
-    // data.put("partnersWithoutMobility", partnersWithoutMobility);
+    HashMap<String, Object> data = new HashMap<String, Object>();
+    data.put("partners",partners);
+    data.put("partnersWithoutMobility", partnersWithoutMobility);
 
-    String jsonPartners = basicGenson.serialize(partners);
-    resp.getWriter().println(jsonPartners);
+    String json= basicGenson.serialize(data);
+    resp.getWriter().println(json);
     resp.setStatus(HttpStatus.ACCEPTED_202);
   }
 

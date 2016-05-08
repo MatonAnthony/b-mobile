@@ -290,8 +290,8 @@ public class MobilityDaoImpl implements MobilityDao {
   @Override
   public int confirmPartner(MobilityDto mobilityDto) {
     // language=PostgreSQL
-    String query = "UPDATE bmobile.mobilities SET id_partner = ?, status = ?, ver_nr=? "
-        + "WHERE id = ? AND ver_nr=? AND id_partner IS NULL ";
+    String query = "UPDATE bmobile.mobilities SET id_partner = ?, status = ?, ver_nr = ? "
+        + "WHERE id = ? AND ver_nr = ? ";
 
     PreparedStatement preparedStatement = null;
 
@@ -314,6 +314,7 @@ public class MobilityDaoImpl implements MobilityDao {
 
   @Override
   public int updateMobilityDetails(MobilityDto mobility) {
+
     String query = "UPDATE bmobile.mobilities SET status=?, amount=?, first_payment_date=?, "
         + "second_payment_date=?, departure_grant_contract=?, "
         + "departure_convention_internship_schoolarship=?, departure_student_convention=?, "
@@ -321,7 +322,7 @@ public class MobilityDaoImpl implements MobilityDao {
         + "depart_doc_sent_highschool=?, software_proeco=?, software_mobility_tools=?, "
         + "software_mobi= ?, return_residence_cert=?, return_transcript=?, "
         + "return_internship_cert=?,return_final_report=?, return_erasmus_language_test=?,"
-        + "return_doc_sent_highschool=?, ver_nr=? WHERE id = ? AND ver_nr=?";
+        + "return_doc_sent_highschool=?, ver_nr=? WHERE id = ?";
 
     PreparedStatement preparedStatement = null;
     try {
@@ -348,7 +349,7 @@ public class MobilityDaoImpl implements MobilityDao {
       preparedStatement.setInt(20, mobility.getVerNr() + 1);
 
       preparedStatement.setInt(21, mobility.getId());
-      preparedStatement.setInt(22, mobility.getVerNr());
+      //preparedStatement.setInt(22, mobility.getVerNr());
 
       return dalBackendServices.executeUpdate(preparedStatement);
 

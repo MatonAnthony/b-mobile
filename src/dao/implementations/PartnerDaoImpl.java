@@ -210,10 +210,11 @@ public class PartnerDaoImpl implements PartnerDao {
   @Override
   public ArrayList<PartnerDto> getAllPartners() throws MalformedIbanException {
 
+    String query = queryFull + " ORDER BY par.id";
     ArrayList<PartnerDto> partners = null;
     PreparedStatement preparedStatement = null;
     try {
-      preparedStatement = dalBackendServices.prepare(queryFull);
+      preparedStatement = dalBackendServices.prepare(query);
 
       partners = fillDtoArray(preparedStatement);
 
@@ -281,7 +282,7 @@ public class PartnerDaoImpl implements PartnerDao {
 
   @Override
   public ArrayList<PartnerDto> getPartnersWithoutMobility() {
-    String query = "SELECT id_partner FROM bmobile.mobilities WHERE id_partner NOTNULL";
+    String query = "SELECT DISTINCT id_partner FROM bmobile.mobilities WHERE id_partner NOTNULL";
     ArrayList<PartnerDto> partners = new ArrayList<PartnerDto>();
     PreparedStatement preparedStatement = null;
     try {
