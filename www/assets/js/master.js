@@ -1099,6 +1099,10 @@ $(function () {
 						$("#btnRehabilitatePartnerAddForm").val(ui.item.value);
 						$("#btnRehabilitatePartnerAddForm").attr("data-verNr",ui.item.verNr);
 						$(this).val(ui.item.label);
+					},
+					focus: function(evt, ui){
+						return false;
+						//$(this).val(ui.item.label);
 					}
 				});
 				$("#add_partner_legal_name").off('input.add_partner_legal_name').on('input.add_partner_legal_name', function (){
