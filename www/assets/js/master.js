@@ -2245,7 +2245,7 @@ $(function () {
                     $("#detailMobiliteReleveNote").prop("checked", false);
                     string +="<td> Non Remis </td> </tr>";
                 }
-
+                $("#document_csv_table tbody").empty();
                 $("#document_csv_table tbody").append(string);
 
                 //Infos de l'étudiant
