@@ -2071,8 +2071,14 @@ $(function () {
             	$("#detailMobiliteEtat").html(resp['status']);
             	$("#detailMobilitePartenaire").attr("id-partner",resp['partnerDto']['id']);	
             	
+
+
                 //infos des checkboxs
                 if(resp['studentDto']['iban'] != null && resp['studentDto']['iban'] != ""){
+
+                    $("#envoiPaiement1").removeAttr("disabled");
+                    $("#envoiPaiement2").removeAttr("disabled");
+
 	            	if(resp['paymentDate1']){
 	            		$("#envoiPaiement1").prop("checked", true);
 	            	}else{
@@ -2094,6 +2100,7 @@ $(function () {
 	            	$("#envoiPaiement2").removeAttr("data-placement");
 	            	$("#envoiPaiement2").removeAttr("title");
 	            }else{
+
                     if(resp['paymentDate1']){
                         $("#envoiPaiement1").prop("checked", true);
                     }else{
@@ -2105,12 +2112,13 @@ $(function () {
                     }else{
                         $("#envoiPaiement2").prop("checked", false);
                     }
-                    $("#envoiPaiement1").prop("disabled", "disabled");
+
+                    $("#envoiPaiement1").attr("disabled", "disabled");
 	            	$("#envoiPaiement1").attr("data-toggle", "tooltip");
 	            	$("#envoiPaiement1").attr("data-placement", "left");
 	            	$("#envoiPaiement1").attr("title", "Iban non enregistré");
 	            	$("#envoiPaiement1").tooltip();
-                    $("#envoiPaiement2").prop("disabled", "disabled");
+                    $("#envoiPaiement2").attr("disabled", "disabled");
 	            	$("#envoiPaiement2").attr("data-toggle", "tooltip");
 	            	$("#envoiPaiement2").attr("data-placement", "left");
 	            	$("#envoiPaiement2").attr("title", "Iban non enregistré");
