@@ -430,6 +430,7 @@ $(function () {
             '<td><input type="radio" name="optionsRadios' + nbRow + '" value="SMS" checked /></td>' +
             '<td><input type="radio" name="optionsRadios' + nbRow + '" value="SMP"/></td>' +
             '<td><select id="selectQuadri' + nbRow + '" class="form-control">' +
+            '<option value="0"></option>' +
             '<option value="1">1</option>' +
             '<option value="2">2</option>' +
             '</select>' +

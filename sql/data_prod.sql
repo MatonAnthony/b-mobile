@@ -1,16 +1,4 @@
 -- DATA_PROD.SQL
---DROP SCHEMA bmobile CASCADE;
-
---TRUNCATE TABLE bmobile.users CASCADE ;
---TRUNCATE TABLE bmobile.partners_departments CASCADE ;
---TRUNCATE TABLE bmobile.cancelations CASCADE ;
---TRUNCATE TABLE bmobile.departments CASCADE ;
---TRUNCATE TABLE bmobile.mobilities CASCADE ;
---TRUNCATE TABLE bmobile.partners CASCADE ;
---TRUNCATE TABLE bmobile.programs CASCADE ;
---TRUNCATE TABLE bmobile.countries CASCADE ;
-
-
 
 -- GRANTS --
 GRANT ALL ON DATABASE dbkamil_arszagi TO "anthony_maton", "martin_techy", "jonathan_samelson", "fany_bottemanne";
@@ -45,28 +33,42 @@ UPDATE bmobile.countries SET id_program = 1 WHERE iso = 'AT' OR iso = 'DK' OR is
                                                   OR iso = 'LU' OR iso = 'NL' OR iso = 'PT' OR iso = 'SI' OR iso = 'ES'
                                                   OR iso = 'TR' OR iso = 'BG' OR iso = 'EE' OR iso = 'HU' OR iso = 'LV'
                                                   OR iso = 'LT' OR iso = 'MT' OR iso = 'PL' OR iso = 'RO' OR iso = 'MK'
-                                                  OR iso = 'IT' OR iso = 'SK';
+                                                  OR iso = 'IT' OR iso = 'SK' OR iso = 'CH';
 
 UPDATE bmobile.countries SET id_program = 2 WHERE iso = 'BE';
 UPDATE bmobile.countries SET id_program = 3 WHERE id_program IS NULL ;
 
 
--- Mobilite --
---INSERT INTO bmobile.mobilities (id, id_student, id_program, id_partner, type, preference_order, country, id_department, quadrimester, status, canceled, departure_grant_contract, departure_convention_internship_schoolarship, departure_student_convention, departure_erasmus_language_test, departure_doc_aggreement, depart_doc_sent_highschool, software_proeco, software_mobility_tools, software_mobi, return_residence_cert, return_transcript, return_internship_cert, return_final_report, return_erasmus_language_test, return_doc_sent_highschool, cancelation_reason, academic_year, ver_nr) VALUES (DEFAULT, 1, 1, null, 'SMS', 1, 'AF', 'BIN', 1, 'En attente', false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, null, null, 0);
---INSERT INTO bmobile.mobilities (id, id_student, id_program, id_partner, type, preference_order, country, id_department, quadrimester, status, canceled, departure_grant_contract, departure_convention_internship_schoolarship, departure_student_convention, departure_erasmus_language_test, departure_doc_aggreement, depart_doc_sent_highschool, software_proeco, software_mobility_tools, software_mobi, return_residence_cert, return_transcript, return_internship_cert, return_final_report, return_erasmus_language_test, return_doc_sent_highschool, cancelation_reason, academic_year, ver_nr) VALUES (DEFAULT, 1, 1, null, 'SMS', 1, 'AF', 'BCH', 2, 'En attente', false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, null, null, 0);
---INSERT INTO bmobile.mobilities (id, id_student, id_program, id_partner, type, preference_order, country, id_department, quadrimester, status, canceled, departure_grant_contract, departure_convention_internship_schoolarship, departure_student_convention, departure_erasmus_language_test, departure_doc_aggreement, depart_doc_sent_highschool, software_proeco, software_mobility_tools, software_mobi, return_residence_cert, return_transcript, return_internship_cert, return_final_report, return_erasmus_language_test, return_doc_sent_highschool, cancelation_reason, academic_year, ver_nr) VALUES (DEFAULT, 1, 1, null, 'SMS', 1, 'AD', 'BCH', 2, 'Supprimee', false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, null, null, 0);
-
 -- USERS --
--- password = mdpadmin --
-INSERT INTO bmobile.users (id, pseudo, password, name, firstname, email, permissions)
-VALUES (DEFAULT, 'lehmann', '$2a$10$qOSl9dCvUcBHeBNbKqj9JO5sgEJno8BvzgLq4HCaRLP9hhVGNP566', 'Lehmann', 'Brigitte', 'brigitte.lehmann@vinci.be','TEACHER');
-VALUES (DEFAULT, 'grolaux', '$2a$10$qOSl9dCvUcBHeBNbKqj9JO5sgEJno8BvzgLq4HCaRLP9hhVGNP566', 'Grolaux', 'Donatien', 'donatien.grolaux@vinci.be','TEACHER');
-
--- password = mdpstudent --
-INSERT INTO bmobile.users (id, id_department, pseudo, password, name, firstname, email, permissions)
-VALUES (DEFAULT, 'BDI', 'kiroule', '$2a$10$.Ne7tUXEu9GWkMDUXyCF5e0kCZ6nsECV2W/j8iypMH8/N26qB.NWy', 'Kiroule', 'Pierre', 'pierre.kiroule@vinci.be','STUDENT');
-VALUES (DEFAULT, 'BIN', 'pamousse', '$2a$10$.Ne7tUXEu9GWkMDUXyCF5e0kCZ6nsECV2W/j8iypMH8/N26qB.NWy', 'Pamousse', 'Namasse', 'namasse.pamousse@vinci.be','STUDENT');
+-- password TEACHER = mdpadmin -  password STUDENT = mdpstudent --
+INSERT INTO bmobile.users (id, id_department, pseudo, password, name, firstname, email, permissions) VALUES
+(DEFAULT, 'BIN', 'lehmann', '$2a$10$qOSl9dCvUcBHeBNbKqj9JO5sgEJno8BvzgLq4HCaRLP9hhVGNP566', 'Lehmann', 'Brigitte', 'brigitte.lehmann@vinci.be','TEACHER'),
+(DEFAULT, 'BIN', 'grolaux', '$2a$10$qOSl9dCvUcBHeBNbKqj9JO5sgEJno8BvzgLq4HCaRLP9hhVGNP566', 'Grolaux', 'Donatien', 'donatien.grolaux@vinci.be','TEACHER'),
+(DEFAULT, 'BDI', 'kiroule', '$2a$10$.Ne7tUXEu9GWkMDUXyCF5e0kCZ6nsECV2W/j8iypMH8/N26qB.NWy', 'Kiroule', 'Pierre', 'pierre.kiroule@vinci.be','STUDENT'),
+(DEFAULT, 'BIN', 'pamousse', '$2a$10$.Ne7tUXEu9GWkMDUXyCF5e0kCZ6nsECV2W/j8iypMH8/N26qB.NWy', 'Pamousse', 'Namasse', 'namasse.pamousse@vinci.be','STUDENT');
 
 INSERT INTO bmobile.users (id, id_department, pseudo, password, name, firstname, email, permissions, iban, bic)
 VALUES (DEFAULT, 'BDI', 'tatilotetatou', '$2a$10$.Ne7tUXEu9GWkMDUXyCF5e0kCZ6nsECV2W/j8iypMH8/N26qB.NWy', 'Tatilotetatou', 'Tonthe', 'tonthe.tatilotetatou@vinci.be','STUDENT', 'BE73000000006060', 'BPOTBEB1');
 
+-- PARTNERS --
+INSERT INTO bmobile.partners (id, id_user, legal_name, business_name, full_name, department, type, nb_employees, street, number, mailbox, zip, city, state, country, tel, email, website, exists, deleted, ver_nr) VALUES
+(DEFAULT, 1, 'Dublin Institute of Technology', 'Dublin Institute of Technology', 'Dublin Institute of Technology', 'School of Computing', 'TGE', 2000, 'Rathmines Road', '143', null, 'Dublin 6', 'Dublin', null, 'IE', null, 'peter.dalton@dit.ie', 'www.dit.ie', true, false, 0),
+(DEFAULT, 1, 'UNIVERSITY COLLEGE LEUVEN LIMBURG', 'UNIVERSITY COLLEGE LEUVEN LIMBURG', 'UNIVERSITY COLLEGE LEUVEN LIMBURG', 'Applied Information Technology (BIN) - Health & Wellfare(BDI)', null, 0, null, null, null, '3000', 'Leuven', 'Vlaams Brabant', 'BE', '003216375245', 'griet.tservanckx@ucl.be', 'http://www.ucll.be', true, false, 0),
+(DEFAULT, 4, 'Université du Sanglier', 'Université du Sanglier', 'Université du Sanglier', 'Une ardeur d''avance', 'TGE', 1984, 'Rue du Faing', '10', null, '6810', 'Jamoigne', 'Luxembourg', 'LU', null, 'jamoigne@lux.be', null, false, false, 0);
+
+INSERT INTO bmobile.partners_departments (id_partner, id_department, ver_nr) VALUES
+(1, 'BIN', 0),
+(2, 'BDI', 0),
+(2, 'BIN', 0),
+(3, 'BIN', 0);
+
+-- MOBILITIES --
+INSERT INTO bmobile.mobilities (id, id_student, id_program, id_partner, type, preference_order, country, id_department, quadrimester, status, amount, first_payment_date, second_payment_date, canceled, departure_grant_contract, departure_convention_internship_schoolarship, departure_student_convention, departure_erasmus_language_test, departure_doc_aggreement, depart_doc_sent_highschool, software_proeco, software_mobility_tools, software_mobi, return_residence_cert, return_transcript, return_internship_cert, return_final_report, return_erasmus_language_test, return_doc_sent_highschool, cancelation_reason, academic_year, ver_nr) VALUES
+(DEFAULT, 4, 2, 2, 'SMS', 2, 'BE', 'BIN', 1, 'En attente', 0, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, null, '2015-2016', 0),
+(DEFAULT, 4, 1, 1, 'SMS', 1, 'IE', 'BIN', 1, 'En attente', 0, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, null, '2015-2016', 0),
+(DEFAULT, 4, 1, null, 'SMP', 3, 'GB', 'BIN', 0, 'En attente', 0, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, null, '2015-2016', 0),
+(DEFAULT, 3, 2, null, 'SMP', 2, 'BE', 'BDI', 0, 'En attente', 0, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, null, '2015-2016', 0),
+(DEFAULT, 3, 1, null, 'SMP', 3, 'CH', 'BDI', 0, 'En attente', 0, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, null, '2015-2016', 0),
+(DEFAULT, 3, 2, 2, 'SMS', 1, 'BE', 'BDI', 0, 'En attente', 0, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, null, '2015-2016', 0),
+(DEFAULT, 5, 1, null, 'SMP', 2, 'FR', 'BDI', 0, 'En attente', 0, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, null, '2015-2016', 0),
+(DEFAULT, 5, 2, 2, 'SMS', 1, 'BE', 'BDI', 0, 'En attente', 0, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, null, '2015-2016', 0);
