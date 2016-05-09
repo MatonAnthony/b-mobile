@@ -24,10 +24,10 @@ jQuery.fn.tableToCSV = function() {
                 var text = clean_text($(this).text());
                 data.push(text);
             });
-            data = data.join(",");
+            data = data.join(";");
             rows.push(data);
         });
-        title = title.join(",");
+        title = title.join(";");
         rows = rows.join("\n");
 
         var csv = title + rows;
