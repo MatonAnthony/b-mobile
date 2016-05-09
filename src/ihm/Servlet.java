@@ -344,20 +344,20 @@ public class Servlet extends HttpServlet {
     partnerDto.setEmail(req.getParameter("email"));
     partnerDto.setWebsite(req.getParameter("website"));
 
-    if (req.getParameter("bbm").equals("true")) {
-      departements.add(departmentUcc.getDepartementsById("BBM"));
-    }
     if (req.getParameter("bch").equals("true")) {
       departements.add(departmentUcc.getDepartementsById("BCH"));
+    }
+    if (req.getParameter("bbm").equals("true")) {
+      departements.add(departmentUcc.getDepartementsById("BBM"));
     }
     if (req.getParameter("bdi").equals("true")) {
       departements.add(departmentUcc.getDepartementsById("BDI"));
     }
-    if (req.getParameter("bim").equals("true")) {
-      departements.add(departmentUcc.getDepartementsById("BIM"));
-    }
     if (req.getParameter("bin").equals("true")) {
       departements.add(departmentUcc.getDepartementsById("BIN"));
+    }
+    if (req.getParameter("bim").equals("true")) {
+      departements.add(departmentUcc.getDepartementsById("BIM"));
     }
     if (departements.isEmpty()) {
       throw new NoDepartmentException("Veuillez choisir au moins un département IPL.");
@@ -374,7 +374,7 @@ public class Servlet extends HttpServlet {
           "Vous n'avez pas les droits nécessaires pour faire cela");
     }
     PartnerDto partnerDto = bizzFactory.getPartnerDto();
-    partnerDto.setIdUser(Integer.parseInt("" +req.getSession().getAttribute(KEY_ID)));
+    partnerDto.setIdUser(Integer.parseInt("" + req.getSession().getAttribute(KEY_ID)));
     partnerDto.setId(Integer.parseInt("" + req.getParameter("idPartner")));
     partnerDto.setVerNr(Integer.parseInt(req.getParameter("verNr")));
     partnerDto.setDeleted(change);
@@ -681,7 +681,8 @@ public class Servlet extends HttpServlet {
     }
 
     PartnerDto partner = partnerUcc.getPartnerById(Integer.parseInt(req.getParameter("id")));
-    ArrayList<DepartmentDto> departments = partnerUcc.getAllPartnerDepartments(Integer.parseInt(req.getParameter("id")));
+    ArrayList<DepartmentDto> departments = partnerUcc
+        .getAllPartnerDepartments(Integer.parseInt(req.getParameter("id")));
     HashMap<String,Object> data = new HashMap<>();
     data.put("partner", partner);
     data.put("departments", departments);
@@ -863,7 +864,7 @@ public class Servlet extends HttpServlet {
    * @throws NotEnoughPermissionsException If the user don't have the permissions to perform the
    *         action
    * @throws MalformedIbanException If the Iban is malformed.
-   * @throws NoSuchElementException
+   * @throws NoSuchElementException If not element present.
    */
   private void addPartner(HttpServletRequest req, HttpServletResponse resp) throws IOException,
       NumberFormatException, SQLException, NoCountryException, NotEnoughPermissionsException,
@@ -875,7 +876,8 @@ public class Servlet extends HttpServlet {
     }
     ArrayList<DepartmentDto> departements = new ArrayList<DepartmentDto>();
     PartnerDto partner = bizzFactory.getPartnerDto();
-    UserDto userDto = userUcc.getUserById(Integer.parseInt("" + req.getSession().getAttribute(KEY_ID)));
+    UserDto userDto = userUcc.getUserById(Integer.parseInt("" + req.getSession()
+        .getAttribute(KEY_ID)));
     partner.setUserDto(userDto);
     partner.setLegalName(req.getParameter("legal_name"));
     partner.setBusiness(req.getParameter("business_name"));
@@ -1183,7 +1185,7 @@ public class Servlet extends HttpServlet {
     data.put("partners",partners);
     data.put("partnersWithoutMobility", partnersWithoutMobility);
 
-    String json= basicGenson.serialize(data);
+    String json = basicGenson.serialize(data);
     resp.getWriter().println(json);
     resp.setStatus(HttpStatus.ACCEPTED_202);
   }

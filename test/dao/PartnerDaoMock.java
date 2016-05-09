@@ -13,8 +13,9 @@ public class PartnerDaoMock implements PartnerDao {
   private ArrayList<PartnerDto> db;
   private ArrayList<DepartmentDto> db2;
 
-  public PartnerDaoMock(ArrayList<PartnerDto> db) {
+  public PartnerDaoMock(ArrayList<PartnerDto> db, ArrayList<DepartmentDto> db2) {
     this.db = db;
+    this.db2 = db2;
   }
 
   @Override

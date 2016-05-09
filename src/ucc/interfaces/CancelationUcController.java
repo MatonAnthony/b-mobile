@@ -20,7 +20,7 @@ public interface CancelationUcController {
    * 
    * @param cancelationDto the cancelation to insert in the database.
    * @return int The id of the new cancelation in the database.
-   * @throws SQLException
+   * @throws SQLException if an error occured in the database.
    */
   int insertCancelation(CancelationDto cancelationDto) throws SQLException;
 

@@ -92,10 +92,11 @@ public interface PartnerUcController {
   ArrayList<PartnerDto> getPartnersForStudentList(int userId) throws SQLException;
 
   /**
-   * Get all departments of partner
+   * Get all departments of partner.
    *
-   * @param partnerId id of partner
-   * @return ArrayList with departmentsDto
+   * @param partnerId id of partner.
+   * @return ArrayList with departmentsDto.
+   * @throws SQLException if an error occured in the database.
    */
   ArrayList<DepartmentDto> getAllPartnerDepartments(int partnerId) throws SQLException;
 }

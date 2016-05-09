@@ -45,7 +45,7 @@ public class PartnerUcControllerImplTest {
     listDepartments = new ArrayList<DepartmentDto>();
     listDepartments.add(departmentDto);
 
-    partnerDao = new PartnerDaoMock(list);
+    partnerDao = new PartnerDaoMock(list, listDepartments);
     DalServices dalServices = new DalServicesImplStub();
     partnerUcController = new PartnerUcControllerImpl(dalServices, partnerDao);
   }

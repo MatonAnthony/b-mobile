@@ -71,7 +71,7 @@ public interface MobilityDto {
   /**
    * Sets departement dto.
    *
-   * @param departementDto the departement dto
+   * @param departmentDto the departement dto.
    */
   public void setDepartmentDto(DepartmentDto departmentDto);
 

@@ -45,7 +45,7 @@ public interface UserUcController {
    * @return the user by id
    * @throws SQLException If there is an Exception.
    * @throws MalformedIbanException If the Iban is malformed.
-   * @throws NoSuchElementException
+   * @throws NoSuchElementException If no such elements.
    */
   UserDto getUserById(int id) throws SQLException, NoSuchElementException, MalformedIbanException;
 

@@ -380,7 +380,7 @@ public class PartnerDaoImpl implements PartnerDao {
     String queryDepartmentsDel = "DELETE FROM bmobile.partners_departments WHERE id_partner = ?";
     String queryDepartmentsAdd = "INSERT INTO bmobile.partners_departments VALUES (?,?,?)";
 
-        PreparedStatement preparedStatement = null;
+    PreparedStatement preparedStatement = null;
 
     try {
       preparedStatement = dalBackendServices.prepare(queryDepartmentsDel);
