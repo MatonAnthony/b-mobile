@@ -169,8 +169,8 @@ public class PartnerDaoImpl implements PartnerDao {
       }
     } catch (SQLException exc) {
       exc.printStackTrace();
-      throw new UnknowErrorException("Une erreur inconnue s'est produite lors "
-          + "de la création du partenaire.");
+      throw new UnknowErrorException(
+          "Une erreur inconnue s'est produite lors " + "de la création du partenaire.");
     }
   }
 
@@ -429,8 +429,8 @@ public class PartnerDaoImpl implements PartnerDao {
 
   @Override
   public int setDeleted(PartnerDto partner) {
-    String query = "UPDATE bmobile.partners SET deleted=?, ver_nr=?, id_user=?"
-        + " WHERE id=? AND ver_nr=?";
+    String query =
+        "UPDATE bmobile.partners SET deleted=?, ver_nr=?, id_user=?" + " WHERE id=? AND ver_nr=?";
 
     PreparedStatement preparedStatement = null;
     try {

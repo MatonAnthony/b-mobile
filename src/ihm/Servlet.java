@@ -367,7 +367,7 @@ public class Servlet extends HttpServlet {
   }
 
   private void changeDeletion(HttpServletRequest req, HttpServletResponse resp, boolean change)
-      throws NotEnoughPermissionsException, SQLException {
+      throws NotEnoughPermissionsException, SQLException, OptimisticLockException {
     if (!(req.getSession().getAttribute(KEY_PERMISSIONS).equals("STUDENT")
         || req.getSession().getAttribute(KEY_PERMISSIONS).equals("TEACHER"))) {
       throw new NotEnoughPermissionsException(

@@ -89,7 +89,7 @@ public class PartnerUcControllerImplTest {
   }
 
   @Test
-  public void testChangeDeletion() throws SQLException {
+  public void testChangeDeletion() throws SQLException, OptimisticLockException {
     partnerUcController.changeDeletion(partnerDto);
   }
 

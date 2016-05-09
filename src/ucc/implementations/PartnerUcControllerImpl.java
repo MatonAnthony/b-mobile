@@ -135,7 +135,7 @@ public class PartnerUcControllerImpl implements PartnerUcController {
   }
 
   @Override
-  public void changeDeletion(PartnerDto partnerDto) throws SQLException {
+  public void changeDeletion(PartnerDto partnerDto) throws SQLException, OptimisticLockException {
     try {
       dalServices.openConnection();
       dalServices.startTransaction();
@@ -146,6 +146,8 @@ public class PartnerUcControllerImpl implements PartnerUcController {
         dalServices.commitTransaction();
       } else {
         dalServices.rollbackTransaction();
+        throw new OptimisticLockException(
+            "Ce partenaire a été modifié entre temps. Veuillez recharger la page");
       }
     } catch (SQLException exc) {
       exc.printStackTrace();
@@ -162,7 +164,6 @@ public class PartnerUcControllerImpl implements PartnerUcController {
       }
 
     }
-
   }
 
   @Override

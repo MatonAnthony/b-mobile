@@ -82,8 +82,9 @@ public interface PartnerUcController {
    * 
    * @param partnerDto The partner to set.
    * @throws SQLException If an error occurred with the database.
+   * @throws OptimisticLockException If the partner had been modified
    */
-  void changeDeletion(PartnerDto partnerDto) throws SQLException;
+  void changeDeletion(PartnerDto partnerDto) throws SQLException, OptimisticLockException;
 
   /**
    * Get all partners of the database that a student may see.
