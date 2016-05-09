@@ -5,6 +5,7 @@ import dao.interfaces.PartnerDao;
 import dto.DepartmentDto;
 import dto.PartnerDto;
 import exceptions.MalformedIbanException;
+import exceptions.OptimisticLockException;
 import ucc.interfaces.PartnerUcController;
 
 import java.sql.SQLException;
@@ -76,7 +77,8 @@ public class PartnerUcControllerImpl implements PartnerUcController {
   }
 
   @Override
-  public void updatePartner(PartnerDto partner, ArrayList<DepartmentDto> departments) {
+  public void updatePartner(PartnerDto partner, ArrayList<DepartmentDto> departments)
+      throws OptimisticLockException {
 
     try {
       dalServices.openConnection();
@@ -88,6 +90,8 @@ public class PartnerUcControllerImpl implements PartnerUcController {
         dalServices.commitTransaction();
       } else {
         dalServices.rollbackTransaction();
+        throw new OptimisticLockException(
+            "Ce partenaire à été modifié entre temps. Veuillez recharger la page et recommencer.");
       }
     } catch (SQLException exc) {
       exc.printStackTrace();

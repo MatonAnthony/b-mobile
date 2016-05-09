@@ -3,6 +3,7 @@ package ucc.interfaces;
 import dto.DepartmentDto;
 import dto.PartnerDto;
 import exceptions.MalformedIbanException;
+import exceptions.OptimisticLockException;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -54,8 +55,10 @@ public interface PartnerUcController {
    * 
    * @param partner the partnerDto with the informations.
    * @param departments ArrayList with departments DTO.
+   * @throws OptimisticLockException if the partner was modified.
    */
-  void updatePartner(PartnerDto partner, ArrayList<DepartmentDto> departments);
+  void updatePartner(PartnerDto partner, ArrayList<DepartmentDto> departments)
+      throws OptimisticLockException;
 
   /**
    * Return an ArrayList containing all partners who do not have mobility.

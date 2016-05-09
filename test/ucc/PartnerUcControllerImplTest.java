@@ -10,6 +10,7 @@ import dao.PartnerDaoMock;
 import dto.DepartmentDto;
 import dto.PartnerDto;
 import exceptions.MalformedIbanException;
+import exceptions.OptimisticLockException;
 import ucc.implementations.PartnerUcControllerImpl;
 import ucc.interfaces.PartnerUcController;
 
@@ -77,7 +78,7 @@ public class PartnerUcControllerImplTest {
   }
 
   @Test
-  public void testUpdatePartner() {
+  public void testUpdatePartner() throws OptimisticLockException {
     partnerUcController.updatePartner(partnerDto2, listDepartments);
   }
 

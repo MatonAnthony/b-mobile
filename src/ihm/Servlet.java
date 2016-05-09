@@ -27,6 +27,7 @@ import ucc.interfaces.MobilityUcController;
 import ucc.interfaces.PartnerUcController;
 import ucc.interfaces.ProgramUcController;
 import ucc.interfaces.UserUcController;
+import utils.ContextManager;
 
 import com.auth0.jwt.JWTSigner;
 import com.auth0.jwt.JWTVerifier;
@@ -36,7 +37,6 @@ import com.owlike.genson.GensonBuilder;
 import com.owlike.genson.reflect.VisibilityFilter;
 
 import org.eclipse.jetty.http.HttpStatus;
-import utils.ContextManager;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -318,7 +318,7 @@ public class Servlet extends HttpServlet {
 
   private void updatePartner(HttpServletRequest req, HttpServletResponse resp)
       throws NotEnoughPermissionsException, NoCountryException, SQLException,
-      NoDepartmentException {
+      OptimisticLockException, NoDepartmentException {
     if (!req.getSession().getAttribute(KEY_PERMISSIONS).equals("TEACHER")) {
       throw new NotEnoughPermissionsException(
           "Vous n'avez pas les droits nécessaires pour faire cela");
@@ -681,9 +681,9 @@ public class Servlet extends HttpServlet {
     }
 
     PartnerDto partner = partnerUcc.getPartnerById(Integer.parseInt(req.getParameter("id")));
-    ArrayList<DepartmentDto> departments = partnerUcc
-        .getAllPartnerDepartments(Integer.parseInt(req.getParameter("id")));
-    HashMap<String,Object> data = new HashMap<>();
+    ArrayList<DepartmentDto> departments =
+        partnerUcc.getAllPartnerDepartments(Integer.parseInt(req.getParameter("id")));
+    HashMap<String, Object> data = new HashMap<>();
     data.put("partner", partner);
     data.put("departments", departments);
     String jsonPartner = basicGenson.serialize(data);
@@ -714,7 +714,7 @@ public class Servlet extends HttpServlet {
       OptimisticLockException {
     System.out.println(req.getParameter("idReason"));
 
-    int idCancelation = Integer.parseInt("" + req.getParameter("idReason") );
+    int idCancelation = Integer.parseInt("" + req.getParameter("idReason"));
 
     if (req.getParameter("reasonValue") != null) { // If user entered a reason by textarea.
       CancelationDto cancelationDto = bizzFactory.getCancelationDto();
@@ -876,8 +876,8 @@ public class Servlet extends HttpServlet {
     }
     ArrayList<DepartmentDto> departements = new ArrayList<DepartmentDto>();
     PartnerDto partner = bizzFactory.getPartnerDto();
-    UserDto userDto = userUcc.getUserById(Integer.parseInt("" + req.getSession()
-        .getAttribute(KEY_ID)));
+    UserDto userDto =
+        userUcc.getUserById(Integer.parseInt("" + req.getSession().getAttribute(KEY_ID)));
     partner.setUserDto(userDto);
     partner.setLegalName(req.getParameter("legal_name"));
     partner.setBusiness(req.getParameter("business_name"));
@@ -1182,7 +1182,7 @@ public class Servlet extends HttpServlet {
     ArrayList<PartnerDto> partnersWithoutMobility = partnerUcc.getPartnersWithoutMobility();
 
     HashMap<String, Object> data = new HashMap<String, Object>();
-    data.put("partners",partners);
+    data.put("partners", partners);
     data.put("partnersWithoutMobility", partnersWithoutMobility);
 
     String json = basicGenson.serialize(data);

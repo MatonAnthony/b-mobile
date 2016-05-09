@@ -396,7 +396,7 @@ $(function () {
                 if(idUser == -1){
                 	fillProfilePage();
             	}else{
-            		fillProfilePage(id);
+            		fillProfilePage(idUser);
             	}
             },
             error: function (error) {
@@ -2029,6 +2029,7 @@ $(function () {
              },
              success: function (resp) {
                  printToaster("success", "Le partenaire à bien été modifiée.");
+                 loadInfoPartner($('#setPartner').attr('idPart'));
              },
              error: function (error) {
                  error = JSON.parse(error.responseText);
