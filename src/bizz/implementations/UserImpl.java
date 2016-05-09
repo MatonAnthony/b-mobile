@@ -186,7 +186,7 @@ public class UserImpl implements UserBizz, Cloneable {
    */
   @Override
   public void setName(String name) {
-    if ( name == null || name.isEmpty() || !Pattern.matches("[A-zÀ-ÿ- ]*", name)) {
+    if (name == null || name.isEmpty() || !Pattern.matches("[A-zÀ-ÿ- ]*", name)) {
       throw new IllegalArgumentException("Nom invalide");
     }
     this.name = name;
@@ -232,8 +232,8 @@ public class UserImpl implements UserBizz, Cloneable {
    */
   @Override
   public void setEmail(String email) {
-    if (email == null || email.isEmpty() || !Pattern.matches(
-        "^[\\w!#$%&’*.+/=?`{|}~^-]+(?:\\.[\\w!#$%&.’*+/=?`{|}~^-]+)"
+    if (email == null || email.isEmpty()
+        || !Pattern.matches("^[\\w!#$%&’*.+/=?`{|}~^-]+(?:\\.[\\w!#$%&.’*+/=?`{|}~^-]+)"
             + "*@(?:[a-zA-Z0-9-.]+\\.)+[a-zA-Z]{2,6}$", email)) {
       throw new IllegalArgumentException("Email invalide");
     }
@@ -259,7 +259,7 @@ public class UserImpl implements UserBizz, Cloneable {
   public void setTel(String tel) {
     // TODO le tel peut etre null normalment
     if (tel == null) {
-      this.tel = tel;
+      this.tel = null;
     } else if (!Pattern.matches("[0-9]*", tel)) {
       throw new IllegalArgumentException("Numéro de téléphone invalide");
     }
@@ -374,7 +374,7 @@ public class UserImpl implements UserBizz, Cloneable {
   @Override
   public void setAccountHolder(String accountHolder) {
     if (accountHolder == null) {
-      this.accountHolder = accountHolder;
+      this.accountHolder = null;
     } else if (!Pattern.matches("[A-zÀ-ÿ- ]*", accountHolder)) {
       throw new IllegalArgumentException("Nom du titulaire invalide");
     }
@@ -399,7 +399,7 @@ public class UserImpl implements UserBizz, Cloneable {
   @Override
   public void setBankName(String bankName) {
     if (bankName == null) {
-      this.bankName = bankName;
+      this.bankName = null;
     } else if (!Pattern.matches("[A-zÀ-ÿ- ]*", bankName)) {
       throw new IllegalArgumentException("Nom de la banque invalide");
     }
@@ -496,7 +496,7 @@ public class UserImpl implements UserBizz, Cloneable {
    */
   public void setCitizenship(String citizenship) {
     if (citizenship == null) {
-      this.citizenship = citizenship;
+      this.citizenship = null;
     } else if (!Pattern.matches("[A-zÀ-ÿ- ]*", citizenship)) {
       throw new IllegalArgumentException("Nationalité invalide");
     }

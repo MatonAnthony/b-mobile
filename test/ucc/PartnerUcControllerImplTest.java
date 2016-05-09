@@ -34,6 +34,7 @@ public class PartnerUcControllerImplTest {
   public void setUp() throws Exception {
     BizzFactory bizzFactory = new BizzFactoryImpl();
     partnerDto = bizzFactory.getPartnerDto();
+    departmentDto = bizzFactory.getDepartmentDto();
     partnerDto.setId(1);;
     partnerDto.setIdUser(1);
     partnerDto.setVerNr(0);
