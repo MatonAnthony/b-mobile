@@ -1092,6 +1092,7 @@ $(function () {
 				});
 				$("#add_partner_legal_name").off('input.add_partner_legal_name').on('input.add_partner_legal_name', function (){
 					$("#btnRehabilitatePartnerAddForm").css("display","none");
+                    checkPermission();
 				});
 				
 			},
@@ -1102,11 +1103,13 @@ $(function () {
 		});
 		
 		$("#addPartnerPage").off("click.btnRehabilitatePartnerAddForm").on("click.btnRehabilitatePartnerAddForm", "#btnRehabilitatePartnerAddForm", function (){
+
             RehabilitatePartner($(this).attr('value'), $(this).attr('data-vernr'));
-			if ($('#permissionHideFilds').val() === "TEACHER"){
-				loadPartners();
+
+            if ($('#permissionHideFilds').val() === "STUDENT"){
+                loadPartnersList();
 			}else{
-				loadPartnersList();
+                loadPartners();
 			}
         });
     }
@@ -2562,7 +2565,11 @@ $(function () {
 			},
 			success: function (resp) {
                 printToaster("success", "Le partenaire a été réhabilité.");
-                loadPartners();
+                if ($('#permissionHideFilds').val() === "STUDENT"){
+                    loadPartnersList();
+                }else{
+                    loadPartners();
+                }
 			},
 			error: function (error) {
 				error = JSON.parse(error.responseText);
