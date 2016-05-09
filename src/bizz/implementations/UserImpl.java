@@ -232,9 +232,9 @@ public class UserImpl implements UserBizz, Cloneable {
    */
   @Override
   public void setEmail(String email) {
-    if (email == null || email.isEmpty() ||
-      !Pattern.matches("^[\\w!#$%&’*.+/=?`{|}~^-]+(?:\\.[\\w!#$%&.’*+/=?`{|}~^-]+)"
-        + "*@(?:[a-zA-Z0-9-.]+\\.)+[a-zA-Z]{2,6}$", email)) {
+    if (email == null || email.isEmpty() || !Pattern.matches(
+        "^[\\w!#$%&’*.+/=?`{|}~^-]+(?:\\.[\\w!#$%&.’*+/=?`{|}~^-]+)"
+            + "*@(?:[a-zA-Z0-9-.]+\\.)+[a-zA-Z]{2,6}$", email)) {
       throw new IllegalArgumentException("Email invalide");
     }
     this.email = email;

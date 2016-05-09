@@ -23,9 +23,6 @@ public class CancelationImpl implements CancelationBizz, Cloneable {
     return reason;
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public void setReason(String reason) {
     if (this.reason == null) {
@@ -36,9 +33,6 @@ public class CancelationImpl implements CancelationBizz, Cloneable {
     this.reason = reason;
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public String getResponsible() {
     return responsible;
