@@ -1511,10 +1511,12 @@ $(function () {
 	            success: function (resp) {
 					$("#empty").empty();
 					if (resp === ""){
-						$("#tableConfirmed").empty();
+						$("#tableConfirmed tbody").empty();
+						$("#tableConfirmed thead").css("display","none");
 						$("#tableConfirmed").after("<p id=\"empty\" class=\"text-center\"><strong> Il n'y aucune demande confirmée actuellement. </strong></p>");
 					}else{
 						resp = JSON.parse(resp);
+						$("#tableConfirmed thead").css("display","table-header-group");
 						$("#tableConfirmed tbody").empty();
 						$("#empty").empty();
 
