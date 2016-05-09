@@ -2094,10 +2094,23 @@ $(function () {
 	            	$("#envoiPaiement2").removeAttr("data-placement");
 	            	$("#envoiPaiement2").removeAttr("title");
 	            }else{
+                    if(resp['paymentDate1']){
+                        $("#envoiPaiement1").prop("checked", true);
+                    }else{
+                        $("#envoiPaiement1").prop("checked", false);
+                    }
+
+                    if(resp['paymentDate2']){
+                        $("#envoiPaiement2").prop("checked", true);
+                    }else{
+                        $("#envoiPaiement2").prop("checked", false);
+                    }
+                    $("#envoiPaiement1").prop("disabled", "disabled");
 	            	$("#envoiPaiement1").attr("data-toggle", "tooltip");
 	            	$("#envoiPaiement1").attr("data-placement", "left");
 	            	$("#envoiPaiement1").attr("title", "Iban non enregistré");
 	            	$("#envoiPaiement1").tooltip();
+                    $("#envoiPaiement2").prop("disabled", "disabled");
 	            	$("#envoiPaiement2").attr("data-toggle", "tooltip");
 	            	$("#envoiPaiement2").attr("data-placement", "left");
 	            	$("#envoiPaiement2").attr("title", "Iban non enregistré");
