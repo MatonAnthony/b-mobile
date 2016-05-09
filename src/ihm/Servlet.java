@@ -712,7 +712,6 @@ public class Servlet extends HttpServlet {
   private void cancelMobility(HttpServletRequest req, HttpServletResponse resp)
       throws NotEnoughPermissionsException, SQLException, NumberFormatException,
       OptimisticLockException {
-    System.out.println(req.getParameter("idReason"));
 
     int idCancelation = Integer.parseInt("" + req.getParameter("idReason"));
 

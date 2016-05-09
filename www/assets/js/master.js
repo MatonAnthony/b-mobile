@@ -430,7 +430,7 @@ $(function () {
             '<td><input type="radio" name="optionsRadios' + nbRow + '" value="SMS" checked /></td>' +
             '<td><input type="radio" name="optionsRadios' + nbRow + '" value="SMP"/></td>' +
             '<td><select id="selectQuadri' + nbRow + '" class="form-control">' +
-            '<option value="0"></option>' +
+            '<option value="0">0</option>' +
             '<option value="1">1</option>' +
             '<option value="2">2</option>' +
             '</select>' +
@@ -1019,10 +1019,9 @@ $(function () {
         $("#addPartnerPage").css("display", "block");
         $("#setPartnerBtn").css("display","none");
  		$("#addPartnerBtn").css("display","block");
-        $('#searchBar').css("display","block");
         $('#school_department').css("display", "block");
         $(".active").removeClass("active");
-        $('#searchBar').css("display","none");
+        $('#searchBarTeacher').css("display","none");
         $(".navButton[href='#3lists']").parent().addClass("active");
         addParnter();
 
@@ -1873,7 +1872,7 @@ $(function () {
                         }else if ($('#permissionHideFilds').val() === 'TEACHER'){
                             loadList();
                         }
-                        printToaster("success", "Le partenaire à bien été confirmé");
+                        printToaster("success", "Le partenaire a bien été confirmé.");
 
                     },
                     error: function (error) {
@@ -2498,7 +2497,7 @@ $(function () {
                     var buttonDel = "";
                     for (mob in resp['partnersWithoutMobility']) {
                         if (resp['partners'][key]['id'] === resp['partnersWithoutMobility'][mob]['id'] ){
-                            buttonDel = "Appartient à une mobilitée.";
+                            buttonDel = "Appartient à une mobilité.";
                             break;
                         } else {
                             buttonDel = "<button id='" + resp['partners'][key]['id'] + "' data-verNr='"+resp['partners'][key]['verNr']+"' class=\"btn btn-sm btn-danger btnDelPartner\">Supprimer</button>";
