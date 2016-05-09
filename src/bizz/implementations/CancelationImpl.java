@@ -11,14 +11,17 @@ public class CancelationImpl implements CancelationBizz, Cloneable {
   private String responsible;
   private int verNr;
 
+  @Override
   public int getId() {
     return id;
   }
 
+  @Override
   public void setId(int id) {
     this.id = id;
   }
 
+  @Override
   public String getReason() {
     return reason;
   }
@@ -38,6 +41,7 @@ public class CancelationImpl implements CancelationBizz, Cloneable {
     return responsible;
   }
 
+  @Override
   public void setResponsible(String responsible) {
     if (responsible == null) {
       this.responsible = null;
@@ -47,10 +51,12 @@ public class CancelationImpl implements CancelationBizz, Cloneable {
     this.responsible = responsible;
   }
 
+  @Override
   public int getVerNr() {
     return verNr;
   }
 
+  @Override
   public void setVerNr(int verNr) {
     this.verNr = verNr;
   }
