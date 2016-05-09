@@ -19,11 +19,8 @@ $(function () {
                  $('#permissionHideFilds').val('TEACHER');
                  authTeacher();
             }
-
-            console.log("Authentification OK");
         },
         error: function (error) {
-            console.log("Authentification echouée");
         }
     });
 
@@ -37,7 +34,6 @@ $(function () {
         $("#profile_name").change(function(){
             var name = document.getElementById("profile_name")
             if(name.validity.patternMismatch || name.validity.valueMissing){
-                console.log("event fired");
                 printToaster("info", "Le nom peut uniquement contenir des lettres et des tirets");
             }else{
                 $("#profile_name").removeClass(":invalid");
@@ -47,7 +43,6 @@ $(function () {
         $("#profile_firstname").change(function(){
             var firstname = document.getElementById("profile_firstname")
             if(firstname.validity.patternMismatch || firstname.validity.valueMissing){
-                console.log("event fired");
                 printToaster("info", "Le nom doit uniquement contenir des lettres et des tirets");
             }else{
                 $("#profile_name").removeClass(":invalid");
@@ -400,7 +395,6 @@ $(function () {
             	}
             },
             error: function (error) {
-                console.log(error);
                 error = JSON.parse(error.responseText);
 				printToaster(error.type, error.message);
             }
@@ -671,7 +665,6 @@ $(function () {
                         (b.getDate().toString().length == 1 ? "0" + b.getDate() : b.getDate());
                     $("input[name='birthdate']").val(birthdate);
                 }catch(err){
-                    console.log("La date de naissance est nulle");
                 }
 
                 $("input[name='name']").val(resp['name']);
@@ -980,7 +973,6 @@ $(function () {
 		
 		$("#searchBarTeacher").off('input.searchBarTeacher').on('input.searchBarTeacher', function (){
 			var inputSearch = $("#searchBarTeacher").val();
-			console.log(inputSearch);
 			var regEx = new RegExp(inputSearch,"i");
 			if (inputSearch !== ""){
 				$(".teacherTR").css("display", "none");
@@ -1844,7 +1836,6 @@ $(function () {
                 error: function (error) {
                     error = JSON.parse(error.responseText);
                     printToaster(error.type, error.message);
-                    console.log("err");
                 }
             });
 
@@ -1878,7 +1869,6 @@ $(function () {
                     error: function (error) {
                         error = JSON.parse(error.responseText);
                         printToaster(error.type, error.message);
-                        console.log("err");
                     }
                 });
 
@@ -1920,7 +1910,6 @@ $(function () {
             },
             success: function (resp) {
                 resp = JSON.parse(resp);
-                console.log(resp);
                 $('#legalName').html(resp['partner']['legalName']);
                 $('#BusinesName').html(resp['partner']['business']);
                 $('#FullName').html(resp['partner']['fullName']);
@@ -2054,7 +2043,6 @@ $(function () {
             },
             success: function (resp) {
             	resp = JSON.parse(resp);
-                console.log(resp);
             	var city;
             	if(resp['partnerDto']['city'] === null){
             		city = "Non enregistré";
@@ -2402,7 +2390,6 @@ $(function () {
 	}
 
     $("#detailMobiliteCancel").click(function(){
-        console.log("click clack");
         var id = $("#detailMobiliteIdMobilite").attr("data-id");
         loadCancelMobility(id);
     });
@@ -2562,9 +2549,7 @@ $(function () {
         $(".navButton[href='#3lists']").parent().addClass("active");
 
 		$("#searchBarTeacher").off('input.searchBarTeacher').on('input.searchBarTeacher', function (){
-			console.log("coucou");
             var inputSearch = $("#searchBarTeacher").val();
-			console.log(inputSearch);
             var regEx = new RegExp(inputSearch,"i");
 
             $(".partnerTR").each(function(){
@@ -2681,7 +2666,6 @@ $(function () {
     	
     	$("#searchBar").off('input.searchBar').on('input.searchBar', function (){
             var inputSearch = $("#searchBar").val();
-			console.log(inputSearch);
             var regEx = new RegExp(inputSearch,"i");
 
             $(".partnerTR").each(function(){
