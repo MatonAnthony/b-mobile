@@ -896,7 +896,7 @@ $(function () {
         $(".page").css("display", "none");
         $("#navBarTeacher").css("display", "block");
         $("#teacherHomePage").css("display", "block");
-        $('#searchBar').css("display","none");
+        $('#searchBarTeacher').css("display","none");
         loadConfirmedMobility();
         $(".active").removeClass("active");
         $(".navButton[href='#confirmedMobility']").parent().addClass("active");
@@ -910,7 +910,7 @@ $(function () {
         $(".active").removeClass("active");
         $(".navButton[href='#2lists']").parent().addClass("active");
         $("#tableConfirmed tbody").empty();
-        $('#searchBar').css("display","none");
+        $('#searchBarTeacher').css("display","none");
         loadMobility();
     }
 
@@ -918,10 +918,9 @@ $(function () {
 		$(".page").css("display", "none");
 		$("#navBarTeacher").css("display", "block");
 		$("#paymentPage").css("display", "block");
-        $('#searchBar').css("display","block");
 		$(".active").removeClass("active");
 		$(".navButton[href='#2lists']").parent().addClass("active");
-		$('#searchBar').css("display","none");
+		$('#searchBarTeacher').css("display","none");
 		//$(".navButton[href='#payment']").parent().addClass("active");
 		$("#tablePayments tbody").empty();
 		loadPayment();
@@ -931,8 +930,8 @@ $(function () {
         $(".page").css("display", "none");
         $("#navBarTeacher").css("display", "block");
         $("#userListPage").css("display", "block");
-        $('#searchBar').css("display","block");
-		$("#searchBar").val("");
+        $('#searchBarTeacher').css("display","block");
+		$("#searchBarTeacher").val("");
         $.ajax({
             method: "POST",
             url: "/home",
@@ -979,8 +978,9 @@ $(function () {
         $(".active").removeClass("active");
         $(".navButton[href='#userList']").parent().addClass("active");
 		
-		$("#searchBar").off('input.searchBar').on('input.searchBar', function (){
-			var inputSearch = $("#searchBar").val();
+		$("#searchBarTeacher").off('input.searchBarTeacher').on('input.searchBarTeacher', function (){
+			var inputSearch = $("#searchBarTeacher").val();
+			console.log(inputSearch);
 			var regEx = new RegExp(inputSearch,"i");
 			if (inputSearch !== ""){
 				$(".teacherTR").css("display", "none");
@@ -2454,7 +2454,8 @@ $(function () {
         $(".page").css("display", "none");
         $("#partnersListPage").css("display","block");
         $("#navBarTeacher").css("display","block");
-        $('#searchBar').css("display","block");
+        $('#searchBarTeacher').css("display","block");
+		$("#searchBarTeacher").val("");
         $(".active").removeClass("active");
         $(".navButton[href='#3lists']").parent().addClass("active");
         addParnter();
@@ -2537,8 +2538,10 @@ $(function () {
         $(".active").removeClass("active");
         $(".navButton[href='#3lists']").parent().addClass("active");
 
-        $("#searchBar").off('input.searchBar').on('input.searchBar', function (){
-            var inputSearch = $("#searchBar").val();
+		$("#searchBarTeacher").off('input.searchBarTeacher').on('input.searchBarTeacher', function (){
+			console.log("coucou");
+            var inputSearch = $("#searchBarTeacher").val();
+			console.log(inputSearch);
             var regEx = new RegExp(inputSearch,"i");
 
             $(".partnerTR").each(function(){
@@ -2655,6 +2658,7 @@ $(function () {
     	
     	$("#searchBar").off('input.searchBar').on('input.searchBar', function (){
             var inputSearch = $("#searchBar").val();
+			console.log(inputSearch);
             var regEx = new RegExp(inputSearch,"i");
 
             $(".partnerTR").each(function(){
